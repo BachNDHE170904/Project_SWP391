@@ -1,0 +1,23 @@
+.d-flex input{
+    width: 700px;
+    margin-left: 300px;
+    margin-right: 100px;;
+}
+.Center{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    width: 400px;
+    background: white;
+    border-radius: 10px;
+}
+.Center h1{
+    text-align: center;
+    padding: 0 0 20px 0;
+    border-bottom: 1px solid silver;
+}
+.Center form{
+    padding: 0 40px;
+    box-sizing: border-box;
+}
