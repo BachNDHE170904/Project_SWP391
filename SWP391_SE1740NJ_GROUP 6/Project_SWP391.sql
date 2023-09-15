@@ -129,5 +129,3 @@ CREATE TABLE requestSkillsChoices (
    FOREIGN KEY (requestId) REFERENCES RequestDetail(requestId),
    FOREIGN KEY (languageId) REFERENCES ProgrammingLanguage(languageId),
 );
-
-select* from Users
