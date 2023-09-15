@@ -47,10 +47,28 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                                 <label>Username</label>
                             </div>
                             <div class="txt_field">
-                                <input type="text" name="email" required /> 
+                                <input type="text"id="email" name="email" required /> 
                                 <span></span>
                                 <label>Email</label>
                             </div>
+                            <script>
+                                function isEmailValid(email) {
+                                    // Regular expression pattern for a valid email address
+                                    const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+                                    return emailPattern.test(email);
+                                }
+                                const emailInput = document.getElementById("email");
+                                emailInput.addEventListener("change", (event) => {
+                                    const email = emailInput.value.trim();
+                                    if (isEmailValid(email)) {
+                                        emailValidationMessage.textContent = "Email is valid.";
+                                        emailValidationMessage.style.color = "green";
+                                    } else {
+                                        alert("Invalid Email");
+                                        event.target.value = "";
+                                    }
+                                });
+                            </script>
                             <!-- Password input -->
                             <div class="txt_field">
                                 <input type="password" id="password" name="password" required />
