@@ -36,7 +36,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
         </nav>
         <div class="Center">
             <h1>Register</h1>
-            <form action="RegisterServlet" method="POST">
+            <form action="RegisterServlet" id="signupForm" method="POST">
                 <div class="container text-center">
                     <div class="row align-items-start">
                         <div class="col">
