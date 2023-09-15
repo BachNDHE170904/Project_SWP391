@@ -25,7 +25,7 @@ public class SendEmail {
         return String.format("%06d", number);
     }
     
-    public boolean sendEmail(UserDetails user){
+    public boolean sendEmail(UserDetails user,String text){
         boolean test=false;
         
         String toEmail=user.getEmail();
@@ -56,7 +56,7 @@ public class SendEmail {
             
             mess.setSubject("User Email Verification");
             
-            mess.setText("Registered successfully.Please verify your account using this code:");
+            mess.setText(text);
             
             Transport.send(mess);
             
