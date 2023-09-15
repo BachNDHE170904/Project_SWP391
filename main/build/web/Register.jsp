@@ -23,17 +23,14 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                             <a class="nav-link active" aria-current="page" href="WelcomePage.jsp">Home</a>
                         </li>
                     </ul>
-                    <form class="d-flex" action="SearchServlet" method="GET" role="search">
-                        <input class="form-control" name="searchResult" type="text" placeholder="Search">
-                        <ul class="navbar-nav">
-                            <li class="nav-item">
-                                <a class="nav-link active" aria-current="page" href="Login.jsp">Login</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link active" aria-current="page" href="Register.jsp">Register</a>
-                            </li>
-                        </ul>
-                    </form>
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="Login.jsp">Login</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="Register.jsp">Register</a>
+                        </li>
+                    </ul>
                 </div>
             </div>
         </nav>
@@ -70,7 +67,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                                 const passwordConfirm = document.getElementById("confirmPassword");
                                 passwordConfirm.addEventListener("change", (event) => {
                                     try {
-                                        if (passwordConfirm.value!==password.value) {
+                                        if (passwordConfirm.value !== password.value) {
                                             alert("Password not matched");
                                             event.target.value = "";
                                         }
@@ -109,8 +106,30 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                             </script>
                             <div class="date_field">
                                 <label>Date of Birth:</label> 
-                                <input type="date" name="dob" required />
+                                <input type="date"id="dob" name="dob" required />
                             </div>
+                            <script>//check dob
+                                const dob = document.getElementById("dob");
+                                dob.addEventListener("change", (event) => {
+                                    try {
+                                        const today = new Date();
+                                        const birthDate = new Date(dob);
+                                        let age = today.getFullYear() - birthDate.getFullYear();
+                                        const monthDiff = today.getMonth() - birthDate.getMonth();
+
+                                        if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+                                            age--;
+                                        }
+                                        if (age < 18) {
+                                            alert("User must be over 17 years old");
+                                            event.target.value = "";
+                                        }
+                                    } catch (error) {
+                                        alert("Invalid dob.");
+                                        event.target.value = "";
+                                    }
+                                });
+                            </script>
                             <div class="Sex_field">
                                 <select class="form-select" name="gender" aria-label="DefaSult select example">
                                     <option selected>Gender</option>
