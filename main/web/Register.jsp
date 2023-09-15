@@ -113,8 +113,8 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                                 dob.addEventListener("change", (event) => {
                                     try {
                                         const today = new Date();
-                                        const birthDate = new Date(dob);
-                                        let age = today.getFullYear() - birthDate.getFullYear();
+                                        const birthDate = new Date(dob.value);
+                                        const age = today.getFullYear() - birthDate.getFullYear();
                                         const monthDiff = today.getMonth() - birthDate.getMonth();
 
                                         if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
