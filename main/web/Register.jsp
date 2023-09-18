@@ -128,7 +128,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                             </div>
                             <script>//check dob
                                 let dob = document.getElementById("dob");
-                                dob.addEventListener("change", (event) => {
+                                dob.addEventListener("blur", () => {
                                     try {
                                         let today = new Date();
                                         let birthDate = new Date(dob.value);
@@ -138,12 +138,16 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                                         if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
                                             age--;
                                         }
+                                        if(age>130){
+                                            alert("User must be less than 130 years old");
+                                            event.target.value = "";
+                                        }
                                         if (age < 18) {
                                             alert("User must be over 17 years old");
                                             event.target.value = "";
                                         }
                                     } catch (error) {
-                                        alert("Invalid dob."+error);
+                                        alert("Invalid dob.");
                                         event.target.value = "";
                                     }
                                 });
