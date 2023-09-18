@@ -23,23 +23,20 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                             <a class="nav-link active" aria-current="page" href="WelcomePage.jsp">Home</a>
                         </li>
                     </ul>
-                    <form class="d-flex" action="SearchServlet" method="GET" role="search">
-                        <input class="form-control" name="searchResult" type="text" placeholder="Search">
-                        <ul class="navbar-nav">
-                            <li class="nav-item">
-                                <a class="nav-link active" aria-current="page" href="Login.jsp">Login</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link active" aria-current="page" href="Register.jsp">Register</a>
-                            </li>
-                        </ul>
-                    </form>
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="Login.jsp">Login</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="Register.jsp">Register</a>
+                        </li>
+                    </ul>
                 </div>
             </div>
         </nav>
         <div class="Center">
             <h1>Register</h1>
-            <form action="RegisterServlet" method="POST">
+            <form action="RegisterServlet" id="signupForm" method="POST">
                 <div class="container text-center">
                     <div class="row align-items-start">
                         <div class="col">
@@ -50,10 +47,28 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                                 <label>Username</label>
                             </div>
                             <div class="txt_field">
-                                <input type="text" name="email" required /> 
+                                <input type="text"id="email" name="email" required /> 
                                 <span></span>
                                 <label>Email</label>
                             </div>
+                            <script>
+                                function isEmailValid(email) {
+                                    // Regular expression pattern for a valid email address
+                                    const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+                                    return emailPattern.test(email);
+                                }
+                                const emailInput = document.getElementById("email");
+                                emailInput.addEventListener("change", (event) => {
+                                    const email = emailInput.value.trim();
+                                    if (isEmailValid(email)) {
+                                        emailValidationMessage.textContent = "Email is valid.";
+                                        emailValidationMessage.style.color = "green";
+                                    } else {
+                                        alert("Invalid Email");
+                                        event.target.value = "";
+                                    }
+                                });
+                            </script>
                             <!-- Password input -->
                             <div class="txt_field">
                                 <input type="password" id="password" name="password" required />
@@ -70,7 +85,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                                 const passwordConfirm = document.getElementById("confirmPassword");
                                 passwordConfirm.addEventListener("change", (event) => {
                                     try {
-                                        if (passwordConfirm.value!==password.value) {
+                                        if (passwordConfirm.value !== password.value) {
                                             alert("Password not matched");
                                             event.target.value = "";
                                         }
@@ -109,8 +124,30 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                             </script>
                             <div class="date_field">
                                 <label>Date of Birth:</label> 
-                                <input type="date" name="dob" required />
+                                <input type="date"id="dob" name="dob" required />
                             </div>
+                            <script>//check dob
+                                const dob = document.getElementById("dob");
+                                dob.addEventListener("change", (event) => {
+                                    try {
+                                        const today = new Date();
+                                        const birthDate = new Date(dob.value);
+                                        const age = today.getFullYear() - birthDate.getFullYear();
+                                        const monthDiff = today.getMonth() - birthDate.getMonth();
+
+                                        if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+                                            age--;
+                                        }
+                                        if (age < 18) {
+                                            alert("User must be over 17 years old");
+                                            event.target.value = "";
+                                        }
+                                    } catch (error) {
+                                        alert("Invalid dob.");
+                                        event.target.value = "";
+                                    }
+                                });
+                            </script>
                             <div class="Sex_field">
                                 <select class="form-select" name="gender" aria-label="DefaSult select example">
                                     <option selected>Gender</option>

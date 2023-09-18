@@ -1,6 +1,7 @@
 <%@page import="java.util.Comparator"%>
 <%@page import="java.util.Collections"%>
 <%@page import="model.User"%>
+<%@page import="model.UserDetails"%>
 <%@page import="java.util.ArrayList"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
@@ -24,27 +25,40 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <%
+                        if (acc != null) {
+                    %>
+                    <div class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <%= acc.getUsername()%>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <% if (acc != null) { %>
+                            <li><a class="dropdown-item" href="ViewUserProfile.jsp">View my Profile</a></li>
+                                <%}%>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="LogOutServlet">Log Out</a></li>
+                        </ul>
+                    </div>
+                    <%
+                    } else {
+                    %>
                     <ul class="navbar-nav">
                         <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="WelcomePage.jsp">Home</a>
+                            <a class="nav-link active" aria-current="page" href="Login.jsp">Login</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="Register.jsp">Register</a>
                         </li>
                     </ul>
-                    <form class="d-flex" action="SearchServlet" method="GET" role="search">
-                        <input class="form-control " name="searchResult" type="text" placeholder="Search">
-                        <ul class="navbar-nav">
-                            <li class="nav-item">
-                                <a class="nav-link active" aria-current="page" href="Login.jsp">Login</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link active" aria-current="page" href="Register.jsp">Register</a>
-                            </li>
-                        </ul>
-                    </form>
+                    <%
+                        }
+                    %>
                 </div>
             </div>
         </nav>
 
-        
+
 
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
     </body>

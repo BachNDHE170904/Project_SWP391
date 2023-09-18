@@ -72,7 +72,7 @@ public class UserDAO extends BaseDAO<User> {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    public void insertUser(UserDetails us) {
+    public void insertUserDetails(UserDetails us) {
         try {
             String sql = "insert into UserDetail(userId,email,username,phone,fullname,dob,gender,userAddress,roleId) values(?,?,?,?,?,?,?,?,?)";
             PreparedStatement statement = connection.prepareStatement(sql);
@@ -90,10 +90,10 @@ public class UserDAO extends BaseDAO<User> {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    public static void main(String[] args) {
-        UserDAO db=new UserDAO();
-         Date date=Date.valueOf("2010-10-10");
-        UserDetails ud=new UserDetails("1", "1",  "1",  "1", date ,  true, 4,  "a",  "a",1,false);
-        db.insertUser(ud);
-    }
+//    public static void main(String[] args) {
+//        UserDAO db=new UserDAO();
+//         Date date=Date.valueOf("2010-10-10");
+//        UserDetails ud=new UserDetails("1", "1",  "1",  "1", date ,  true, 4,  "a",  "a",1,false);
+//        db.insertUser(ud);
+//    }
 }

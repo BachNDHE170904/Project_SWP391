@@ -23,17 +23,14 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                             <a class="nav-link active" aria-current="page" href="WelcomePage.jsp">Home</a>
                         </li>
                     </ul>
-                    <form class="d-flex" action="SearchServlet" method="GET" role="search">
-                        <input class="form-control " name="searchResult" type="text" placeholder="Search">
-                        <ul class="navbar-nav">
-                            <li class="nav-item">
-                                <a class="nav-link active" aria-current="page" href="Login.jsp">Login</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link active" aria-current="page" href="Register.jsp">Register</a>
-                            </li>
-                        </ul>
-                    </form>
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="Login.jsp">Login</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="Register.jsp">Register</a>
+                        </li>
+                    </ul>
                 </div>
             </div>
         </nav>
@@ -53,7 +50,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                     <label>Password</label>
                 </div>
                 <input type="submit" value="Login"/>
-                
+
                 <div class="signup_link">
                     <input type="checkbox" id="rememberPass" name="rememberPass" value="Remember password">
                     <label for="rememberPass"> Remember password</label><br>
@@ -61,9 +58,6 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                 <!-- Signup link -->
                 <div class="signup_link">
                     Don't have an account?<a href="Register.jsp">Sign up</a>
-                </div>
-                <div class="signup_link">
-                    Change your password?<a href="ChangePassword.jsp">Change here</a>
                 </div>
                 <div class="signup_link">
                     Forget your password?<a href="ResetPassword.jsp">Reset here</a>
