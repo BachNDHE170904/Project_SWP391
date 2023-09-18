@@ -54,12 +54,12 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                             <script>
                                 function isEmailValid(email) {
                                     // Regular expression pattern for a valid email address
-                                    const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+                                    let emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
                                     return emailPattern.test(email);
                                 }
-                                const emailInput = document.getElementById("email");
+                                let emailInput = document.getElementById("email");
                                 emailInput.addEventListener("change", (event) => {
-                                    const email = emailInput.value.trim();
+                                    let email = emailInput.value.trim();
                                     if (isEmailValid(email)) {
                                         emailValidationMessage.textContent = "Email is valid.";
                                         emailValidationMessage.style.color = "green";
@@ -81,8 +81,8 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                                 <label>Confirm Password</label>
                             </div>
                             <script>//check if password in confirm password field matches that in password field
-                                const password = document.getElementById("password");
-                                const passwordConfirm = document.getElementById("confirmPassword");
+                                let password = document.getElementById("password");
+                                let passwordConfirm = document.getElementById("confirmPassword");
                                 passwordConfirm.addEventListener("change", (event) => {
                                     try {
                                         if (passwordConfirm.value !== password.value) {
@@ -108,10 +108,10 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                                 <label>Phone number</label>
                             </div>
                             <script>//check phone number
-                                const phone = document.getElementById("phone");
+                                let phone = document.getElementById("phone");
                                 phone.addEventListener("change", (event) => {
                                     try {
-                                        const phoneInt = Number(phone.value);
+                                        let phoneInt = Number(phone.value);
                                         if (phone.value.length !== 10) {
                                             alert("Phone number have 10 digits.");
                                             event.target.value = "";
@@ -127,13 +127,13 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                                 <input type="date"id="dob" name="dob" required />
                             </div>
                             <script>//check dob
-                                const dob = document.getElementById("dob");
+                                let dob = document.getElementById("dob");
                                 dob.addEventListener("change", (event) => {
                                     try {
-                                        const today = new Date();
-                                        const birthDate = new Date(dob.value);
-                                        const age = today.getFullYear() - birthDate.getFullYear();
-                                        const monthDiff = today.getMonth() - birthDate.getMonth();
+                                        let today = new Date();
+                                        let birthDate = new Date(dob.value);
+                                        let age = today.getFullYear() - birthDate.getFullYear();
+                                        let monthDiff = today.getMonth() - birthDate.getMonth();
 
                                         if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
                                             age--;
@@ -143,7 +143,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                                             event.target.value = "";
                                         }
                                     } catch (error) {
-                                        alert("Invalid dob.");
+                                        alert("Invalid dob."+error);
                                         event.target.value = "";
                                     }
                                 });
