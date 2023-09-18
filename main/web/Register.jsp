@@ -138,6 +138,10 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                                         if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
                                             age--;
                                         }
+                                        if(age>130){
+                                            alert("User must be less than 130 years old");
+                                            event.target.value = "";
+                                        }
                                         if (age < 18) {
                                             alert("User must be over 17 years old");
                                             event.target.value = "";
