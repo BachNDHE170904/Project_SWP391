@@ -11,16 +11,15 @@ import java.sql.Date;
  * @author ADMIN
  */
 public class UserDetails extends User{
-    private String email,phone,fullname,address;
+    private String phone,fullname,address;
     private Date dob;
     private boolean sex;
     private int roleId;
 
     public UserDetails() {
-    }
+    }  
 
-    public UserDetails(String email, String phone, String fullname, String address, Date dob, boolean sex, int roleId) {
-        this.email = email;
+    public UserDetails(String phone, String fullname, String address, Date dob, boolean sex, int roleId) {
         this.phone = phone;
         this.fullname = fullname;
         this.address = address;
@@ -29,9 +28,18 @@ public class UserDetails extends User{
         this.roleId = roleId;
     }
 
-    public UserDetails(String email, String phone, String fullname, String address, Date dob, boolean sex, int roleId, String username, String pass, int userId, boolean isAuthorized) {
+    public UserDetails(String phone, String fullname, String address, Date dob, boolean sex, int roleId, String username, String pass, String email, int userId, boolean isAuthorized) {
+        super(username, pass, email, userId, isAuthorized);
+        this.phone = phone;
+        this.fullname = fullname;
+        this.address = address;
+        this.dob = dob;
+        this.sex = sex;
+        this.roleId = roleId;
+    }
+
+    public UserDetails(String phone, String fullname, String address, Date dob, boolean sex, int roleId, String username, String pass, int userId, boolean isAuthorized) {
         super(username, pass, userId, isAuthorized);
-        this.email = email;
         this.phone = phone;
         this.fullname = fullname;
         this.address = address;
@@ -39,17 +47,7 @@ public class UserDetails extends User{
         this.sex = sex;
         this.roleId = roleId;
     }
-
     
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
     public String getPhone() {
         return phone;
     }
