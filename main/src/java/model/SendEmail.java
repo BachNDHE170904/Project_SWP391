@@ -25,7 +25,7 @@ public class SendEmail {
         return String.format("%06d", number);
     }
     
-    public boolean sendEmail(UserDetails user,String text){
+    public boolean sendEmail(User user,String text){
         boolean test=false;
         
         String toEmail=user.getEmail();
@@ -66,4 +66,9 @@ public class SendEmail {
         }
         return test;
     }
+//    public static void main(String[] args) {
+//        User u = new User("a", "b","dungld.2003@gmail.com", false);
+//        SendEmail send=new SendEmail();
+//        send.sendEmail(u, "ok");
+//    }
 }

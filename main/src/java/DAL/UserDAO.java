@@ -51,7 +51,7 @@ public class UserDAO extends BaseDAO<User> {
                 s.setUsername(rs.getString("username"));
                 s.setPass(rs.getString("password"));
                 s.setUserId(rs.getInt("userId"));
-                s.setEmail("email");
+                s.setEmail(rs.getString("email"));
                 s.setIsAuthorized(rs.getBoolean("userAuthorization"));
                 return s;
             }
@@ -94,8 +94,8 @@ public class UserDAO extends BaseDAO<User> {
     public static void main(String[] args) {
         UserDAO db=new UserDAO();
          User u = new User("a", "123","bachnd.2003@gmail.com", false);
-            db.insertUser(u);
             u = db.getUser("a");
             int userId = u.getUserId();
+            System.out.println(u.getEmail());
     }
 }
