@@ -60,7 +60,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                     Don't have an account?<a href="Register.jsp">Sign up</a>
                 </div>
                 <div class="signup_link">
-                    Forget your password?<a href="ResetPassword.jsp">Reset here</a>
+                    Forgot your password?<a href="ResetPassword.jsp">Reset here</a>
                 </div>
                 <%
                     // Server-side code to handle failed login attempt

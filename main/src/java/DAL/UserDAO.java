@@ -51,6 +51,7 @@ public class UserDAO extends BaseDAO<User> {
                 s.setUsername(rs.getString("username"));
                 s.setPass(rs.getString("password"));
                 s.setUserId(rs.getInt("userId"));
+                s.setEmail(rs.getString("email"));
                 s.setIsAuthorized(rs.getBoolean("userAuthorization"));
                 return s;
             }
@@ -62,11 +63,12 @@ public class UserDAO extends BaseDAO<User> {
     }
     public void insertUser(User us) {
         try {
-            String sql ="insert into Users(username,password,userAuthorization) values(?,?,?)\n;";
+            String sql ="insert into Users(email,username,password,userAuthorization) values(?,?,?,?)\n;";
             PreparedStatement statement = connection.prepareStatement(sql);
-            statement.setString(1, us.getUsername());
-            statement.setString(2, us.getPass());
-            statement.setBoolean(3, us.isIsAuthorized());
+            statement.setString(1, us.getEmail());
+            statement.setString(2, us.getUsername());
+            statement.setString(3, us.getPass());
+            statement.setBoolean(4, us.isIsAuthorized());
             statement.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -74,26 +76,19 @@ public class UserDAO extends BaseDAO<User> {
     }
     public void insertUserDetails(UserDetails us) {
         try {
-            String sql = "insert into UserDetail(userId,email,username,phone,fullname,dob,gender,userAddress,roleId) values(?,?,?,?,?,?,?,?,?)";
+            String sql = "insert into UserDetail(userId,username,phone,fullname,dob,gender,userAddress,roleId) values(?,?,?,?,?,?,?,?)";
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setInt(1, us.getUserId());
-            statement.setString(2, us.getEmail());
-            statement.setString(3, us.getUsername());
-            statement.setString(4, us.getPhone());
-            statement.setString(5, us.getFullname());
-            statement.setDate(6, us.getDob());
-            statement.setBoolean(7, us.isSex());
-            statement.setString(8, us.getAddress());
-            statement.setInt(9, us.getRoleId());
+            statement.setString(2, us.getUsername());
+            statement.setString(3, us.getPhone());
+            statement.setString(4, us.getFullname());
+            statement.setDate(5, us.getDob());
+            statement.setBoolean(6, us.isSex());
+            statement.setString(7, us.getAddress());
+            statement.setInt(8, us.getRoleId());
             statement.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-//    public static void main(String[] args) {
-//        UserDAO db=new UserDAO();
-//         Date date=Date.valueOf("2010-10-10");
-//        UserDetails ud=new UserDetails("1", "1",  "1",  "1", date ,  true, 4,  "a",  "a",1,false);
-//        db.insertUser(ud);
-//    }
 }

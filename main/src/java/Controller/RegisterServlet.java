@@ -53,19 +53,19 @@ public class RegisterServlet extends HttpServlet {
         User user = db.getUser(username);
         if (user == null) // No account found
         {
-            User u = new User(username, password, false);
+            User u = new User(username, password,email, false);
             db.insertUser(u);
             u = db.getUser(username);
+            
             int userId = u.getUserId();
-            UserDetails ud = new UserDetails(email, phone, fullname, address, dob, gender, 4, username, password, userId, false);//4 means  role is User by default
+            UserDetails ud = new UserDetails(phone, fullname, address, dob, gender, 4, username, password, userId, false);//4 means  role is User by default
             db.insertUserDetails(ud);
             
             SendEmail sm=new SendEmail();
             String emailContent="Registered successfully. Here is your account's info:\n"
                     +"Username:"+username+", Phone number:"+phone+", Full name:"+fullname+", Address: "+address
                     +"\n, Date of birth:"+dob+", Gender:"+genderStr;
-            String code=sm.getRandom();
-            boolean test=sm.sendEmail(ud,emailContent);
+            boolean test=sm.sendEmail(u,emailContent);
             if(test){
                 request.getRequestDispatcher("Login.jsp").forward(request, response);
             }else{
