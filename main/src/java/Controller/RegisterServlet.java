@@ -65,7 +65,6 @@ public class RegisterServlet extends HttpServlet {
             String emailContent="Registered successfully. Here is your account's info:\n"
                     +"Username:"+username+", Phone number:"+phone+", Full name:"+fullname+", Address: "+address
                     +"\n, Date of birth:"+dob+", Gender:"+genderStr;
-            String code=sm.getRandom();
             boolean test=sm.sendEmail(u,emailContent);
             if(test){
                 request.getRequestDispatcher("Login.jsp").forward(request, response);

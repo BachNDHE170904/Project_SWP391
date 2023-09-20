@@ -91,11 +91,4 @@ public class UserDAO extends BaseDAO<User> {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    public static void main(String[] args) {
-        UserDAO db=new UserDAO();
-         User u = new User("a", "123","bachnd.2003@gmail.com", false);
-            u = db.getUser("a");
-            int userId = u.getUserId();
-            System.out.println(u.getEmail());
-    }
 }
