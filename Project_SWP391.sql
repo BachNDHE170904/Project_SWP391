@@ -30,6 +30,7 @@ CREATE TABLE UserDetail (
    username NVARCHAR (50)     NOT NULL,
    phone NVARCHAR (50)     NOT NULL,
    fullname NVARCHAR (50)     NOT NULL,
+   avatarLink NVARCHAR (50)     NOT NULL,
    dob date NOT NULL,
    gender bit  NOT NULL,
    userAddress NVARCHAR (50)     NOT NULL,
@@ -129,5 +130,4 @@ CREATE TABLE requestSkillsChoices (
    FOREIGN KEY (requestId) REFERENCES RequestDetail(requestId),
    FOREIGN KEY (languageId) REFERENCES ProgrammingLanguage(languageId),
 );
-select *from Users
-select *from UserDetail
+select *from Users,UserDetail where Users.userId=UserDetail.userId
