@@ -61,6 +61,34 @@ public class UserDAO extends BaseDAO<User> {
         }
         return null;
     }
+    public UserDetails getUserDetails(String username) {
+        try {
+            String sql = "SELECT * FROM UserDetail,Users \n"
+                    + "WHERE UserDetail.userId=Users.userId and Users.username=? ";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setString(1, username);
+            ResultSet rs = statement.executeQuery();
+            if (rs.next()) {
+                UserDetails s = new UserDetails();
+                s.setUsername(rs.getString("username"));
+                s.setPass(rs.getString("password"));
+                s.setUserId(rs.getInt("userId"));
+                s.setEmail(rs.getString("email"));
+                s.setIsAuthorized(rs.getBoolean("userAuthorization"));
+                s.setAddress(rs.getString("userAddress"));
+                s.setDob(rs.getDate("dob"));
+                s.setPhone(rs.getString("phone"));
+                s.setFullname(rs.getString("fullname"));
+                s.setSex(rs.getBoolean("gender"));
+                s.setRoleId(rs.getInt("roleId"));
+                return s;
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
     public void insertUser(User us) {
         try {
             String sql ="insert into Users(email,username,password,userAuthorization) values(?,?,?,?)\n;";
@@ -91,4 +119,9 @@ public class UserDAO extends BaseDAO<User> {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+//    public static void main(String[] args) {
+//        UserDAO db=new UserDAO();
+//        UserDetails details=db.getUserDetails("bach");
+//        System.out.println(details.getFullname());
+//    }
 }
