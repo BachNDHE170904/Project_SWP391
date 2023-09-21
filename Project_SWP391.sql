@@ -30,6 +30,7 @@ CREATE TABLE UserDetail (
    username NVARCHAR (50)     NOT NULL,
    phone NVARCHAR (50)     NOT NULL,
    fullname NVARCHAR (50)     NOT NULL,
+   avatarLink NVARCHAR (50)     NOT NULL,
    dob date NOT NULL,
    gender bit  NOT NULL,
    userAddress NVARCHAR (50)     NOT NULL,
