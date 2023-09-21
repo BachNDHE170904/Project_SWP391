@@ -119,9 +119,19 @@ public class UserDAO extends BaseDAO<User> {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-//    public static void main(String[] args) {
-//        UserDAO db=new UserDAO();
-//        UserDetails details=db.getUserDetails("bach");
-//        System.out.println(details.getFullname());
-//    }
+    public void change(User u){
+        String sql = "update Users set password=? where username=?";
+        try {
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setString(1, u.getPass());
+            stm.setString(2, u.getUsername());
+            stm.executeUpdate();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
+
+    public User check() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
 }
