@@ -1,3 +1,4 @@
+<%@page import="model.SendEmail"%>
 <!DOCTYPE html>
 <!--
 Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
@@ -6,7 +7,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Register Page</title>
+        <title>Sign up Page</title>
         <link rel="stylesheet" href="css/RegisterStyleindex.css">
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
     </head>
@@ -29,9 +30,9 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                 </div>
             </div>
         </nav>
-        <div class="Center">
-            <h1>Register</h1>
-            <form action="RegisterServlet" id="signupForm" method="POST">
+        <form action="RegisterServlet" id="signupForm" method="POST">
+            <div class="Center">
+                <h1>Sign up</h1>
                 <div class="container text-center">
                     <div class="row align-items-start">
                         <div class="col">
@@ -106,7 +107,6 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                                 let phone = document.getElementById("phone");
                                 phone.addEventListener("change", (event) => {
                                     try {
-                                        let phoneInt = Number(phone.value);
                                         if (phone.value.length !== 10) {
                                             alert("Phone number have 10 digits.");
                                             event.target.value = "";
@@ -133,7 +133,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                                         if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
                                             age--;
                                         }
-                                        if(age>130){
+                                        if (age > 130) {
                                             alert("User must be less than 130 years old");
                                             event.target.value = "";
                                         }
@@ -162,7 +162,25 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                         </div>
                     </div>
                 </div>
-                <input type="submit" value="Register"/>
+                <!-- Button trigger modal -->
+                <button type="button" class="signup_link" onclick="CheckOtp(); return false;" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                    Sign Up
+                </button>
+                <%
+                    SendEmail sm = new SendEmail();
+                    int otp = sm.getOtp();
+                %>
+                <script>
+                    function CheckOtp() {
+                        let emailInput = document.getElementById("email").value; // Get the email input value
+                        let otp = <%=otp%>; // Use JSP tag to get the server-side value
+
+                        let xhr = new XMLHttpRequest();
+                        xhr.open("POST", "/main/RegisterConfirmAccountServlet");
+                        xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                        xhr.send("email=" + emailInput + "&otp=" + otp); // Send OTP and user email for validation
+                    }
+                </script>
                 <%
                     // Server-side code to handle failed registration attempt
                     String failedRegister = (String) request.getAttribute("failedRegister");
@@ -177,8 +195,45 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                         }
                     }
                 %>
-            </form>
-        </div>
+            </div>
+            <!-- Modal -->
+            <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="staticBackdropLabel">Confirm information</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="txt_field">
+                                <input type="password" id="confirmOTP" name="confirmOTP" required />
+                                <span></span>
+                                <label>We have sent an otp code to your email, enter it here:</label>
+                            </div>
+                            <script>
+                                let otp = document.getElementById("confirmOTP");
+                                let confirmOtp ="<%=otp%>";
+                                otp.addEventListener("change", (event) => {
+                                    try {
+                                        if (otp.value !== confirmOtp) {
+                                            alert("Otp not matched");
+                                            event.target.value = "";
+                                        }
+                                    } catch (error) {
+                                        alert("Otp not matched");
+                                        event.target.value = "";
+                                    }
+                                });
+                            </script>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <input type="submit" class="btn btn-primary" value="Confirm"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
     </body>
 </html>
