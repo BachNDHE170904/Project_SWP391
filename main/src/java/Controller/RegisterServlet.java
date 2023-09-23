@@ -5,18 +5,12 @@
 package Controller;
 
 import DAL.UserDAO;
-import jakarta.servlet.ServletContext;
 import java.io.IOException;
-import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 import java.sql.Date;
-import java.util.Properties;
-import model.SendEmail;
 import model.User;
 import model.UserDetails;
 
@@ -53,30 +47,20 @@ public class RegisterServlet extends HttpServlet {
         User user = db.getUser(username);
         if (user == null) // No account found
         {
-            User u = new User(username, password,email, false);
+            User u = new User(username, password, email, false);
             db.insertUser(u);
             u = db.getUser(username);
-            
             int userId = u.getUserId();
             UserDetails ud = new UserDetails(phone, fullname, address, dob, gender, 4, username, password, userId, false);//4 means  role is User by default
             db.insertUserDetails(ud);
-            
-            SendEmail sm=new SendEmail();
-            String emailContent="Registered successfully. Here is your account's info:\n"
-                    +"Username:"+username+", Phone number:"+phone+", Full name:"+fullname+", Address: "+address
-                    +"\n, Date of birth:"+dob+", Gender:"+genderStr;
-            boolean test=sm.sendEmail(u,emailContent);
-            if(test){
-                request.getRequestDispatcher("Login.jsp").forward(request, response);
-            }else{
-                request.getRequestDispatcher("WelcomePage.jsp").forward(request, response);
-            }
+            request.getRequestDispatcher("Login.jsp").forward(request, response);
         } else //Account already existed
         {
             request.setAttribute("failedRegister", "fail");
             request.getRequestDispatcher("Register.jsp").forward(request, response);
         }
     }
+
     /**
      * Returns a short description of the servlet.
      *

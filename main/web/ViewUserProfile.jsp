@@ -76,7 +76,7 @@
                                 <div class=container text-center"">
                                     <div class="row">
                                         <div class="col-md-3">
-                                            <img src="images/default_avatar.jpg" alt class="img-fluid" width="200" height="200">
+                                            <img src="images/default_avatar.jpg" alt="" class="img-fluid" width="200" height="200">
                                         </div>
                                         <div class="col-md-9">
                                             <label class="btn btn-outline-primary">
