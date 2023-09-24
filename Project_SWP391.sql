@@ -24,6 +24,12 @@ CREATE TABLE Users (
    PRIMARY KEY (userId),
 );
 
+CREATE TABLE UserAvatar (
+   userId   INT    NOT NULL ,
+   avatarLink NVARCHAR (50)     NOT NULL,
+   PRIMARY KEY (userId),
+   FOREIGN KEY (userId) REFERENCES Users(userId),
+);
 
 CREATE TABLE UserDetail (
    userId   INT  Unique  NOT NULL,
@@ -129,4 +135,3 @@ CREATE TABLE requestSkillsChoices (
    FOREIGN KEY (requestId) REFERENCES RequestDetail(requestId),
    FOREIGN KEY (languageId) REFERENCES ProgrammingLanguage(languageId),
 );
-select *from Users,UserDetail where Users.userId=UserDetail.userId

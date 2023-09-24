@@ -61,6 +61,23 @@ public class UserDAO extends BaseDAO<User> {
         }
         return null;
     }
+    public String getUserAvatar(int userId) {
+        try {
+            String sql = "SELECT * FROM UserAvatar s\n"
+                    + "WHERE s.userId=?";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setInt(1, userId);
+            ResultSet rs = statement.executeQuery();
+            if (rs.next()) {
+                String avatarLink=rs.getString("avatarLink");
+                return avatarLink;
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
     public UserDetails getUserDetails(String username) {
         try {
             String sql = "SELECT * FROM UserDetail,Users \n"

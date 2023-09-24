@@ -18,21 +18,21 @@
             //check if the user is logged in or not
             User acc = (User) session.getAttribute("user");
         %>
-        <nav class="navbar navbar-expand-lg bg-body-tertiary">
+        <nav class="navbar navbar-expand-md bg-body-tertiary ">
             <div class="container-fluid">
                 <a class="navbar-brand" href="WelcomePage.jsp">Happy Programming</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <button class="navbar-toggler ms-auto" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <div class="collapse navbar-collapse " id="navbarSupportedContent">
                     <%
                         if (acc != null) {
                     %>
-                    <div class="nav-item dropdown">
+                    <div class="nav-item dropdown ms-auto">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             <%= acc.getUsername()%>
                         </a>
-                        <ul class="dropdown-menu">
+                        <ul class="dropdown-menu dropdown-menu-end">
                             <% if (acc != null) { %>
                             <li><a class="dropdown-item" href="ViewUserProfile.jsp">View my Profile</a></li>
                                 <%}%>
@@ -43,7 +43,7 @@
                     <%
                     } else {
                     %>
-                    <ul class="navbar-nav">
+                    <ul class="navbar-nav ms-auto">
                         <li class="nav-item">
                             <a class="nav-link active" aria-current="page" href="Login.jsp">Login</a>
                         </li>
