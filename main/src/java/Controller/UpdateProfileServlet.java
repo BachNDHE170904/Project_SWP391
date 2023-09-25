@@ -84,10 +84,19 @@ public class UpdateProfileServlet extends HttpServlet {
         
         // Khởi tạo đối tượng DAO 
         UserDAO userDAO = new UserDAO();
-
+        
+        System.out.println(username);
+        System.out.println(fullname);
+        System.out.println(dob);
+        System.out.println(gender);
+        System.out.println(address);
+        System.out.println(phone);
+        System.out.println(currentPassword);
+        System.out.println(newPassword);
+        
         try {
             // Gọi hàm cập nhật thông tin người dùng
-            userDAO.updateUser(username, fullname, dob, gender, address, phone, currentPassword, newPassword);
+            userDAO.updateUser(username, fullname, dob, gender, address, phone, newPassword);
         } catch (SQLException ex) {
             Logger.getLogger(UpdateProfileServlet.class.getName()).log(Level.SEVERE, null, ex);
         }

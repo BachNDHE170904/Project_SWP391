@@ -40,6 +40,7 @@ public class UserDAO extends BaseDAO<User> {
         }
         return users;
     }
+
     public User getUser(String username) {
         try {
             String sql = "SELECT * FROM Users s\n"
@@ -57,12 +58,13 @@ public class UserDAO extends BaseDAO<User> {
                 return s;
             }
 
-        }  catch (Exception ex) {
+        } catch (Exception ex) {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
             ex.printStackTrace();
         }
         return null;
     }
+
     public UserDetails getUserDetails(String username) {
         try {
             String sql = "SELECT * FROM UserDetail,Users \n"
@@ -92,20 +94,22 @@ public class UserDAO extends BaseDAO<User> {
         }
         return null;
     }
+
     public void insertUser(User us) {
         try {
-            String sql ="insert into Users(email,username,password,userAuthorization) values(?,?,?,?)\n;";
+            String sql = "insert into Users(email,username,password,userAuthorization) values(?,?,?,?)\n;";
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setString(1, us.getEmail());
             statement.setString(2, us.getUsername());
             statement.setString(3, us.getPass());
             statement.setBoolean(4, us.isIsAuthorized());
             statement.executeUpdate();
-        }  catch (Exception ex) {
+        } catch (Exception ex) {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
             ex.printStackTrace();
         }
     }
+
     public void insertUserDetails(UserDetails us) {
         try {
             String sql = "insert into UserDetail(userId,username,phone,fullname,dob,gender,userAddress,roleId) values(?,?,?,?,?,?,?,?)";
@@ -119,49 +123,52 @@ public class UserDAO extends BaseDAO<User> {
             statement.setString(7, us.getAddress());
             statement.setInt(8, us.getRoleId());
             statement.executeUpdate();
-        }  catch (Exception ex) {
+        } catch (Exception ex) {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
             ex.printStackTrace();
         }
     }
-    
-    //update User Info
-    public int updateUserInfo(UserDetails us) throws SQLException {
-    String sql = "UPDATE UserDetail SET dob = ?, gender = ?, userAddress = ?, phone = ? WHERE id = ?";
-    PreparedStatement pstmt = connection.prepareStatement(sql);
-    pstmt.setDate(1, us.getDob());
-    pstmt.setBoolean(2, us.isSex());
-    pstmt.setString(3, us.getAddress());
-    pstmt.setString(4, us.getPhone());
-    int rows = pstmt.executeUpdate();
-    pstmt.close();
-    return rows;
-  }
 
-    public int updateUser(String username, String fullname, String dob, String gender, String address, String phone, String currentPassword, String newPassword) throws SQLException{
+    public void updateUser(String username, String fullname, String dob, String gender, String address, String phone, String newPassword) throws SQLException {
         // Tạo câu lệnh SQL update
-        String sql = "UPDATE Users u INNER JOIN UserDetails ud ON u.userId = ud.userId " + 
-                     "SET u.username = ?, ud.fullname = ?, ud.dob = ?, ud.gender = ?, ud.address = ?, ud.phone = ?, u.password = ? ";
-        
-                      
+        String sqlUpdateGeneral = "update dbo.UserDetail set fullname = ? where dbo.UserDetail.username = ?";
+        String sqlUpdateInfo = "update dbo.UserDetail set phone = ?, userAddress = ?, dob = ?, gender = ? where dbo.UserDetail.username = ?";
+        String sqlUpdatePassword = "update dbo.[Users] set [password] = ? where username = ?";
+
         // Thực thi câu lệnh SQL, truyền tham số
-        PreparedStatement pstmt = connection.prepareStatement(sql);
-        pstmt.setString(1, username); 
-        pstmt.setString(2, fullname);
-        pstmt.setString(3, dob);
-        pstmt.setString(4, gender);
-        pstmt.setString(5, address);
-        pstmt.setString(6, phone);
-        pstmt.setString(7, newPassword);
-        
-        // Thực thi câu lệnh UPDATE 
-        int rows = pstmt.executeUpdate();
-  
-        // Đóng kết nối
-        pstmt.close();
-        return rows;
-  
-  
+        if (fullname != null && newPassword == null && dob == null && gender == null && address == null && phone == null) {
+            PreparedStatement pstmt = connection.prepareStatement(sqlUpdateGeneral);
+            pstmt.setString(1, fullname);
+            pstmt.setString(2, username);
+
+            pstmt.executeUpdate();
+
+            // Đóng kết nối
+            pstmt.close();
+        } else {
+            System.out.println("Updateeeeeeeeeee");
+            System.out.println(newPassword);
+            
+            PreparedStatement pstmt1 = connection.prepareStatement(sqlUpdatePassword);
+            PreparedStatement pstmt2 = connection.prepareStatement(sqlUpdateInfo);
+            
+            pstmt1.setString(1, newPassword);
+            pstmt1.setString(2, username);
+
+            pstmt2.setString(1, phone);
+            pstmt2.setString(2, address);
+            pstmt2.setString(3, dob);
+            pstmt2.setString(4, gender);
+            pstmt2.setString(5, username);
+            
+            
+            pstmt1.executeUpdate();
+            pstmt2.executeUpdate();
+
+            // Đóng kết nối
+            pstmt1.close();
+            pstmt2.close();
+        }
     }
 
 }

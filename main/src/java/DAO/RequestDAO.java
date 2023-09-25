@@ -12,8 +12,6 @@ import model.User;
  */
 public class RequestDAO extends BaseDAO<User>{
 
-    public void updateUser(String username, String fullname, String dob, String gender, String address, String phone, String currentPassword, String newPassword) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
+    
     
 }
