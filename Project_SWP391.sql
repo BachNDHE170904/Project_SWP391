@@ -17,6 +17,7 @@ insert into Roles(roleName)values('Admin');
 
 CREATE TABLE Users (
    userId   INT    NOT NULL identity(1,1),
+   email NVARCHAR (50)  Unique   NOT NULL,
    username NVARCHAR (50)  Unique   NOT NULL,
    password NVARCHAR (50)     NOT NULL,
    userAuthorization bit  NOT NULL,
@@ -26,10 +27,10 @@ CREATE TABLE Users (
 
 CREATE TABLE UserDetail (
    userId   INT  Unique  NOT NULL,
-   email NVARCHAR (50)     NOT NULL,
    username NVARCHAR (50)     NOT NULL,
    phone NVARCHAR (50)     NOT NULL,
    fullname NVARCHAR (50)     NOT NULL,
+   avatarLink NVARCHAR (50)     NOT NULL,
    dob date NOT NULL,
    gender bit  NOT NULL,
    userAddress NVARCHAR (50)     NOT NULL,
@@ -129,5 +130,4 @@ CREATE TABLE requestSkillsChoices (
    FOREIGN KEY (requestId) REFERENCES RequestDetail(requestId),
    FOREIGN KEY (languageId) REFERENCES ProgrammingLanguage(languageId),
 );
-
-select*from Users,UserDetail where users.userId=UserDetail.userId
+select *from Users,UserDetail where Users.userId=UserDetail.userId

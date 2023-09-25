@@ -23,12 +23,29 @@ public abstract class BaseDAO<T> {
     {
         try {
             String user = "sa";
-            String pass = "12345678";
-            String url = "jdbc:sqlserver://localhost:1433;databaseName=SWP391;";
+            String pass = "123456";
+            String url = "jdbc:sqlserver://DESKTOP-G915HEL\\TENGIDO:1433;databaseName=SWP391;";
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             connection = DriverManager.getConnection(url, user, pass);
         } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(BaseDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
+    }
+    public static void testConnect() {
+          try {
+            String user = "sa";
+            String pass = "123456";
+            String url = "jdbc:sqlserver://DESKTOP-G915HEL\\TENGIDO:1433;databaseName=SWP391;";
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+           Connection connection1 = DriverManager.getConnection(url, user, pass);
+              System.out.println(connection1);
+        } catch (ClassNotFoundException | SQLException ex) {
+            Logger.getLogger(BaseDAO.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
+        }
+    }
+    public static void main(String[] args) {
+       testConnect();
     }
 }

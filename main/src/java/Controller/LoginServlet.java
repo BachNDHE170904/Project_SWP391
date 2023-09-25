@@ -15,6 +15,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import model.User;
+import model.UserDetails;
 
 /**
  *
@@ -32,10 +33,11 @@ public class LoginServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String username = request.getParameter("username");
-        String password = request.getParameter("password");
+        String rememberPass = request.getParameter("rememberPass");
         UserDAO db = new UserDAO();
         User user = db.getUser(username);
-        if (user != null) // login successful!
+        UserDetails details=db.getUserDetails(username);
+        if (rememberPass != null && rememberPass.equals("true"))//remember pass
         {
             Cookie c_user = new Cookie("username", user.getUsername());
             Cookie c_pass = new Cookie("password", user.getPass());
@@ -43,8 +45,12 @@ public class LoginServlet extends HttpServlet {
             c_pass.setMaxAge(3600 * 24 * 30);
             response.addCookie(c_pass);
             response.addCookie(c_user);
+        }
+        if (user != null)//login successfull
+        {
             HttpSession session = request.getSession();
             session.setAttribute("user", user);
+            session.setAttribute("userDetail", details);
             request.getRequestDispatcher("WelcomePage.jsp").forward(request, response);
         } else //login fail
         {

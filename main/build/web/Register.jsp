@@ -13,16 +13,11 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
     <body>
         <nav class="navbar navbar-expand-lg bg-body-tertiary">
             <div class="container-fluid">
-                <a class="navbar-brand" href="#">Happy Programming</a>
+                <a class="navbar-brand" href="WelcomePage.jsp">Happy Programming</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav">
-                        <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="WelcomePage.jsp">Home</a>
-                        </li>
-                    </ul>
                     <ul class="navbar-nav">
                         <li class="nav-item">
                             <a class="nav-link active" aria-current="page" href="Login.jsp">Login</a>
@@ -54,12 +49,12 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                             <script>
                                 function isEmailValid(email) {
                                     // Regular expression pattern for a valid email address
-                                    const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+                                    let emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
                                     return emailPattern.test(email);
                                 }
-                                const emailInput = document.getElementById("email");
+                                let emailInput = document.getElementById("email");
                                 emailInput.addEventListener("change", (event) => {
-                                    const email = emailInput.value.trim();
+                                    let email = emailInput.value.trim();
                                     if (isEmailValid(email)) {
                                         emailValidationMessage.textContent = "Email is valid.";
                                         emailValidationMessage.style.color = "green";
@@ -81,8 +76,8 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                                 <label>Confirm Password</label>
                             </div>
                             <script>//check if password in confirm password field matches that in password field
-                                const password = document.getElementById("password");
-                                const passwordConfirm = document.getElementById("confirmPassword");
+                                let password = document.getElementById("password");
+                                let passwordConfirm = document.getElementById("confirmPassword");
                                 passwordConfirm.addEventListener("change", (event) => {
                                     try {
                                         if (passwordConfirm.value !== password.value) {
@@ -108,10 +103,10 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                                 <label>Phone number</label>
                             </div>
                             <script>//check phone number
-                                const phone = document.getElementById("phone");
+                                let phone = document.getElementById("phone");
                                 phone.addEventListener("change", (event) => {
                                     try {
-                                        const phoneInt = Number(phone.value);
+                                        let phoneInt = Number(phone.value);
                                         if (phone.value.length !== 10) {
                                             alert("Phone number have 10 digits.");
                                             event.target.value = "";
@@ -127,16 +122,20 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                                 <input type="date"id="dob" name="dob" required />
                             </div>
                             <script>//check dob
-                                const dob = document.getElementById("dob");
-                                dob.addEventListener("change", (event) => {
+                                let dob = document.getElementById("dob");
+                                dob.addEventListener("blur", () => {
                                     try {
-                                        const today = new Date();
-                                        const birthDate = new Date(dob.value);
-                                        const age = today.getFullYear() - birthDate.getFullYear();
-                                        const monthDiff = today.getMonth() - birthDate.getMonth();
+                                        let today = new Date();
+                                        let birthDate = new Date(dob.value);
+                                        let age = today.getFullYear() - birthDate.getFullYear();
+                                        let monthDiff = today.getMonth() - birthDate.getMonth();
 
                                         if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
                                             age--;
+                                        }
+                                        if(age>130){
+                                            alert("User must be less than 130 years old");
+                                            event.target.value = "";
                                         }
                                         if (age < 18) {
                                             alert("User must be over 17 years old");
