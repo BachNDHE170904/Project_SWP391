@@ -18,7 +18,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav">
+                    <ul class="navbar-nav ms-auto">
                         <li class="nav-item">
                             <a class="nav-link active" aria-current="page" href="Login.jsp">Login</a>
                         </li>
@@ -34,9 +34,9 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
             <form action="LoginServlet" method="POST">
                 <!-- Username input -->
                 <div class="txt_field">
-                    <input type="text" name="username" required /> 
+                    <input type="text" name="email" required /> 
                     <span></span>
-                    <label>Username</label>
+                    <label>Email</label>
                 </div>
                 <!-- Password input -->
                 <div class="txt_field">
@@ -65,7 +65,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                 %> 
                 <!-- Display error message for failed login -->
                 <div class="WrongLogin">
-                    <p>Wrong username or password</p>
+                    <p>Wrong email or password</p>
                 </div>
                 <%
                         }

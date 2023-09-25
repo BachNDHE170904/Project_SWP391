@@ -39,12 +39,12 @@ public class UserDAO extends BaseDAO<User> {
         }
         return users;
     }
-    public User getUser(String username) {
+    public User getUser(String email) {
         try {
             String sql = "SELECT * FROM Users s\n"
-                    + "WHERE s.username = ? ";
+                    + "WHERE s.email = ? ";
             PreparedStatement statement = connection.prepareStatement(sql);
-            statement.setString(1, username);
+            statement.setString(1, email);
             ResultSet rs = statement.executeQuery();
             if (rs.next()) {
                 User s = new User();
@@ -61,12 +61,29 @@ public class UserDAO extends BaseDAO<User> {
         }
         return null;
     }
-    public UserDetails getUserDetails(String username) {
+    public String getUserAvatar(int userId) {
+        try {
+            String sql = "SELECT * FROM UserAvatar s\n"
+                    + "WHERE s.userId=?";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setInt(1, userId);
+            ResultSet rs = statement.executeQuery();
+            if (rs.next()) {
+                String avatarLink=rs.getString("avatarLink");
+                return avatarLink;
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+    public UserDetails getUserDetails(String email) {
         try {
             String sql = "SELECT * FROM UserDetail,Users \n"
-                    + "WHERE UserDetail.userId=Users.userId and Users.username=? ";
+                    + "WHERE UserDetail.userId=Users.userId and Users.email=? ";
             PreparedStatement statement = connection.prepareStatement(sql);
-            statement.setString(1, username);
+            statement.setString(1, email);
             ResultSet rs = statement.executeQuery();
             if (rs.next()) {
                 UserDetails s = new UserDetails();

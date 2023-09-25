@@ -1,3 +1,4 @@
+<%@page import="DAL.UserDAO"%>
 <!DOCTYPE html>
 <html lang="en">
     <%@page import="model.User"%>
@@ -15,22 +16,23 @@
             //check if the user is logged in or not
             User acc = (User) session.getAttribute("user");
             UserDetails details = (UserDetails) session.getAttribute("userDetail");
+            UserDAO db = new UserDAO();
         %>
-        <nav class="navbar navbar-expand-lg bg-body-tertiary">
+        <nav class="navbar navbar-expand-md bg-body-tertiary ">
             <div class="container-fluid">
-                <a class="navbar-brand" href="#">Happy Programming</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <a class="navbar-brand" href="WelcomePage.jsp">Happy Programming</a>
+                <button class="navbar-toggler ms-auto" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <div class="collapse navbar-collapse " id="navbarSupportedContent">
                     <%
                         if (acc != null) {
                     %>
-                    <div class="nav-item dropdown">
+                    <div class="nav-item dropdown ms-auto">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             <%= acc.getUsername()%>
                         </a>
-                        <ul class="dropdown-menu">
+                        <ul class="dropdown-menu dropdown-menu-end">
                             <% if (acc != null) { %>
                             <li><a class="dropdown-item" href="ViewUserProfile.jsp">View my Profile</a></li>
                                 <%}%>
@@ -76,7 +78,14 @@
                                 <div class=container text-center"">
                                     <div class="row">
                                         <div class="col-md-3">
-                                            <img src="images/default_avatar.jpg" alt="" class="img-fluid" width="200" height="200">
+                                            <%
+                                                String avatarLink = db.getUserAvatar(acc.getUserId());
+                                                if (avatarLink != null) {
+                                            %>
+                                            <img class="img-thumbnail" alt="" src="<%=avatarLink%>" />
+                                            <% } else {%>
+                                            <img class="img-thumbnail" alt="" src="images/default_avatar.jpg" />
+                                            <%}%>
                                         </div>
                                         <div class="col-md-9">
                                             <label class="btn btn-outline-primary">
