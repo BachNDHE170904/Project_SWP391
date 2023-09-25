@@ -44,12 +44,12 @@ public class RegisterServlet extends HttpServlet {
             gender = false;
         }
         UserDAO db = new UserDAO();
-        User user = db.getUser(email);
+        User user = db.getUser(email,password);
         if (user == null) // No account found
         {
             User u = new User(username, password, email, false);
             db.insertUser(u);
-            u = db.getUser(email);
+            u = db.getUser(email,password);
             int userId = u.getUserId();
             UserDetails ud = new UserDetails(phone, fullname, address, dob, gender, 4, username, password, userId, false);//4 means  role is User by default
             db.insertUserDetails(ud);

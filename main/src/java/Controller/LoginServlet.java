@@ -33,9 +33,10 @@ public class LoginServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String email = request.getParameter("email");
+        String pass=request.getParameter("password");
         String rememberPass = request.getParameter("rememberPass");
         UserDAO db = new UserDAO();
-        User user = db.getUser(email);
+        User user = db.getUser(email,pass);
         UserDetails details=db.getUserDetails(email);
         if (rememberPass != null && rememberPass.equals("true"))//remember pass
         {

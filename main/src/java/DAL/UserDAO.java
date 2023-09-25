@@ -39,12 +39,13 @@ public class UserDAO extends BaseDAO<User> {
         }
         return users;
     }
-    public User getUser(String email) {
+    public User getUser(String email,String pass) {
         try {
             String sql = "SELECT * FROM Users s\n"
-                    + "WHERE s.email = ? ";
+                    + "WHERE s.email = ? and s.password = ? ";
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setString(1, email);
+            statement.setString(2, pass);
             ResultSet rs = statement.executeQuery();
             if (rs.next()) {
                 User s = new User();
