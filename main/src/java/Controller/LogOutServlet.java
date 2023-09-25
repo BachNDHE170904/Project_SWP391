@@ -35,6 +35,7 @@ public class LogOutServlet extends HttpServlet {
         
         HttpSession session = request.getSession();
         session.removeAttribute("user");
+        request.getRequestDispatcher("WelcomePage.jsp").forward(request, response);
     }
 
     @Override

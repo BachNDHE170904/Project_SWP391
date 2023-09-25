@@ -5,12 +5,18 @@
 
 package Controller;
 
+import DAO.RequestDAO;
+import DAO.UserDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.sql.SQLException;
+import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -66,16 +72,30 @@ public class UpdateProfileServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        processRequest(request, response);
-    }
+        // Lấy thông tin người dùng đã submit từ form
+        String username = request.getParameter("username");
+        String fullname = request.getParameter("fullname");
+        String dob = request.getParameter("dob"); 
+        String gender = request.getParameter("gender");
+        String address = request.getParameter("address");
+        String phone = request.getParameter("phone");
+        String currentPassword = request.getParameter("currentPassword");
+        String newPassword = request.getParameter("newPassword");
+        
+        // Khởi tạo đối tượng DAO 
+        UserDAO userDAO = new UserDAO();
 
-    /** 
-     * Returns a short description of the servlet.
-     * @return a String containing servlet description
-     */
-    @Override
-    public String getServletInfo() {
-        return "Short description";
-    }// </editor-fold>
+        try {
+            // Gọi hàm cập nhật thông tin người dùng
+            userDAO.updateUser(username, fullname, dob, gender, address, phone, currentPassword, newPassword);
+        } catch (SQLException ex) {
+            Logger.getLogger(UpdateProfileServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
+          
+
+
+        // Chuyển hướng người dùng đến trang hiển thị kết quả
+        request.getRequestDispatcher("ViewUserProfile.jsp").forward(request, response);
+    }
 
 }

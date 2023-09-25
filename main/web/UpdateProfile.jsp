@@ -5,9 +5,9 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta id="viewport" content="width=device-width, initial-scale=1.0">
     <title>Profile</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 
@@ -17,11 +17,16 @@
         //check if the user is logged in or not
 
         UserDetails details = (UserDetails) session.getAttribute("userDetail");
+        if (session.getAttribute("user") == null){
+            response.sendRedirect("LoginServlet");
+            return;
+        }
     %>
     
     <%@include file="WelcomePage.jsp" %>
     
-    <div class="container light-style flex-grow-1 container-p-y">
+    <form action="UpdateProfileServlet" method="POST">
+        <div class="container light-style flex-grow-1 container-p-y">
         <h4 class="font-weight-bold py-3 mb-4">
             Account settings
         </h4>
@@ -58,11 +63,11 @@
                             <div class="card-body">
                                 <div class="form-group">
                                     <label class="form-label">Username</label>
-                                    <input type="text" class="form-control mb-1" value="${user.getUsername()}">
+                                    <input type="text" class="form-control mb-1" id="username" value="${user.getUsername()}">
                                 </div>
                                 <div class="form-group">
                                     <label class="form-label">Full Name</label>
-                                    <input type="text" class="form-control" value="${sessionScope.userDetail.getFullname()}">
+                                    <input type="text" class="form-control" id="fullname" value="${sessionScope.userDetail.getFullname()}">
                                 </div>
                                 <div class="form-group">
                                     <label class="form-label">E-mail</label>
@@ -80,18 +85,19 @@
                             <div class="card-body pb-2">
                                 <div class="form-group">
                                     <label class="form-label">Current password</label>
-                                    <input type="password" class="form-control" >
+                                    <input type="password" class="form-control" id="currentPassword" required>
                                 </div>
                                 <div class="form-group">
                                     <label class="form-label">New password</label>
-                                    <input type="password" class="form-control">
+                                    <input type="password" class="form-control" id="newPassword" required>
                                 </div>
                                 <div class="form-group">
                                     <label class="form-label">Repeat new password</label>
-                                    <input type="password" class="form-control">
+                                    <input type="password" class="form-control" id="repeatPassword" required>
                                 </div>
                             </div>
                         </div>
+
 
                         <div class="tab-pane fade" id="account-info">
                             <div class="card-body pb-2">
@@ -102,7 +108,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label class="form-label">Birthday</label>
-                                    <input type="date" class="form-control" value="${sessionScope.userDetail.getDob()}">
+                                    <input type="date" class="form-control" id="dob" value="${sessionScope.userDetail.getDob()}">
                                 </div>
                                 <div class="form-group">
 
@@ -116,11 +122,11 @@
                                 </div>
                                 <div class="form-group">
                                     <label class="form-label">Address</label>
-                                    <input type="text" class="form-control" value="${sessionScope.userDetail.getAddress()}">
+                                    <input type="text" class="form-control" id="address" value="${sessionScope.userDetail.getAddress()}">
                                 </div>
                                 <div class="form-group">
                                     <label class="form-label">Phone</label>
-                                    <input type="number" class="form-control" value="${sessionScope.userDetail.getPhone()}">
+                                    <input type="number" class="form-control" id="phone" value="${sessionScope.userDetail.getPhone()}">
                                 </div>
                             </div>
                         </div>
@@ -130,15 +136,20 @@
                         </div>
                     </div>
                 </div>
+            
+                
+                    <div class="text-right mt-3" style="margin-bottom: 1%">
+                        <button type="submit" class="btn btn-primary" >Save changes</button>&nbsp;
+                        <button type="submit" class="btn btn-default">Cancel</button>
+                    </div>
 
-            <div class="text-right mt-3" style="margin-bottom: 1%">
-                    <button type="button" class="btn btn-primary">Save changes</button>&nbsp;
-                    <button type="button" class="btn btn-default">Cancel</button>
-                </div>
+            
 
             </div>
             
         </div>
+    </form>
+    
         
     </div>
     <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>

@@ -4,7 +4,7 @@
  */
 package Controller;
 
-import DAL.UserDAO;
+import DAO.UserDAO;
 import jakarta.servlet.ServletContext;
 import java.io.IOException;
 import java.io.PrintWriter;

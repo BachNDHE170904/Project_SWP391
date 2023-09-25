@@ -15,7 +15,12 @@
             //check if the user is logged in or not
             User acc = (User) session.getAttribute("user");
             UserDetails details = (UserDetails) session.getAttribute("userDetail");
+            if (session.getAttribute("user") == null){
+                response.sendRedirect("LoginServlet");
+                return;
+            }
         %>
+        
         <nav class="navbar navbar-expand-lg bg-body-tertiary">
             <div class="container-fluid">
                 <a class="navbar-brand" href="#">Happy Programming</a>

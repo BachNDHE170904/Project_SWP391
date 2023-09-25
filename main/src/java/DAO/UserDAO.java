@@ -1,4 +1,4 @@
-package DAL;
+package DAO;
 
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -124,9 +124,44 @@ public class UserDAO extends BaseDAO<User> {
             ex.printStackTrace();
         }
     }
-//    public static void main(String[] args) {
-//        UserDAO db=new UserDAO();
-//        UserDetails details=db.getUserDetails("bach");
-//        System.out.println(details.getFullname());
-//    }
+    
+    //update User Info
+    public int updateUserInfo(UserDetails us) throws SQLException {
+    String sql = "UPDATE UserDetail SET dob = ?, gender = ?, userAddress = ?, phone = ? WHERE id = ?";
+    PreparedStatement pstmt = connection.prepareStatement(sql);
+    pstmt.setDate(1, us.getDob());
+    pstmt.setBoolean(2, us.isSex());
+    pstmt.setString(3, us.getAddress());
+    pstmt.setString(4, us.getPhone());
+    int rows = pstmt.executeUpdate();
+    pstmt.close();
+    return rows;
+  }
+
+    public int updateUser(String username, String fullname, String dob, String gender, String address, String phone, String currentPassword, String newPassword) throws SQLException{
+        // Tạo câu lệnh SQL update
+        String sql = "UPDATE Users u INNER JOIN UserDetails ud ON u.userId = ud.userId " + 
+                     "SET u.username = ?, ud.fullname = ?, ud.dob = ?, ud.gender = ?, ud.address = ?, ud.phone = ?, u.password = ? ";
+        
+                      
+        // Thực thi câu lệnh SQL, truyền tham số
+        PreparedStatement pstmt = connection.prepareStatement(sql);
+        pstmt.setString(1, username); 
+        pstmt.setString(2, fullname);
+        pstmt.setString(3, dob);
+        pstmt.setString(4, gender);
+        pstmt.setString(5, address);
+        pstmt.setString(6, phone);
+        pstmt.setString(7, newPassword);
+        
+        // Thực thi câu lệnh UPDATE 
+        int rows = pstmt.executeUpdate();
+  
+        // Đóng kết nối
+        pstmt.close();
+        return rows;
+  
+  
+    }
+
 }
