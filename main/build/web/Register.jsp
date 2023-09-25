@@ -67,10 +67,27 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                             </script>
                             <!-- Password input -->
                             <div class="txt_field">
-                                <input type="password" id="password" name="password" required />
+                                <input type="password" id="password" name="password" required>
                                 <span></span>
                                 <label>Password</label>
                             </div>
+                            <script>
+                                // Get a reference to the password input field and the error message span
+                                let passwordInput = document.getElementById("password");
+                                // Add an event listener to the input field to validate the password
+                                passwordInput.addEventListener("change", (event)=> {
+                                    const password = passwordInput.value;
+
+                                    // Define the regular expression pattern for password validation
+                                    const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
+
+                                    // Check if the password matches the pattern
+                                    if (!passwordPattern.test(password)) {
+                                        alert("Password must contain at least one lowercase letter, one uppercase letter, one digit, and be at least 8 characters long.");
+                                        event.target.value = ""; 
+                                    }
+                                });
+                            </script>
                             <div class="txt_field">
                                 <input type="password" id="confirmPassword" name="confirmPassword" required />
                                 <span></span>
@@ -189,7 +206,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                 %> 
                 <!-- Display error message for failed registration -->
                 <div class="WrongRegister">
-                    <p>Account already existed, please choose another username</p>
+                    <p>Account already existed, please choose another email</p>
                 </div>
                 <%
                         }
@@ -212,7 +229,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                             </div>
                             <script>
                                 let otp = document.getElementById("confirmOTP");
-                                let confirmOtp ="<%=otp%>";
+                                let confirmOtp = "<%=otp%>";
                                 otp.addEventListener("change", (event) => {
                                     try {
                                         if (otp.value !== confirmOtp) {
