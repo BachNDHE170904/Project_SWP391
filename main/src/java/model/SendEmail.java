@@ -19,16 +19,14 @@ import javax.mail.internet.MimeMessage;
  * @author ADMIN
  */
 public class SendEmail {
-    public String getRandom(){
-        Random rnd=new Random();
-        int number=rnd.nextInt(999999);
-        return String.format("%06d", number);
+    public int getOtp(){
+        Random rand=new Random();
+        return rand.nextInt(9999);
     }
-    
-    public boolean sendEmail(UserDetails user,String text){
+    public boolean sendEmail(String email,String text){
         boolean test=false;
         
-        String toEmail=user.getEmail();
+        String toEmail=email;
         String fromEmail="happyprogramming551@gmail.com";
         String password="lznv wgsd rbhg kbjt";
         

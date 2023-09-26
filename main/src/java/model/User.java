@@ -9,18 +9,37 @@ package model;
  * @author ADMIN
  */
 public class User {
-    private String username,pass;
+    private String username,pass,email;
     private int userId;
     private boolean isAuthorized;
 
     public User() {
     }
 
-    public User(String username, String pass, boolean isAuthorized) {
+    public User(String username, String pass, String email, boolean isAuthorized) {
         this.username = username;
         this.pass = pass;
+        this.email = email;
         this.isAuthorized = isAuthorized;
     }
+
+    public User(String username, String pass, String email, int userId, boolean isAuthorized) {
+        this.username = username;
+        this.pass = pass;
+        this.email = email;
+        this.userId = userId;
+        this.isAuthorized = isAuthorized;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+    
+   
     
     public User(String username, String pass, int userId, boolean isAuthorized) {
         this.username = username;

@@ -15,6 +15,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import model.User;
+import model.UserDetails;
 
 /**
  *
@@ -39,6 +40,15 @@ public class LoginServlet extends HttpServlet {
         if (rememberPass != null && rememberPass.equals("true"))//remember pass
         {
             Cookie c_user = new Cookie("username", user.getUsername());
+        String email = request.getParameter("email");
+        String pass=request.getParameter("password");
+        String rememberPass = request.getParameter("rememberPass");
+        UserDAO db = new UserDAO();
+        User user = db.getUser(email,pass);
+        UserDetails details=db.getUserDetails(email);
+        if (rememberPass != null && rememberPass.equals("true"))//remember pass
+        {
+            Cookie c_user = new Cookie("email", user.getEmail());
             Cookie c_pass = new Cookie("password", user.getPass());
             c_user.setMaxAge(3600 * 24 * 30);
             c_pass.setMaxAge(3600 * 24 * 30);
@@ -49,6 +59,7 @@ public class LoginServlet extends HttpServlet {
         {
             HttpSession session = request.getSession();
             session.setAttribute("user", user);
+            session.setAttribute("userDetail", details);
             request.getRequestDispatcher("WelcomePage.jsp").forward(request, response);
         } else //login fail
         {
