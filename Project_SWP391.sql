@@ -31,6 +31,12 @@ CREATE TABLE UserAvatar (
    FOREIGN KEY (userId) REFERENCES Users(userId),
 );
 
+CREATE TABLE Gender (
+   gender bit  NOT NULL,
+   genderName NVARCHAR (50)     NOT NULL,
+   PRIMARY KEY (gender),
+);
+
 CREATE TABLE UserDetail (
    userId   INT  Unique  NOT NULL,
    username NVARCHAR (50)     NOT NULL,
@@ -43,20 +49,35 @@ CREATE TABLE UserDetail (
    PRIMARY KEY (userId),
    FOREIGN KEY (userId) REFERENCES Users(userId),
    FOREIGN KEY (roleId) REFERENCES Roles(roleId),
+   FOREIGN KEY (gender) REFERENCES Gender(gender),
 );
 
+CREATE TABLE SkillStatus (
+   skillStatusId   INT    NOT NULL identity(1,1),
+   skillStatus NVARCHAR (50)     NOT NULL,
+   PRIMARY KEY (skillStatusId),
+);
 
 CREATE TABLE Skills (
    skillId   INT    NOT NULL identity(1,1),
    skillName NVARCHAR (50)     NOT NULL,
+   skillStatusId INT NOT NULL,
    PRIMARY KEY (skillId),
+   FOREIGN KEY (skillStatusId) REFERENCES SkillStatus(skillStatusId),
 );
 
+CREATE TABLE LanguageStatus (
+   languageStatusId   INT    NOT NULL identity(1,1),
+   languageStatus NVARCHAR (50)     NOT NULL,
+   PRIMARY KEY (languageStatusId),
+);
 
 CREATE TABLE ProgrammingLanguage (
    languageId   INT    NOT NULL identity(1,1),
    languageName NVARCHAR (50)     NOT NULL,
+   languageStatusId INT NOT NULL,
    PRIMARY KEY (languageId),
+   FOREIGN KEY (languageStatusId) REFERENCES LanguageStatus(languageStatusId),
 );
 
 CREATE TABLE Mentor (
@@ -69,12 +90,10 @@ CREATE TABLE Mentor (
 
 CREATE TABLE MentorCV (
    mentorId   INT  Unique  NOT NULL,
-   avatarLink NVARCHAR (50)     NOT NULL,
    profession NVARCHAR (50)     NOT NULL,
    professionIntro NVARCHAR (50)     NOT NULL,
    serviceIntro NVARCHAR (50)     NOT NULL,
    achivementIntro NVARCHAR (50)     NOT NULL,
-   rating   INT  default 0  NOT NULL,
    PRIMARY KEY (mentorId),
    FOREIGN KEY (mentorId) REFERENCES Mentor(mentorId),
 );
@@ -118,7 +137,6 @@ CREATE TABLE RequestDetail(
    deadline date NOT NULL,
    statusId int   default 1  NOT NULL,
    mentorId   INT default 0,
-   rating int  NOT NULL,
    PRIMARY KEY (requestId),
    FOREIGN KEY (requestId) REFERENCES Requests(requestId),
    FOREIGN KEY (statusId) REFERENCES Statuses(statusId),
@@ -135,3 +153,23 @@ CREATE TABLE requestSkillsChoices (
    FOREIGN KEY (requestId) REFERENCES RequestDetail(requestId),
    FOREIGN KEY (languageId) REFERENCES ProgrammingLanguage(languageId),
 );
+
+<<<<<<< Updated upstream
+select *from Users
+=======
+CREATE TABLE Comment (
+   commentId   int NOT NULL identity(1,1),
+   commentDetail NVARCHAR (200)     NOT NULL,
+   PRIMARY KEY (commentId),
+);
+
+CREATE TABLE Rating (
+   ratingId   INT    NOT NULL,
+   commentId	  INT    NOT NULL,
+   requestId   INT    NOT NULL,
+   PRIMARY KEY (requestId),
+   FOREIGN KEY (requestId) REFERENCES RequestDetail(requestId),
+   FOREIGN KEY (commentId) REFERENCES Comment(commentId),
+);
+
+>>>>>>> Stashed changes
