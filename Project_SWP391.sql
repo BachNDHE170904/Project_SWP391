@@ -36,6 +36,8 @@ CREATE TABLE Gender (
    genderName NVARCHAR (50)     NOT NULL,
    PRIMARY KEY (gender),
 );
+insert into Gender(gender,genderName) values(0,'Female')
+insert into Gender(gender,genderName) values(1,'Male')
 
 CREATE TABLE UserDetail (
    userId   INT  Unique  NOT NULL,
@@ -168,4 +170,3 @@ CREATE TABLE Rating (
    FOREIGN KEY (requestId) REFERENCES RequestDetail(requestId),
    FOREIGN KEY (commentId) REFERENCES Comment(commentId),
 );
-

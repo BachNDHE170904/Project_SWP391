@@ -9,24 +9,12 @@ package model;
  * @author ADMIN
  */
 public class User {
-    private String username,pass,email;
+
+    private String username, pass, email;
     private int userId;
     private boolean isAuthorized;
 
     public User() {
-    }
-
-    public User(String username, String pass, boolean isAuthorized) {
-        this.username = username;
-        this.pass = pass;
-        this.isAuthorized = isAuthorized;
-    }
-
-    public User(String username, String pass, String email, boolean isAuthorized) {
-        this.username = username;
-        this.pass = pass;
-        this.email = email;
-        this.isAuthorized = isAuthorized;
     }
 
     public User(String username, String pass, String email, int userId, boolean isAuthorized) {
@@ -37,6 +25,20 @@ public class User {
         this.isAuthorized = isAuthorized;
     }
 
+    public User(String username, String pass, String email, boolean isAuthorized) {
+        this.username = username;
+        this.pass = pass;
+        this.email = email;
+        this.isAuthorized = isAuthorized;
+    }
+
+    public User(String username, String pass, boolean isAuthorized) {
+        this.username = username;
+        this.pass = pass;
+        this.isAuthorized = isAuthorized;
+    }
+    
+    
     public String getEmail() {
         return email;
     }
@@ -44,16 +46,14 @@ public class User {
     public void setEmail(String email) {
         this.email = email;
     }
-    
-   
-    
+
     public User(String username, String pass, int userId, boolean isAuthorized) {
         this.username = username;
         this.pass = pass;
         this.userId = userId;
         this.isAuthorized = isAuthorized;
     }
-    
+
     public String getUsername() {
         return username;
     }
@@ -85,5 +85,5 @@ public class User {
     public void setIsAuthorized(boolean isAuthorized) {
         this.isAuthorized = isAuthorized;
     }
-    
+
 }

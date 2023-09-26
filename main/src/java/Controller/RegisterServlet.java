@@ -50,14 +50,14 @@ public class RegisterServlet extends HttpServlet {
             gender = false;
         }
         UserDAO db = new UserDAO();
-        User user = db.getUser(email,password);
+        User user = db.getUserByEmailOnly(email);
         if (user == null) // No account found
         {
             User u = new User(username, password, email, false);
             db.insertUser(u);
-            u = db.getUser(email,password);
+            u = db.getUser(email, password);
             int userId = u.getUserId();
-            UserDetails ud = new UserDetails(phone, fullname, address, dob, gender, 4, username, password, userId, false);//4 means  role is User by default
+            UserDetails ud = new UserDetails( phone,  fullname,  address,  dob,  gender,  4,  username,  password,  email,  userId,  false);//4 means  role is User by default
             db.insertUserDetails(ud);
             request.getRequestDispatcher("Login.jsp").forward(request, response);
         } else //Account already existed
@@ -66,6 +66,7 @@ public class RegisterServlet extends HttpServlet {
             request.getRequestDispatcher("Register.jsp").forward(request, response);
         }
     }
+
     /**
      * Returns a short description of the servlet.
      *
