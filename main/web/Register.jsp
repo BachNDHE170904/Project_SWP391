@@ -75,7 +75,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                                 // Get a reference to the password input field and the error message span
                                 let passwordInput = document.getElementById("password");
                                 // Add an event listener to the input field to validate the password
-                                passwordInput.addEventListener("change", (event)=> {
+                                passwordInput.addEventListener("change", (event) => {
                                     const password = passwordInput.value;
 
                                     // Define the regular expression pattern for password validation
@@ -84,7 +84,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                                     // Check if the password matches the pattern
                                     if (!passwordPattern.test(password)) {
                                         alert("Password must contain at least one lowercase letter, one uppercase letter, one digit, and be at least 8 characters long.");
-                                        event.target.value = ""; 
+                                        event.target.value = "";
                                     }
                                 });
                             </script>
@@ -191,11 +191,15 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                     function CheckOtp() {
                         let emailInput = document.getElementById("email").value; // Get the email input value
                         let otp = <%=otp%>; // Use JSP tag to get the server-side value
-
-                        let xhr = new XMLHttpRequest();
-                        xhr.open("POST", "/main/RegisterConfirmAccountServlet");
-                        xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-                        xhr.send("email=" + emailInput + "&otp=" + otp); // Send OTP and user email for validation
+                        var form = document.getElementById("signupForm");
+                        if (form.checkValidity()) {
+                            let xhr = new XMLHttpRequest();
+                            xhr.open("POST", "/main/RegisterConfirmAccountServlet");
+                            xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                            xhr.send("email=" + emailInput + "&otp=" + otp); // Send OTP and user email for validation
+                        } else {
+                            alert("Please fill in all required fields.");
+                        }
                     }
                 </script>
                 <%
@@ -223,7 +227,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                         </div>
                         <div class="modal-body">
                             <div class="txt_field">
-                                <input type="password" id="confirmOTP" name="confirmOTP" required />
+                                <input type="password" id="confirmOTP" name="confirmOTP" />
                                 <span></span>
                                 <label>We have sent an otp code to your email, enter it here:</label>
                             </div>
