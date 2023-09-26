@@ -39,7 +39,7 @@ public class User {
         this.email = email;
     }
     
-    
+   
     
     public User(String username, String pass, int userId, boolean isAuthorized) {
         this.username = username;

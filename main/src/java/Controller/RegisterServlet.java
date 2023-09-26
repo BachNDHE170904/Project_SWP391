@@ -5,12 +5,18 @@
 package Controller;
 
 import DAL.UserDAO;
+import jakarta.servlet.ServletContext;
 import java.io.IOException;
+import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.sql.Date;
+import java.util.Properties;
+import model.SendEmail;
 import model.User;
 import model.UserDetails;
 
@@ -60,7 +66,6 @@ public class RegisterServlet extends HttpServlet {
             request.getRequestDispatcher("Register.jsp").forward(request, response);
         }
     }
-
     /**
      * Returns a short description of the servlet.
      *

@@ -39,6 +39,7 @@ public class UserDAO extends BaseDAO<User> {
         }
         return users;
     }
+
     public User getUser(String email,String pass) {
         try {
             String sql = "SELECT * FROM Users s\n"
@@ -62,6 +63,40 @@ public class UserDAO extends BaseDAO<User> {
         }
         return null;
     }
+    public void change(User u){
+        String sql = "update Users set password=? where username=?";
+        try {
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setString(1, u.getPass());
+            stm.setString(2, u.getUsername());
+            stm.executeUpdate();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
+
+    public User check() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+    
+    public boolean isEmailAssociated(String email) {
+        String sql = "SELECT COUNT(*) FROM Users WHERE email = ?";
+        try {
+            
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setString(1, email);
+            ResultSet rs = statement.executeQuery();
+            
+            if (rs.next()) {
+                int count = rs.getInt(1);
+                return count > 0; // If count > 0, the email is associated with at least one user.
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false; // If there was an error or the email is not associated with any user.
+    }
+}
     public String getUserAvatar(int userId) {
         try {
             String sql = "SELECT * FROM UserAvatar s\n"

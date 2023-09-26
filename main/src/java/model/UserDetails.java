@@ -11,6 +11,7 @@ import java.sql.Date;
  * @author ADMIN
  */
 public class UserDetails extends User{
+
     private String phone,fullname,address;
     private Date dob;
     private boolean sex;

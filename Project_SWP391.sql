@@ -61,6 +61,10 @@ CREATE TABLE SkillStatus (
 CREATE TABLE Skills (
    skillId   INT    NOT NULL identity(1,1),
    skillName NVARCHAR (50)     NOT NULL,
+   PRIMARY KEY (skillId),
+);
+
+=======
    skillStatusId INT NOT NULL,
    PRIMARY KEY (skillId),
    FOREIGN KEY (skillStatusId) REFERENCES SkillStatus(skillStatusId),
@@ -75,6 +79,7 @@ CREATE TABLE LanguageStatus (
 CREATE TABLE ProgrammingLanguage (
    languageId   INT    NOT NULL identity(1,1),
    languageName NVARCHAR (50)     NOT NULL,
+   PRIMARY KEY (languageId),
    languageStatusId INT NOT NULL,
    PRIMARY KEY (languageId),
    FOREIGN KEY (languageStatusId) REFERENCES LanguageStatus(languageStatusId),
@@ -153,10 +158,7 @@ CREATE TABLE requestSkillsChoices (
    FOREIGN KEY (requestId) REFERENCES RequestDetail(requestId),
    FOREIGN KEY (languageId) REFERENCES ProgrammingLanguage(languageId),
 );
-
-<<<<<<< Updated upstream
-select *from Users
-=======
+ 
 CREATE TABLE Comment (
    commentId   int NOT NULL identity(1,1),
    commentDetail NVARCHAR (200)     NOT NULL,
@@ -171,5 +173,3 @@ CREATE TABLE Rating (
    FOREIGN KEY (requestId) REFERENCES RequestDetail(requestId),
    FOREIGN KEY (commentId) REFERENCES Comment(commentId),
 );
-
->>>>>>> Stashed changes
