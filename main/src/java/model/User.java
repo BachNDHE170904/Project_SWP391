@@ -16,6 +16,12 @@ public class User {
     public User() {
     }
 
+    public User(String username, String pass, boolean isAuthorized) {
+        this.username = username;
+        this.pass = pass;
+        this.isAuthorized = isAuthorized;
+    }
+
     public User(String username, String pass, String email, boolean isAuthorized) {
         this.username = username;
         this.pass = pass;

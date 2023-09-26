@@ -64,11 +64,11 @@ public class UserDAO extends BaseDAO<User> {
         return null;
     }
     public void change(User u){
-        String sql = "update Users set password=? where username=?";
+        String sql = "update Users set password=? where email=?";
         try {
             PreparedStatement stm = connection.prepareStatement(sql);
             stm.setString(1, u.getPass());
-            stm.setString(2, u.getUsername());
+            stm.setString(2, u.getEmail());
             stm.executeUpdate();
         } catch (Exception e) {
             System.out.println(e);
@@ -96,7 +96,6 @@ public class UserDAO extends BaseDAO<User> {
         }
         return false; // If there was an error or the email is not associated with any user.
     }
-}
     public String getUserAvatar(int userId) {
         try {
             String sql = "SELECT * FROM UserAvatar s\n"
