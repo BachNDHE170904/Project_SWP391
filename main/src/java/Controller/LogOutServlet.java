@@ -31,8 +31,11 @@ public class LogOutServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        processRequest(request, response);
+        throws ServletException, IOException {
+        
+        HttpSession session = request.getSession();
+        session.removeAttribute("user");
+        request.getRequestDispatcher("WelcomePage.jsp").forward(request, response);
     }
 
     @Override

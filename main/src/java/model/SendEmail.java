@@ -5,7 +5,6 @@
 package model;
 
 import java.util.Properties;
-import java.util.Random;
 import javax.mail.Authenticator;
 import javax.mail.Message;
 import javax.mail.PasswordAuthentication;
@@ -19,14 +18,11 @@ import javax.mail.internet.MimeMessage;
  * @author ADMIN
  */
 public class SendEmail {
-    public int getOtp(){
-        Random rand=new Random();
-        return rand.nextInt(9999);
-    }
-    public boolean sendEmail(String email,String text){
+    
+    public boolean sendEmail(User user,String text){
         boolean test=false;
         
-        String toEmail=email;
+        String toEmail=user.getEmail();
         String fromEmail="happyprogramming551@gmail.com";
         String password="lznv wgsd rbhg kbjt";
         

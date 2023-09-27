@@ -11,11 +11,15 @@ import java.sql.Date;
  * @author ADMIN
  */
 public class UserDetails extends User{
-
+<<<<<<< Updated upstream
     private String phone,fullname,address;
+=======
+    private String phone,fullname,address,avt;
+>>>>>>> Stashed changes
     private Date dob;
     private boolean sex;
     private int roleId;
+    
 
     public UserDetails() {
     }  
@@ -38,8 +42,24 @@ public class UserDetails extends User{
         this.sex = sex;
         this.roleId = roleId;
     }
-    
-    
+
+    public UserDetails(String phone, String fullname, String address, Date dob, boolean sex, int roleId, String username, String pass, int userId, boolean isAuthorized) {
+        super(username, pass, userId, isAuthorized);
+        this.phone = phone;
+        this.fullname = fullname;
+        this.address = address;
+        this.dob = dob;
+        this.sex = sex;
+        this.roleId = roleId;
+    }
+
+    public String getAvt() {
+        return avt;
+    }
+
+    public void setAvt(String avt) {
+        this.avt = avt;
+    }
     
     public String getPhone() {
         return phone;

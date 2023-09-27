@@ -18,7 +18,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav ms-auto">
+                    <ul class="navbar-nav">
                         <li class="nav-item">
                             <a class="nav-link active" aria-current="page" href="Login.jsp">Login</a>
                         </li>
@@ -34,9 +34,9 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
             <form action="LoginServlet" method="POST">
                 <!-- Username input -->
                 <div class="txt_field">
-                    <input type="text" name="email" required /> 
+                    <input type="text" name="username" required /> 
                     <span></span>
-                    <label>Email</label>
+                    <label>Username</label>
                 </div>
                 <!-- Password input -->
                 <div class="txt_field">
@@ -55,7 +55,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                     Don't have an account?<a href="Register.jsp">Sign up</a>
                 </div>
                 <div class="signup_link">
-                    Forgot your password?<a href="forgotPassword.jsp">Reset here</a>
+                    Forgot your password?<a href="ResetPassword.jsp">Reset here</a>
                 </div>
                 <%
                     // Server-side code to handle failed login attempt
@@ -65,7 +65,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                 %> 
                 <!-- Display error message for failed login -->
                 <div class="WrongLogin">
-                    <p>Wrong email or password</p>
+                    <p>Wrong username or password</p>
                 </div>
                 <%
                         }
