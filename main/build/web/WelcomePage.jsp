@@ -33,8 +33,9 @@
                             <%= acc.getUsername()%>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end">
-                            <% if (acc != null) { %>
+                            <% if (acc != null) {%>
                             <li><a class="dropdown-item" href="ViewUserProfile.jsp">View my Profile</a></li>
+                            <li><a class="dropdown-item" href="change.jsp">Change Password</a></li>
                                 <%}%>
                             <li><hr class="dropdown-divider"></li>
                             <li><a class="dropdown-item" href="LogOutServlet">Log Out</a></li>

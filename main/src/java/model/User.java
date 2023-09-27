@@ -86,4 +86,9 @@ public class User {
         this.isAuthorized = isAuthorized;
     }
 
+    @Override
+    public String toString() {
+        return "User{" + "username=" + username + ", pass=" + pass + ", email=" + email + ", userId=" + userId + ", isAuthorized=" + isAuthorized + '}';
+    }
+
 }

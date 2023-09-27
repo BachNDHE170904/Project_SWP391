@@ -53,16 +53,16 @@
         <url-pattern>/forgotPasswordServlet</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>ChangePassword</servlet-name>
-        <url-pattern>/change</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
         <servlet-name>NewPassword</servlet-name>
         <url-pattern>/newPasswordServlet</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>ValidateOtp</servlet-name>
         <url-pattern>/ValidateOtpServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ChangePassword</servlet-name>
+        <url-pattern>/changePasswordServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

@@ -18,7 +18,7 @@ insert into Roles(roleName)values('Admin');
 CREATE TABLE Users (
    userId   INT    NOT NULL identity(1,1),
    email NVARCHAR (50)  Unique   NOT NULL,
-   username NVARCHAR (50)  Unique   NOT NULL,
+   username NVARCHAR (50) Unique  NOT NULL,
    password NVARCHAR (50)     NOT NULL,
    userAuthorization bit  NOT NULL,
    PRIMARY KEY (userId),

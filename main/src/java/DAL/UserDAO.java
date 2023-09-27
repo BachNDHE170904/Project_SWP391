@@ -64,6 +64,29 @@ public class UserDAO extends BaseDAO<User> {
         return null;
     }
     
+    public User getUserByUserName(String username) {
+        try {
+            String sql = "SELECT * FROM Users s\n"
+                    + "WHERE s.username=? ";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setString(1, username);
+            ResultSet rs = statement.executeQuery();
+            if (rs.next()) {
+                User s = new User();
+                s.setUsername(rs.getString("username"));
+                s.setPass(rs.getString("password"));
+                s.setUserId(rs.getInt("userId"));
+                s.setEmail(rs.getString("email"));
+                s.setIsAuthorized(rs.getBoolean("userAuthorization"));
+                return s;
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+    
     public User getUserByEmailOnly(String email) {
         try {
             String sql = "SELECT * FROM Users s\n"
@@ -86,20 +109,16 @@ public class UserDAO extends BaseDAO<User> {
         }
         return null;
     }
-    public void change(User u){
+    public void change(String email,String newPassword){
         String sql = "update Users set password=? where email=?";
         try {
             PreparedStatement stm = connection.prepareStatement(sql);
-            stm.setString(1, u.getPass());
-            stm.setString(2, u.getEmail());
+            stm.setString(1, newPassword);
+            stm.setString(2, email);
             stm.executeUpdate();
         } catch (Exception e) {
             System.out.println(e);
         }
-    }
-
-    public User check() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
     
     public boolean isEmailAssociated(String email) {
