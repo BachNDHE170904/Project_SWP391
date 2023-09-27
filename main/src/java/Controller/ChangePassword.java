@@ -55,10 +55,10 @@ protected void doGet(HttpServletRequest request, HttpServletResponse response)
     String confirmPass = request.getParameter("rpass");
     
     UserDAO db = new UserDAO();
-    User u = db.check();
+    User u = db.getUserByUserName(username);
     
     // Define a regular expression pattern to enforce password requirements
-    String passwordPattern = "^(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!])(?=.*\\d).*";
+    String passwordPattern = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]{8,}$";
 
     if (u == null || !u.getPass().equals(opass)) {
         String ms = "Old password is incorrect!";
@@ -69,12 +69,12 @@ protected void doGet(HttpServletRequest request, HttpServletResponse response)
         request.setAttribute("ms", ms);
         request.getRequestDispatcher("change.jsp").forward(request, response);
     } else if (!p.matches(passwordPattern)) {
-        String ms = "Password must contain at least one uppercase letter, one lowercase letter, one special character, and may or may not contain a number.";
+        String ms = "Password must contain at least eight characters, at least one letter, one number and one special character.";
         request.setAttribute("ms", ms);
         request.getRequestDispatcher("change.jsp").forward(request, response);
     } else {
-        User us = new User(username, p, u.isIsAuthorized());
-        db.change(us);
+        db.change(u.getEmail(),p);
+        User us=db.getUserByUserName(username);
         HttpSession session = request.getSession();
         session.setAttribute("user", us);
         request.setAttribute("status", "success");
@@ -106,5 +106,4 @@ protected void doGet(HttpServletRequest request, HttpServletResponse response)
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
-
 }
