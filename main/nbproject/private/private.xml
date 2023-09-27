@@ -3,6 +3,7 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+<<<<<<< Updated upstream
             <file>file:/D:/Study/5_FA2023/SWP391/Final%20Project/Project_SWP391-Bach/main/web/ListRequestOfMentee.jsp</file>
             <file>file:/D:/Study/5_FA2023/SWP391/Final%20Project/Project_SWP391-Bach/main/web/css/ListRequestOfMentee.css</file>
             <file>file:/D:/Study/5_FA2023/SWP391/Final%20Project/Project_SWP391-Bach/main/web/Register.jsp</file>
@@ -11,6 +12,19 @@
             <file>file:/D:/Study/5_FA2023/SWP391/Final%20Project/Project_SWP391-Bach/main/src/java/Controller/UpdateProfileServlet.java</file>
             <file>file:/D:/Study/5_FA2023/SWP391/Final%20Project/Project_SWP391-Bach/main/src/java/DAL/UserDAO.java</file>
             <file>file:/D:/Study/5_FA2023/SWP391/Final%20Project/Project_SWP391-Bach/main/src/java/DAL/BaseDAO.java</file>
+=======
+            <file>file:/D:/Study/5_FA2023/SWP391/Final%20Project/Project_SWP391_Duong/Project_SWP391/main/src/java/model/UserDetails.java</file>
+            <file>file:/D:/Study/5_FA2023/SWP391/Final%20Project/Project_SWP391_Duong/Project_SWP391/main/web/ViewUserProfile.jsp</file>
+            <file>file:/D:/Study/5_FA2023/SWP391/Final%20Project/Project_SWP391_Duong/Project_SWP391/main/src/java/DAO/UserDAO.java</file>
+            <file>file:/D:/Study/5_FA2023/SWP391/Final%20Project/Project_SWP391_Duong/Project_SWP391/main/src/java/Controller/RegisterServlet.java</file>
+            <file>file:/D:/Study/5_FA2023/SWP391/Final%20Project/Project_SWP391_Duong/Project_SWP391/main/web/ListRequestOfMentee.jsp</file>
+            <file>file:/D:/Study/5_FA2023/SWP391/Final%20Project/Project_SWP391_Duong/Project_SWP391/main/web/UpdateProfile.jsp</file>
+            <file>file:/D:/Study/5_FA2023/SWP391/Final%20Project/Project_SWP391_Duong/Project_SWP391/main/src/java/model/User.java</file>
+            <file>file:/D:/Study/5_FA2023/SWP391/Final%20Project/Project_SWP391_Duong/Project_SWP391/main/src/java/Controller/UpdateProfileServlet.java</file>
+            <file>file:/D:/Study/5_FA2023/SWP391/Final%20Project/Project_SWP391_Duong/Project_SWP391/main/web/Login.jsp</file>
+            <file>file:/D:/Study/5_FA2023/SWP391/Final%20Project/Project_SWP391_Duong/Project_SWP391/main/src/java/Controller/LogOutServlet.java</file>
+            <file>file:/D:/Study/5_FA2023/SWP391/Final%20Project/Project_SWP391_Duong/Project_SWP391/main/src/java/Controller/LoginServlet.java</file>
+>>>>>>> Stashed changes
         </group>
     </open-files>
 </project-private>

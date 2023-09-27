@@ -47,13 +47,23 @@
                         <div class="col-md-9">
                             <div class="tab-content">
                                 <div class="tab-pane fade active show" id="account-general">
+<<<<<<< Updated upstream
                                     <div class="card-body media align-items-center">
                                         <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt
+=======
+                                    <div style="height: 350px" class="card-body media align-items-center">
+                                        <img id="demoimgadd" height="350px" src="${sessionScope.userDetail.getAvt()}" alt
+>>>>>>> Stashed changes
                                              class="d-block ui-w-80">
                                         <div class="media-body ml-4">
                                             <label class="btn btn-outline-primary" style="">
                                                 Upload new photo
+<<<<<<< Updated upstream
                                                 <input type="file" class="account-settings-fileinput">
+=======
+                                                <input id="imgadd" onchange="changeimgadd()" name="image" type="file" class="account-settings-fileinput">
+                                                <input name="proimage" id="imageadd" value="" type="hidden" >
+>>>>>>> Stashed changes
                                             </label> &nbsp;
                                             <button type="button" class="btn btn-default md-btn-flat">Reset</button>
                                             <div class="text-light small mt-1">Allowed JPG, GIF or PNG. Max size of 800K</div>
@@ -85,7 +95,11 @@
                                     <div class="card-body pb-2">
                                         <div class="form-group">
                                             <label class="form-label">Current password</label>
+<<<<<<< Updated upstream
                                             <input type="password" name="currentPassword" class="form-control" id="currentPassword" required>
+=======
+                                            <input type="password" name="currentPassword" value="" class="form-control" id="currentPassword" required>
+>>>>>>> Stashed changes
                                         </div>
                                         <div class="form-group">
                                             <label class="form-label">New password</label>
@@ -102,10 +116,13 @@
                                 <div class="tab-pane fade" id="account-info">
                                     <div class="card-body pb-2">
                                         <div class="form-group">
+<<<<<<< Updated upstream
                                             <label class="form-label">Bio</label>
                                             <textarea class="form-control" rows="5"> TEST BIO</textarea>
                                         </div>
                                         <div class="form-group">
+=======
+>>>>>>> Stashed changes
                                             <label class="form-label">Birthday</label>
                                             <input type="date" class="form-control" id="dob" name="dob" value="${sessionScope.userDetail.getDob()}">
                                         </div>
@@ -146,6 +163,7 @@
 
             </div>
         </form>
+<<<<<<< Updated upstream
 
 
     </div>
@@ -160,5 +178,45 @@
         }
     </script>
 </body>
+=======
+        <script>
+            function changeimgadd() {
+                var file = document.getElementById("imgadd").files[0];
+                if (file.name.match(/.+\.(jpg|png|jpeg)/i)) {
+                    if (file.size / (1024 * 1024) < 50) {
+                        var fileReader = new FileReader();
+                        fileReader.readAsDataURL(file);
+                        fileReader.onload = function () {
+                            document.getElementById("imageadd").value = (fileReader.result);
+                            document.getElementById("demoimgadd").src = (fileReader.result);
+                        }
+                    } else {
+                        uploadError();
+                    }
+                } else {
+                    uploadError();
+                }
+            }
+            function uploadError() {
+                alert('Please upload photo file < 5MB')
+                document.getElementById("imgadd").files[0].value = ''
+                document.getElementById("imgadd").type = '';
+                document.getElementById("imgadd").type = 'file';
+            }
+        </script>
+
+        <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
+        <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.bundle.min.js"></script>
+        <script type="text/javascript">
+            function save() {
+                const form = document.getElementsByName('formUpdate')[0];
+                //            console.log(form);
+                form.submit();
+            }
+        </script>
+
+    </body>
+>>>>>>> Stashed changes
 
 </html>
