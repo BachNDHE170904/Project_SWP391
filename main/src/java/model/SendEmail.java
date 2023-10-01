@@ -28,7 +28,7 @@ public class SendEmail {
         
         String toEmail=email;
         String fromEmail="happyprogramming551@gmail.com";
-        String password="lznv wgsd rbhg kbjt";
+        String password="wses iyhv gpwd apsq";
         
         try{
             Properties pr=new Properties();
