@@ -85,7 +85,7 @@
                                             %>
                                             <img class="img-thumbnail" alt="" src="<%=avatarLink%>" />
                                             <% } else {%>
-                                            <img class="img-thumbnail" alt="" src="images/default_avatar.jpg" />
+                                            <img class="img-thumbnail" alt="" src="img/default_avatar.jpg" />
                                             <%}%>
                                         </div>
                                         <div class="col-md-9">
