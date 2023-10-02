@@ -116,8 +116,8 @@
                     <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.3s">
                         <h6 class="section-title bg-white text-start text-primary pe-3">About Us</h6>
                         <h1 class="mb-4">Welcome to Happy Programming</h1>
-                        <p class="mb-4">Tempor erat elitr rebum at clita. Diam dolor diam ipsum sit. Aliqu diam amet diam et eos. Clita erat ipsum et lorem et sit.</p>
-                        <p class="mb-4">Tempor erat elitr rebum at clita. Diam dolor diam ipsum sit. Aliqu diam amet diam et eos. Clita erat ipsum et lorem et sit, sed stet lorem sit clita duo justo magna dolore erat amet</p>
+                        <p class="mb-4">Our website allows mentors, mentees to connect with each others online</p>
+                        <p class="mb-4">Our website also allows mentors to support mentees to learn programming</p>
                         <div class="row gy-2 gx-4 mb-4">
                             <div class="col-sm-6">
                                 <p class="mb-0"><i class="fa fa-arrow-right text-primary me-2"></i>Skilled Mentors</p>
@@ -149,7 +149,7 @@
                                     <img class="img-fluid" src="img/cat-1.jpg" alt="">
                                     <div class="bg-white text-center position-absolute bottom-0 end-0 py-2 px-3" style="margin: 1px;">
                                         <h5 class="m-0">Web Design</h5>
-                                        <small class="text-primary">49 Courses</small>
+                                        <small class="text-primary">49 Mentors</small>
                                     </div>
                                 </a>
                             </div>
@@ -158,7 +158,7 @@
                                     <img class="img-fluid" src="img/cat-2.jpg" alt="">
                                     <div class="bg-white text-center position-absolute bottom-0 end-0 py-2 px-3" style="margin: 1px;">
                                         <h5 class="m-0">Graphic Design</h5>
-                                        <small class="text-primary">49 Courses</small>
+                                        <small class="text-primary">49 Mentors</small>
                                     </div>
                                 </a>
                             </div>
@@ -167,7 +167,7 @@
                                     <img class="img-fluid" src="img/cat-3.jpg" alt="">
                                     <div class="bg-white text-center position-absolute bottom-0 end-0 py-2 px-3" style="margin: 1px;">
                                         <h5 class="m-0">Video Editing</h5>
-                                        <small class="text-primary">49 Courses</small>
+                                        <small class="text-primary">49 Mentors</small>
                                     </div>
                                 </a>
                             </div>
@@ -178,119 +178,20 @@
                             <img class="img-fluid position-absolute w-100 h-100" src="img/cat-4.jpg" alt="" style="object-fit: cover;">
                             <div class="bg-white text-center position-absolute bottom-0 end-0 py-2 px-3" style="margin:  1px;">
                                 <h5 class="m-0">Online Marketing</h5>
-                                <small class="text-primary">49 Courses</small>
+                                <small class="text-primary">49 Mentors</small>
                             </div>
                         </a>
                     </div>
                 </div>
             </div>
         </div>
-        <!-- Categories Start -->
-
-
-        <!-- Courses Start -->
-        <div class="container-xxl py-5">
-            <div class="container">
-                <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
-                    <h6 class="section-title bg-white text-center text-primary px-3">Courses</h6>
-                    <h1 class="mb-5">Popular Courses</h1>
-                </div>
-                <div class="row g-4 justify-content-center">
-                    <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
-                        <div class="course-item bg-light">
-                            <div class="position-relative overflow-hidden">
-                                <img class="img-fluid" src="img/course-1.jpg" alt="">
-                                <div class="w-100 d-flex justify-content-center position-absolute bottom-0 start-0 mb-4">
-                                    <a href="#" class="flex-shrink-0 btn btn-sm btn-primary px-3 border-end" style="border-radius: 30px 0 0 30px;">Read More</a>
-                                    <a href="#" class="flex-shrink-0 btn btn-sm btn-primary px-3" style="border-radius: 0 30px 30px 0;">Join Now</a>
-                                </div>
-                            </div>
-                            <div class="text-center p-4 pb-0">
-                                <h3 class="mb-0">$149.00</h3>
-                                <div class="mb-3">
-                                    <small class="fa fa-star text-primary"></small>
-                                    <small class="fa fa-star text-primary"></small>
-                                    <small class="fa fa-star text-primary"></small>
-                                    <small class="fa fa-star text-primary"></small>
-                                    <small class="fa fa-star text-primary"></small>
-                                    <small>(123)</small>
-                                </div>
-                                <h5 class="mb-4">Web Design & Development Course for Beginners</h5>
-                            </div>
-                            <div class="d-flex border-top">
-                                <small class="flex-fill text-center border-end py-2"><i class="fa fa-user-tie text-primary me-2"></i>John Doe</small>
-                                <small class="flex-fill text-center border-end py-2"><i class="fa fa-clock text-primary me-2"></i>1.49 Hrs</small>
-                                <small class="flex-fill text-center py-2"><i class="fa fa-user text-primary me-2"></i>30 Students</small>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.3s">
-                        <div class="course-item bg-light">
-                            <div class="position-relative overflow-hidden">
-                                <img class="img-fluid" src="img/course-2.jpg" alt="">
-                                <div class="w-100 d-flex justify-content-center position-absolute bottom-0 start-0 mb-4">
-                                    <a href="#" class="flex-shrink-0 btn btn-sm btn-primary px-3 border-end" style="border-radius: 30px 0 0 30px;">Read More</a>
-                                    <a href="#" class="flex-shrink-0 btn btn-sm btn-primary px-3" style="border-radius: 0 30px 30px 0;">Join Now</a>
-                                </div>
-                            </div>
-                            <div class="text-center p-4 pb-0">
-                                <h3 class="mb-0">$149.00</h3>
-                                <div class="mb-3">
-                                    <small class="fa fa-star text-primary"></small>
-                                    <small class="fa fa-star text-primary"></small>
-                                    <small class="fa fa-star text-primary"></small>
-                                    <small class="fa fa-star text-primary"></small>
-                                    <small class="fa fa-star text-primary"></small>
-                                    <small>(123)</small>
-                                </div>
-                                <h5 class="mb-4">Web Design & Development Course for Beginners</h5>
-                            </div>
-                            <div class="d-flex border-top">
-                                <small class="flex-fill text-center border-end py-2"><i class="fa fa-user-tie text-primary me-2"></i>John Doe</small>
-                                <small class="flex-fill text-center border-end py-2"><i class="fa fa-clock text-primary me-2"></i>1.49 Hrs</small>
-                                <small class="flex-fill text-center py-2"><i class="fa fa-user text-primary me-2"></i>30 Students</small>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.5s">
-                        <div class="course-item bg-light">
-                            <div class="position-relative overflow-hidden">
-                                <img class="img-fluid" src="img/course-3.jpg" alt="">
-                                <div class="w-100 d-flex justify-content-center position-absolute bottom-0 start-0 mb-4">
-                                    <a href="#" class="flex-shrink-0 btn btn-sm btn-primary px-3 border-end" style="border-radius: 30px 0 0 30px;">Read More</a>
-                                    <a href="#" class="flex-shrink-0 btn btn-sm btn-primary px-3" style="border-radius: 0 30px 30px 0;">Join Now</a>
-                                </div>
-                            </div>
-                            <div class="text-center p-4 pb-0">
-                                <h3 class="mb-0">$149.00</h3>
-                                <div class="mb-3">
-                                    <small class="fa fa-star text-primary"></small>
-                                    <small class="fa fa-star text-primary"></small>
-                                    <small class="fa fa-star text-primary"></small>
-                                    <small class="fa fa-star text-primary"></small>
-                                    <small class="fa fa-star text-primary"></small>
-                                    <small>(123)</small>
-                                </div>
-                                <h5 class="mb-4">Web Design & Development Course for Beginners</h5>
-                            </div>
-                            <div class="d-flex border-top">
-                                <small class="flex-fill text-center border-end py-2"><i class="fa fa-user-tie text-primary me-2"></i>John Doe</small>
-                                <small class="flex-fill text-center border-end py-2"><i class="fa fa-clock text-primary me-2"></i>1.49 Hrs</small>
-                                <small class="flex-fill text-center py-2"><i class="fa fa-user text-primary me-2"></i>30 Students</small>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- Courses End -->
-
+        <!-- Categories End -->
 
         <!-- Team Start -->
         <div class="container-xxl py-5">
             <div class="container">
                 <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
-                    <h6 class="section-title bg-white text-center text-primary px-3">Instructors</h6>
+                    <h6 class="section-title bg-white text-center text-primary px-3">Mentors</h6>
                     <h1 class="mb-5">Expert Mentors</h1>
                 </div>
                 <div class="row g-4">
@@ -375,62 +276,11 @@
         <div class="container-fluid bg-dark text-light footer pt-5 mt-5 wow fadeIn" data-wow-delay="0.1s">
             <div class="container py-5">
                 <div class="row g-5">
-                    <div class="col-lg-3 col-md-6">
-                        <h4 class="text-white mb-3">Quick Link</h4>
-                        <a class="btn btn-link" href="">About Us</a>
-                        <a class="btn btn-link" href="">Contact Us</a>
-                        <a class="btn btn-link" href="">Privacy Policy</a>
-                        <a class="btn btn-link" href="">Terms & Condition</a>
-                        <a class="btn btn-link" href="">FAQs & Help</a>
-                    </div>
-                    <div class="col-lg-3 col-md-6">
+                    <div class="col-lg-6 col-md-6">
                         <h4 class="text-white mb-3">Contact</h4>
                         <p class="mb-2"><i class="fa fa-map-marker-alt me-3"></i>123 Street, Ha Noi, Viet Nam</p>
                         <p class="mb-2"><i class="fa fa-phone-alt me-3"></i>+012 345 67890</p>
                         <p class="mb-2"><i class="fa fa-envelope me-3"></i>happyprogramming551@gmail.com</p>
-                    </div>
-                    <div class="col-lg-3 col-md-6">
-                        <h4 class="text-white mb-3">Gallery</h4>
-                        <div class="row g-2 pt-2">
-                            <div class="col-4">
-                                <img class="img-fluid bg-light p-1" src="img/course-1.jpg" alt="">
-                            </div>
-                            <div class="col-4">
-                                <img class="img-fluid bg-light p-1" src="img/course-2.jpg" alt="">
-                            </div>
-                            <div class="col-4">
-                                <img class="img-fluid bg-light p-1" src="img/course-3.jpg" alt="">
-                            </div>
-                            <div class="col-4">
-                                <img class="img-fluid bg-light p-1" src="img/course-2.jpg" alt="">
-                            </div>
-                            <div class="col-4">
-                                <img class="img-fluid bg-light p-1" src="img/course-3.jpg" alt="">
-                            </div>
-                            <div class="col-4">
-                                <img class="img-fluid bg-light p-1" src="img/course-1.jpg" alt="">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="container">
-                <div class="copyright">
-                    <div class="row">
-                        <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
-                            &copy; <a class="border-bottom" href="#">Your Site Name</a>, All Right Reserved.
-
-                            <!--/*** This template is free as long as you keep the footer author’s credit link/attribution link/backlink. If you'd like to use the template without the footer author’s credit link/attribution link/backlink, you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". Thank you for your support. ***/-->
-                            Designed By <a class="border-bottom" href="https://htmlcodex.com">HTML Codex</a>
-                        </div>
-                        <div class="col-md-6 text-center text-md-end">
-                            <div class="footer-menu">
-                                <a href="">Home</a>
-                                <a href="">Cookies</a>
-                                <a href="">Help</a>
-                                <a href="">FQAs</a>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
