@@ -31,28 +31,29 @@ public class NewPassword extends HttpServlet {
 		String newPassword = request.getParameter("password");
 		String confPassword = request.getParameter("confPassword");
 		RequestDispatcher dispatcher = null;
+        UserDAO ud = new UserDAO();
+        
+        
+		String passwordPattern = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@#$%^&+=]).*$";
+
 		if (newPassword != null && confPassword != null && newPassword.equals(confPassword)) {
-
-			try {
-				Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-				Connection con = DriverManager.getConnection("jdbc:sqlserver://LAPTOP-HOANG:1433;databaseName=SWP391;", "sa",
-						"hoang11");
-				PreparedStatement pst = con.prepareStatement("update users set password = ? where email = ? ");
-				pst.setString(1, newPassword);
-				pst.setString(2, (String) session.getAttribute("email"));
-
-				int rowCount = pst.executeUpdate();
-				if (rowCount > 0) {
+			
+			if (newPassword.matches(passwordPattern)) {
+				String email = (String) session.getAttribute("email");
+				boolean passwordUpdated = ud.updatePassword(email, newPassword);
+				if (passwordUpdated) {
 					request.setAttribute("status", "resetSuccess");
 					dispatcher = request.getRequestDispatcher("Login.jsp");
 				} else {
 					request.setAttribute("status", "resetFailed");
 					dispatcher = request.getRequestDispatcher("Login.jsp");
 				}
-				dispatcher.forward(request, response);
-			} catch (Exception e) {
-				e.printStackTrace();
+			} else {
+				
+				request.setAttribute("status", "invalidPassword");
+				dispatcher = request.getRequestDispatcher("newPassword.jsp");
 			}
+			dispatcher.forward(request, response);
 		}
 	}
 

@@ -55,7 +55,7 @@ protected void doGet(HttpServletRequest request, HttpServletResponse response)
     String confirmPass = request.getParameter("rpass");
     
     UserDAO db = new UserDAO();
-    User u = db.check();
+    User u = db.getUser(username);
     
     // Define a regular expression pattern to enforce password requirements
     String passwordPattern = "^(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!])(?=.*\\d).*";
@@ -73,7 +73,7 @@ protected void doGet(HttpServletRequest request, HttpServletResponse response)
         request.setAttribute("ms", ms);
         request.getRequestDispatcher("change.jsp").forward(request, response);
     } else {
-        User us = new User(username, p, u.isIsAuthorized());
+        User us = new User(username, p);
         db.change(us);
         HttpSession session = request.getSession();
         session.setAttribute("user", us);

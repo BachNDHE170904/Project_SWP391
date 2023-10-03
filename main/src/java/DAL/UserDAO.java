@@ -172,4 +172,48 @@ public class UserDAO extends BaseDAO<User> {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    public void change(User u){
+        String sql = "update Users set password=? where username=?";
+        try {
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setString(1, u.getPass());
+            stm.setString(2, u.getUsername());
+            stm.executeUpdate();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
+    
+    public boolean isEmailAssociated(String email) {
+        String sql = "SELECT COUNT(*) FROM Users WHERE email = ?";
+        try {
+            
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setString(1, email);
+            ResultSet rs = statement.executeQuery();
+            
+            if (rs.next()) {
+                int count = rs.getInt(1);
+                return count > 0; // If count > 0, the email is associated with at least one user.
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false; // If there was an error or the email is not associated with any user.
+    }
+    
+    public boolean updatePassword(String email, String newPassword) {
+        String sql = "update users set password = ? where email = ?";
+        try {
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setString(1, newPassword);
+            stm.setString(2, email);
+            int rowCount = stm.executeUpdate();
+            connection.close();
+            return rowCount > 0;
+        } catch (SQLException e) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, e);
+            return false;
+        }
+    }
 }
