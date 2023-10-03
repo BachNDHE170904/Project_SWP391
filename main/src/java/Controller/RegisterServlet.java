@@ -44,28 +44,36 @@ public class RegisterServlet extends HttpServlet {
         String genderStr = request.getParameter("gender");
         String address = request.getParameter("address");
         boolean gender;
+        String ms;
         if (genderStr.compareToIgnoreCase("Male") == 0) {
             gender = true;
         } else {
             gender = false;
         }
         UserDAO db = new UserDAO();
-        User user = db.getUser(email,password);
-        if (user == null) // No account found
+        User user = db.getUserByEmailOnly(email);
+        User userByName = db.getUserByUserName(username);
+        if (user == null && userByName == null) // No account found
         {
             User u = new User(username, password, email, false);
             db.insertUser(u);
-            u = db.getUser(email,password);
+            u = db.getUser(email, password);
             int userId = u.getUserId();
-            UserDetails ud = new UserDetails(phone, fullname, address, dob, gender, 4, username, password, userId, false);//4 means  role is User by default
+            UserDetails ud = new UserDetails(phone, fullname, address, dob, gender, 4, username, password, email, userId, false);//4 means  role is User by default
             db.insertUserDetails(ud);
             request.getRequestDispatcher("Login.jsp").forward(request, response);
+        } else if (userByName != null) {
+            ms = "Username is already taken";
+            request.setAttribute("ms", ms);
+            request.getRequestDispatcher("Register.jsp").forward(request, response);
         } else //Account already existed
         {
-            request.setAttribute("failedRegister", "fail");
+            ms = "Account already existed";
+            request.setAttribute("ms", ms);
             request.getRequestDispatcher("Register.jsp").forward(request, response);
         }
     }
+
     /**
      * Returns a short description of the servlet.
      *

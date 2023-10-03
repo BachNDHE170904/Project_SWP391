@@ -1,4 +1,5 @@
 
+<%@page import="DAL.UserDAO"%>
 <%@page import="model.SendEmail"%>
 <!DOCTYPE html>
 <!--
@@ -80,11 +81,11 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                                     const password = passwordInput.value;
 
                                     // Define the regular expression pattern for password validation
-                                    const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
+                                    const passwordPattern = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
 
                                     // Check if the password matches the pattern
                                     if (!passwordPattern.test(password)) {
-                                        alert("Password must contain at least one lowercase letter, one uppercase letter, one digit, and be at least 8 characters long.");
+                                        alert("Password must contain at least eight characters, at least one letter, one number and one special character.");
                                         event.target.value = "";
                                     }
                                 });
@@ -181,7 +182,8 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                     </div>
                 </div>
                 <!-- Button trigger modal -->
-                <button type="button" class="signup_link" onclick="CheckOtp(); return false;" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                <button type="button" class="signup_link" onclick="CheckOtp();
+                        return false;" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
                     Sign Up
                 </button>
                 <%
@@ -205,16 +207,14 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                 </script>
                 <%
                     // Server-side code to handle failed registration attempt
-                    String failedRegister = (String) request.getAttribute("failedRegister");
-                    if (failedRegister != null) {
-                        if (failedRegister.equalsIgnoreCase("fail")) {
+                    String message = (String) request.getAttribute("ms");
+                    if (message != null) {
                 %> 
                 <!-- Display error message for failed registration -->
                 <div class="WrongRegister">
-                    <p>Account already existed, please choose another email</p>
+                    <p><%= message%></p>
                 </div>
                 <%
-                        }
                     }
                 %>
             </div>

@@ -33,8 +33,9 @@
                             <%= acc.getUsername()%>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end">
-                            <% if (acc != null) { %>
+                            <% if (acc != null) {%>
                             <li><a class="dropdown-item" href="ViewUserProfile.jsp">View my Profile</a></li>
+                            <li><a class="dropdown-item" href="change.jsp?email=<%= acc.getEmail()%>">Change Password</a></li>
                                 <%}%>
                             <li><hr class="dropdown-divider"></li>
                             <li><a class="dropdown-item" href="LogOutServlet">Log Out</a></li>
@@ -43,7 +44,7 @@
                     <%
                     } else {
                     %>
-                    <ul class="navbar-nav">
+                    <ul class="navbar-nav ms-auto">
                         <li class="nav-item">
                             <a class="nav-link active" aria-current="page" href="Login.jsp">Login</a>
                         </li>
@@ -84,7 +85,7 @@
                                             %>
                                             <img class="img-thumbnail" alt="" src="<%=avatarLink%>" />
                                             <% } else {%>
-                                            <img class="img-thumbnail" alt="" src="images/default_avatar.jpg" />
+                                            <img class="img-thumbnail" alt="" src="img/default_avatar.jpg" />
                                             <%}%>
                                         </div>
                                         <div class="col-md-9">

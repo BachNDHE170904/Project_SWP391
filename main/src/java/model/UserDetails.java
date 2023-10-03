@@ -38,16 +38,8 @@ public class UserDetails extends User{
         this.sex = sex;
         this.roleId = roleId;
     }
-
-    public UserDetails(String phone, String fullname, String address, Date dob, boolean sex, int roleId, String username, String pass, int userId, boolean isAuthorized) {
-        super(username, pass, userId, isAuthorized);
-        this.phone = phone;
-        this.fullname = fullname;
-        this.address = address;
-        this.dob = dob;
-        this.sex = sex;
-        this.roleId = roleId;
-    }
+    
+    
     
     public String getPhone() {
         return phone;

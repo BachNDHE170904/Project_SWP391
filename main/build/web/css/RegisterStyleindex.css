@@ -13,7 +13,6 @@
     padding: 0 0 20px 0;
     border-bottom: 1px solid silver;
 }
-
 form .txt_field{
     position: relative;
     border-bottom: 2px solid #adadad; 
@@ -92,6 +91,7 @@ form .date_field{
     cursor: pointer;
     outline: none;
 }
+
 .WrongRegister {
     margin: 30px 0;
     text-align: left;
