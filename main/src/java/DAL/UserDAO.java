@@ -40,7 +40,7 @@ public class UserDAO extends BaseDAO<User> {
         return users;
     }
 
-    public User getUser(String email,String pass) {
+    public User getUser(String email, String pass) {
         try {
             String sql = "SELECT * FROM Users s\n"
                     + "WHERE s.email = ? and s.password = ? ";
@@ -63,7 +63,7 @@ public class UserDAO extends BaseDAO<User> {
         }
         return null;
     }
-    
+
     public User getUserByUserName(String username) {
         try {
             String sql = "SELECT * FROM Users s\n"
@@ -86,7 +86,7 @@ public class UserDAO extends BaseDAO<User> {
         }
         return null;
     }
-    
+
     public User getUserByEmailOnly(String email) {
         try {
             String sql = "SELECT * FROM Users s\n"
@@ -109,7 +109,8 @@ public class UserDAO extends BaseDAO<User> {
         }
         return null;
     }
-    public void change(String email,String newPassword){
+
+    public void change(String email, String newPassword) {
         String sql = "update Users set password=? where email=?";
         try {
             PreparedStatement stm = connection.prepareStatement(sql);
@@ -120,7 +121,6 @@ public class UserDAO extends BaseDAO<User> {
             System.out.println(e);
         }
     }
-   
     public String getUserAvatar(int userId) {
         try {
             String sql = "SELECT * FROM UserAvatar s\n"
@@ -129,7 +129,7 @@ public class UserDAO extends BaseDAO<User> {
             statement.setInt(1, userId);
             ResultSet rs = statement.executeQuery();
             if (rs.next()) {
-                String avatarLink=rs.getString("avatarLink");
+                String avatarLink = rs.getString("avatarLink");
                 return avatarLink;
             }
 
@@ -138,6 +138,7 @@ public class UserDAO extends BaseDAO<User> {
         }
         return null;
     }
+
     public UserDetails getUserDetails(String email) {
         try {
             String sql = "SELECT * FROM UserDetail,Users \n"
@@ -166,9 +167,10 @@ public class UserDAO extends BaseDAO<User> {
         }
         return null;
     }
+
     public void insertUser(User us) {
         try {
-            String sql ="insert into Users(email,username,password,userAuthorization) values(?,?,?,?)\n;";
+            String sql = "insert into Users(email,username,password,userAuthorization) values(?,?,?,?)\n;";
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setString(1, us.getEmail());
             statement.setString(2, us.getUsername());
@@ -179,6 +181,7 @@ public class UserDAO extends BaseDAO<User> {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
     public void insertUserDetails(UserDetails us) {
         try {
             String sql = "insert into UserDetail(userId,username,phone,fullname,dob,gender,userAddress,roleId) values(?,?,?,?,?,?,?,?)";
