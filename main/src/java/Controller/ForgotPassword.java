@@ -19,7 +19,6 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import model.User;
 
 /**
  * Servlet implementation class ForgotPassword
@@ -33,8 +32,8 @@ public class ForgotPassword extends HttpServlet {
 		int otpvalue = 0;
 		HttpSession mySession = request.getSession();
 		UserDAO ud = new UserDAO();
-                boolean u =ud.isEmailAssociated(email);
-        
+                boolean isEmailAsscociated = ud.isEmailAssociated(email);
+                if(isEmailAsscociated) {
                     if(email!=null || !email.equals("")) {
 			// sending otp
 			Random rand = new Random();
@@ -50,7 +49,7 @@ public class ForgotPassword extends HttpServlet {
 			props.put("mail.smtp.port", "465");
 			Session session = Session.getDefaultInstance(props, new javax.mail.Authenticator() {
 				protected PasswordAuthentication getPasswordAuthentication() {
-					return new PasswordAuthentication("happyprogramming551@gmail.com", "lznv wgsd rbhg kbjt");// Put your email
+					return new PasswordAuthentication("happyprogramming551@gmail.com", "sbxo efgy jioa tllq");// Put your email
 															// id and
 															// password here
 				}
@@ -78,5 +77,8 @@ public class ForgotPassword extends HttpServlet {
 			dispatcher.forward(request, response);
 			request.setAttribute("status", "success");
                     }
+		
                 }
+        }
+
 }
