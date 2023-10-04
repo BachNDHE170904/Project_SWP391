@@ -4,6 +4,7 @@
  */
 package Controller;
 
+import DAL.UserDAO;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -22,39 +23,39 @@ import jakarta.servlet.http.HttpSession;
  */
 @WebServlet("/newPassword")
 public class NewPassword extends HttpServlet {
-	private static final long serialVersionUID = 1L;
 
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+    private static final long serialVersionUID = 1L;
 
-		HttpSession session = request.getSession();
-		String newPassword = request.getParameter("password");
-		String confPassword = request.getParameter("confPassword");
-		RequestDispatcher dispatcher = null;
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+        HttpSession session = request.getSession();
+        String newPassword = request.getParameter("password");
+        String confPassword = request.getParameter("confPassword");
+        RequestDispatcher dispatcher = null;
         UserDAO ud = new UserDAO();
-        
-        
-		String passwordPattern = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@#$%^&+=]).*$";
 
-		if (newPassword != null && confPassword != null && newPassword.equals(confPassword)) {
-			
-			if (newPassword.matches(passwordPattern)) {
-				String email = (String) session.getAttribute("email");
-				boolean passwordUpdated = ud.updatePassword(email, newPassword);
-				if (passwordUpdated) {
-					request.setAttribute("status", "resetSuccess");
-					dispatcher = request.getRequestDispatcher("Login.jsp");
-				} else {
-					request.setAttribute("status", "resetFailed");
-					dispatcher = request.getRequestDispatcher("Login.jsp");
-				}
-			} else {
-				
-				request.setAttribute("status", "invalidPassword");
-				dispatcher = request.getRequestDispatcher("newPassword.jsp");
-			}
-			dispatcher.forward(request, response);
-		}
-	}
+        String passwordPattern = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@#$%^&+=]).*$";
+
+        if (newPassword != null && confPassword != null && newPassword.equals(confPassword)) {
+
+            if (newPassword.matches(passwordPattern)) {
+                String email = (String) session.getAttribute("email");
+                boolean passwordUpdated = ud.updatePassword(email, newPassword);
+                if (passwordUpdated) {
+                    request.setAttribute("status", "resetSuccess");
+                    dispatcher = request.getRequestDispatcher("Login.jsp");
+                } else {
+                    request.setAttribute("status", "resetFailed");
+                    dispatcher = request.getRequestDispatcher("Login.jsp");
+                }
+            } else {
+
+                request.setAttribute("status", "invalidPassword");
+                dispatcher = request.getRequestDispatcher("newPassword.jsp");
+            }
+            dispatcher.forward(request, response);
+        }
+    }
 
 }
