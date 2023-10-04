@@ -4,11 +4,12 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/C:/Users/ADMIN/Downloads/Documents/Project_SWP391/main/web/ViewUserProfile.jsp</file>
-<<<<<<< HEAD
-            <file>file:/C:/Users/ADMIN/Downloads/Documents/Project_SWP391/main/src/java/DAL/UserDAO.java</file>
-=======
->>>>>>> main
+            <file>file:/C:/Users/ADMIN/Downloads/Documents/Project_SWP391/main/src/java/Controller/ForgotPassword.java</file>
+            <file>file:/C:/Users/ADMIN/Downloads/Documents/Project_SWP391/main/web/change.jsp</file>
+            <file>file:/C:/Users/ADMIN/Downloads/Documents/Project_SWP391/main/web/forgotPassword.jsp</file>
             <file>file:/C:/Users/ADMIN/Downloads/Documents/Project_SWP391/main/web/Register.jsp</file>
+            <file>file:/C:/Users/ADMIN/Downloads/Documents/Project_SWP391/main/web/WelcomePage.jsp</file>
+            <file>file:/C:/Users/ADMIN/Downloads/Documents/Project_SWP391/main/web/css/WelcomePageStyleIndex.css</file>
         </group>
     </open-files>
 </project-private>

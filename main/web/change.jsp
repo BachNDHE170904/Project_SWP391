@@ -33,7 +33,7 @@
                 background-color: #fff;
                 border: 1px solid #ccc;
                 padding: 20px;
-                max-width: 400px;
+                max-width: 50%;
                 margin: 0 auto;
             }
 
@@ -118,7 +118,7 @@
                         <h3 class="mb-0">Change Password</h3>
                     </div>
                     <div class="card-body">
-                        <form class="form" role="form" autocomplete="off">
+                        <div class="form" role="form" autocomplete="off">
                             <div class="form-group">
                                 <label for="inputPasswordOld">Current Password</label>
                                 <input type="password" class="form-control" id="inputPasswordOld" required="">
@@ -140,9 +140,10 @@
                             <div class="form-group">
                                 <button type="submit" class="btn btn-success btn-lg float-right">Save</button>
                             </div>
-                        </form>
+                        </div>
                     </div>
                 </div>
+            </div>
         </form>
         <%
             // Server-side code to handle failed registration attempt
