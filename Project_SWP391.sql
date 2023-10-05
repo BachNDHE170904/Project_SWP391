@@ -18,7 +18,7 @@ insert into Roles(roleName)values('Admin');
 CREATE TABLE Users (
    userId   INT    NOT NULL identity(1,1),
    email NVARCHAR (50)  Unique   NOT NULL,
-   username NVARCHAR (50)  Unique   NOT NULL,
+   username NVARCHAR (50) Unique  NOT NULL,
    password NVARCHAR (50)     NOT NULL,
    userAuthorization bit  NOT NULL,
    PRIMARY KEY (userId),
@@ -36,6 +36,8 @@ CREATE TABLE Gender (
    genderName NVARCHAR (50)     NOT NULL,
    PRIMARY KEY (gender),
 );
+insert into Gender(gender,genderName) values(0,'Female')
+insert into Gender(gender,genderName) values(1,'Male')
 
 CREATE TABLE UserDetail (
    userId   INT  Unique  NOT NULL,
@@ -61,10 +63,6 @@ CREATE TABLE SkillStatus (
 CREATE TABLE Skills (
    skillId   INT    NOT NULL identity(1,1),
    skillName NVARCHAR (50)     NOT NULL,
-   PRIMARY KEY (skillId),
-);
-
-=======
    skillStatusId INT NOT NULL,
    PRIMARY KEY (skillId),
    FOREIGN KEY (skillStatusId) REFERENCES SkillStatus(skillStatusId),
@@ -79,7 +77,6 @@ CREATE TABLE LanguageStatus (
 CREATE TABLE ProgrammingLanguage (
    languageId   INT    NOT NULL identity(1,1),
    languageName NVARCHAR (50)     NOT NULL,
-   PRIMARY KEY (languageId),
    languageStatusId INT NOT NULL,
    PRIMARY KEY (languageId),
    FOREIGN KEY (languageStatusId) REFERENCES LanguageStatus(languageStatusId),
@@ -158,7 +155,7 @@ CREATE TABLE requestSkillsChoices (
    FOREIGN KEY (requestId) REFERENCES RequestDetail(requestId),
    FOREIGN KEY (languageId) REFERENCES ProgrammingLanguage(languageId),
 );
- 
+
 CREATE TABLE Comment (
    commentId   int NOT NULL identity(1,1),
    commentDetail NVARCHAR (200)     NOT NULL,

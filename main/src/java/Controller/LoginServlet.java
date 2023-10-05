@@ -32,20 +32,12 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String username = request.getParameter("username");
-        String password = request.getParameter("password");
-        String rememberPass = request.getParameter("rememberPass");
-        UserDAO db = new UserDAO();
-        User user = db.getUser(username);
-        if (rememberPass != null && rememberPass.equals("true"))//remember pass
-        {
-            Cookie c_user = new Cookie("username", user.getUsername());
         String email = request.getParameter("email");
-        String pass=request.getParameter("password");
+        String pass = request.getParameter("password");
         String rememberPass = request.getParameter("rememberPass");
         UserDAO db = new UserDAO();
-        User user = db.getUser(email,pass);
-        UserDetails details=db.getUserDetails(email);
+        User user = db.getUser(email, pass);
+        UserDetails details = db.getUserDetails(email);
         if (rememberPass != null && rememberPass.equals("true"))//remember pass
         {
             Cookie c_user = new Cookie("email", user.getEmail());
