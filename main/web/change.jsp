@@ -10,6 +10,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Change Password</title>
+        <link rel="stylesheet" href="alert/dist/sweetalert.css">
         <style>
         body {
             font-family: Arial, sans-serif;
@@ -58,9 +59,9 @@
     </style>
     </head>
     <body>
-        <input type="hidden" id="status" value="<%=request.getAttribute("status")%>}"/>
         <h1>Change password</h1>
         <h3 style="color:red">${sessionScope.ms}</h3>
+        <input type="hidden" id="status" value="<%=request.getAttribute("status")%>}"/>
         <form action="change" method="GET">
             <div class="col-md-6 offset-md-3">
                 <span class="anchor" id="formChangePassword"></span>
@@ -99,12 +100,14 @@
                 </div>
         </form>
     </body>
-    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-	<link rel="stylesheet" href="alert/dist/sweetalert.css">
-    <script type="text/javascript">
-        var status = document.getElementById(status).value;
-        if(status==="success"){
-            swal("Congrats","Change password succesfully", "success");
-        }
-    </script>
+    <!-- import thư viện sweetalert -->
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+<script>
+    var status = document.getElementById("status").value;
+    
+    if(status === "success"){
+       swal("Good job!", "Change password successfully", "success");
+    } 
+  </script>
 </html>

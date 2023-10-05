@@ -10,6 +10,8 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Welcome Page</title>
+        <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+        <link rel="stylesheet" href="alert/dist/sweetalert.css">
         <link rel="stylesheet" href="css/WelcomePageStyleIndex.css">
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
     </head>
@@ -18,6 +20,13 @@
             //check if the user is logged in or not
             User acc = (User) session.getAttribute("user");
         %>
+        <% String msg=(String)session.getAttribute("successMsg"); if(msg !=null){ %>
+        
+            <script>
+                swal("Good job!", "<%= msg %>", "success");    
+            </script>
+        
+            <% session.removeAttribute("successMsg"); } %>
         <nav class="navbar navbar-expand-md bg-body-tertiary ">
             <div class="container-fluid">
                 <a class="navbar-brand" href="WelcomePage.jsp">Happy Programming</a>
