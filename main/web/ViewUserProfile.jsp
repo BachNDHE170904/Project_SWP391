@@ -81,7 +81,7 @@
                                         <div class="col-md-3">
                                             <%
                                                 String avatarLink = db.getUserAvatar(acc.getUserId());
-                                                if (avatarLink != null) {
+                                                if (avatarLink.isEmpty()) {
                                             %>
                                             <img class="img-thumbnail" alt="" src="<%=avatarLink%>" />
                                             <% } else {%>
