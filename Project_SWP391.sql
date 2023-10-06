@@ -55,11 +55,12 @@ CREATE TABLE UserDetail (
 );
 
 CREATE TABLE SkillStatus (
-   skillStatusId   INT    NOT NULL identity(1,1),
+   skillStatusId   INT    NOT NULL identity(0,1),
    skillStatus NVARCHAR (50)     NOT NULL,
    PRIMARY KEY (skillStatusId),
 );
-
+insert into SkillStatus(skillStatus) values('inactive')
+insert into SkillStatus(skillStatus) values('active')
 CREATE TABLE Skills (
    skillId   INT    NOT NULL identity(1,1),
    skillName NVARCHAR (50)     NOT NULL,
