@@ -77,7 +77,7 @@ protected void doGet(HttpServletRequest request, HttpServletResponse response)
         User us=db.getUserByUserName(username);
         HttpSession session = request.getSession();
         session.setAttribute("user", us);
-        request.setAttribute("status", "success");
+        session.setAttribute("successMsg", "Change password successfully!");
         response.sendRedirect("WelcomePage.jsp");
     }
 }
