@@ -10,6 +10,8 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Welcome Page</title>
+        <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+        <link rel="stylesheet" href="alert/dist/sweetalert.css">
         <link rel="stylesheet" href="css/WelcomePageStyleIndex.css">
         <!-- Google Web Fonts -->
         <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -34,6 +36,15 @@
             //check if the user is logged in or not
             User acc = (User) session.getAttribute("user");
         %>
+        <% String msg = (String) session.getAttribute("successMsg");
+            if (msg != null) {%>
+
+        <script>
+                swal("Good job!", "<%= msg%>", "success");
+        </script>
+
+        <% session.removeAttribute("successMsg");
+                } %>
         <nav class="navbar navbar-expand-md bg-body-tertiary ">
             <div class="container-fluid">
                 <a class="navbar-brand" href="WelcomePage.jsp">Happy Programming</a>

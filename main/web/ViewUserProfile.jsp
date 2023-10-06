@@ -20,13 +20,13 @@
         %>
         <nav class="navbar navbar-expand-md bg-body-tertiary ">
             <div class="container-fluid">
-                <a class="navbar-brand" href="WelcomePage.jsp">Happy Programming</a>
+                <%if (details.getRoleId() == 1) {%><a class="navbar-brand" href="AdminDashBoard.jsp">Happy Programming</a>
+                <%} else %><a class="navbar-brand" href="WelcomePage.jsp">Happy Programming</a>
                 <button class="navbar-toggler ms-auto" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse " id="navbarSupportedContent">
-                    <%
-                        if (acc != null) {
+                    <%if (acc != null) {
                     %>
                     <div class="nav-item dropdown ms-auto">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -81,11 +81,11 @@
                                         <div class="col-md-3">
                                             <%
                                                 String avatarLink = db.getUserAvatar(acc.getUserId());
-                                                if (avatarLink.isEmpty()) {
+                                                if (avatarLink == null || avatarLink.isEmpty()) {
                                             %>
-                                            <img class="img-thumbnail" alt="" src="<%=avatarLink%>" />
-                                            <% } else {%>
                                             <img class="img-thumbnail" alt="" src="img/default_avatar.jpg" />
+                                            <% } else {%>
+                                            <img class="img-thumbnail" alt="" src="<%=avatarLink%>" />
                                             <%}%>
                                         </div>
                                         <div class="col-md-9">
@@ -153,10 +153,10 @@
 
         </div>
 
-    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
-    <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.bundle.min.js"></script>
-</body>
+        <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
+        <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.bundle.min.js"></script>
+    </body>
 
 </html>

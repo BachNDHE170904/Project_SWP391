@@ -36,13 +36,15 @@
             //check if the user is logged in or not
             User acc = (User) session.getAttribute("user");
         %>
-        <% String msg=(String)session.getAttribute("successMsg"); if(msg !=null){ %>
-        
-            <script>
-                swal("Good job!", "<%= msg %>", "success");    
-            </script>
-        
-            <% session.removeAttribute("successMsg"); } %>
+        <% String msg = (String) session.getAttribute("successMsg");
+            if (msg != null) {%>
+
+        <script>
+                swal("Good job!", "<%= msg%>", "success");
+        </script>
+
+        <% session.removeAttribute("successMsg");
+                } %>
         <nav class="navbar navbar-expand-md bg-body-tertiary ">
             <div class="container-fluid">
                 <a class="navbar-brand" href="WelcomePage.jsp">Happy Programming</a>
