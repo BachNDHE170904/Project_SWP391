@@ -59,7 +59,7 @@ public class RegisterServlet extends HttpServlet {
             db.insertUser(u);
             u = db.getUser(email, password);
             int userId = u.getUserId();
-            UserDetails ud = new UserDetails(phone, fullname, address, dob, gender, 4, username, password, email, userId, false);//4 means  role is User by default
+            UserDetails ud = new UserDetails(phone, fullname, address, dob, gender, 2, username, password, email, userId, false);//2 means  role is User by default
             db.insertUserDetails(ud);
             request.getRequestDispatcher("Login.jsp").forward(request, response);
         } else if (userByName != null) {

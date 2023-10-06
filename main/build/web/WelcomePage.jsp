@@ -1,3 +1,4 @@
+<%@page import="DAL.UserDAO"%>
 <%@page import="java.util.Comparator"%>
 <%@page import="java.util.Collections"%>
 <%@page import="model.User"%>
@@ -10,6 +11,8 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Welcome Page</title>
+        <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+        <link rel="stylesheet" href="alert/dist/sweetalert.css">
         <link rel="stylesheet" href="css/WelcomePageStyleIndex.css">
         <!-- Google Web Fonts -->
         <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -33,7 +36,16 @@
         <%
             //check if the user is logged in or not
             User acc = (User) session.getAttribute("user");
-        %>
+            UserDAO db = new UserDAO();
+            String msg = (String) session.getAttribute("successMsg");
+            if (msg != null) {%>
+
+        <script>
+            swal("Good job!", "<%= msg%>", "success");
+        </script>
+
+        <% session.removeAttribute("successMsg");
+            } %>
         <nav class="navbar navbar-expand-md bg-body-tertiary ">
             <div class="container-fluid">
                 <a class="navbar-brand" href="WelcomePage.jsp">Happy Programming</a>
@@ -46,6 +58,14 @@
                     %>
                     <div class="nav-item dropdown ms-auto">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <%
+                                String avatarLink = db.getUserAvatar(acc.getUserId());
+                                if (avatarLink == null || avatarLink.isEmpty()) {
+                            %>
+                            <img class="rounded-circle" alt="" src="img/default_avatar.jpg" style="width: 40px; height: 40px;" />
+                            <% } else {%>
+                            <img class="rounded-circle" alt="" src="<%=avatarLink%>" style="width: 40px; height: 40px;" />
+                            <%}%>
                             <%= acc.getUsername()%>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end">
@@ -77,7 +97,7 @@
 
 
         <!-- Service Start -->
-        <div class="container-xxl py-5">
+        <div class="container-xxl py-4">
             <div class="container">
                 <div class="row g-4">
                     <div class="col-lg-6 col-sm-6 wow fadeInUp" data-wow-delay="0.1s">

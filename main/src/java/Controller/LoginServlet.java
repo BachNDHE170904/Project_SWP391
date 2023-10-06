@@ -38,6 +38,7 @@ public class LoginServlet extends HttpServlet {
         UserDAO db = new UserDAO();
         User user = db.getUser(email, pass);
         UserDetails details = db.getUserDetails(email);
+        HttpSession session = request.getSession();
         if (rememberPass != null && rememberPass.equals("true"))//remember pass
         {
             Cookie c_user = new Cookie("email", user.getEmail());
@@ -47,12 +48,15 @@ public class LoginServlet extends HttpServlet {
             response.addCookie(c_pass);
             response.addCookie(c_user);
         }
-        if (user != null)//login successfull
+        if (user != null && details.getRoleId() != 1)//login successfull and is not admin
         {
-            HttpSession session = request.getSession();
             session.setAttribute("user", user);
             session.setAttribute("userDetail", details);
             request.getRequestDispatcher("WelcomePage.jsp").forward(request, response);
+        } else if (user != null && details.getRoleId() == 1) {//login successfull and is admin
+            session.setAttribute("user", user);
+            session.setAttribute("userDetail", details);
+            request.getRequestDispatcher("AdminDashBoard.jsp").forward(request, response);
         } else //login fail
         {
             request.setAttribute("failedLogin", "fail");
