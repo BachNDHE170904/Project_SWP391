@@ -4,6 +4,7 @@
     Author     : admin
 --%>
 
+<%@page import="DAL.UserDAO"%>
 <%@page import="model.User"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -64,6 +65,7 @@
         <%
             //check if the user is logged in or not
             User acc = (User) session.getAttribute("user");
+            UserDAO db = new UserDAO();
         %>
         <nav class="navbar navbar-expand-md bg-body-tertiary ">
             <div class="container-fluid">
@@ -77,6 +79,14 @@
                     %>
                     <div class="nav-item dropdown ms-auto">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <%
+                                String avatarLink = db.getUserAvatar(acc.getUserId());
+                                if (avatarLink == null || avatarLink.isEmpty()) {
+                            %>
+                            <img class="rounded-circle" alt="" src="img/default_avatar.jpg" style="width: 40px; height: 40px;" />
+                            <% } else {%>
+                            <img class="rounded-circle" alt="" src="<%=avatarLink%>" style="width: 40px; height: 40px;" />
+                            <%}%>
                             <%= acc.getUsername()%>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end">
@@ -128,15 +138,15 @@
                                 <label for="inputPasswordNew">New Password</label>
                                 <input type="password" class="form-control" id="inputPasswordNew" required="">
                                 <span class="form-text small text-muted">
-                                        The password must be 8-20 characters, and must <em>not</em> contain spaces.
-                                    </span>
+                                    The password must be 8-20 characters, and must <em>not</em> contain spaces.
+                                </span>
                             </div>
                             <div class="form-group">
                                 <label for="inputPasswordNewVerify">Verify</label>
                                 <input type="password" class="form-control" id="inputPasswordNewVerify" required="">
                                 <span class="form-text small text-muted">
-                                        To confirm, type the new password again.
-                                    </span>
+                                    To confirm, type the new password again.
+                                </span>
                             </div>
                             <div class="form-group">
                                 <button type="submit" class="btn btn-success btn-lg float-right">Save</button>
@@ -156,5 +166,6 @@
         <%
             }
         %>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
     </body>
 </html>

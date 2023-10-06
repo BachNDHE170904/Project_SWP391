@@ -1,3 +1,4 @@
+<%@page import="DAL.UserDAO"%>
 <%@page import="java.util.Comparator"%>
 <%@page import="java.util.Collections"%>
 <%@page import="model.User"%>
@@ -35,16 +36,16 @@
         <%
             //check if the user is logged in or not
             User acc = (User) session.getAttribute("user");
-        %>
-        <% String msg = (String) session.getAttribute("successMsg");
+            UserDAO db = new UserDAO();
+            String msg = (String) session.getAttribute("successMsg");
             if (msg != null) {%>
 
         <script>
-                swal("Good job!", "<%= msg%>", "success");
+            swal("Good job!", "<%= msg%>", "success");
         </script>
 
         <% session.removeAttribute("successMsg");
-                } %>
+            } %>
         <nav class="navbar navbar-expand-md bg-body-tertiary ">
             <div class="container-fluid">
                 <a class="navbar-brand" href="WelcomePage.jsp">Happy Programming</a>
@@ -57,6 +58,14 @@
                     %>
                     <div class="nav-item dropdown ms-auto">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <%
+                                String avatarLink = db.getUserAvatar(acc.getUserId());
+                                if (avatarLink == null || avatarLink.isEmpty()) {
+                            %>
+                            <img class="rounded-circle" alt="" src="img/default_avatar.jpg" style="width: 40px; height: 40px;" />
+                            <% } else {%>
+                            <img class="rounded-circle" alt="" src="<%=avatarLink%>" style="width: 40px; height: 40px;" />
+                            <%}%>
                             <%= acc.getUsername()%>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end">
