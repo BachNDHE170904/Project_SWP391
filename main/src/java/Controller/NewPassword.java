@@ -35,7 +35,7 @@ public class NewPassword extends HttpServlet {
         RequestDispatcher dispatcher = null;
         UserDAO ud = new UserDAO();
 
-        String passwordPattern = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@#$%^&+=]).*$";
+        String passwordPattern = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]{8,}$";
 
         if (newPassword != null && confPassword != null && newPassword.equals(confPassword)) {
 
