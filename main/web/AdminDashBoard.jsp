@@ -41,7 +41,7 @@
             User acc = (User) session.getAttribute("user");
             UserDetails details = (UserDetails) session.getAttribute("userDetail");
             UserDAO db = new UserDAO();
-            if (details.getRoleId() == 1) {
+            if (acc!=null&&details.getRoleId() == 1) {
         %>
         <div class="container-fluid position-relative bg-white d-flex p-0">
             <!-- Sidebar Start -->
