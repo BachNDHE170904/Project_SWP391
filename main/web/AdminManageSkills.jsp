@@ -1,3 +1,6 @@
+<%@page import="model.Skill"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="DAL.SkillDAO"%>
 <%@page import="DAL.UserDAO"%>
 <%@page import="model.UserDetails"%>
 <%@page import="model.User"%>
@@ -123,42 +126,30 @@
                                         <thead>
                                             <tr>
                                                 <th scope="col">#</th>
-                                                <th scope="col">First Name</th>
-                                                <th scope="col">Last Name</th>
-                                                <th scope="col">Email</th>
-                                                <th scope="col">Country</th>
-                                                <th scope="col">ZIP</th>
+                                                <th scope="col">ID</th>
+                                                <th scope="col">Skill Name</th>
                                                 <th scope="col">Status</th>
+                                                <th scope="col">Enable/Disable</th>
+                                                <th scope="col">Update</th>
+                                                <th scope="col"><a href="#">+</a></th>
                                             </tr>
                                         </thead>
                                         <tbody>
+                                            <%
+                                                SkillDAO skillDb=new SkillDAO();
+                                                ArrayList<Skill> skills =skillDb.getSkills();
+                                                for(int i=1;i<=skills.size();i++){
+                                                    Skill skill=skills.get(i);
+                                            %>
                                             <tr>
-                                                <th scope="row">1</th>
-                                                <td>John</td>
-                                                <td>Doe</td>
-                                                <td>jhon@email.com</td>
-                                                <td>USA</td>
-                                                <td>123</td>
-                                                <td>Member</td>
+                                                <th scope="row"><%=i%></th>
+                                                <td><%=skill.getSkillId() %></td>
+                                                <td><%=skill.getSkillName()%></td>
+                                                <td><%=skill.getSkillStatus()%></td>
+                                                <td><a href="#">Enable/Disable</a></td>
+                                                <td><a href="#">Update</a></td>
                                             </tr>
-                                            <tr>
-                                                <th scope="row">2</th>
-                                                <td>Mark</td>
-                                                <td>Otto</td>
-                                                <td>mark@email.com</td>
-                                                <td>UK</td>
-                                                <td>456</td>
-                                                <td>Member</td>
-                                            </tr>
-                                            <tr>
-                                                <th scope="row">3</th>
-                                                <td>Jacob</td>
-                                                <td>Thornton</td>
-                                                <td>jacob@email.com</td>
-                                                <td>AU</td>
-                                                <td>789</td>
-                                                <td>Member</td>
-                                            </tr>
+                                            <% } %>
                                         </tbody>
                                     </table>
                                 </div>
