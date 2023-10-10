@@ -1,8 +1,11 @@
 use master
+GO
 drop database SWP391
+GO
 create database SWP391
+GO
 USE SWP391
-
+GO
 
 CREATE TABLE Roles (
    roleId INT NOT NULL identity(1,1),

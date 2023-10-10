@@ -225,9 +225,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            <div class="txt_field">
-                                <label>We have sent an otp code to your email</label>
-                            </div>
+                            <label>We have sent an otp code to your email</label>
                         </div>
                         <div class="modal-footer">
                             <input type="submit" class="btn btn-primary" value="Confirm"/>
