@@ -1,4 +1,6 @@
-
+<%@page import="model.Skill"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="DAL.SkillDAO"%>
 <%@page import="DAL.UserDAO"%>
 <%@page import="model.UserDetails"%>
 <%@page import="model.User"%>
@@ -41,7 +43,7 @@
             User acc = (User) session.getAttribute("user");
             UserDetails details = (UserDetails) session.getAttribute("userDetail");
             UserDAO db = new UserDAO();
-            if (acc!=null&&details.getRoleId() == 1) {
+            if (acc != null && details.getRoleId() == 1) {
         %>
         <div class="container-fluid position-relative bg-white d-flex p-0">
             <!-- Sidebar Start -->
@@ -111,29 +113,75 @@
                     </div>
                 </nav>
                 <!-- Navbar End -->
-                <!-- Content End -->
 
 
-                <!-- Back to Top -->
-                <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
+                <!-- Table Start -->
+                <div class="container-fluid pt-4 px-4">
+                    <div class="row g-4">
+                        <div class="col-12">
+                            <div class="bg-light rounded h-100 p-4">
+                                <h6 class="mb-4">Responsive Table</h6>
+                                <div class="table-responsive">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">#</th>
+                                                <th scope="col">ID</th>
+                                                <th scope="col">Skill Name</th>
+                                                <th scope="col">Status</th>
+                                                <th scope="col">Enable/Disable</th>
+                                                <th scope="col">Update</th>
+                                                <th scope="col"><a href="CreateNewSkill.jsp">+</a></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <%
+                                                SkillDAO skillDb=new SkillDAO();
+                                                ArrayList<Skill> skills =skillDb.getSkills();
+                                                for(int i=1;i<=skills.size();i++){
+                                                    Skill skill=skills.get(i);
+                                            %>
+                                            <tr>
+                                                <th scope="row"><%=i%></th>
+                                                <td><%=skill.getSkillId() %></td>
+                                                <td><%=skill.getSkillName()%></td>
+                                                <td><%=skill.getSkillStatus()%></td>
+                                                <td><a href="#">Enable/Disable</a></td>
+                                                <td><a href="#">Update</a></td>
+                                            </tr>
+                                            <% } %>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Table End -->
             </div>
-            <%
-                } else
-                    request.getRequestDispatcher("WelcomePage.jsp").forward(request, response);
-            %>
-            <!-- JavaScript Libraries -->
-            <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-            <script src="lib/chart/chart.min.js"></script>
-            <script src="lib/easing/easing.min.js"></script>
-            <script src="lib/waypoints/waypoints.min.js"></script>
-            <script src="lib/owlcarousel/owl.carousel.min.js"></script>
-            <script src="lib/tempusdominus/js/moment.min.js"></script>
-            <script src="lib/tempusdominus/js/moment-timezone.min.js"></script>
-            <script src="lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
+            <!-- Content End -->
 
-            <!-- Template Javascript -->
-            <script src="js/main.js"></script>
+
+            <!-- Back to Top -->
+            <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
+        </div>
+        <%
+            } else
+                request.getRequestDispatcher("WelcomePage.jsp").forward(request, response);
+        %>
+        <!-- JavaScript Libraries -->
+        <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="lib/chart/chart.min.js"></script>
+        <script src="lib/easing/easing.min.js"></script>
+        <script src="lib/waypoints/waypoints.min.js"></script>
+        <script src="lib/owlcarousel/owl.carousel.min.js"></script>
+        <script src="lib/tempusdominus/js/moment.min.js"></script>
+        <script src="lib/tempusdominus/js/moment-timezone.min.js"></script>
+        <script src="lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
+
+        <!-- Template Javascript -->
+        <script src="js/main.js"></script>
     </body>
 
 </html>

@@ -243,4 +243,17 @@ public class UserDAO extends BaseDAO<User> {
             return false;
         }
     }
+    public boolean updateUserAuthorization(String email) {
+        String sql = "update users set userAuthorization = ? where email = ?";
+        try {
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setBoolean(1, true);
+            stm.setString(2, email);
+            stm.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, e);
+            return false;
+        }
+    }
 }
