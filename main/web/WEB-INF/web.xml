@@ -36,6 +36,10 @@
         <servlet-name>AddNewSkillServlet</servlet-name>
         <servlet-class>Controller.AddNewSkillServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>VerifyAccountServlet</servlet-name>
+        <servlet-class>Controller.VerifyAccountServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
         <url-pattern>/LoginServlet</url-pattern>
@@ -71,6 +75,10 @@
     <servlet-mapping>
         <servlet-name>AddNewSkillServlet</servlet-name>
         <url-pattern>/AddNewSkillServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>VerifyAccountServlet</servlet-name>
+        <url-pattern>/VerifyAccountServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

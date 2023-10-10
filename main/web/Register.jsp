@@ -187,18 +187,16 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                 </button>
                 <%
                     SendEmail sm = new SendEmail();
-                    int otp = sm.getOtp();
                 %>
                 <script>
                     function CheckOtp() {
                         let emailInput = document.getElementById("email").value; // Get the email input value
-                        let otp = <%=otp%>; // Use JSP tag to get the server-side value
                         var form = document.getElementById("signupForm");
                         if (form.checkValidity()) {
                             let xhr = new XMLHttpRequest();
                             xhr.open("POST", "/main/RegisterConfirmAccountServlet");
                             xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-                            xhr.send("email=" + emailInput + "&otp=" + otp); // Send OTP and user email for validation
+                            xhr.send("email=" + emailInput); // Send OTP and user email for validation
                             const myModal = new bootstrap.Modal(document.getElementById('myModal')).show();
                         } else {
                             alert("Please fill in all required fields.");
@@ -228,28 +226,10 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                         </div>
                         <div class="modal-body">
                             <div class="txt_field">
-                                <input type="password" id="confirmOTP" name="confirmOTP" />
-                                <span></span>
-                                <label>We have sent an otp code to your email, enter it here:</label>
+                                <label>We have sent an otp code to your email</label>
                             </div>
-                            <script>
-                                let otp = document.getElementById("confirmOTP");
-                                let confirmOtp = "<%=otp%>";
-                                otp.addEventListener("change", (event) => {
-                                    try {
-                                        if (otp.value !== confirmOtp) {
-                                            alert("Otp not matched");
-                                            event.target.value = "";
-                                        }
-                                    } catch (error) {
-                                        alert("Otp not matched");
-                                        event.target.value = "";
-                                    }
-                                });
-                            </script>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                             <input type="submit" class="btn btn-primary" value="Confirm"/>
                         </div>
                     </div>

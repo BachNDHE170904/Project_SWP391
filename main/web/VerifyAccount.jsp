@@ -7,7 +7,7 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Profile</title>
-        <link rel="stylesheet" href="ViewProfileStyleIndex.css">
+        <link rel="stylesheet" href="css/VerifyAccountStyleIndex.css">
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
     </head>
 
@@ -49,42 +49,32 @@
                 </div>
             </div>
         </nav>
-        <div class="container light-style flex-grow-1 container-p-y">
-            <h4 class="font-weight-bold py-3 mb-4">
-                Verify Account
-            </h4>
-            <div class="card overflow-hidden">
-                <form action="RegisterServlet" id="signupForm" method="POST">
-                    <div class="row no-gutters row-bordered row-border-light">
-                        <div class="col-md-9">
-                            <div class="tab-content">
-                                <div class="tab-pane fade active show" id="account-general">
-                                    <div class=container text-center"">
-                                        <hr class="border-light m-0">
-                                        <div class="card-body">
-                                            <div class="form-group">
-                                                <label class="form-label">Otp Code</label>
-                                                <input type="password" class="form-control mb-1"></label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <button type="button" class="signup_link" >
-                                        Sign Up
-                                    </button>
-                                    <hr class="border-light m-0">
-
-                                </div>
-                            </div>
-                        </div>
-
-
-                    </div>
-                </form>
-            </div>                   
-            <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
-            <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
-            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
-            <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.bundle.min.js"></script>
+        <div class="Center">
+            <h1>Verify Account</h1>
+            <form action="VerifyAccountServlet" method="POST">
+                <div class="txt_field">
+                    <input type="password" name="inputOtp" required /> 
+                    <span></span>
+                    <label>Otp code</label>
+                </div>
+                <input type="submit" value="Confirm"/>
+            </form>
+            <%
+                // Server-side code to handle failed registration attempt
+                String message = (String) request.getAttribute("ms");
+                if (message != null) {
+            %> 
+            <!-- Display error message for failed registration -->
+            <div class="WrongOtp">
+                <p><%= message%></p>
+            </div>
+            <%
+                }
+            %>
+        </div>
+        <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
+        <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
     </body>
 
 </html>

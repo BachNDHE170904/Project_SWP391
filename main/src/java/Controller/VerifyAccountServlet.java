@@ -4,6 +4,7 @@
  */
 package Controller;
 
+import DAL.UserDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -11,13 +12,13 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import model.SendEmail;
+import model.User;
 
 /**
  *
  * @author ADMIN
  */
-public class RegisterConfirmAccountServlet extends HttpServlet {
+public class VerifyAccountServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -32,12 +33,21 @@ public class RegisterConfirmAccountServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         HttpSession session = request.getSession();
-        SendEmail sm = new SendEmail();
-        int otp = sm.getOtp();
-        String emailContent = "Your otp code to confirm your account is: " + otp;
-        String toEmail = request.getParameter("email");
-        boolean send = sm.sendEmail(toEmail, emailContent);
-        session.setAttribute("otpCode", otp);
+        User acc = (User) session.getAttribute("user");
+        int correctOtp=(int) session.getAttribute("otpCode");
+        int inputOtp=Integer.parseInt(request.getParameter("inputOtp"));
+        String ms;
+        if(correctOtp==inputOtp){
+            UserDAO db=new UserDAO();
+            db.updateUserAuthorization(acc.getEmail());
+            session.setAttribute("successMsg", "Authorized successfully!");
+            session.setAttribute("user", db.getUserByEmailOnly(acc.getEmail()));
+            request.getRequestDispatcher("WelcomePage.jsp").forward(request, response);
+        }else{
+            ms="Wrong otp";
+            request.setAttribute("ms", ms);
+            request.getRequestDispatcher("VerifyAccount.jsp").forward(request, response);
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

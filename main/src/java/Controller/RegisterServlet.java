@@ -81,7 +81,7 @@ public class RegisterServlet extends HttpServlet {
                 request.getRequestDispatcher("Register.jsp").forward(request, response);
             }
         } catch (Exception e) {
-
+            System.out.println(e);
         }
     }
 
