@@ -36,4 +36,22 @@ public class SkillDAO extends BaseDAO<Skill> {
         }
         return skills;
     }
+
+    public void insertSkill(Skill ski) {
+        try {
+            String sql = "insert into Skills(skillName,skillStatusId) values(?,?)\n;";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            int skillStatusId;
+            statement.setString(1, ski.getSkillName());
+            if (ski.getSkillStatus().equals("Active")) {
+                skillStatusId = 1;
+            } else {
+                skillStatusId = 0;
+            }
+            statement.setInt(2, skillStatusId);
+            statement.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 }

@@ -1,9 +1,6 @@
-<%@page import="model.Skill"%>
-<%@page import="java.util.ArrayList"%>
-<%@page import="DAL.SkillDAO"%>
-<%@page import="DAL.UserDAO"%>
-<%@page import="model.UserDetails"%>
 <%@page import="model.User"%>
+<%@page import="model.UserDetails"%>
+<%@page import="DAL.UserDAO"%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -115,73 +112,66 @@
                 <!-- Navbar End -->
 
 
-                <!-- Table Start -->
-                <div class="container-fluid pt-4 px-4">
-                    <div class="row g-4">
-                        <div class="col-12">
-                            <div class="bg-light rounded h-100 p-4">
-                                <h6 class="mb-4">Responsive Table</h6>
-                                <div class="table-responsive">
-                                    <table class="table">
-                                        <thead>
-                                            <tr>
-                                                <th scope="col">#</th>
-                                                <th scope="col">ID</th>
-                                                <th scope="col">Skill Name</th>
-                                                <th scope="col">Status</th>
-                                                <th scope="col">Enable/Disable</th>
-                                                <th scope="col">Update</th>
-                                                <th scope="col"><a href="CreateNewSkill.jsp">+</a></th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <%
-                                                SkillDAO skillDb=new SkillDAO();
-                                                ArrayList<Skill> skills =skillDb.getSkills();
-                                                for(int i=1;i<=skills.size();i++){
-                                                    Skill skill=skills.get(i);
-                                            %>
-                                            <tr>
-                                                <th scope="row"><%=i%></th>
-                                                <td><%=skill.getSkillId() %></td>
-                                                <td><%=skill.getSkillName()%></td>
-                                                <td><%=skill.getSkillStatus()%></td>
-                                                <td><a href="#">Enable/Disable</a></td>
-                                                <td><a href="#">Update</a></td>
-                                            </tr>
-                                            <% } %>
-                                        </tbody>
-                                    </table>
-                                </div>
+                <!-- Form Start -->
+                <div class="col-sm-12 col-xl-12">
+                    <div class="bg-light rounded h-100 p-4">
+                        <form action="AddNewSkillServlet" method="POST">
+                            <h6 class="mb-4">Create new skill</h6>
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control" id="floatingInput"
+                                       name="skillName">
+                                <label for="floatingInput">Skill Name</label>
                             </div>
-                        </div>
+                            <fieldset class="row mb-3">
+                                <legend class="col-form-label col-sm-2 pt-0">Status</legend>
+                                <div class="col-sm-10">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="status"
+                                               id="gridRadios1" value="Active" checked>
+                                        <label class="form-check-label" for="gridRadios1">
+                                            Active
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="status"
+                                               id="gridRadios2" value="Inactive">
+                                        <label class="form-check-label" for="gridRadios2">
+                                            Inactive
+                                        </label>
+                                    </div>
+                                </div>
+                            </fieldset>
+                            <button type="submit" class="btn btn-primary">Ok</button>
+                        </form>
                     </div>
                 </div>
-                <!-- Table End -->
             </div>
-            <!-- Content End -->
-
-
-            <!-- Back to Top -->
-            <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
         </div>
-        <%
-            } else
-                request.getRequestDispatcher("WelcomePage.jsp").forward(request, response);
-        %>
-        <!-- JavaScript Libraries -->
-        <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-        <script src="lib/chart/chart.min.js"></script>
-        <script src="lib/easing/easing.min.js"></script>
-        <script src="lib/waypoints/waypoints.min.js"></script>
-        <script src="lib/owlcarousel/owl.carousel.min.js"></script>
-        <script src="lib/tempusdominus/js/moment.min.js"></script>
-        <script src="lib/tempusdominus/js/moment-timezone.min.js"></script>
-        <script src="lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
+        <!-- Form End -->
+    </div>
+    <!-- Content End -->
 
-        <!-- Template Javascript -->
-        <script src="js/main.js"></script>
-    </body>
+
+    <!-- Back to Top -->
+    <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
+</div>
+<%
+    } else
+        request.getRequestDispatcher("WelcomePage.jsp").forward(request, response);
+%>
+<!-- JavaScript Libraries -->
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="lib/chart/chart.min.js"></script>
+<script src="lib/easing/easing.min.js"></script>
+<script src="lib/waypoints/waypoints.min.js"></script>
+<script src="lib/owlcarousel/owl.carousel.min.js"></script>
+<script src="lib/tempusdominus/js/moment.min.js"></script>
+<script src="lib/tempusdominus/js/moment-timezone.min.js"></script>
+<script src="lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
+
+<!-- Template Javascript -->
+<script src="js/main.js"></script>
+</body>
 
 </html>
