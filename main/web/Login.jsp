@@ -67,19 +67,6 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                     <span></span>
                     <label>Password</label>
                 </div>
-                <input type="submit" value="Login"/>
-
-                <div class="signup_link">
-                    <input type="checkbox" id="rememberPass" name="rememberPass" value="true">
-                    <label for="rememberPass"> Remember password</label><br>
-                </div>
-                <!-- Signup link -->
-                <div class="signup_link">
-                    Don't have an account?<a href="Register.jsp">Sign up</a>
-                </div>
-                <div class="signup_link">
-                    Forgot your password?<a href="ForgotPassword.jsp">Reset here</a>
-                </div>
                 <%
                     // Server-side code to handle failed login attempt
                     String failedLogin = (String) request.getAttribute("failedLogin");
@@ -94,6 +81,20 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                         }
                     }
                 %>
+                <input type="submit" value="Login"/>
+
+                <div class="signup_link">
+                    <input type="checkbox" id="rememberPass" name="rememberPass" value="Remember password">
+                    <label for="rememberPass"> Remember password</label><br>
+                </div>
+                <!-- Signup link -->
+                <div class="signup_link">
+                    Don't have an account?<a href="Register.jsp">Sign up</a>
+                </div>
+                <div class="signup_link">
+                    Forgot your password?<a href="ForgotPassword.jsp">Reset here</a>
+                </div>
+                
             </form>
         </div>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
