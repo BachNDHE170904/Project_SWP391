@@ -67,7 +67,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                 <input type="submit" value="Login"/>
 
                 <div class="signup_link">
-                    <input type="checkbox" id="rememberPass" name="rememberPass" value="Remember password">
+                    <input type="checkbox" id="rememberPass" name="rememberPass" value="true">
                     <label for="rememberPass"> Remember password</label><br>
                 </div>
                 <!-- Signup link -->
