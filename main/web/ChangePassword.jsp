@@ -5,7 +5,6 @@
 --%>
 
 <%@page import="DAL.UserDAO"%>
-<%@page import="model.User"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>

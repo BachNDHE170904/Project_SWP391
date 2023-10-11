@@ -1,9 +1,10 @@
-<%@page import="model.Skill"%>
+
+<%@page import="Model.Skill"%>
+<%@page import="Model.UserDetails"%>
+<%@page import="Model.User"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="DAL.SkillDAO"%>
 <%@page import="DAL.UserDAO"%>
-<%@page import="model.UserDetails"%>
-<%@page import="model.User"%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -35,7 +36,7 @@
 
         <!-- Template Stylesheet -->
         <link href="css/AdminDashBoardStyleIndex.css" rel="stylesheet">
-        
+
     </head>
 
     <body>
@@ -48,94 +49,35 @@
         %>
         <div class="container-fluid position-relative bg-white d-flex p-0">
             <!-- Sidebar Start -->
-            <div class="sidebar pe-4 pb-3">
-                <nav class="navbar bg-light navbar-light">
-                    <div class="d-flex align-items-center ms-4 mb-4">
-                        <div class="position-relative">
-                            <%
-                                String avatarLink = db.getUserAvatar(acc.getUserId());
-                                if (avatarLink == null || avatarLink.isEmpty()) {
-                            %>
-                            <img class="rounded-circle" alt="" src="img/default_avatar.jpg" style="width: 40px; height: 40px;" />
-                            <% } else {%>
-                            <img class="rounded-circle" alt="" src="<%=avatarLink%>" style="width: 40px; height: 40px;" />
-                            <%}%>
-                            <div class="bg-success rounded-circle border border-2 border-white position-absolute end-0 bottom-0 p-1"></div>
-                        </div>
-                        <div class="ms-3">
-                            <h6 class="mb-0">Admin</h6>
-                            <span>Admin</span>
-                        </div>
-                    </div>
-                    <div class="navbar-nav w-100">
-                        <a href="AdminDashBoard.jsp" class="nav-item nav-link active"><i class="fa fa-tachometer-alt me-2"></i>Dashboard</a>
-                        <a href="#" class="nav-item nav-link"><i class="fa fa-th me-2"></i>Mangage Users</a>
-                        <a href="AdminManageSkills.jsp" class="nav-item nav-link"><i class="fa fa-keyboard me-2"></i>Manage Skills</a>
-                        <a href="#" class="nav-item nav-link"><i class="fa fa-table me-2"></i>Manage Mentors</a>
-                        <a href="#" class="nav-item nav-link"><i class="fa fa-chart-bar me-2"></i>Manage Requests</a>
-                    </div>
-                </nav>
-            </div>
-            <!-- Sidebar End -->
+            <jsp:include page="DashBoardSideBar.jsp"></jsp:include>
+                <!-- Sidebar End -->
 
+                <!-- Content Start -->
+                <div class="content">
+                    <!-- Navbar Start -->
+                <jsp:include page="NavBar.jsp"></jsp:include>
+                    <!-- Navbar End -->
 
-            <!-- Content Start -->
-            <div class="content">
-                <!-- Navbar Start -->
-                <nav class="navbar navbar-expand-md bg-body-tertiary ">
-                    <div class="container-fluid">
-                        <a class="navbar-brand" href="AdminDashBoard.jsp">Happy Programming</a>
-                        <button class="navbar-toggler ms-auto" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                            <span class="navbar-toggler-icon"></span>
-                        </button>
-                        <div class="collapse navbar-collapse " id="navbarSupportedContent">
-                            <div class="nav-item dropdown ms-auto">
-                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <%
-                                        avatarLink = db.getUserAvatar(acc.getUserId());
-                                        if (avatarLink == null || avatarLink.isEmpty()) {
-                                    %>
-                                    <img class="rounded-circle" alt="" src="img/default_avatar.jpg" style="width: 40px; height: 40px;" />
-                                    <% } else {%>
-                                    <img class="rounded-circle" alt="" src="<%=avatarLink%>" style="width: 40px; height: 40px;" />
-                                    <%}%>
-                                    <%= acc.getUsername()%>
-                                </a>
-                                <ul class="dropdown-menu dropdown-menu-end">
-                                    <% if (acc != null) {%>
-                                    <li><a class="dropdown-item" href="ViewUserProfile.jsp">View my Profile</a></li>
-                                    <li><a class="dropdown-item" href="ChangePassword.jsp">Change Password</a></li>
-                                        <%}%>
-                                    <li><hr class="dropdown-divider"></li>
-                                    <li><a class="dropdown-item" href="LogOutServlet">Log Out</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </nav>
-                <!-- Navbar End -->
-
-
-                <!-- Table Start -->
-                <div class="container-fluid pt-4 px-4">
-                    <div class="row g-4">
-                        <div class="col-12">
-                            <div class="bg-light rounded h-100 p-4">
-                                <h6 class="mb-4">Responsive Table</h6>
-                                <div class="table-responsive">
-                                    <table class="table">
-                                        <thead>
-                                            <tr>
-                                                <th scope="col">#</th>
-                                                <th scope="col">ID</th>
-                                                <th scope="col">Skill Name</th>
-                                                <th scope="col">Status</th>
-                                                <th scope="col">Enable/Disable</th>
-                                                <th scope="col">Update</th>
-                                                <th scope="col"><a href="CreateNewSkill.jsp">+</a></th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
+                    <!-- Table Start -->
+                    <div class="container-fluid pt-4 px-4">
+                        <div class="row g-4">
+                            <div class="col-12">
+                                <div class="bg-light rounded h-100 p-4">
+                                    <h6 class="mb-4">Responsive Table</h6>
+                                    <div class="table-responsive">
+                                        <table class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col">#</th>
+                                                    <th scope="col">ID</th>
+                                                    <th scope="col">Skill Name</th>
+                                                    <th scope="col">Status</th>
+                                                    <th scope="col">Enable/Disable</th>
+                                                    <th scope="col">Update</th>
+                                                    <th scope="col"><a href="CreateNewSkill.jsp">+</a></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
                                             <%
                                                 SkillDAO skillDb = new SkillDAO();
                                                 ArrayList<Skill> skills = skillDb.getSkills();

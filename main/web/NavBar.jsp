@@ -3,9 +3,9 @@
     Created on : Oct 11, 2023, 8:17:38 PM
     Author     : ADMIN
 --%>
+<%@page import="Model.UserDetails"%>
+<%@page import="Model.User"%>
 <%@page import="DAL.UserDAO"%>
-<%@page import="model.UserDetails"%>
-<%@page import="model.User"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
