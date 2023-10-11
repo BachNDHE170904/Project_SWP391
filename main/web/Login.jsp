@@ -8,9 +8,22 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Login Page</title>
         <link rel="stylesheet" href="css/LoginStyleindex.css">
+        <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+        <link rel="stylesheet" href="alert/dist/sweetalert.css">
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
     </head>
     <body>
+        <%
+            
+            String msg = (String) session.getAttribute("status");
+            if (msg != null) {%>
+
+        <script>
+            swal("Congrats", "<%= msg%>", "success");
+        </script>
+
+        <% session.removeAttribute("status");
+            } %>
         <nav class="navbar navbar-expand-lg bg-body-tertiary">
             <div class="container-fluid">
                 <a class="navbar-brand" href="WelcomePage.jsp">Happy Programming</a>
@@ -55,7 +68,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                     Don't have an account?<a href="Register.jsp">Sign up</a>
                 </div>
                 <div class="signup_link">
-                    Forgot your password?<a href="forgotPassword.jsp">Reset here</a>
+                    Forgot your password?<a href="ForgotPassword.jsp">Reset here</a>
                 </div>
                 <%
                     // Server-side code to handle failed login attempt

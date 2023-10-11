@@ -13,53 +13,8 @@
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Change Password</title>
-        <link rel="stylesheet" href="alert/dist/sweetalert.css">
-        <style>
-            body {
-                font-family: Arial, sans-serif;
-                background-color: #f4f4f4;
-                margin: 0;
-                padding: 0;
-                text-align: center;
-            }
-
-            h1 {
-                color: #333;
-            }
-
-            h3 {
-                color: red;
-            }
-
-            form {
-                background-color: #fff;
-                border: 1px solid #ccc;
-                padding: 20px;
-                max-width: 50%;
-                margin: 0 auto;
-            }
-
-            input[type="password"] {
-                width: 100%;
-                padding: 10px;
-                margin-bottom: 10px;
-                border: 1px solid #ccc;
-                border-radius: 5px;
-            }
-
-            input[type="submit"] {
-                background-color: #007bff;
-                color: #fff;
-                border: none;
-                padding: 10px 20px;
-                border-radius: 5px;
-                cursor: pointer;
-            }
-
-            input[type="submit"]:hover {
-                background-color: #0056b3;
-            }
-        </style>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+        <link rel="stylesheet" href="css/LoginStyleindex.css">
     </head>
     <body>
         <%
@@ -115,57 +70,43 @@
                 </div>
             </div>
         </nav>
-        <input type="hidden" id="status" value="<%=request.getAttribute("status")%>}"/>
-        <h1>Change password</h1>
-        <h3 style="color:red">${sessionScope.ms}</h3>
-        <form action="changePasswordServlet" method="GET">
-            <div class="col-md-6 offset-md-3">
-                <span class="anchor" id="formChangePassword"></span>
-                <hr class="mb-5">
-
-                <!-- form card change password -->
-                <div class="card card-outline-secondary">
-                    <div class="card-header">
-                        <h3 class="mb-0">Change Password</h3>
-                    </div>
-                    <div class="card-body">
-                        <div class="form" role="form" autocomplete="off">
-                            <div class="form-group">
-                                <label for="inputPasswordOld">Current Password</label>
-                                <input type="password" class="form-control" id="inputPasswordOld" name="opass" required="">
-                            </div>
-                            <div class="form-group">
-                                <label for="inputPasswordNew">New Password</label>
-                                <input type="password" class="form-control" id="inputPasswordNew" name="pass" required="">
-                                <span class="form-text small text-muted">
-                                    The password must be 8-20 characters, and must <em>not</em> contain spaces.
-                                </span>
-                            </div>
-                            <div class="form-group">
-                                <label for="inputPasswordNewVerify">Verify</label>
-                                <input type="password" class="form-control" id="inputPasswordNewVerify" name="rpass" required="">
-                                <span class="form-text small text-muted">
-                                    To confirm, type the new password again.
-                                </span>
-                            </div>
-                            <div class="form-group">
-                                <button type="submit" class="btn btn-success btn-lg float-right">Save</button>
-                            </div>
-                        </div>
-                    </div>
+        <div class="Center">
+            <h1>Change Password</h1>
+            <form action="changePasswordServlet" method="GET">
+                <!-- Username input -->
+                <div class="txt_field">
+                    <input type="password" name="opass" required /> 
+                    <span></span>
+                    <label>Current Password</label>
+                    
                 </div>
-            </div>
-        </form>
-        <%
-            // Server-side code to handle failed registration attempt
-            String message = (String) request.getAttribute("ms");
-            if (message != null) {
-        %> 
+                <!-- Password input -->
+                <div class="txt_field">
+                    <input type="password" name="pass" required />
+                    <span></span>
+                    <label>New Password</label>
+                </div>
+                <div class="txt_field">
+                    <input type="password" name="rpass" required />
+                    <span></span>
+                    <label>Confirm Password</label>
+                </div>
+                <%
+                        String message = (String) request.getAttribute("message");
+                        
+                    %>
+                    <%if (message != null) {%>
+                    <p class="error"><%= message%></p>
+                        <%
+                            }
+                        %>
+                <input type="submit" value="Change"/>
+            </form>
+        </div>
+        
         <!-- Display error message for failed registration -->
-        <p><%= message%></p>
-        <%
-            }
-        %>
+                    
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+        
     </body>
 </html>
