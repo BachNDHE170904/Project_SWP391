@@ -12,43 +12,7 @@
     </head>
 
     <body>
-        <%
-            //check if the user is logged in or not
-            User acc = (User) session.getAttribute("user");
-            UserDetails details = (UserDetails) session.getAttribute("userDetail");
-            UserDAO db = new UserDAO();
-        %>
-        <nav class="navbar navbar-expand-md bg-body-tertiary ">
-            <div class="container-fluid">
-                <%if (details.getRoleId() == 1) {%><a class="navbar-brand" href="AdminDashBoard.jsp">Happy Programming</a>
-                <%} else {%><a class="navbar-brand" href="WelcomePage.jsp">Happy Programming</a>
-                <%}%>
-                <button class="navbar-toggler ms-auto" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse " id="navbarSupportedContent">
-                    <div class="nav-item dropdown ms-auto">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <%
-                                String avatarLink = db.getUserAvatar(acc.getUserId());
-                                if (avatarLink == null || avatarLink.isEmpty()) {
-                            %>
-                            <img class="rounded-circle" alt="" src="img/default_avatar.jpg" style="width: 40px; height: 40px;" />
-                            <% } else {%>
-                            <img class="rounded-circle" alt="" src="<%=avatarLink%>" style="width: 40px; height: 40px;" />
-                            <%}%>
-                            <%= acc.getUsername()%>
-                        </a>
-                        <ul class="dropdown-menu dropdown-menu-end">
-                            <li><a class="dropdown-item" href="ViewUserProfile.jsp">View my Profile</a></li>
-                            <li><a class="dropdown-item" href="change.jsp?email=<%= acc.getEmail()%>">Change Password</a></li>
-                            <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" href="LogOutServlet">Log Out</a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </nav>
+        <jsp:include page="NavBar.jsp"></jsp:include>
         <div class="Center">
             <h1>Verify Account</h1>
             <form action="VerifyAccountServlet" method="POST">
