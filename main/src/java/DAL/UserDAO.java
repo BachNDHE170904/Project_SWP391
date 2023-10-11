@@ -1,4 +1,4 @@
-package dal;
+package DAL;
 
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -7,8 +7,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import model.User;
-import model.UserDetails;
+import Model.User;
+import Model.UserDetails;
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license

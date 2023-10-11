@@ -1,7 +1,6 @@
-
-<%@page import="dal.UserDAO"%>
-<%@page import="model.UserDetails"%>
-<%@page import="model.User"%>
+<%@page import="Model.UserDetails"%>
+<%@page import="Model.User"%>
+<%@page import="DAL.UserDAO"%>
 <!DOCTYPE html>
 <html lang="en">
     <head>

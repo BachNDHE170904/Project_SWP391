@@ -1,6 +1,6 @@
-package controller.publicpackage.resetpassword;
+package Controller.Public.ResetPassword;
 
-import dal.UserDAO;
+import DAL.UserDAO;
 import java.io.IOException;
 import java.util.Properties;
 import java.util.Random;

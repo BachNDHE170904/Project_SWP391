@@ -1,5 +1,6 @@
 
-<%@page import="model.SendEmail"%>
+<%@page import="Model.SendEmail"%>
+<%@page import="DAL.UserDAO"%>
 <!DOCTYPE html>
 <!--
 Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license

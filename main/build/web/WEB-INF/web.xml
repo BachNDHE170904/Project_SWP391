@@ -2,47 +2,47 @@
 <web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
     <servlet>
         <servlet-name>LoginServlet</servlet-name>
-        <servlet-class>controller.common.loginsystem.LoginServlet</servlet-class>
+        <servlet-class>Controller.Common.LoginSystem.LoginServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>RegisterServlet</servlet-name>
-        <servlet-class>controller.common.register.RegisterServlet</servlet-class>
+        <servlet-class>Controller.Common.Register.RegisterServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>RegisterConfirmAccountServlet</servlet-name>
-        <servlet-class>controller.common.register.RegisterConfirmAccountServlet</servlet-class>
+        <servlet-class>Controller.Common.Register.RegisterConfirmAccountServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>LogOutServlet</servlet-name>
-        <servlet-class>controller.common.loginsystem.LogOutServlet</servlet-class>
+        <servlet-class>Controller.Common.LoginSystem.LogOutServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>ForgotPassword</servlet-name>
-        <servlet-class>controller.publicpackage.resetpassword.ForgotPassword</servlet-class>
+        <servlet-class>Controller.Public.ResetPassword.ForgotPassword</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>ChangePassword</servlet-name>
-        <servlet-class>controller.common.changepassword.ChangePassword</servlet-class>
+        <servlet-class>Controller.Common.ChangePassword.ChangePassword</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>NewPassword</servlet-name>
-        <servlet-class>controller.publicpackage.resetpassword.NewPassword</servlet-class>
+        <servlet-class>Controller.Public.ResetPassword.NewPassword</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>ValidateOtp</servlet-name>
-        <servlet-class>controller.publicpackage.resetpassword.ValidateOtp</servlet-class>
+        <servlet-class>Controller.Public.ResetPassword.ValidateOtp</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>AddNewSkillServlet</servlet-name>
-        <servlet-class>controller.admin.skills.AddNewSkillServlet</servlet-class>
+        <servlet-class>Controller.Admin.Skills.AddNewSkillServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>VerifyAccountServlet</servlet-name>
-        <servlet-class>controller.common.userauthorization.VerifyAccountServlet</servlet-class>
+        <servlet-class>Controller.Common.UserAuthorization.VerifyAccountServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>UpdateSkillStatusServlet</servlet-name>
-        <servlet-class>controller.admin.skills.UpdateSkillStatusServlet</servlet-class>
+        <servlet-class>Controller.Admin.Skills.UpdateSkillStatusServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
