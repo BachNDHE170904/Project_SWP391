@@ -119,7 +119,7 @@
                             <h6 class="mb-4">Create new skill</h6>
                             <div class="form-floating mb-3">
                                 <input type="text" class="form-control" id="floatingInput"
-                                       name="skillName">
+                                       name="skillName" required>
                                 <label for="floatingInput">Skill Name</label>
                             </div>
                             <fieldset class="row mb-3">
