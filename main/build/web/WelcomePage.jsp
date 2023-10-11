@@ -41,7 +41,7 @@
             if (msg != null) {%>
 
         <script>
-            swal("Good job!", "<%= msg%>", "success");
+            swal("Congrats", "<%= msg%>", "success");
         </script>
 
         <% session.removeAttribute("successMsg");
@@ -71,7 +71,7 @@
                         <ul class="dropdown-menu dropdown-menu-end">
                             <% if (acc != null) {%>
                             <li><a class="dropdown-item" href="ViewUserProfile.jsp">View my Profile</a></li>
-                            <li><a class="dropdown-item" href="change.jsp">Change Password</a></li>
+                            <li><a class="dropdown-item" href="ChangePassword.jsp">Change Password</a></li>
                                 <%}%>
                             <li><hr class="dropdown-divider"></li>
                             <li><a class="dropdown-item" href="LogOutServlet">Log Out</a></li>
