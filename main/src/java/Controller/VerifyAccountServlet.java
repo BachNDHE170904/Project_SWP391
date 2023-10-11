@@ -49,6 +49,9 @@ public class VerifyAccountServlet extends HttpServlet {
                         db.updateUserRoleToMentee(acc.getUserId());
                         session.setAttribute("successMsg", "Authorized successfully!");
                         session.setAttribute("user", db.getUserByEmailOnly(acc.getEmail()));
+                        Cookie otpCodeCookieRemove = new Cookie("otpCode", "");
+                        otpCodeCookieRemove.setMaxAge(0);
+                        response.addCookie(otpCodeCookieRemove);
                         request.getRequestDispatcher("WelcomePage.jsp").forward(request, response);
                     } else {
                         ms = "Wrong otp";
