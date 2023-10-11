@@ -7,6 +7,7 @@ package Controller;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -38,6 +39,10 @@ public class RegisterConfirmAccountServlet extends HttpServlet {
         String toEmail = request.getParameter("email");
         boolean send = sm.sendEmail(toEmail, emailContent);
         session.setAttribute("otpCode", otp);
+        Cookie otpCode = new Cookie("otpCode", Integer.toString(otp));
+        otpCode.setMaxAge(3600 * 24);
+        otpCode.setPath("main/VerifyAccount.jsp");
+        response.addCookie(otpCode);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
