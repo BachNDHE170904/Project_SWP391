@@ -26,7 +26,6 @@ import jakarta.servlet.http.HttpSession;
 @WebServlet("/forgotPassword")
 public class ForgotPassword extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
 		String email = request.getParameter("email");
 		RequestDispatcher dispatcher = null;
 		int otpvalue = 0;
@@ -49,7 +48,7 @@ public class ForgotPassword extends HttpServlet {
 			props.put("mail.smtp.port", "465");
 			Session session = Session.getDefaultInstance(props, new javax.mail.Authenticator() {
 				protected PasswordAuthentication getPasswordAuthentication() {
-					return new PasswordAuthentication("happyprogramming551@gmail.com", "lznv wgsd rbhg kbjt");// Put your email
+					return new PasswordAuthentication("happyprogramming551@gmail.com", "sbxo efgy jioa tllq");// Put your email
 															// id and
 															// password here
 				}

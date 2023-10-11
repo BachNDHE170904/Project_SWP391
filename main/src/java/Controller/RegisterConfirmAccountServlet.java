@@ -10,6 +10,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import model.SendEmail;
 
 /**
@@ -30,11 +31,13 @@ public class RegisterConfirmAccountServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        HttpSession session = request.getSession();
         SendEmail sm = new SendEmail();
-        int otp = Integer.parseInt(request.getParameter("otp"));
+        int otp = sm.getOtp();
         String emailContent = "Your otp code to confirm your account is: " + otp;
         String toEmail = request.getParameter("email");
         boolean send = sm.sendEmail(toEmail, emailContent);
+        session.setAttribute("otpCode", otp);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

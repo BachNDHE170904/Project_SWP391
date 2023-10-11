@@ -1,20 +1,21 @@
 use master
+GO
 drop database SWP391
+GO
 create database SWP391
+GO
 USE SWP391
-
+GO
 
 CREATE TABLE Roles (
    roleId INT NOT NULL identity(1,1),
    roleName NVARCHAR (50)  UNIQUE   NOT NULL,
    PRIMARY KEY (roleId),
 );
+insert into Roles(roleName)values('Admin');
 insert into Roles(roleName)values('User');
 insert into Roles(roleName)values('Mentee');
 insert into Roles(roleName)values('Mentor');
-insert into Roles(roleName)values('Admin');
-
-
 CREATE TABLE Users (
    userId   INT    NOT NULL identity(1,1),
    email NVARCHAR (50)  Unique   NOT NULL,
@@ -23,6 +24,7 @@ CREATE TABLE Users (
    userAuthorization bit  NOT NULL,
    PRIMARY KEY (userId),
 );
+insert into Users(email,username,password,userAuthorization)values('happyprogramming551@gmail.com','Admin','Admin1234!','1')
 
 CREATE TABLE UserAvatar (
    userId   INT    NOT NULL ,
@@ -47,19 +49,21 @@ CREATE TABLE UserDetail (
    dob date NOT NULL,
    gender bit  NOT NULL,
    userAddress NVARCHAR (50)     NOT NULL,
-   roleId INT default 4 NOT NULL,
+   roleId INT default 2 NOT NULL,
    PRIMARY KEY (userId),
    FOREIGN KEY (userId) REFERENCES Users(userId),
    FOREIGN KEY (roleId) REFERENCES Roles(roleId),
    FOREIGN KEY (gender) REFERENCES Gender(gender),
 );
+insert into UserDetail(userId,username,phone,fullname,dob,gender,userAddress,roleId)values(1,'Admin','0912345678','Admin','2003-03-18',1,'Hanoi','1')
 
 CREATE TABLE SkillStatus (
-   skillStatusId   INT    NOT NULL identity(1,1),
+   skillStatusId   INT    NOT NULL identity(0,1),
    skillStatus NVARCHAR (50)     NOT NULL,
    PRIMARY KEY (skillStatusId),
 );
-
+insert into SkillStatus(skillStatus) values('inactive')
+insert into SkillStatus(skillStatus) values('active')
 CREATE TABLE Skills (
    skillId   INT    NOT NULL identity(1,1),
    skillName NVARCHAR (50)     NOT NULL,

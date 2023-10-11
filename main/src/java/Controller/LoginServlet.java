@@ -14,6 +14,8 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import java.security.MessageDigest;
+import javax.xml.bind.DatatypeConverter;
 import model.User;
 import model.UserDetails;
 
@@ -32,31 +34,44 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String email = request.getParameter("email");
-        String pass = request.getParameter("password");
-        String rememberPass = request.getParameter("rememberPass");
-        UserDAO db = new UserDAO();
-        User user = db.getUser(email, pass);
-        UserDetails details = db.getUserDetails(email);
-        if (rememberPass != null && rememberPass.equals("true"))//remember pass
-        {
-            Cookie c_user = new Cookie("email", user.getEmail());
-            Cookie c_pass = new Cookie("password", user.getPass());
-            c_user.setMaxAge(3600 * 24 * 30);
-            c_pass.setMaxAge(3600 * 24 * 30);
-            response.addCookie(c_pass);
-            response.addCookie(c_user);
-        }
-        if (user != null)//login successfull
-        {
+        try {
+
+            String email = request.getParameter("email");
+            String pass = request.getParameter("password");
+            String rememberPass = request.getParameter("rememberPass");
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            md.update(pass.getBytes());
+            byte[] digest = md.digest();
+            String myChecksum = DatatypeConverter.printHexBinary(digest).toUpperCase();
+            UserDAO db = new UserDAO();
+            User user = db.getUser(email, myChecksum);
+            UserDetails details = db.getUserDetails(email);
             HttpSession session = request.getSession();
-            session.setAttribute("user", user);
-            session.setAttribute("userDetail", details);
-            request.getRequestDispatcher("WelcomePage.jsp").forward(request, response);
-        } else //login fail
-        {
-            request.setAttribute("failedLogin", "fail");
-            request.getRequestDispatcher("Login.jsp").forward(request, response);
+            if (rememberPass != null && rememberPass.equals("true"))//remember pass
+            {
+                Cookie c_user = new Cookie("email", user.getEmail());
+                Cookie c_pass = new Cookie("password", user.getPass());
+                c_user.setMaxAge(3600 * 24 * 30);
+                c_pass.setMaxAge(3600 * 24 * 30);
+                response.addCookie(c_pass);
+                response.addCookie(c_user);
+            }
+            if (user != null && details.getRoleId() != 1)//login successfull and is not admin
+            {
+                session.setAttribute("user", user);
+                session.setAttribute("userDetail", details);
+                request.getRequestDispatcher("WelcomePage.jsp").forward(request, response);
+            } else if (user != null && details.getRoleId() == 1) {//login successfull and is admin
+                session.setAttribute("user", user);
+                session.setAttribute("userDetail", details);
+                request.getRequestDispatcher("AdminDashBoard.jsp").forward(request, response);
+            } else //login fail
+            {
+                request.setAttribute("failedLogin", "fail");
+                request.getRequestDispatcher("Login.jsp").forward(request, response);
+            }
+        } catch (Exception e) {
+
         }
     }
 
