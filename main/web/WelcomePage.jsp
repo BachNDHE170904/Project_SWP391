@@ -1,5 +1,4 @@
-<%@page import="Model.User"%>
-<%@page import="DAL.UserDAO"%>
+
 <%@page import="java.util.Comparator"%>
 <%@page import="java.util.Collections"%>
 <%@page import="java.util.ArrayList"%>
@@ -33,9 +32,6 @@
     </head>
     <body>
         <%
-            //check if the user is logged in or not
-            User acc = (User) session.getAttribute("user");
-            UserDAO db = new UserDAO();
             String msg = (String) session.getAttribute("successMsg");
             if (msg != null) {%>
 
@@ -44,8 +40,8 @@
         </script>
 
         <% session.removeAttribute("successMsg");
-            } %>
-            <jsp:include page="NavBar.jsp"></jsp:include>
+            }%>
+        <jsp:include page="NavBar.jsp"></jsp:include>
 
 
         <!-- Service Start -->

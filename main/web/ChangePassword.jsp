@@ -3,8 +3,6 @@
     Created on : Sep 18, 2023, 1:04:12 AM
     Author     : admin
 --%>
-
-<%@page import="DAL.UserDAO"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
