@@ -46,42 +46,40 @@ public class ChangePassword extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-@Override
-protected void doGet(HttpServletRequest request, HttpServletResponse response)
-        throws ServletException, IOException {
-    String username = request.getParameter("user");
-    String opass = request.getParameter("opass");
-    String p = request.getParameter("pass");
-    String confirmPass = request.getParameter("rpass");
-    
-    UserDAO db = new UserDAO();
-    User u = db.getUserByUserName(username);
-    
-    // Define a regular expression pattern to enforce password requirements
-    String passwordPattern = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]{8,}$";
-
-    if (u == null || !u.getPass().equals(opass)) {
-        String ms = "Old password is incorrect!";
-        request.setAttribute("ms", ms);
-        request.getRequestDispatcher("change.jsp").forward(request, response);
-    } else if (!p.equals(confirmPass)) {
-        String ms = "New password and confirmation password do not match!";
-        request.setAttribute("ms", ms);
-        request.getRequestDispatcher("change.jsp").forward(request, response);
-    } else if (!p.matches(passwordPattern)) {
-        String ms = "Password must contain at least eight characters, at least one letter, one number and one special character.";
-        request.setAttribute("ms", ms);
-        request.getRequestDispatcher("change.jsp").forward(request, response);
-    } else {
-        db.change(u.getEmail(),p);
-        User us=db.getUserByUserName(username);
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
         HttpSession session = request.getSession();
-        session.setAttribute("user", us);
-        session.setAttribute("successMsg", "Change password successfully!");
-        response.sendRedirect("WelcomePage.jsp");
-    }
-}
+        UserDAO db = new UserDAO();
+        User u = (User) session.getAttribute("user");
+        String username = u.getUsername();
+        String opass =request.getParameter("opass");;
+        String p = request.getParameter("pass");
+        String confirmPass = request.getParameter("rpass");
 
+        // Define a regular expression pattern to enforce password requirements
+        String passwordPattern = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]{8,}$";
+        String message = null;
+        if (u == null || !u.getPass().equals(opass)) {
+            message = "Old password is incorrect!";
+            request.setAttribute("message", message);
+            request.getRequestDispatcher("ChangePassword.jsp").forward(request, response);
+        } else if (!p.equals(confirmPass)) {
+            message = "New password and confirmation password do not match!";
+            request.setAttribute("message", message);
+            request.getRequestDispatcher("ChangePassword.jsp").forward(request, response);
+        } else if (!p.matches(passwordPattern)) {
+            message = "Password must contain at least eight characters, at least one letter, one number and one special character.";
+            request.setAttribute("message", message);
+            request.getRequestDispatcher("ChangePassword.jsp").forward(request, response);
+        } else {
+            db.change(u.getEmail(), p);
+            User us = db.getUserByUserName(username);
+            session.setAttribute("user", us);
+            session.setAttribute("successMsg", "Change password successfully!");
+            response.sendRedirect("WelcomePage.jsp");
+        }
+    }
 
     /**
      * Handles the HTTP <code>POST</code> method.
