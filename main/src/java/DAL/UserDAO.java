@@ -258,4 +258,19 @@ public class UserDAO extends BaseDAO<User> {
             return false;
         }
     }
+    public String getEncryptedPassword(String email) throws SQLException {
+
+        String sql = "SELECT password FROM users WHERE email = ?";
+
+        PreparedStatement stm = connection.prepareStatement(sql);
+        stm.setString(1, email);
+
+        ResultSet rs = stm.executeQuery();
+
+        if (rs.next()) {
+            return rs.getString("password");
+        }
+
+        return null;
+    }
 }
