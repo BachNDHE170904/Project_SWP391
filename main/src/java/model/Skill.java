@@ -45,5 +45,10 @@ public class Skill {
     public void setSkillStatus(String skillStatus) {
         this.skillStatus = skillStatus;
     }
+
+    @Override
+    public String toString() {
+        return "Skill{" + "skillId=" + skillId + ", skillName=" + skillName + ", skillStatus=" + skillStatus + '}';
+    }
     
 }

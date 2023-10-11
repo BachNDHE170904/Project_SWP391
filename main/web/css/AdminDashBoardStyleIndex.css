@@ -200,3 +200,6 @@
         margin-left: 15px;
     }
 }
+.deleted-row {
+    background-color:#cccccc;
+  }

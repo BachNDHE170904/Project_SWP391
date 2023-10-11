@@ -50,9 +50,11 @@ public class LoginServlet extends HttpServlet {
             if (rememberPass != null && rememberPass.equals("true"))//remember pass
             {
                 Cookie c_user = new Cookie("email", user.getEmail());
-                Cookie c_pass = new Cookie("password", user.getPass());
+                Cookie c_pass = new Cookie("password", pass);
                 c_user.setMaxAge(3600 * 24 * 30);
                 c_pass.setMaxAge(3600 * 24 * 30);
+                c_user.setPath("main/Login.jsp");
+                c_pass.setPath("main/Login.jsp");
                 response.addCookie(c_pass);
                 response.addCookie(c_user);
             }

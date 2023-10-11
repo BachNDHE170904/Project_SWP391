@@ -14,7 +14,17 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
     </head>
     <body>
         <%
-            
+            Cookie[] cookies = request.getCookies();
+            String rmbEmail="", rmbPass="";
+            if (cookies != null) {
+                for (Cookie cookie : cookies) {
+                    if (cookie.getName().equals("email")) {
+                        rmbEmail = cookie.getValue();
+                    } else if (cookie.getName().equals("password")) {
+                        rmbPass = cookie.getValue();
+                    }
+                }
+            }
             String msg = (String) session.getAttribute("status");
             if (msg != null) {%>
 
@@ -47,13 +57,13 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
             <form action="LoginServlet" method="POST">
                 <!-- Username input -->
                 <div class="txt_field">
-                    <input type="text" name="email" required /> 
+                    <input type="text" name="email" value="<%= rmbEmail %>"required /> 
                     <span></span>
                     <label>Email</label>
                 </div>
                 <!-- Password input -->
                 <div class="txt_field">
-                    <input type="password" name="password" required />
+                    <input type="password" name="password" value="<%= rmbPass %>" required />
                     <span></span>
                     <label>Password</label>
                 </div>

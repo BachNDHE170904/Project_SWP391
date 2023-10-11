@@ -8,6 +8,7 @@ import DAL.UserDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -34,24 +35,35 @@ public class VerifyAccountServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         HttpSession session = request.getSession();
         User acc = (User) session.getAttribute("user");
-        int correctOtp=(int) session.getAttribute("otpCode");
-        int inputOtp=Integer.parseInt(request.getParameter("inputOtp"));
-        String ms;
-        if(correctOtp==inputOtp){
-            UserDAO db=new UserDAO();
-            db.updateUserAuthorization(acc.getEmail());
-            db.updateUserRoleToMentee(acc.getUserId());
-            session.setAttribute("successMsg", "Authorized successfully!");
-            session.setAttribute("user", db.getUserByEmailOnly(acc.getEmail()));
+        Cookie[] cookies = request.getCookies();
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if (cookie.getName().equals("otpCode")) {
+                    // You've found the cookie by name
+                    int correctOtp = Integer.parseInt(cookie.getValue());
+                    int inputOtp = Integer.parseInt(request.getParameter("inputOtp"));
+                    String ms;
+                    if (correctOtp == inputOtp) {
+                        UserDAO db = new UserDAO();
+                        db.updateUserAuthorization(acc.getEmail());
+                        db.updateUserRoleToMentee(acc.getUserId());
+                        session.setAttribute("successMsg", "Authorized successfully!");
+                        session.setAttribute("user", db.getUserByEmailOnly(acc.getEmail()));
+                        request.getRequestDispatcher("WelcomePage.jsp").forward(request, response);
+                    } else {
+                        ms = "Wrong otp";
+                        request.setAttribute("ms", ms);
+                        request.getRequestDispatcher("VerifyAccount.jsp").forward(request, response);
+                    }
+                    break; // If you've found the cookie, exit the loop
+                }
+            }
+        } else {
             request.getRequestDispatcher("WelcomePage.jsp").forward(request, response);
-        }else{
-            ms="Wrong otp";
-            request.setAttribute("ms", ms);
-            request.getRequestDispatcher("VerifyAccount.jsp").forward(request, response);
         }
     }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+// <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *

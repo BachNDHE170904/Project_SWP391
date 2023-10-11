@@ -4,21 +4,20 @@
  */
 package Controller;
 
+import DAL.SkillDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
-import model.SendEmail;
+import model.Skill;
 
 /**
  *
  * @author ADMIN
  */
-public class RegisterConfirmAccountServlet extends HttpServlet {
+public class UpdateSkillStatusServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -31,18 +30,12 @@ public class RegisterConfirmAccountServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        HttpSession session = request.getSession();
-        SendEmail sm = new SendEmail();
-        int otp = sm.getOtp();
-        String emailContent = "Your otp code to confirm your account is: " + otp;
-        String toEmail = request.getParameter("email");
-        boolean send = sm.sendEmail(toEmail, emailContent);
-        session.setAttribute("otpCode", otp);
-        Cookie otpCode = new Cookie("otpCode", Integer.toString(otp));
-        otpCode.setMaxAge(3600 * 24);
-        otpCode.setPath("main/VerifyAccount.jsp");
-        response.addCookie(otpCode);
+        int skillId=Integer.parseInt(request.getParameter("skillId"));
+        SkillDAO db=new SkillDAO();
+        Skill ski=db.getSkillById(skillId);
+        if(ski.getSkillStatus().equalsIgnoreCase("Active"))db.updateSkillStatus(skillId, "Inactive");
+        else db.updateSkillStatus(skillId, "Active");
+        request.getRequestDispatcher("AdminManageSkills.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
