@@ -115,7 +115,7 @@
                                                 const myModal = new bootstrap.Modal(document.getElementById('myModal')).show();
                                             }
                                         </script>
-                                        <a href="VerifyAccount.jsp">Confirm account here</a>
+                                        <a href="VerifyAccount.jsp" class="btn btn-primary">Confirm account here</a>
                                     </div>
                                     <%}%>
                                 </div>

@@ -8,6 +8,7 @@ import DAL.UserDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -64,7 +65,7 @@ public class ChangePassword extends HttpServlet {
             md.update(opass.getBytes());
             byte[] digest = md.digest();
             String oldHash = DatatypeConverter.printHexBinary(digest).toUpperCase();
-            
+
             md.reset();
             md.update(newPassword.getBytes());
             byte[] newPasswordDigest = md.digest();
@@ -87,6 +88,12 @@ public class ChangePassword extends HttpServlet {
             } else {
                 db.change(u.getEmail(), encryptedNewPassword);
                 User us = db.getUserByUserName(username);
+                Cookie emailCookieRemove = new Cookie("email", "");
+                emailCookieRemove.setMaxAge(0);
+                response.addCookie(emailCookieRemove);
+                Cookie passCookieRemove = new Cookie("password", "");
+                passCookieRemove.setMaxAge(0);
+                response.addCookie(passCookieRemove);
                 session.setAttribute("user", us);
                 session.setAttribute("successMsg", "Change password successfully!");
                 response.sendRedirect("WelcomePage.jsp");
