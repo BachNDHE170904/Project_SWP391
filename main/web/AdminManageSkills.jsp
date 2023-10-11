@@ -35,6 +35,7 @@
 
         <!-- Template Stylesheet -->
         <link href="css/AdminDashBoardStyleIndex.css" rel="stylesheet">
+        
     </head>
 
     <body>
@@ -136,17 +137,21 @@
                                         </thead>
                                         <tbody>
                                             <%
-                                                SkillDAO skillDb=new SkillDAO();
-                                                ArrayList<Skill> skills =skillDb.getSkills();
-                                                for(int i=1;i<=skills.size();i++){
-                                                    Skill skill=skills.get(i);
+                                                SkillDAO skillDb = new SkillDAO();
+                                                ArrayList<Skill> skills = skillDb.getSkills();
+                                                for (int i = 0; i < skills.size(); i++) {
+                                                    Skill skill = skills.get(i);
                                             %>
-                                            <tr>
-                                                <th scope="row"><%=i%></th>
-                                                <td><%=skill.getSkillId() %></td>
+                                            <tr 
+                                                <% if (skill.getSkillStatus().equals("inactive")) { %>
+                                                class="deleted-row"
+                                                <%}%>
+                                                >
+                                                <th scope="row"><%=i + 1%></th>
+                                                <td><%=skill.getSkillId()%></td>
                                                 <td><%=skill.getSkillName()%></td>
                                                 <td><%=skill.getSkillStatus()%></td>
-                                                <td><a href="#">Enable/Disable</a></td>
+                                                <td><a href="UpdateSkillStatusServlet?skillId=<%=skill.getSkillId()%>">Enable/Disable</a></td>
                                                 <td><a href="#">Update</a></td>
                                             </tr>
                                             <% } %>

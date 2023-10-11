@@ -24,7 +24,7 @@ CREATE TABLE Users (
    userAuthorization bit  NOT NULL,
    PRIMARY KEY (userId),
 );
-insert into Users(email,username,password,userAuthorization)values('happyprogramming551@gmail.com','Admin','Admin1234!','1')
+insert into Users(email,username,password,userAuthorization)values('happyprogramming551@gmail.com','Admin','552b2ebe774bb5aaa0ad2021da259d22','1')
 
 CREATE TABLE UserAvatar (
    userId   INT    NOT NULL ,
