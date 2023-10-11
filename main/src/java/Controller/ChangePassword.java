@@ -12,6 +12,8 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import java.security.MessageDigest;
+import javax.xml.bind.DatatypeConverter;
 import model.User;
 
 /**
@@ -49,35 +51,48 @@ public class ChangePassword extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        HttpSession session = request.getSession();
-        UserDAO db = new UserDAO();
-        User u = (User) session.getAttribute("user");
-        String username = u.getUsername();
-        String opass =request.getParameter("opass");;
-        String p = request.getParameter("pass");
-        String confirmPass = request.getParameter("rpass");
-
-        // Define a regular expression pattern to enforce password requirements
-        String passwordPattern = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]{8,}$";
-        String message = null;
-        if (u == null || !u.getPass().equals(opass)) {
-            message = "Old password is incorrect!";
-            request.setAttribute("message", message);
-            request.getRequestDispatcher("ChangePassword.jsp").forward(request, response);
-        } else if (!p.equals(confirmPass)) {
-            message = "New password and confirmation password do not match!";
-            request.setAttribute("message", message);
-            request.getRequestDispatcher("ChangePassword.jsp").forward(request, response);
-        } else if (!p.matches(passwordPattern)) {
-            message = "Password must contain at least eight characters, at least one letter, one number and one special character.";
-            request.setAttribute("message", message);
-            request.getRequestDispatcher("ChangePassword.jsp").forward(request, response);
-        } else {
-            db.change(u.getEmail(), p);
-            User us = db.getUserByUserName(username);
-            session.setAttribute("user", us);
-            session.setAttribute("successMsg", "Change password successfully!");
-            response.sendRedirect("WelcomePage.jsp");
+        try {
+            HttpSession session = request.getSession();
+            UserDAO db = new UserDAO();
+            User u = (User) session.getAttribute("user");
+            String username = u.getUsername();
+            String opass = request.getParameter("opass");;
+            String newPassword = request.getParameter("pass");
+            String confirmPass = request.getParameter("rpass");
+            String encryptedPassword = db.getEncryptedPassword(u.getEmail());
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            md.update(opass.getBytes());
+            byte[] digest = md.digest();
+            String oldHash = DatatypeConverter.printHexBinary(digest).toUpperCase();
+            
+            md.reset();
+            md.update(newPassword.getBytes());
+            byte[] newPasswordDigest = md.digest();
+            String encryptedNewPassword = DatatypeConverter.printHexBinary(newPasswordDigest).toUpperCase();
+            // Define a regular expression pattern to enforce password requirements
+            String passwordPattern = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]{8,}$";
+            String message = null;
+            if (u == null || !oldHash.equals(encryptedPassword)) {
+                message = "Old password is incorrect!";
+                request.setAttribute("message", message);
+                request.getRequestDispatcher("ChangePassword.jsp").forward(request, response);
+            } else if (!newPassword.equals(confirmPass)) {
+                message = "New password and confirmation password do not match!";
+                request.setAttribute("message", message);
+                request.getRequestDispatcher("ChangePassword.jsp").forward(request, response);
+            } else if (!newPassword.matches(passwordPattern)) {
+                message = "Password must contain at least eight characters, at least one letter, one number and one special character.";
+                request.setAttribute("message", message);
+                request.getRequestDispatcher("ChangePassword.jsp").forward(request, response);
+            } else {
+                db.change(u.getEmail(), encryptedNewPassword);
+                User us = db.getUserByUserName(username);
+                session.setAttribute("user", us);
+                session.setAttribute("successMsg", "Change password successfully!");
+                response.sendRedirect("WelcomePage.jsp");
+            }
+        } catch (Exception e) {
+            System.out.println(e);
         }
     }
 
