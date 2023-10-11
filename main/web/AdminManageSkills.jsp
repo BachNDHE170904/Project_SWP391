@@ -1,10 +1,11 @@
 
-<%@page import="Model.Skill"%>
-<%@page import="Model.UserDetails"%>
-<%@page import="Model.User"%>
+<%@page import="model.Skill"%>
+<%@page import="model.Skill"%>
+<%@page import="dal.SkillDAO"%>
+<%@page import="dal.UserDAO"%>
+<%@page import="model.UserDetails"%>
+<%@page import="model.User"%>
 <%@page import="java.util.ArrayList"%>
-<%@page import="DAL.SkillDAO"%>
-<%@page import="DAL.UserDAO"%>
 <!DOCTYPE html>
 <html lang="en">
 

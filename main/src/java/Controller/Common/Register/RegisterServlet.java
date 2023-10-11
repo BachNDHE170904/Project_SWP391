@@ -2,9 +2,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package Controller.Common.Register;
+package controller.common.register;
 
-import DAL.UserDAO;
+import dal.UserDAO;
 import jakarta.servlet.ServletContext;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -17,9 +17,9 @@ import jakarta.servlet.http.HttpSession;
 import java.security.MessageDigest;
 import java.sql.Date;
 import java.util.Properties;
-import Model.SendEmail;
-import Model.User;
-import Model.UserDetails;
+import model.SendEmail;
+import model.User;
+import model.UserDetails;
 import java.security.NoSuchAlgorithmException;
 import javax.xml.bind.DatatypeConverter;
 

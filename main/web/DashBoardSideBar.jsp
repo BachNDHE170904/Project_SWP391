@@ -4,9 +4,9 @@
     Author     : ADMIN
 --%>
 
-<%@page import="Model.User"%>
-<%@page import="Model.UserDetails"%>
-<%@page import="DAL.UserDAO"%>
+<%@page import="dal.UserDAO"%>
+<%@page import="model.UserDetails"%>
+<%@page import="model.User"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%
