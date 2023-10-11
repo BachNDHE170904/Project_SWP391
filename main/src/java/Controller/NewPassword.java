@@ -33,6 +33,7 @@ public class NewPassword extends HttpServlet {
         String newPassword = request.getParameter("password");
         String confPassword = request.getParameter("confPassword");
         RequestDispatcher dispatcher = null;
+        String message = null;
         UserDAO ud = new UserDAO();
 
         String passwordPattern = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]{8,}$";
@@ -43,19 +44,22 @@ public class NewPassword extends HttpServlet {
                 String email = (String) session.getAttribute("email");
                 boolean passwordUpdated = ud.updatePassword(email, newPassword);
                 if (passwordUpdated) {
-                    request.setAttribute("status", "resetSuccess");
-                    dispatcher = request.getRequestDispatcher("Login.jsp");
+                    session.setAttribute("status", "Reset password successfully");
+                    response.sendRedirect("Login.jsp");
                 } else {
-                    request.setAttribute("status", "resetFailed");
-                    dispatcher = request.getRequestDispatcher("Login.jsp");
+                    request.setAttribute("status", "Password reset failed");
+                    dispatcher = request.getRequestDispatcher("NewPassword.jsp");
                 }
             } else {
-
-                request.setAttribute("status", "invalidPassword");
-                dispatcher = request.getRequestDispatcher("newPassword.jsp");
+                message = "Password must contain at least eight characters, at least one letter, one number and one special character.";
+                request.setAttribute("message", message);
+                request.getRequestDispatcher("NewPassword.jsp").forward(request, response);
             }
-            dispatcher.forward(request, response);
+        }
+        if (newPassword != null && confPassword != null && !newPassword.equals(confPassword)) {
+            message = "New password and confirmation password do not match!";
+            request.setAttribute("message", message);
+            request.getRequestDispatcher("NewPassword.jsp").forward(request, response);
         }
     }
-
 }

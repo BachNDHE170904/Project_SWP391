@@ -21,9 +21,24 @@
                 background-color: #dee2e6;
                 border: #dee2e6
             }
+            .error {
+                color: red;
+                font-size: 14px;
+            }
         </style>
     </head>
     <body oncontextmenu='return false' class='snippet-body bg-info'>
+        <%
+            
+            String msg = (String) session.getAttribute("status");
+            if (msg != null) {%>
+
+        <script>
+            swal("Oops", "<%= msg%>", "error");
+        </script>
+
+        <% session.removeAttribute("status");
+            } %>
         <link rel="stylesheet"
               href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-social/5.1.1/bootstrap-social.css">
         <div>
@@ -44,8 +59,8 @@
                                     <!-- User Name Input -->
                                     <div class="form-group row justify-content-center px-3">
                                         <div class="col-9 px-0">
-                                            <input type="text" name="password" placeholder="&#xf084; &nbsp; New Password"
-                                                   class="form-control border-info placeicon">
+                                            <input type="password" name="password" placeholder="&#xf084; &nbsp; New Password"
+                                                   class="form-control border-info placeicon" required>
                                         </div>
                                     </div>
                                     <!-- Password Input -->
@@ -53,8 +68,21 @@
                                         <div class="col-9 px-0">
                                             <input type="password" name="confPassword"
                                                    placeholder="&#xf084; &nbsp; Confirm New Password"
-                                                   class="form-control border-info placeicon">
+                                                   class="form-control border-info placeicon" required>
                                         </div>
+                                    </div>
+                                    <div class="form-group row justify-content-center px-3">
+                                    <div class="col-9 px-0">
+                                    <%
+                                        String message = (String) request.getAttribute("message");
+                        
+                                    %>
+                                    <%if (message != null) {%>
+                                        <p class="error"><%= message%></p>
+                                    <%
+                                        }
+                                    %>
+                                    </div>
                                     </div>
 
                                     <!-- Log in Button -->

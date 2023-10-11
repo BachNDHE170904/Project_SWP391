@@ -59,19 +59,19 @@ public class ChangePassword extends HttpServlet {
 
         // Define a regular expression pattern to enforce password requirements
         String passwordPattern = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]{8,}$";
-
+        String message = null;
         if (u == null || !u.getPass().equals(opass)) {
-            String ms = "Old password is incorrect!";
-            request.setAttribute("ms", ms);
-            request.getRequestDispatcher("change.jsp").forward(request, response);
+            message = "Old password is incorrect!";
+            request.setAttribute("message", message);
+            request.getRequestDispatcher("ChangePassword.jsp").forward(request, response);
         } else if (!p.equals(confirmPass)) {
-            String ms = "New password and confirmation password do not match!";
-            request.setAttribute("ms", ms);
-            request.getRequestDispatcher("change.jsp").forward(request, response);
+            message = "New password and confirmation password do not match!";
+            request.setAttribute("message", message);
+            request.getRequestDispatcher("ChangePassword.jsp").forward(request, response);
         } else if (!p.matches(passwordPattern)) {
-            String ms = "Password must contain at least eight characters, at least one letter, one number and one special character.";
-            request.setAttribute("ms", ms);
-            request.getRequestDispatcher("change.jsp").forward(request, response);
+            message = "Password must contain at least eight characters, at least one letter, one number and one special character.";
+            request.setAttribute("message", message);
+            request.getRequestDispatcher("ChangePassword.jsp").forward(request, response);
         } else {
             db.change(u.getEmail(), p);
             User us = db.getUserByUserName(username);
