@@ -256,4 +256,17 @@ public class UserDAO extends BaseDAO<User> {
             return false;
         }
     }
+    public boolean updateUserRoleToMentee(int userId) {
+        String sql = "update UserDetail set roleId = ? where userId = ?";
+        try {
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setInt(1, 3);
+            stm.setInt(2, userId);
+            stm.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, e);
+            return false;
+        }
+    }
 }

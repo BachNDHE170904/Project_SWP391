@@ -40,6 +40,7 @@ public class VerifyAccountServlet extends HttpServlet {
         if(correctOtp==inputOtp){
             UserDAO db=new UserDAO();
             db.updateUserAuthorization(acc.getEmail());
+            db.updateUserRoleToMentee(acc.getUserId());
             session.setAttribute("successMsg", "Authorized successfully!");
             session.setAttribute("user", db.getUserByEmailOnly(acc.getEmail()));
             request.getRequestDispatcher("WelcomePage.jsp").forward(request, response);
