@@ -69,6 +69,7 @@ public class RegisterServlet extends HttpServlet {
                 int userId = u.getUserId();
                 UserDetails ud = new UserDetails(phone, fullname, address, dob, gender, 2, username, myHash, email, userId, false);//2 means  role is User by default
                 db.insertUserDetails(ud);
+                db.insertUserStatus(u);
                 request.getRequestDispatcher("Login.jsp").forward(request, response);
             } else if (userByName != null) {
                 ms = "Username is already taken";
