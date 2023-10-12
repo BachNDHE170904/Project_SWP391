@@ -11,7 +11,7 @@
 
     <head>
         <meta charset="utf-8">
-        <title>DASHMIN - Bootstrap Admin Template</title>
+        <title>DashBoard</title>
         <meta content="width=device-width, initial-scale=1.0" name="viewport">
         <meta content="" name="keywords">
         <meta content="" name="description">
@@ -64,7 +64,7 @@
                         <div class="row g-4">
                             <div class="col-12">
                                 <div class="bg-light rounded h-100 p-4">
-                                    <h6 class="mb-4">Responsive Table</h6>
+                                    <h6 class="mb-4">Manage skills</h6>
                                     <div class="table-responsive">
                                         <table class="table">
                                             <thead>
