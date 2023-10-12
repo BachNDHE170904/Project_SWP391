@@ -181,6 +181,17 @@ public class UserDAO extends BaseDAO<User> {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    public void insertUserStatus(User us) {
+        try {
+            String sql = "insert into UserStatus(userId,userStatus) values(?,?)\n;";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setInt(1, us.getUserId());
+            statement.setString(2, "active");
+            statement.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 
     public void insertUserDetails(UserDetails us) {
         try {

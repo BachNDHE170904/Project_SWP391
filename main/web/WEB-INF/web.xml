@@ -34,7 +34,7 @@
     </servlet>
     <servlet>
         <servlet-name>AddNewSkillServlet</servlet-name>
-        <servlet-class>controller.admin.skills.AddNewSkillServlet</servlet-class>
+        <servlet-class>controller.admin.manageskills.AddNewSkillServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>VerifyAccountServlet</servlet-name>
@@ -42,7 +42,7 @@
     </servlet>
     <servlet>
         <servlet-name>UpdateSkillStatusServlet</servlet-name>
-        <servlet-class>controller.admin.skills.UpdateSkillStatusServlet</servlet-class>
+        <servlet-class>controller.admin.manageskills.UpdateSkillStatusServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
