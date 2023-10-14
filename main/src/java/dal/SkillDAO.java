@@ -89,6 +89,26 @@ public class SkillDAO extends BaseDAO<Skill> {
             return false;
         }
     }
+
+    public ArrayList<Skill> getActiveSkills() {
+        ArrayList<Skill> skills = new ArrayList<>();
+        try {
+            String sql = "SELECT * FROM Skills,SkillStatus where Skills.skillStatusId=SkillStatus.skillStatusId and SkillStatus.skillStatus=? \n";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setString(1, "active");
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                Skill s = new Skill();
+                s.setSkillId(rs.getInt("skillId"));
+                s.setSkillName(rs.getString("skillName"));
+                s.setSkillStatus(rs.getString("skillStatus"));
+                skills.add(s);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return skills;
+    }
     public static void main(String[] args) {
         SkillDAO db=new SkillDAO();
         db.updateSkillStatus(5, "Inactive");
