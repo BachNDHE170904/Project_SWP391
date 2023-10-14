@@ -44,6 +44,10 @@
         <servlet-name>UpdateSkillStatusServlet</servlet-name>
         <servlet-class>controller.admin.manageskills.UpdateSkillStatusServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>CreateCV</servlet-name>
+        <servlet-class>controller.common.mentor.CreateCV</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
         <url-pattern>/LoginServlet</url-pattern>
@@ -87,6 +91,10 @@
     <servlet-mapping>
         <servlet-name>UpdateSkillStatusServlet</servlet-name>
         <url-pattern>/UpdateSkillStatusServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CreateCV</servlet-name>
+        <url-pattern>/CreateCV</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

@@ -284,4 +284,29 @@ public class UserDAO extends BaseDAO<User> {
 
         return null;
     }
+
+    /**
+     * Check Role of user is input role
+     *
+     * @param userId
+     * @param roleId
+     * @return true if role in db is the same as input role
+     */
+    public boolean checkRole(int userId, int roleId) {
+        String sql = "select roleId from UserDetail where userId = ?";
+        try {
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setInt(1, userId);
+            ResultSet rs = stm.executeQuery();
+            int role = 0;
+            if (rs.next()) {
+                role = rs.getInt("roleId");
+            }
+            return role == roleId;
+        } catch (SQLException e) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, e);
+            return false;
+        }
+    }
+
 }
