@@ -65,12 +65,14 @@ CREATE TABLE SkillStatus (
 insert into SkillStatus(skillStatus) values('inactive')
 insert into SkillStatus(skillStatus) values('active')
 CREATE TABLE Skills (
-   skillId   INT    NOT NULL identity(1,1),
+   skillId   INT    NOT NULL identity(0,1),
    skillName NVARCHAR (50)     NOT NULL,
    skillStatusId INT NOT NULL,
    PRIMARY KEY (skillId),
    FOREIGN KEY (skillStatusId) REFERENCES SkillStatus(skillStatusId),
 );
+insert into LanguageStatus(languageStatus) values('inactive')
+insert into LanguageStatus(languageStatus) values('active')
 
 CREATE TABLE LanguageStatus (
    languageStatusId   INT    NOT NULL identity(1,1),
