@@ -105,7 +105,7 @@ public class SkillDAO extends BaseDAO<Skill> {
                 skills.add(s);
             }
         } catch (SQLException ex) {
-            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(SkillDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return skills;
     }

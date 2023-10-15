@@ -22,13 +22,23 @@
         <jsp:include page="../NavBar.jsp"></jsp:include>
             <div class="container light-style flex-grow-1 container-p-y">
                 <h4 class="font-weight-bold py-3 mb-4">
-                    Create CV
-                </h4>
-                <div class="card overflow-hidden">
-                    <div class="row no-gutters row-bordered row-border-light">
-                        <form action="CreateCV" method="POST" enctype="multipart/form-data">
-                            <hr class="border-light m-0">
-                            <div class="card-body" style="margin: 0 30px;">
+                <c:choose>
+                    <c:when test="${'update'.equals(action)}">
+                        Detail CV
+                    </c:when>
+                    <c:otherwise>
+                        Create CV
+                    </c:otherwise>
+                </c:choose>
+            </h4>
+            <div class="card overflow-hidden">
+                <div class="row no-gutters row-bordered row-border-light">
+                    <label id="error" style="color: red;margin-left: 25px;">${error}</label>
+                    <label id="msg" style="color: green;margin-left: 25px;">${msg}</label>
+                    <form action="CreateCV" method="POST" >
+                        <input type="hidden" value="${action}" name="action">
+                        <hr class="border-light m-0">
+                        <div class="card-body" style="margin: 0 30px;">
                             <div class="form-group">
                                 <label class="form-label">Username <font color="red">*</font></label>
                                 <label class="form-control mb-1" name="profession">${sessionScope.user.getUsername()}</label>
@@ -59,25 +69,38 @@
                             </div>
                             <div class="form-group">
                                 <label class="form-label">Profession <font color="red">*</font></label>
-                                <input type="text" class="form-control mb-1" name="profession" required>
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label">Profession introduction <font color="red">*</font></label>
-                                <textarea class="form-control mb-1" name="profession_introduction" required></textarea>
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label">Skills <font color="red">*</font></label>
-                                <div class="d-flex flex-wrap">
+                                <input type="text" class="form-control mb-1" name="profession" required <c:if test="${'update'.equals(action)}">value="${mentor.getProfession()}"</c:if>>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Profession introduction <font color="red">*</font></label>
+                                    <textarea class="form-control mb-1" name="profession_introduction" required><c:if test="${'update'.equals(action)}">${mentor.getProfessionInfo()}</c:if></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Skills <font color="red">*</font></label>
+                                    <div class="d-flex flex-wrap">
                                     <c:choose>
                                         <c:when test="${skills.isEmpty()}">
                                             <label><font color="red">No Skill available!</font></label>
                                             </c:when>
                                             <c:otherwise>
+                                                <c:if test="${'update'.equals(action)}">
+                                                    <c:set var="skillIds" value="${mentor.getSkillsId()}"></c:set>
+                                                </c:if>
                                                 <c:forEach items="${skills}" var="skill">
-                                                <div class="me-3">
-                                                    <input type="checkbox"  value="${skill.getSkillId()}" name="skills">
-                                                    <label>${skill.getSkillName()}</label>
-                                                </div>
+                                                    <c:choose>
+                                                        <c:when test="${'update'.equals(action) && skillIds.contains(skill.getSkillId())}">
+                                                        <div class="me-3">
+                                                            <input id="skill${skill.getSkillId()}" type="checkbox"  value="${skill.getSkillId()}" name="skills" checked>
+                                                            <label for="skill${skill.getSkillId()}">${skill.getSkillName()}</label>
+                                                        </div>
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                        <div class="me-3">
+                                                            <input id="skill${skill.getSkillId()}" type="checkbox"  value="${skill.getSkillId()}" name="skills">
+                                                            <label for="skill${skill.getSkillId()}">${skill.getSkillName()}</label>
+                                                        </div>
+                                                    </c:otherwise>
+                                                </c:choose>
                                             </c:forEach>
                                         </c:otherwise>
                                     </c:choose>
@@ -85,32 +108,45 @@
                             </div>
                             <div class="form-group">
                                 <label class="form-label">Service description <font color="red">*</font></label>
-                                <textarea class="form-control mb-1" name="service_description" required></textarea>
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label">Achievement description <font color="red">*</font></label>
-                                <textarea class="form-control mb-1" name="achievement_description" required></textarea>
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label">Programing (Framework) <font color="red">*</font></label>
-                                <div class="d-flex flex-wrap">
+                                <textarea class="form-control mb-1" name="service_description" required><c:if test="${'update'.equals(action)}">${mentor.getServiceInfo()}</c:if></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Achievement description <font color="red">*</font></label>
+                                    <textarea class="form-control mb-1" name="achievement_description" required><c:if test="${'update'.equals(action)}">${mentor.getAchivementInfo()}</c:if></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Programing (Framework) <font color="red">*</font></label>
+                                    <div class="d-flex flex-wrap">
                                     <c:choose>
                                         <c:when test="${programingLanguages.isEmpty()}">
                                             <label><font color="red">No Programing Language available!</font></label>
-                                            </c:when>
-                                            <c:otherwise>
-                                                <c:forEach items="${programingLanguages}" var="programingLanguage">
-                                                <div class="me-3">
-                                                    <input type="checkbox"  value="${programingLanguage.getLanguageId()}" name="programingLanguages">
-                                                    <label>${programingLanguage.getLanguageName()}</label>
-                                                </div>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <c:if test="${'update'.equals(action)}">
+                                                <c:set var="languageIds" value="${mentor.getLanguageId()}"></c:set>
+                                            </c:if>
+                                            <c:forEach items="${programingLanguages}" var="programingLanguage">
+                                                <c:choose>
+                                                    <c:when test="${'update'.equals(action) && languageIds.contains(programingLanguage.getLanguageId())}">
+                                                    <div class="me-3">
+                                                        <input id="language${programingLanguage.getLanguageId()}" type="checkbox"  value="${programingLanguage.getLanguageId()}" name="programingLanguages" checked>
+                                                        <label for="language${programingLanguage.getLanguageId()}">${programingLanguage.getLanguageName()}</label>
+                                                    </div>
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                        <div class="me-3">
+                                                            <input id="language${programingLanguage.getLanguageId()}"  type="checkbox"  value="${programingLanguage.getLanguageId()}" name="programingLanguages">
+                                                            <label for="language${programingLanguage.getLanguageId()}">${programingLanguage.getLanguageName()}</label>
+                                                        </div>
+                                                    </c:otherwise>
+                                                </c:choose>
                                             </c:forEach>
                                         </c:otherwise>
                                     </c:choose>
                                 </div>
                             </div>
                             <input type="submit" value="OK" class="btn btn-primary" id="create-cv">
-                            <label id="error" style="color: red"></label>
+                            <label id="validate" style="color: red"></label>
                         </div>
                     </form>
                 </div>
@@ -124,10 +160,10 @@
             $(document).ready(function () {
                 $('#create-cv').click(function () {
                     if (!$("input[name=skills]:checked").length) {
-                        $('#error').text("You must check at least one skills.");
+                        $('#validate').text("You must check at least one skills.");
                         return false;
                     } else if (!$("input[name=programingLanguages]:checked").length) {
-                        $('#error').text("You must check at least one programing languages.");
+                        $('#validate').text("You must check at least one programing languages.");
                         return false;
                     }
                 });

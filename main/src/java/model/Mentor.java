@@ -4,12 +4,15 @@
  */
 package model;
 
+import java.util.ArrayList;
+import java.util.Objects;
+
 public class Mentor {
 
     private int mentorId;
     private int userid;
-    private int[] skillsId;
-    private int[] languageId;
+    private ArrayList<Integer> skillsId;
+    private ArrayList<Integer> languageId;
     private String profession;
     private String professionInfo;
     private String serviceInfo;
@@ -18,7 +21,9 @@ public class Mentor {
     public Mentor() {
     }
 
-    public Mentor(int mentorId, int userid, int[] skillsId, int[] languageId, String profession, String professionInfo, String serviceInfo, String achivementInfo) {
+    public Mentor(int mentorId, int userid, ArrayList<Integer> skillsId, ArrayList<Integer> languageId, String profession, String professionInfo,
+            String serviceInfo,
+            String achivementInfo) {
         this.mentorId = mentorId;
         this.userid = userid;
         this.skillsId = skillsId;
@@ -45,19 +50,19 @@ public class Mentor {
         this.userid = userid;
     }
 
-    public int[] getSkillsId() {
+    public ArrayList<Integer> getSkillsId() {
         return skillsId;
     }
 
-    public void setSkillsId(int[] skillsId) {
+    public void setSkillsId(ArrayList<Integer> skillsId) {
         this.skillsId = skillsId;
     }
 
-    public int[] getLanguageId() {
+    public ArrayList<Integer> getLanguageId() {
         return languageId;
     }
 
-    public void setLanguageId(int[] languageId) {
+    public void setLanguageId(ArrayList<Integer> languageId) {
         this.languageId = languageId;
     }
 
