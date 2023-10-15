@@ -6,18 +6,18 @@ package controller.admin.managelanguages;
 
 import common.Common;
 import dal.ProgramingLanguageDAO;
-import java.io.IOException;
-import java.util.ArrayList;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import model.ProgramingLanguage;
 
-/**
- *
- * @author hihih
- */
+@WebServlet("/ProgramLanguageServlet")
 public class ProgramLanguageServlet extends HttpServlet {
 
     /**
@@ -31,20 +31,31 @@ public class ProgramLanguageServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        try {
 
-        String method = Common.handleString((String) request.getAttribute("method"));
-
-        if ("add".equalsIgnoreCase(method)) {
-            request.getRequestDispatcher("admin/AddManageProgramLanguage.jsp").forward(request, response);
-        } else {
-            if ("update".equalsIgnoreCase(method)) {
-                //update
-            }
+            String method = Common.handleString(request.getParameter("method"));
             ProgramingLanguageDAO languageDAO = new ProgramingLanguageDAO();
-            ArrayList<ProgramingLanguage> programingLanguages = languageDAO.getProgramingLanguage();
 
-            request.setAttribute("programingLanguages", programingLanguages);
-            request.getRequestDispatcher("admin/ManageProgramLanguage.jsp").forward(request, response);
+            if ("add".equalsIgnoreCase(method)) {
+                request.getRequestDispatcher("admin/AddManageProgramLanguage.jsp").forward(request, response);
+            } else {
+                if ("update".equalsIgnoreCase(method)) {
+                    int id = Common.handleInt(request.getParameter("id"));
+                    if (id != 0) {
+                        ProgramingLanguage language = languageDAO.getProgramingLanguageById(id);
+                        if ("Active".equalsIgnoreCase(language.getLanguageStatus())) {
+                            languageDAO.updateProgramingLanguageStatus(id, "Inactive");
+                        } else {
+                            languageDAO.updateProgramingLanguageStatus(id, "Active");
+                        }
+                    }
+                }
+                ArrayList<ProgramingLanguage> programingLanguages = languageDAO.getProgramingLanguage();
+                request.setAttribute("programingLanguages", programingLanguages);
+                request.getRequestDispatcher("admin/ManageProgramLanguage.jsp").forward(request, response);
+            }
+        } catch (Exception e) {
+            Logger.getLogger(ProgramLanguageServlet.class.getName()).log(Level.SEVERE, null, e);
         }
     }
 
@@ -59,6 +70,19 @@ public class ProgramLanguageServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        try {
+            ProgramingLanguageDAO languageDAO = new ProgramingLanguageDAO();
+            String name = request.getParameter("skillName");
+            String status = request.getParameter("status");
+            ProgramingLanguage language = new ProgramingLanguage();
+            language.setLanguageName(name);
+            language.setLanguageStatus(status);
+            if (languageDAO.insertProgramingLanguage(language)) {
+                doGet(request, response);
+            }
+        } catch (Exception e) {
+            Logger.getLogger(ProgramLanguageServlet.class.getName()).log(Level.SEVERE, null, e);
+        }
     }
 
     /**

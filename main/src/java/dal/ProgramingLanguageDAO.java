@@ -28,7 +28,7 @@ public class ProgramingLanguageDAO extends BaseDAO<ProgramingLanguage> {
                 programingLanguages.add(s);
             }
         } catch (SQLException ex) {
-            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ProgramingLanguageDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return programingLanguages;
     }
@@ -48,7 +48,7 @@ public class ProgramingLanguageDAO extends BaseDAO<ProgramingLanguage> {
                 programingLanguages.add(s);
             }
         } catch (SQLException ex) {
-            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ProgramingLanguageDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return programingLanguages;
     }
@@ -67,7 +67,7 @@ public class ProgramingLanguageDAO extends BaseDAO<ProgramingLanguage> {
                 return s;
             }
         } catch (SQLException ex) {
-            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ProgramingLanguageDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
     }
@@ -87,7 +87,7 @@ public class ProgramingLanguageDAO extends BaseDAO<ProgramingLanguage> {
             statement.executeUpdate();
             return true;
         } catch (SQLException ex) {
-            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ProgramingLanguageDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return false;
     }
@@ -105,7 +105,7 @@ public class ProgramingLanguageDAO extends BaseDAO<ProgramingLanguage> {
             stm.executeUpdate();
             return true;
         } catch (SQLException e) {
-            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, e);
+            Logger.getLogger(ProgramingLanguageDAO.class.getName()).log(Level.SEVERE, null, e);
             return false;
         }
     }
