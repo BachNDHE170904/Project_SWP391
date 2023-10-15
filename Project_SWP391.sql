@@ -108,13 +108,17 @@ CREATE TABLE MentorCV (
 CREATE TABLE MentorSkills (
    mentorId   INT    NOT NULL,
    skillId	  INT    NOT NULL,
-   languageId   INT    NOT NULL ,
    PRIMARY KEY (mentorId),
    FOREIGN KEY (skillId) REFERENCES Skills(skillId),
    FOREIGN KEY (mentorId) REFERENCES MentorCV(mentorId),
+);
+CREATE TABLE MentorProgramingLanguage (
+   mentorId   INT    NOT NULL,
+   languageId   INT    NOT NULL ,
+   PRIMARY KEY (mentorId),
+   FOREIGN KEY (mentorId) REFERENCES MentorCV(mentorId),
    FOREIGN KEY (languageId) REFERENCES ProgrammingLanguage(languageId),
 );
-
 
 CREATE TABLE Statuses (
    statusId int NOT NULL identity(1,1),

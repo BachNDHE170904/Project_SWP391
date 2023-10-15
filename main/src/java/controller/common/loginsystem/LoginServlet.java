@@ -47,7 +47,7 @@ public class LoginServlet extends HttpServlet {
             User user = db.getUser(email, myChecksum);
             UserDetails details = db.getUserDetails(email);
             HttpSession session = request.getSession();
-            if (rememberPass != null && rememberPass.equals("true")&&user!=null)//remember pass
+            if (rememberPass != null && rememberPass.equals("true") && user != null)//remember pass
             {
                 Cookie c_user = new Cookie("email", user.getEmail());
                 Cookie c_pass = new Cookie("password", pass);
