@@ -54,6 +54,11 @@
                                             <label class="btn btn-outline-primary">
                                                 <a class="nav-link active" aria-current="page" href="#"  >Update Profile</a>
                                             </label>
+                                            <%if (acc.isIsAuthorized()) {%>
+                                            <label class="btn btn-outline-primary">
+                                                <a class="nav-link active" aria-current="page" href="CreateCV"  >Register Mentor</a>
+                                            </label>
+                                            <%}%>
                                         </div>
                                     </div>
                                 </div>

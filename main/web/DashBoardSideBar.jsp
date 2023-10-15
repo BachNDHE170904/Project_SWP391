@@ -36,8 +36,9 @@
         </div>
         <div class="navbar-nav w-100">
             <a href="AdminDashBoard.jsp" class="nav-item nav-link active"><i class="fa fa-tachometer-alt me-2"></i>Dashboard</a>
-            <a href="#" class="nav-item nav-link"><i class="fa fa-th me-2"></i>Mangage Users</a>
+            <a href="#" class="nav-item nav-link"><i class="fa fa-th me-2"></i>Manage Users</a>
             <a href="AdminManageSkills.jsp" class="nav-item nav-link"><i class="fa fa-keyboard me-2"></i>Manage Skills</a>
+            <a href="ProgramLanguageServlet" class="nav-item nav-link"><i class="fa fa-code me-2"></i>Manage Program Language</a>
             <a href="#" class="nav-item nav-link"><i class="fa fa-table me-2"></i>Manage Mentors</a>
             <a href="#" class="nav-item nav-link"><i class="fa fa-chart-bar me-2"></i>Manage Requests</a>
         </div>
