@@ -73,11 +73,12 @@ CREATE TABLE Skills (
 );
 
 CREATE TABLE LanguageStatus (
-   languageStatusId   INT    NOT NULL identity(1,1),
+   languageStatusId   INT    NOT NULL identity(0,1),
    languageStatus NVARCHAR (50)     NOT NULL,
    PRIMARY KEY (languageStatusId),
 );
-
+insert into LanguageStatus(languageStatus) values('inactive')
+insert into LanguageStatus(languageStatus) values('active')
 CREATE TABLE ProgrammingLanguage (
    languageId   INT    NOT NULL identity(1,1),
    languageName NVARCHAR (50)     NOT NULL,
