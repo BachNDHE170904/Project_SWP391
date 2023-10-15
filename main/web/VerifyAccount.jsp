@@ -1,4 +1,5 @@
 
+<%@page import="model.User"%>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -11,7 +12,10 @@
 
     <body>
         <jsp:include page="NavBar.jsp"></jsp:include>
-        <div class="Center">
+            <div class="Center">
+            <% User acc = (User) session.getAttribute("user");
+                if (!acc.isIsAuthorized()) {
+            %>
             <h1>Verify Account</h1>
             <form action="VerifyAccountServlet" method="POST">
                 <div class="txt_field">
@@ -31,7 +35,9 @@
                 <p><%= message%></p>
             </div>
             <%
-                }
+                    }
+                } else
+                    request.getRequestDispatcher("ViewUserProfile.jsp").forward(request, response);
             %>
         </div>
         <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>

@@ -33,36 +33,41 @@ public class VerifyAccountServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        HttpSession session = request.getSession();
-        User acc = (User) session.getAttribute("user");
-        Cookie[] cookies = request.getCookies();
-        if (cookies != null) {
-            for (Cookie cookie : cookies) {
-                if (cookie.getName().equals("otpCode")) {
-                    // You've found the cookie by name
-                    int correctOtp = Integer.parseInt(cookie.getValue());
-                    int inputOtp = Integer.parseInt(request.getParameter("inputOtp"));
-                    String ms;
-                    if (correctOtp == inputOtp) {
-                        UserDAO db = new UserDAO();
-                        db.updateUserAuthorization(acc.getEmail());
-                        db.updateUserRoleToMentee(acc.getUserId());
-                        session.setAttribute("successMsg", "Authorized successfully!");
-                        session.setAttribute("user", db.getUserByEmailOnly(acc.getEmail()));
-                        Cookie otpCodeCookieRemove = new Cookie("otpCode", "");
-                        otpCodeCookieRemove.setMaxAge(0);
-                        response.addCookie(otpCodeCookieRemove);
-                        request.getRequestDispatcher("WelcomePage.jsp").forward(request, response);
-                    } else {
-                        ms = "Wrong otp";
-                        request.setAttribute("ms", ms);
-                        request.getRequestDispatcher("VerifyAccount.jsp").forward(request, response);
+        try {
+            HttpSession session = request.getSession();
+            User acc = (User) session.getAttribute("user");
+            Cookie[] cookies = request.getCookies();
+            if (cookies != null) {
+                for (Cookie cookie : cookies) {
+                    if (cookie.getName().equals("otpCode")) {
+                        // You've found the cookie by name
+                        int correctOtp = Integer.parseInt(cookie.getValue());
+                        int inputOtp = Integer.parseInt(request.getParameter("inputOtp"));
+                        String ms;
+                        if (correctOtp == inputOtp) {
+                            UserDAO db = new UserDAO();
+                            db.updateUserAuthorization(acc.getEmail());
+                            db.updateUserRoleToMentee(acc.getUserId());
+                            session.setAttribute("user", db.getUserByEmailOnly(acc.getEmail()));
+                            session.setAttribute("userDetail", db.getUserDetails(acc.getEmail()));
+                            session.setAttribute("successMsg", "Authorized successfully!");
+                            Cookie otpCodeCookieRemove = new Cookie("otpCode", "");
+                            otpCodeCookieRemove.setMaxAge(0);
+                            response.addCookie(otpCodeCookieRemove);
+                            request.getRequestDispatcher("WelcomePage.jsp").forward(request, response);
+                        } else {
+                            ms = "Wrong otp";
+                            request.setAttribute("ms", ms);
+                            request.getRequestDispatcher("VerifyAccount.jsp").forward(request, response);
+                        }
+                        break; // If you've found the cookie, exit the loop
                     }
-                    break; // If you've found the cookie, exit the loop
                 }
+            } else {
+                request.getRequestDispatcher("WelcomePage.jsp").forward(request, response);
             }
-        } else {
-            request.getRequestDispatcher("WelcomePage.jsp").forward(request, response);
+        }catch(Exception e){
+            request.setAttribute("ms", "Invalid otp");
         }
     }
 
