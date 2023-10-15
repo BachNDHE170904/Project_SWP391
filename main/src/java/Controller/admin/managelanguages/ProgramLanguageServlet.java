@@ -32,14 +32,19 @@ public class ProgramLanguageServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
-
-            String method = Common.handleString(request.getParameter("method"));
+            String action = Common.handleString(request.getParameter("action"));
             ProgramingLanguageDAO languageDAO = new ProgramingLanguageDAO();
 
-            if ("add".equalsIgnoreCase(method)) {
-                request.getRequestDispatcher("admin/AddManageProgramLanguage.jsp").forward(request, response);
+            if ("add".equalsIgnoreCase(action)) {
+                request.setAttribute("action", action);
+                request.getRequestDispatcher("admin/AddUpdateProgramLanguage.jsp").forward(request, response);
+            } else if ("update".equalsIgnoreCase(action)) {
+                int id = Common.handleInt(request.getParameter("id"));
+                request.setAttribute("language", languageDAO.getProgramingLanguageById(id));
+                request.setAttribute("action", action);
+                request.getRequestDispatcher("admin/AddUpdateProgramLanguage.jsp").forward(request, response);
             } else {
-                if ("update".equalsIgnoreCase(method)) {
+                if ("update_status".equalsIgnoreCase(action)) {
                     int id = Common.handleInt(request.getParameter("id"));
                     if (id != 0) {
                         ProgramingLanguage language = languageDAO.getProgramingLanguageById(id);
@@ -52,7 +57,7 @@ public class ProgramLanguageServlet extends HttpServlet {
                 }
                 ArrayList<ProgramingLanguage> programingLanguages = languageDAO.getProgramingLanguage();
                 request.setAttribute("programingLanguages", programingLanguages);
-                request.getRequestDispatcher("admin/ManageProgramLanguage.jsp").forward(request, response);
+                request.getRequestDispatcher("admin/ListProgramLanguage.jsp").forward(request, response);
             }
         } catch (Exception e) {
             Logger.getLogger(ProgramLanguageServlet.class.getName()).log(Level.SEVERE, null, e);
@@ -71,14 +76,28 @@ public class ProgramLanguageServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
-            ProgramingLanguageDAO languageDAO = new ProgramingLanguageDAO();
-            String name = request.getParameter("skillName");
+            String action = Common.handleString(request.getParameter("action"));
+            String name = request.getParameter("name");
             String status = request.getParameter("status");
-            ProgramingLanguage language = new ProgramingLanguage();
-            language.setLanguageName(name);
-            language.setLanguageStatus(status);
-            if (languageDAO.insertProgramingLanguage(language)) {
-                doGet(request, response);
+            ProgramingLanguageDAO languageDAO = new ProgramingLanguageDAO();
+
+            if ("add".equalsIgnoreCase(action)) {
+                ProgramingLanguage language = new ProgramingLanguage();
+                language.setLanguageName(name);
+                language.setLanguageStatus(status);
+                if (languageDAO.insertProgramingLanguage(language)) {
+                    response.sendRedirect(request.getContextPath() + "/ProgramLanguageServlet");
+                }
+            }
+            if ("update".equalsIgnoreCase(action)) {
+                int id = Common.handleInt(request.getParameter("id"));
+                ProgramingLanguage language = new ProgramingLanguage();
+                language.setLanguageId(id);
+                language.setLanguageName(name);
+                language.setLanguageStatus(status);
+                if (languageDAO.updateProgramingLanguage(language)) {
+                    response.sendRedirect(request.getContextPath() + "/ProgramLanguageServlet");
+                }
             }
         } catch (Exception e) {
             Logger.getLogger(ProgramLanguageServlet.class.getName()).log(Level.SEVERE, null, e);
