@@ -68,6 +68,7 @@ public class VerifyAccountServlet extends HttpServlet {
             }
         }catch(Exception e){
             request.setAttribute("ms", "Invalid otp");
+            request.getRequestDispatcher("WelcomePage.jsp").forward(request, response);
         }
     }
 
