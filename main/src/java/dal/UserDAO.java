@@ -86,7 +86,28 @@ public class UserDAO extends BaseDAO<User> {
         }
         return null;
     }
+    public User getUserByID(int id) {
+        try {
+            String sql = "SELECT * FROM Users s\n"
+                    + "WHERE s.userId=? ";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setInt(1, id);
+            ResultSet rs = statement.executeQuery();
+            if (rs.next()) {
+                User s = new User();
+                s.setUsername(rs.getString("username"));
+                s.setPass(rs.getString("password"));
+                s.setUserId(rs.getInt("userId"));
+                s.setEmail(rs.getString("email"));
+                s.setIsAuthorized(rs.getBoolean("userAuthorization"));
+                return s;
+            }
 
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
     public User getUserByEmailOnly(String email) {
         try {
             String sql = "SELECT * FROM Users s\n"
