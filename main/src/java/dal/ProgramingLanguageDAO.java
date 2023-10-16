@@ -92,6 +92,25 @@ public class ProgramingLanguageDAO extends BaseDAO<ProgramingLanguage> {
         return false;
     }
 
+    public boolean updateProgramingLanguage(ProgramingLanguage pro) {
+        String sql = "update ProgrammingLanguage set languageStatusId = ?, languageName = ? where languageId = ?";
+        try {
+            PreparedStatement stm = connection.prepareStatement(sql);
+            if (pro.getLanguageStatus().equalsIgnoreCase("Active")) {
+                stm.setInt(1, 1);
+            } else {
+                stm.setInt(1, 0);
+            }
+            stm.setString(2, pro.getLanguageName());
+            stm.setInt(3, pro.getLanguageId());
+            stm.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            Logger.getLogger(ProgramingLanguageDAO.class.getName()).log(Level.SEVERE, null, e);
+            return false;
+        }
+    }
+
     public boolean updateProgramingLanguageStatus(int languageId, String status) {
         String sql = "update ProgrammingLanguage set languageStatusId = ? where languageId = ?";
         try {

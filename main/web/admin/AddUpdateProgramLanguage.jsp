@@ -50,28 +50,30 @@
                             <div class="col-sm-12 col-xl-12">
                                 <div class="bg-light rounded h-100 p-4">
                                     <form action="ProgramLanguageServlet" method="POST">
-                                        <h6 class="mb-4">Create new Program Language</h6>
+                                        <input type="hidden" value="${language.getLanguageId()}" name="id">
+                                        <input type="hidden" value="${action}" name="action">
+                                        <c:choose>
+                                            <c:when test="${'add'.equals(action)}">
+                                                <h6 class="mb-4">Create new Program Language</h6>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <h6 class="mb-4">Update Program Language</h6>
+                                            </c:otherwise>
+                                        </c:choose>
                                         <div class="form-floating mb-3">
-                                            <input type="text" class="form-control" id="floatingInput"
-                                                   name="skillName" required>
+                                            <input type="text" class="form-control" id="floatingInput" name="name" value="${language.getLanguageName()}" required>
                                             <label for="floatingInput">Program Language Name</label>
                                         </div>
                                         <fieldset class="row mb-3">
                                             <legend class="col-form-label col-sm-2 pt-0">Status</legend>
                                             <div class="col-sm-10">
                                                 <div class="form-check">
-                                                    <input class="form-check-input" type="radio" name="status"
-                                                           id="gridRadios1" value="Active" checked>
-                                                    <label class="form-check-label" for="gridRadios1">
-                                                        Active
-                                                    </label>
+                                                    <input class="form-check-input" type="radio" name="status" id="gridRadios1" value="Active" <c:if test="${'Active'.equalsIgnoreCase(language.getLanguageStatus())}">checked</c:if>>
+                                                    <label class="form-check-label" for="gridRadios1">Active</label>
                                                 </div>
                                                 <div class="form-check">
-                                                    <input class="form-check-input" type="radio" name="status"
-                                                           id="gridRadios2" value="Inactive">
-                                                    <label class="form-check-label" for="gridRadios2">
-                                                        Inactive
-                                                    </label>
+                                                    <input class="form-check-input" type="radio" name="status"id="gridRadios2" value="Inactive" <c:if test="${'Inactive'.equalsIgnoreCase(language.getLanguageStatus())}">checked</c:if>>
+                                                    <label class="form-check-label" for="gridRadios2">Inactive</label>
                                                 </div>
                                             </div>
                                         </fieldset>

@@ -65,7 +65,7 @@
                                                             <th scope="col">Status</th>
                                                             <th scope="col">Enable/Disable</th>
                                                             <th scope="col">Update</th>
-                                                            <th scope="col"><a href="ProgramLanguageServlet?method=add">+</a></th>
+                                                            <th scope="col"><a href="ProgramLanguageServlet?action=add">+</a></th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
@@ -75,8 +75,8 @@
                                                             <td>${programingLanguage.getLanguageId()}</td>
                                                             <td>${programingLanguage.getLanguageName()}</td>
                                                             <td>${programingLanguage.getLanguageStatus()}</td>
-                                                            <td><a href="ProgramLanguageServlet?method=update&id=${programingLanguage.getLanguageId()}">Enable/Disable</a></td>
-                                                            <td><a href="#">Update</a></td>
+                                                            <td><a href="ProgramLanguageServlet?action=update_status&id=${programingLanguage.getLanguageId()}">Enable/Disable</a></td>
+                                                            <td><a href="ProgramLanguageServlet?action=update&id=${programingLanguage.getLanguageId()}">Update</a></td>
                                                         </tr>
                                                     </c:forEach>
                                                 </tbody>
