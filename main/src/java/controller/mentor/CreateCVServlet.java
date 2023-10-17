@@ -1,4 +1,4 @@
-package controller.common.mentor;
+package controller.mentor;
 
 import dal.MentorDAO;
 import dal.ProgramingLanguageDAO;
