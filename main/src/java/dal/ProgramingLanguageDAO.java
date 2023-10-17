@@ -72,6 +72,25 @@ public class ProgramingLanguageDAO extends BaseDAO<ProgramingLanguage> {
         return null;
     }
 
+    public ProgramingLanguage getProgramingLanguageByName(String programingLanguageName) {
+        ProgramingLanguage s = new ProgramingLanguage();
+        try {
+            String sql = "SELECT * FROM ProgrammingLanguage,LanguageStatus where ProgrammingLanguage.languageStatusId=LanguageStatus.languageStatusId and ProgrammingLanguage.languageName=? \n";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setString(1, programingLanguageName);
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                s.setLanguageId(rs.getInt("languageId"));
+                s.setLanguageName(rs.getString("languageName"));
+                s.setLanguageStatus(rs.getString("languageStatus"));
+                return s;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ProgramingLanguageDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+
     public boolean insertProgramingLanguage(ProgramingLanguage pro) {
         try {
             String sql = "insert into ProgrammingLanguage(languageName,languageStatusId) values(?,?)\n;";

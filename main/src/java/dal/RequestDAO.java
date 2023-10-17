@@ -7,7 +7,7 @@ package dal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Date;
+import java.sql.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.Skill;
@@ -34,15 +34,17 @@ public class RequestDAO extends BaseDAO<Skill> {
                     + "           ,[requestContent]\n"
                     + "           ,[createdDate]\n"
                     + "           ,[deadline]\n"
-                    + "           ,[statusId])\n"
+                    + "           ,[statusId]"
+                    + "           ,[mentorId] )\n"
                     + "     VALUES\n"
-                    + "           (?,?,?,GETDATE(),?,?)";
+                    + "           (?,?,?,GETDATE(),?,?,?)";
             PreparedStatement xtm = connection.prepareStatement(xSQL);
             xtm.setInt(1, requestID);
             xtm.setString(2, title);
             xtm.setString(3, content);
-            xtm.setDate(4, new java.sql.Date(deadline.getTime()));
+            xtm.setDate(4, deadline);
             xtm.setInt(5, statusID);
+            xtm.setInt(6, -1);
             xtm.executeUpdate();
             for (String i : skills) {
                 String qSQL = "INSERT INTO [dbo].[requestSkillsChoices]\n"

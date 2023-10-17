@@ -50,33 +50,33 @@
                                         </div>
                                         <div class="form-group">
                                             <label class="form-label">Full Name</label>
-                                            <input class="form-control mb-1" type="text" name="fullname" value="${detail.fullname}" required="">
+                                            <input class="form-control mb-1" type="text" name="fullname" value="${sessionScope.userDetail.fullname}" required="">
                                         </div>
                                         <div class="form-group">
                                             <label class="form-label">Phone</label>
-                                            <input class="form-control mb-1" type="text" name="phone" required="" value="${detail.phone}">
+                                            <input class="form-control mb-1" type="text" name="phone" required="" value="${sessionScope.userDetail.phone}">
                                         </div>
                                         <div class="form-group">
                                             <label class="form-label">Address</label>
-                                            <input class="form-control mb-1" type="text" name="address" required="" value="${detail.address}">
+                                            <input class="form-control mb-1" type="text" name="address" required="" value="${sessionScope.userDetail.address}">
                                         </div>
                                         <div class="form-group">
                                             <label class="form-label">Sex</label>
                                             <select name="sex" class="form-control mb-1" required="">
-                                                <option value="1" ${detail.sex != null && detail.sex eq true ? 'selected' : ''}>Female</option>
-                                                <option value="0" ${detail.sex != null && detail.sex eq false ? 'selected' : ''}>Male</option>
+                                                <option value="1" ${sessionScope.userDetail.sex != null && sessionScope.userDetail.sex eq true ? 'selected' : ''}>Female</option>
+                                                <option value="0" ${sessionScope.userDetail.sex != null && sessionScope.userDetail.sex eq false ? 'selected' : ''}>Male</option>
                                             </select>
                                         </div>
                                         <div class="form-group">
                                             <label class="form-label">Date Of Birth</label>
-                                            <fmt:formatDate value="${detail.dob}"  
+                                            <fmt:formatDate value="${sessionScope.userDetail.dob}"  
                                                             type="date" 
                                                             pattern="yyyy-MM-dd"
                                                             var="theFormattedDate" />
                                             <input class="form-control mb-1" type="date" name="dob" required="" value="${theFormattedDate}">
                                         </div>
                                         <div class="form-group">
-                                            <button class="form-control mb-1" type="submit"></button>
+                                            <button class="btn btn-primary" type="submit">Ok</button>
                                         </div>
                                     </div>
                                 </form>

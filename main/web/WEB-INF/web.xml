@@ -102,7 +102,7 @@
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>UpdateProfileServlet</servlet-name>
-        <url-pattern>/updateprofile</url-pattern>
+        <url-pattern>/updateProfile</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

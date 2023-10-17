@@ -337,7 +337,7 @@ public class UserDAO extends BaseDAO<User> {
         }
     }
 
-    public void updateUserDetail(int userID, String username, String fullname, String phone, String address, boolean sex, String dob, String avatar) {
+    public void updateUserDetail(int userID, String username, String fullname, String phone, String address, boolean sex, Date dob, String avatar) {
         String sql = "UPDATE [dbo].[UserDetail]\n"
                 + "   SET \n"
                 + "       [username] = ?\n"
@@ -352,7 +352,7 @@ public class UserDAO extends BaseDAO<User> {
             stm.setString(1, username);
             stm.setString(2, phone);
             stm.setString(3, fullname);
-            stm.setDate(4, Date.valueOf(dob));
+            stm.setDate(4, dob);
             stm.setBoolean(5, sex);
             stm.setString(6, address);
             stm.setInt(7, userID);
