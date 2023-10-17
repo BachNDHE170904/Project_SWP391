@@ -49,6 +49,11 @@
                 outline: 0;
                 box-shadow: 0 0 0 0px #28a745
             }
+            .error {
+                color: red;
+                font-size: 14px;
+                margin-left: 15px;
+            }
         </style>
     </head>
     <body oncontextmenu='return false' class='snippet-body'>
@@ -72,12 +77,20 @@
                     <form class="card mt-4" action="forgotPasswordServlet" method="POST">
                         <div class="card-body">
                             <div class="form-group">
-                                <label for="email-for-pass">Enter your email address</label> <input
-                                    class="form-control" type="text" name="email" id="email-for-pass" required=""><small
-                                    class="form-text text-muted">Enter the registered email address . Then we'll
-                                    email a OTP to this address.</small>
+                                <label for="email-for-pass">Enter your email address</label> 
+                                <input class="form-control" type="text" name="email" id="email-for-pass" required="">
+                                <small class="form-text text-muted">Enter the registered email address . Then we'll email a OTP to this address.</small>
                             </div>
                         </div>
+                        <%
+                        String message1 = (String) request.getAttribute("message1");
+                        
+                    %>
+                    <%if (message1 != null) {%>
+                    <p class="error"><%= message1%></p>
+                        <%
+                            }
+                        %>
                         <div class="card-footer">
                             <button class="btn btn-success" type="submit">Get New
                                 Password</button>
