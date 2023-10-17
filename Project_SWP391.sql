@@ -71,14 +71,14 @@ CREATE TABLE Skills (
    PRIMARY KEY (skillId),
    FOREIGN KEY (skillStatusId) REFERENCES SkillStatus(skillStatusId),
 );
-insert into LanguageStatus(languageStatus) values('inactive')
-insert into LanguageStatus(languageStatus) values('active')
 
 CREATE TABLE LanguageStatus (
    languageStatusId   INT    NOT NULL identity(1,1),
    languageStatus NVARCHAR (50)     NOT NULL,
    PRIMARY KEY (languageStatusId),
 );
+insert into LanguageStatus(languageStatus) values('inactive')
+insert into LanguageStatus(languageStatus) values('active')
 
 CREATE TABLE ProgrammingLanguage (
    languageId   INT    NOT NULL identity(1,1),
