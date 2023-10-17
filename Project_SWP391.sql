@@ -65,7 +65,7 @@ CREATE TABLE SkillStatus (
 insert into SkillStatus(skillStatus) values('inactive')
 insert into SkillStatus(skillStatus) values('active')
 CREATE TABLE Skills (
-   skillId   INT    NOT NULL identity(0,1),
+   skillId   INT    NOT NULL identity(1,1),
    skillName NVARCHAR (50)     NOT NULL,
    skillStatusId INT NOT NULL,
    PRIMARY KEY (skillId),
