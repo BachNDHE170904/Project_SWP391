@@ -10,8 +10,11 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
+    User acc = null;
     //check if the user is logged in or not
-    User acc = (User) session.getAttribute("user");
+    if (session.getAttribute("user") != null) {
+        acc = (User) session.getAttribute("user");
+    }
     UserDetails details = (UserDetails) session.getAttribute("userDetail");
     UserDAO db = new UserDAO();
 %>
@@ -46,6 +49,7 @@
                     <% if (acc != null) {%>
                     <li><a class="dropdown-item" href="ViewUserProfile.jsp">View my Profile</a></li>
                     <li><a class="dropdown-item" href="ChangePassword.jsp">Change Password</a></li>
+                    <li><a class="dropdown-item" href="createRequest">Create Request</a></li>
                         <%}%>
                     <li><hr class="dropdown-divider"></li>
                     <li><a class="dropdown-item" href="LogOutServlet">Log Out</a></li>
