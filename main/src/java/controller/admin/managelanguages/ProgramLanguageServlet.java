@@ -17,7 +17,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.ProgramingLanguage;
 
-@WebServlet("/ProgramLanguageServlet")
 public class ProgramLanguageServlet extends HttpServlet {
 
     /**
