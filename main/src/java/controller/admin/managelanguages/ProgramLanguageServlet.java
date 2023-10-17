@@ -4,7 +4,7 @@
  */
 package controller.admin.managelanguages;
 
-import common.Common;
+import controller.Common;
 import dal.ProgramingLanguageDAO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
