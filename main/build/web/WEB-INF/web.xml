@@ -45,8 +45,12 @@
         <servlet-class>controller.admin.manageskills.UpdateSkillStatusServlet</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>ProgramLanguageServlet</servlet-name>
-        <servlet-class>controller.admin.managelanguages.ProgramLanguageServlet</servlet-class>
+        <servlet-name>CreateRequestServlet</servlet-name>
+        <servlet-class>controller.mentee.CreateRequestServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>UpdateProfileServlet</servlet-name>
+        <servlet-class>controller.mentee.UpdateProfileServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
@@ -93,8 +97,12 @@
         <url-pattern>/UpdateSkillStatusServlet</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>ProgramLanguageServlet</servlet-name>
-        <url-pattern>/ProgramLanguageServlet</url-pattern>
+        <servlet-name>CreateRequestServlet</servlet-name>
+        <url-pattern>/createRequest</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UpdateProfileServlet</servlet-name>
+        <url-pattern>/updateProfile</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
