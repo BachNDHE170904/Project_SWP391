@@ -27,9 +27,18 @@ public class ValidateOtp extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
     protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        int value = Integer.parseInt(request.getParameter("otp"));
-        HttpSession session = request.getSession();
-        int otp = (int) session.getAttribute("otp");
+        String otpValue = request.getParameter("otp");
+    
+        if (!otpValue.matches("\\d+")) {
+            request.setAttribute("message", "Wrong otp");
+            RequestDispatcher dispatcher = request.getRequestDispatcher("EnterOtp.jsp");
+            dispatcher.forward(request, response);
+            return;
+        }
+        int value = Integer.parseInt(otpValue);
+    
+        HttpSession session=request.getSession();
+        int otp=(int)session.getAttribute("otp");
 
         RequestDispatcher dispatcher = null;
 
