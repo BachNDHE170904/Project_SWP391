@@ -2,35 +2,55 @@
 <web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
     <servlet>
         <servlet-name>LoginServlet</servlet-name>
-        <servlet-class>Controller.LoginServlet</servlet-class>
+        <servlet-class>controller.common.loginsystem.LoginServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>RegisterServlet</servlet-name>
-        <servlet-class>Controller.RegisterServlet</servlet-class>
+        <servlet-class>controller.common.register.RegisterServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>RegisterConfirmAccountServlet</servlet-name>
-        <servlet-class>Controller.RegisterConfirmAccountServlet</servlet-class>
+        <servlet-class>controller.common.register.RegisterConfirmAccountServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>LogOutServlet</servlet-name>
-        <servlet-class>Controller.LogOutServlet</servlet-class>
+        <servlet-class>controller.common.loginsystem.LogOutServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>ForgotPassword</servlet-name>
-        <servlet-class>Controller.ForgotPassword</servlet-class>
+        <servlet-class>controller.publicpackage.resetpassword.ForgotPassword</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>ChangePassword</servlet-name>
-        <servlet-class>Controller.ChangePassword</servlet-class>
+        <servlet-class>controller.common.changepassword.ChangePassword</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>NewPassword</servlet-name>
-        <servlet-class>Controller.NewPassword</servlet-class>
+        <servlet-class>controller.publicpackage.resetpassword.NewPassword</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>ValidateOtp</servlet-name>
-        <servlet-class>Controller.ValidateOtp</servlet-class>
+        <servlet-class>controller.publicpackage.resetpassword.ValidateOtp</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>AddNewSkillServlet</servlet-name>
+        <servlet-class>controller.admin.manageskills.AddNewSkillServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>VerifyAccountServlet</servlet-name>
+        <servlet-class>controller.common.userauthorization.VerifyAccountServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>UpdateSkillStatusServlet</servlet-name>
+        <servlet-class>controller.admin.manageskills.UpdateSkillStatusServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>CreateRequestServlet</servlet-name>
+        <servlet-class>controller.common.userauthorization.CreateRequestServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>UpdateProfileServlet</servlet-name>
+        <servlet-class>controller.common.userauthorization.UpdateProfileServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
@@ -63,6 +83,26 @@
     <servlet-mapping>
         <servlet-name>ChangePassword</servlet-name>
         <url-pattern>/changePasswordServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AddNewSkillServlet</servlet-name>
+        <url-pattern>/AddNewSkillServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>VerifyAccountServlet</servlet-name>
+        <url-pattern>/VerifyAccountServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UpdateSkillStatusServlet</servlet-name>
+        <url-pattern>/UpdateSkillStatusServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CreateRequestServlet</servlet-name>
+        <url-pattern>/createRequest</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UpdateProfileServlet</servlet-name>
+        <url-pattern>/updateprofile</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

@@ -1,8 +1,9 @@
-<%@page import="DAL.UserDAO"%>
+
+<%@page import="dal.UserDAO"%>
+<%@page import="model.UserDetails"%>
+<%@page import="model.User"%>
 <!DOCTYPE html>
 <html lang="en">
-    <%@page import="model.User"%>
-    <%@page import="model.UserDetails"%>
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -17,47 +18,9 @@
             User acc = (User) session.getAttribute("user");
             UserDetails details = (UserDetails) session.getAttribute("userDetail");
             UserDAO db = new UserDAO();
+            String avatarLink = db.getUserAvatar(acc.getUserId());
         %>
-        <nav class="navbar navbar-expand-md bg-body-tertiary ">
-            <div class="container-fluid">
-                <a class="navbar-brand" href="WelcomePage.jsp">Happy Programming</a>
-                <button class="navbar-toggler ms-auto" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse " id="navbarSupportedContent">
-                    <%
-                        if (acc != null) {
-                    %>
-                    <div class="nav-item dropdown ms-auto">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <%= acc.getUsername()%>
-                        </a>
-                        <ul class="dropdown-menu dropdown-menu-end">
-                            <% if (acc != null) {%>
-                            <li><a class="dropdown-item" href="ViewUserProfile.jsp">View my Profile</a></li>
-                            <li><a class="dropdown-item" href="change.jsp?email=<%= acc.getEmail()%>">Change Password</a></li>
-                                <%}%>
-                            <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" href="LogOutServlet">Log Out</a></li>
-                        </ul>
-                    </div>
-                    <%
-                    } else {
-                    %>
-                    <ul class="navbar-nav ms-auto">
-                        <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="Login.jsp">Login</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="Register.jsp">Register</a>
-                        </li>
-                    </ul>
-                    <%
-                        }
-                    %>
-                </div>
-            </div>
-        </nav>
+        <jsp:include page="NavBar.jsp"></jsp:include>
         <div class="container light-style flex-grow-1 container-p-y">
             <h4 class="font-weight-bold py-3 mb-4">
                 Account Profile
@@ -80,18 +43,22 @@
                                     <div class="row">
                                         <div class="col-md-3">
                                             <%
-                                                String avatarLink = db.getUserAvatar(acc.getUserId());
-                                                if (avatarLink != null) {
+                                                if (avatarLink == null || avatarLink.isEmpty()) {
                                             %>
-                                            <img class="img-thumbnail" alt="" src="<%=avatarLink%>" />
-                                            <% } else {%>
                                             <img class="img-thumbnail" alt="" src="img/default_avatar.jpg" />
+                                            <% } else {%>
+                                            <img class="img-thumbnail" alt="" src="<%=avatarLink%>" />
                                             <%}%>
                                         </div>
                                         <div class="col-md-9">
                                             <label class="btn btn-outline-primary">
-                                                <a class="nav-link active" aria-current="page" href="#">Update Profile</a>
+                                                <a class="nav-link active" aria-current="page" href="#"  >Update Profile</a>
                                             </label>
+                                            <%if (acc.isIsAuthorized() && details.getRoleId() == 3) {%>
+                                            <label class="btn btn-outline-primary">
+                                                <a class="nav-link active" aria-current="page" href="CreateCV"  >Register Mentor</a>
+                                            </label>
+                                            <%}%>
                                         </div>
                                     </div>
                                 </div>
@@ -107,13 +74,27 @@
                                     </div>
                                     <div class="form-group">
                                         <label class="form-label">E-mail</label>
-                                        <label class="form-control mb-1"><%= details.getEmail()%></label>
-                                        <div class="alert alert-warning mt-3">
-                                            Your email is not confirmed. Please check your inbox.<br>
-                                            <a href="javascript:void(0)">Resend confirmation</a>
-                                        </div>
+                                        <label class="form-control mb-1" id="email" value="<%= details.getEmail()%>"><%= details.getEmail()%></label>
                                     </div>
-
+                                    <%if (!acc.isIsAuthorized()) {%>
+                                    <div class="alert alert-warning mt-3">
+                                        Your email is not confirmed. Please check your inbox.<br>
+                                        <button type="button" class="btn btn-primary" onclick="CheckOtp();return false;">
+                                            Resend OTP Code
+                                        </button><br>
+                                        <script>
+                                            function CheckOtp() {
+                                                let emailInput = document.getElementById("email").innerHTML;
+                                                let xhr = new XMLHttpRequest();
+                                                xhr.open("POST", "/main/RegisterConfirmAccountServlet");
+                                                xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                                                xhr.send("email=" + emailInput); // Send OTP and user email for validation
+                                                const myModal = new bootstrap.Modal(document.getElementById('myModal')).show();
+                                            }
+                                        </script>
+                                        <a href="VerifyAccount.jsp" >Confirm account here</a>
+                                    </div>
+                                    <%}%>
                                 </div>
                             </div>
 
@@ -156,15 +137,28 @@
             </div>
 
         </div>
-
-    </div>
-    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
-    <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script type="text/javascript">
-
-    </script>
-</body>
+        <!-- Modal -->
+        <div class="modal fade" id="myModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="staticBackdropLabel">Resend Otp</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="txt_field">
+                            <label>We have sent an otp code to your email</label>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Ok</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+    </body>
 
 </html>

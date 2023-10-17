@@ -1,4 +1,4 @@
-package DAL;
+package dal;
 
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -40,7 +40,7 @@ public class UserDAO extends BaseDAO<User> {
         return users;
     }
 
-    public User getUser(String email,String pass) {
+    public User getUser(String email, String pass) {
         try {
             String sql = "SELECT * FROM Users s\n"
                     + "WHERE s.email = ? and s.password = ? ";
@@ -63,7 +63,7 @@ public class UserDAO extends BaseDAO<User> {
         }
         return null;
     }
-    
+
     public User getUserByUserName(String username) {
         try {
             String sql = "SELECT * FROM Users s\n"
@@ -86,7 +86,30 @@ public class UserDAO extends BaseDAO<User> {
         }
         return null;
     }
-    
+
+    public User getUserByID(int id) {
+        try {
+            String sql = "SELECT * FROM Users s\n"
+                    + "WHERE s.userId=? ";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setInt(1, id);
+            ResultSet rs = statement.executeQuery();
+            if (rs.next()) {
+                User s = new User();
+                s.setUsername(rs.getString("username"));
+                s.setPass(rs.getString("password"));
+                s.setUserId(rs.getInt("userId"));
+                s.setEmail(rs.getString("email"));
+                s.setIsAuthorized(rs.getBoolean("userAuthorization"));
+                return s;
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+
     public User getUserByEmailOnly(String email) {
         try {
             String sql = "SELECT * FROM Users s\n"
@@ -109,7 +132,8 @@ public class UserDAO extends BaseDAO<User> {
         }
         return null;
     }
-    public void change(String email,String newPassword){
+
+    public void change(String email, String newPassword) {
         String sql = "update Users set password=? where email=?";
         try {
             PreparedStatement stm = connection.prepareStatement(sql);
@@ -120,24 +144,7 @@ public class UserDAO extends BaseDAO<User> {
             System.out.println(e);
         }
     }
-    
-    public boolean isEmailAssociated(String email) {
-        String sql = "SELECT COUNT(*) FROM Users WHERE email = ?";
-        try {
-            
-            PreparedStatement statement = connection.prepareStatement(sql);
-            statement.setString(1, email);
-            ResultSet rs = statement.executeQuery();
-            
-            if (rs.next()) {
-                int count = rs.getInt(1);
-                return count > 0; // If count > 0, the email is associated with at least one user.
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return false; // If there was an error or the email is not associated with any user.
-    }
+
     public String getUserAvatar(int userId) {
         try {
             String sql = "SELECT * FROM UserAvatar s\n"
@@ -146,7 +153,7 @@ public class UserDAO extends BaseDAO<User> {
             statement.setInt(1, userId);
             ResultSet rs = statement.executeQuery();
             if (rs.next()) {
-                String avatarLink=rs.getString("avatarLink");
+                String avatarLink = rs.getString("avatarLink");
                 return avatarLink;
             }
 
@@ -155,6 +162,7 @@ public class UserDAO extends BaseDAO<User> {
         }
         return null;
     }
+
     public UserDetails getUserDetails(String email) {
         try {
             String sql = "SELECT * FROM UserDetail,Users \n"
@@ -183,9 +191,10 @@ public class UserDAO extends BaseDAO<User> {
         }
         return null;
     }
+
     public void insertUser(User us) {
         try {
-            String sql ="insert into Users(email,username,password,userAuthorization) values(?,?,?,?)\n;";
+            String sql = "insert into Users(email,username,password,userAuthorization) values(?,?,?,?)\n;";
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setString(1, us.getEmail());
             statement.setString(2, us.getUsername());
@@ -196,6 +205,19 @@ public class UserDAO extends BaseDAO<User> {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
+    public void insertUserStatus(User us) {
+        try {
+            String sql = "insert into UserStatus(userId,userStatus) values(?,?)\n;";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setInt(1, us.getUserId());
+            statement.setString(2, "active");
+            statement.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
     public void insertUserDetails(UserDetails us) {
         try {
             String sql = "insert into UserDetail(userId,username,phone,fullname,dob,gender,userAddress,roleId) values(?,?,?,?,?,?,?,?)";
@@ -213,8 +235,139 @@ public class UserDAO extends BaseDAO<User> {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    public static void main(String[] args) {
-        UserDAO db=new UserDAO();
-        System.out.println(db.getUser("Bachnd.2003@gmail.com", "Bachnd2003").toString());
+
+    public boolean isEmailAssociated(String email) {
+        String sql = "SELECT COUNT(*) FROM Users WHERE email = ?";
+        try {
+
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setString(1, email);
+            ResultSet rs = statement.executeQuery();
+
+            if (rs.next()) {
+                int count = rs.getInt(1);
+                return count > 0; // If count > 0, the email is associated with at least one user.
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false; // If there was an error or the email is not associated with any user.
     }
+
+    public boolean updatePassword(String email, String newPassword) {
+        String sql = "update users set password = ? where email = ?";
+        try {
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setString(1, newPassword);
+            stm.setString(2, email);
+            int rowCount = stm.executeUpdate();
+            connection.close();
+            return rowCount > 0;
+        } catch (SQLException e) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, e);
+            return false;
+        }
+    }
+
+    public boolean updateUserAuthorization(String email) {
+        String sql = "update users set userAuthorization = ? where email = ?";
+        try {
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setBoolean(1, true);
+            stm.setString(2, email);
+            stm.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, e);
+            return false;
+        }
+    }
+
+    public boolean updateUserRoleToMentee(int userId) {
+        String sql = "update UserDetail set roleId = ? where userId = ?";
+        try {
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setInt(1, 3);
+            stm.setInt(2, userId);
+            stm.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, e);
+            return false;
+        }
+    }
+
+    public String getEncryptedPassword(String email) throws SQLException {
+
+        String sql = "SELECT password FROM users WHERE email = ?";
+
+        PreparedStatement stm = connection.prepareStatement(sql);
+        stm.setString(1, email);
+
+        ResultSet rs = stm.executeQuery();
+
+        if (rs.next()) {
+            return rs.getString("password");
+        }
+
+        return null;
+    }
+
+    /**
+     * Check Role of user is input role
+     *
+     * @param userId
+     * @param roleId
+     * @return true if role in db is the same as input role
+     */
+    public boolean checkRole(int userId, int roleId) {
+        String sql = "select roleId from UserDetail where userId = ?";
+        try {
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setInt(1, userId);
+            ResultSet rs = stm.executeQuery();
+            int role = 0;
+            if (rs.next()) {
+                role = rs.getInt("roleId");
+            }
+            return role == roleId;
+        } catch (SQLException e) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, e);
+            return false;
+        }
+    }
+
+    public void updateUserDetail(int userID, String username, String fullname, String phone, String address, boolean sex, String dob, String avatar) {
+        String sql = "UPDATE [dbo].[UserDetail]\n"
+                + "   SET \n"
+                + "       [username] = ?\n"
+                + "      ,[phone] = ?\n"
+                + "      ,[fullname] = ?\n"
+                + "      ,[dob] = ?\n"
+                + "      ,[gender] = ?\n"
+                + "      ,[userAddress] = ?\n"
+                + " WHERE [userId] = ?";
+        try {
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setString(1, username);
+            stm.setString(2, phone);
+            stm.setString(3, fullname);
+            stm.setDate(4, Date.valueOf(dob));
+            stm.setBoolean(5, sex);
+            stm.setString(6, address);
+            stm.setInt(7, userID);
+            stm.executeUpdate();
+            String xSQL = "UPDATE [dbo].[UserAvatar]\n"
+                    + "   SET [avatarLink] = ?\n"
+                    + " WHERE userId = ?";
+            PreparedStatement qtm = connection.prepareStatement(xSQL);
+            qtm.setString(1,avatar);
+            qtm.setInt(2, userID);
+            qtm.executeUpdate();
+        } catch (SQLException e) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, e);
+
+        }
+    }
+
 }
