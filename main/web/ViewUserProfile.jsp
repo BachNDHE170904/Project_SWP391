@@ -52,7 +52,7 @@
                                         </div>
                                         <div class="col-md-9">
                                             <label class="btn btn-outline-primary">
-                                                <a class="nav-link active" aria-current="page" href="UpdateProfile"  >Update Profile</a>
+                                                <a class="nav-link active" aria-current="page" href="UpdateProfile.jsp"  >Update Profile</a>
                                             </label>
                                             <%if (acc.isIsAuthorized() && details.getRoleId() == 3) {%>
                                             <label class="btn btn-outline-primary">
