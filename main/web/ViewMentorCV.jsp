@@ -30,19 +30,12 @@
     </style>
     <body>
         <%
-            try {
-                int id = Integer.parseInt(request.getParameter("mentorId"));
-                UserDAO userDAO = new UserDAO();
-                MentorDAO mentorDAO = new MentorDAO();
-                User mentor = userDAO.getUserByID(id);
-                UserDetails mentorDetail = userDAO.getUserDetails(mentor.getEmail());
-                String avatarLink = userDAO.getUserAvatar(id);
-                Mentor mentorCV = mentorDAO.getMentorByUserID(id);
-
-                SkillDAO skillDAO = new SkillDAO();
-                ArrayList<Skill> skills = skillDAO.getActiveSkills();
-                ProgramingLanguageDAO languageDAO = new ProgramingLanguageDAO();
-                ArrayList<ProgramingLanguage> programingLanguages = languageDAO.getActiveProgramingLanguage();
+                User mentor = (User)request.getAttribute("mentor");
+                UserDetails mentorDetail = (UserDetails)request.getAttribute("mentorDetail");
+                String avatarLink = (String)request.getAttribute("avatarLink");
+                Mentor mentorCV = (Mentor)request.getAttribute("mentorCV");
+                ArrayList<Skill> skills = (ArrayList<Skill>)request.getAttribute("skills");
+                ArrayList<ProgramingLanguage> programingLanguages = (ArrayList<ProgramingLanguage>)request.getAttribute("programingLanguages");
         %>
         <jsp:include page="NavBar.jsp"></jsp:include>
             <div class="container light-style flex-grow-1 container-p-y">
@@ -105,7 +98,7 @@
                             <label><font color="red">No Skill available!</font></label>
                             <ul>
                                 <%} else {
-                                    ArrayList<Integer> skillId = mentorCV.getSkillsId();
+                                    ArrayList<Integer> skillId = (ArrayList<Integer>)request.getAttribute("skillId");
                                     for (Skill skill : skills) {
                                         if (skillId.contains(skill.getSkillId())) {%>
                                 <div class="me-3">
@@ -130,7 +123,7 @@
                                 <%if (programingLanguages.isEmpty()) { %>
                                 <label><font color="red">No Language available!</font></label>
                                     <%} else {
-                                        ArrayList<Integer> languageId = mentorCV.getLanguageId();
+                                        ArrayList<Integer> languageId = (ArrayList<Integer>)request.getAttribute("languageId");
                                         for (ProgramingLanguage language : programingLanguages) {
                                             if (languageId.contains(language.getLanguageId())) {%>
                                 <div class="me-3">
@@ -146,10 +139,6 @@
                 </div>
             </div>
         </div>
-        <%} catch (Exception e) {
-                request.getRequestDispatcher("WelcomePage.jsp").forward(request, response);
-            }
-        %>
         <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.bundle.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>

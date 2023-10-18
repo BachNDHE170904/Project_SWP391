@@ -5,6 +5,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.StringJoiner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -49,6 +50,48 @@ public class MentorDAO extends BaseDAO<Skill> {
                 mentor.setLanguageId(languages);
             }
             return mentor;
+        } catch (SQLException ex) {
+            Logger.getLogger(ProgramingLanguageDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+    
+    public List<Mentor> getAllMentors() {
+        List<Mentor> listMentor = new ArrayList<>();
+        try {
+            String selectMentor = "select * from Mentor m join MentorCV mcv on m.mentorId = mcv.mentorId\n";
+            String selectSkills = "select * from MentorSkills m where m.mentorId = ?\n";
+            String selectLanguages = "select * from MentorProgramingLanguage m where m.mentorId = ?\n";
+            PreparedStatement selectMentorStatement = connection.prepareStatement(selectMentor);
+            ResultSet rs1 = selectMentorStatement.executeQuery();
+            while (rs1.next()) {
+                Mentor mentor = new Mentor();
+                mentor.setMentorId(rs1.getInt("mentorId"));
+                mentor.setUserid(rs1.getInt("userId"));
+                mentor.setProfession(rs1.getString("profession"));
+                mentor.setProfessionInfo(rs1.getString("professionIntro"));
+                mentor.setServiceInfo(rs1.getString("serviceIntro"));
+                mentor.setAchivementInfo(rs1.getString("achivementIntro"));
+
+                ArrayList<Integer> skills = new ArrayList<>();
+                ArrayList<Integer> languages = new ArrayList<>();
+                PreparedStatement selectSkillsStatement = connection.prepareStatement(selectSkills);
+                selectSkillsStatement.setInt(1, mentor.getMentorId());
+                ResultSet rs2 = selectSkillsStatement.executeQuery();
+                while (rs2.next()) {
+                    skills.add(rs2.getInt("skillId"));
+                }
+                PreparedStatement selectLanguagesStatement = connection.prepareStatement(selectLanguages);
+                selectLanguagesStatement.setInt(1, mentor.getMentorId());
+                ResultSet rs3 = selectLanguagesStatement.executeQuery();
+                while (rs3.next()) {
+                    languages.add(rs3.getInt("languageId"));
+                }
+                mentor.setSkillsId(skills);
+                mentor.setLanguageId(languages);
+                listMentor.add(mentor);
+            }
+            return listMentor;
         } catch (SQLException ex) {
             Logger.getLogger(ProgramingLanguageDAO.class.getName()).log(Level.SEVERE, null, ex);
         }

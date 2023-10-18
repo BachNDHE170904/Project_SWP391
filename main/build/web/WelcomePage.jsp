@@ -58,7 +58,7 @@
                         </div>
                     </div>
                     <div class="col-lg-6 col-sm-6 wow fadeInUp" data-wow-delay="0.3s">
-                        <div class="service-item text-center pt-3">
+                        <div class="service-item text-center pt-3" id="programmingSkill">
                             <div class="p-4">
                                 <i class="fa fa-3x fa-globe text-primary mb-4"></i>
                                 <h5 class="mb-3">Programming skills</h5>
@@ -172,7 +172,7 @@
                                 <div class="bg-light d-flex justify-content-center pt-2 px-1">
                                     <a class="btn btn-sm-square btn-primary mx-1" href=""><i class="fab fa-facebook-f"></i></a>
                                     <a class="btn btn-sm-square btn-primary mx-1" href=""><i class="fab fa-twitter"></i></a>
-                                    <a class="btn btn-sm-square btn-primary mx-1" href=""><i class="fab fa-instagram"></i></a>
+                                    <a class="btn btn-sm-square btn-primary mx-1" href="ViewMentorCV?mentorId=2"><i class="fab fa-instagram"></i></a>
                                 </div>
                             </div>
                             <div class="text-center p-4">
@@ -266,6 +266,17 @@
         <script src="lib/easing/easing.min.js"></script>
         <script src="lib/waypoints/waypoints.min.js"></script>
         <script src="lib/owlcarousel/owl.carousel.min.js"></script>
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                // Lấy phần tử theo ID hoặc selector CSS
+                var programmingSkillElement = document.getElementById("programmingSkill");
 
+                // Thêm xử lý sự kiện khi bấm vào phần tử
+                programmingSkillElement.addEventListener("click", function () {
+                    // Gửi yêu cầu đến servlet bằng cách chuyển trình duyệt đến URL của servlet
+                    window.location.href = "ListSkillServlet"; // Thay "/tenservlet" bằng đường dẫn tới servlet của bạn
+                });
+            });
+        </script>
     </body>
 </html>

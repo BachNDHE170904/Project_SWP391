@@ -2,51 +2,59 @@
 <web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
     <servlet>
         <servlet-name>LoginServlet</servlet-name>
-        <servlet-class>controller.common.loginsystem.LoginServlet</servlet-class>
+        <servlet-class>common.common.loginsystem.LoginServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>RegisterServlet</servlet-name>
-        <servlet-class>controller.common.register.RegisterServlet</servlet-class>
+        <servlet-class>common.common.register.RegisterServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>RegisterConfirmAccountServlet</servlet-name>
-        <servlet-class>controller.common.register.RegisterConfirmAccountServlet</servlet-class>
+        <servlet-class>common.common.register.RegisterConfirmAccountServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>LogOutServlet</servlet-name>
-        <servlet-class>controller.common.loginsystem.LogOutServlet</servlet-class>
+        <servlet-class>common.common.loginsystem.LogOutServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>ForgotPassword</servlet-name>
-        <servlet-class>controller.publicpackage.resetpassword.ForgotPassword</servlet-class>
+        <servlet-class>common.publicpackage.resetpassword.ForgotPassword</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>ChangePassword</servlet-name>
-        <servlet-class>controller.common.changepassword.ChangePassword</servlet-class>
+        <servlet-class>common.common.changepassword.ChangePassword</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>NewPassword</servlet-name>
-        <servlet-class>controller.publicpackage.resetpassword.NewPassword</servlet-class>
+        <servlet-class>common.publicpackage.resetpassword.NewPassword</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>ValidateOtp</servlet-name>
-        <servlet-class>controller.publicpackage.resetpassword.ValidateOtp</servlet-class>
+        <servlet-class>common.publicpackage.resetpassword.ValidateOtp</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>AddNewSkillServlet</servlet-name>
-        <servlet-class>controller.admin.manageskills.AddNewSkillServlet</servlet-class>
+        <servlet-class>common.admin.manageskills.AddNewSkillServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>VerifyAccountServlet</servlet-name>
-        <servlet-class>controller.common.userauthorization.VerifyAccountServlet</servlet-class>
+        <servlet-class>common.common.userauthorization.VerifyAccountServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>UpdateSkillStatusServlet</servlet-name>
-        <servlet-class>controller.admin.manageskills.UpdateSkillStatusServlet</servlet-class>
+        <servlet-class>common.admin.manageskills.UpdateSkillStatusServlet</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>ProgramLanguageServlet</servlet-name>
-        <servlet-class>controller.admin.managelanguages.ProgramLanguageServlet</servlet-class>
+        <servlet-name>ListSkillServlet</servlet-name>
+        <servlet-class>common.admin.manageskills.ListSkillServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ViewMentorCV</servlet-name>
+        <servlet-class>common.common.mentor.ViewMentorCV</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ViewAllMentor</servlet-name>
+        <servlet-class>common.common.mentor.ViewAllMentor</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
@@ -93,8 +101,16 @@
         <url-pattern>/UpdateSkillStatusServlet</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>ProgramLanguageServlet</servlet-name>
-        <url-pattern>/ProgramLanguageServlet</url-pattern>
+        <servlet-name>ListSkillServlet</servlet-name>
+        <url-pattern>/ListSkillServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ViewMentorCV</servlet-name>
+        <url-pattern>/ViewMentorCV</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ViewAllMentor</servlet-name>
+        <url-pattern>/ViewAllMentor</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
