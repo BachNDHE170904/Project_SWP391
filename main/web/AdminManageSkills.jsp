@@ -95,7 +95,7 @@
                                                 <td><%=skill.getSkillName()%></td>
                                                 <td><%=skill.getSkillStatus()%></td>
                                                 <td><a href="UpdateSkillStatusServlet?skillId=<%=skill.getSkillId()%>">Enable/Disable</a></td>
-                                                <td><a href="#">Update</a></td>
+                                                <td><a href="UpdateSkill.jsp?skillId=<%=skill.getSkillId() %>">Update</a></td>
                                             </tr>
                                             <% } %>
                                         </tbody>
