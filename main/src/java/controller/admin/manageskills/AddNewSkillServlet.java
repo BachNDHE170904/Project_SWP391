@@ -23,13 +23,25 @@ public class AddNewSkillServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         SkillDAO db = new SkillDAO();
+        int skillId = Integer.parseInt(request.getParameter("skillId"));
         String skillName = request.getParameter("skillName");
         String status = request.getParameter("status");
-        Skill newSkill = new Skill();
-        newSkill.setSkillName(skillName);
-        newSkill.setSkillStatus(status);
-        if (db.insertSkill(newSkill)) {
-            request.getRequestDispatcher("AdminManageSkills.jsp").forward(request, response);
+        String action = request.getParameter("action");
+        if (action.equalsIgnoreCase("update")) {
+            Skill newSkill = new Skill();
+            newSkill.setSkillId(skillId);
+            newSkill.setSkillName(skillName);
+            newSkill.setSkillStatus(status);
+            if (db.updateSkill(newSkill)) {
+                request.getRequestDispatcher("AdminManageSkills.jsp").forward(request, response);
+            }
+        } else {
+            Skill newSkill = new Skill();
+            newSkill.setSkillName(skillName);
+            newSkill.setSkillStatus(status);
+            if (db.insertSkill(newSkill)) {
+                request.getRequestDispatcher("AdminManageSkills.jsp").forward(request, response);
+            }
         }
     }
 
