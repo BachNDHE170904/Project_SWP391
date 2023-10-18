@@ -153,21 +153,21 @@
                 </div>
             </div>
 
-        <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.bundle.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
-        <script>
-            $(document).ready(function () {
-                $('#create-cv').click(function () {
-                    if (!$("input[name=skills]:checked").length) {
-                        $('#validate').text("You must check at least one skills.");
-                        return false;
-                    } else if (!$("input[name=programingLanguages]:checked").length) {
-                        $('#validate').text("You must check at least one programing languages.");
-                        return false;
-                    }
+            <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.bundle.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+            <script>
+                $(document).ready(function () {
+                    $('#create-cv').click(function () {
+                        if (!$("input[name=skills]:checked").length) {
+                            $('#validate').text("You must check at least one skills.");
+                            return false;
+                        } else if (!$("input[name=programingLanguages]:checked").length) {
+                            $('#validate').text("You must check at least one programing languages.");
+                            return false;
+                        }
+                    });
                 });
-            });
-        </script>
-    </body>
-</html>
+            </script>
+        </body>
+    </html>
