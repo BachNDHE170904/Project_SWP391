@@ -38,7 +38,7 @@ public class ValidateOtp extends HttpServlet {
         int value = Integer.parseInt(otpValue);
     
         HttpSession session=request.getSession();
-        int otp=(int)session.getAttribute("otp");
+        int otp=(int)session.getAttribute("otpCode");
 
         RequestDispatcher dispatcher = null;
 
