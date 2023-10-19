@@ -98,3 +98,23 @@ form .date_field{
     font-size: 20px;
     color: red;
 }
+
+#image{
+    box-shadow: 5px 5px 5px 5px gray;
+    width: 70px;
+    font-weight: 400;
+    padding-bottom: 0px;
+    height: 40px;
+    font-style: italic;
+    font-size: x-large;
+    border: red 2px solid;
+    text-align: center;
+}
+#captcha-input{
+    width:auto;
+    margin-right: 10px;
+    height: 40px;
+}
+.inline{
+    display:inline-block;
+}
