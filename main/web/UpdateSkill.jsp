@@ -61,7 +61,7 @@
                     <!-- Form Start -->
                     <div class="col-sm-12 col-xl-12">
                         <div class="bg-light rounded h-100 p-4">
-                            <form action="AddNewSkillServlet?action=update&skillId=<%=skillId%>" method="POST">
+                            <form action="AddNewSkillServlet" method="GET">
                                 <h6 class="mb-4">Update skill</h6>
                                 <div class="form-floating mb-3">
                                     <input type="text" class="form-control" id="floatingInput"

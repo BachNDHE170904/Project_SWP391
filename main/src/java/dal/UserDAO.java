@@ -370,7 +370,7 @@ public class UserDAO extends BaseDAO<User> {
 
         }
     }
-    
+
     public ArrayList<UserDetails> getAllUsers() {
         ArrayList<UserDetails> users = new ArrayList<>();
         try {
@@ -391,7 +391,7 @@ public class UserDAO extends BaseDAO<User> {
         }
         return users;
     }
-    
+
     public boolean deleteUser(int userId) {
         String sql = "DELETE FROM users WHERE userId = ?";
         try {
@@ -406,42 +406,42 @@ public class UserDAO extends BaseDAO<User> {
         }
         return false;
     }
-    
-    public ArrayList<Mentor> getAllMentors() {
-        ArrayList<Mentor> mentors = new ArrayList<>();
-        try {
-            String sql = "SELECT \n" +
-                        "ud.userId AS ID,\n" +
-                        "ud.fullname AS Fullname,\n" +
-                        "ud.username AS AccountName,\n" +
-                        "mc.profession AS Profession,\n" +
-                        "u.userAuthorization AS UserAuthorized\n" +
-                        "FROM UserDetail ud \n" +
-                        "INNER JOIN Users u ON u.userId = ud.userId\n" +
-                        "INNER JOIN Mentor m ON ud.userId = m.userId\n" +
-                        "INNER JOIN MentorCV mc ON m.mentorId = mc.mentorId\n" +
-                        "where ud.roleId = 3";
-            PreparedStatement statement = connection.prepareStatement(sql);
-            ResultSet rs = statement.executeQuery();
-            while (rs.next()) {
-                Mentor mentor = new Mentor();
-    mentor.setUserid(rs.getInt("ID"));
-    mentor.setFullname(rs.getString("Fullname"));
-    mentor.setUsername(rs.getString("AccountName"));
-    // Lấy thông tin về profession từ ResultSet và thiết lập cho mentor
-    String profession = rs.getString("Profession");
-    mentor.setProfession(profession);
 
-    mentors.add(mentor);
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return mentors;
-    }
-    
+//    public ArrayList<Mentor> getAllMentors() {
+//        ArrayList<Mentor> mentors = new ArrayList<>();
+//        try {
+//            String sql = "SELECT \n"
+//                    + "ud.userId AS ID,\n"
+//                    + "ud.fullname AS Fullname,\n"
+//                    + "ud.username AS AccountName,\n"
+//                    + "mc.profession AS Profession,\n"
+//                    + "u.userAuthorization AS UserAuthorized\n"
+//                    + "FROM UserDetail ud \n"
+//                    + "INNER JOIN Users u ON u.userId = ud.userId\n"
+//                    + "INNER JOIN Mentor m ON ud.userId = m.userId\n"
+//                    + "INNER JOIN MentorCV mc ON m.mentorId = mc.mentorId\n"
+//                    + "where ud.roleId = 3";
+//            PreparedStatement statement = connection.prepareStatement(sql);
+//            ResultSet rs = statement.executeQuery();
+//            while (rs.next()) {
+//                Mentor mentor = new Mentor();
+//                mentor.setUserid(rs.getInt("ID"));
+//                mentor.setFullname(rs.getString("Fullname"));
+//                mentor.setUsername(rs.getString("AccountName"));
+//                // Lấy thông tin về profession từ ResultSet và thiết lập cho mentor
+//                String profession = rs.getString("Profession");
+//                mentor.setProfession(profession);
+//
+//                mentors.add(mentor);
+//            }
+//        } catch (SQLException ex) {
+//            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//        return mentors;
+//    }
+
     public int getNumberOfRequests(int userId) {
-        
+
         return 0;
     }
 }
