@@ -39,7 +39,7 @@
                     <div class="col-md-9">
                         <div class="tab-content">
                             <div class="tab-pane fade active show" id="account-general">
-                                <div class=container text-center"">
+                                <div class="container text-center">
                                     <div class="row">
                                         <div class="col-md-3">
                                             <%
@@ -74,7 +74,7 @@
                                     </div>
                                     <div class="form-group">
                                         <label class="form-label">E-mail</label>
-                                        <label class="form-control mb-1" id="email" value="<%= details.getEmail()%>"><%= details.getEmail()%></label>
+                                        <label class="form-control mb-1" id="email"><%= details.getEmail()%></label>
                                     </div>
                                     <%if (!acc.isIsAuthorized()) {%>
                                     <div class="alert alert-warning mt-3">

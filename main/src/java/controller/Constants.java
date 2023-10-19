@@ -4,17 +4,26 @@
  */
 package controller;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class Constants {
-
-    class Role {
-        public static final int ADMIN = 1;
-        public static final int MENTOR = 3;
-        public static final int MENTEE = 4;
-        public static final int USER = 2;
+    // Định nghĩa các tên vai trò
+    public static final Map<Integer, String> roleNames = new HashMap<>();
+    static {
+        roleNames.put(1, "ADMIN");
+        roleNames.put(2, "USER");
+        roleNames.put(3, "MENTOR");
+        roleNames.put(4, "MENTEE");
     }
 
-    class Common {
-        public static final int ACTIVE = 1;
-        public static final int INACTIVE = 0;
+    // Định nghĩa các trạng thái của vai trò
+    public static final Map<Integer, String> roleStatus = new HashMap<>();
+    static {
+        roleStatus.put(1, "ACTIVE");
+        roleStatus.put(0, "INACTIVE");
     }
+
+    // Các hằng số khác có thể được định nghĩa ở đây
 }
+
