@@ -14,7 +14,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
     </head>
     <body>
         <jsp:include page="NavBar.jsp"></jsp:include>
-            <form action="RegisterServlet" id="signupForm" method="POST">
+            <form action="RegisterServlet" id="signupForm" method="POST" onsubmit="return printmsg();">
                 <div class="Center">
                     <h1>Sign up</h1>
                     <div class="container text-center">
@@ -163,28 +163,6 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                             </div>
                         </div>
                     </div>
-                    <!-- Button trigger modal -->
-                    <button type="button" class="signup_link" onclick="CheckOtp();return false;">
-                        Sign Up
-                    </button>
-                <%
-                    SendEmail sm = new SendEmail();
-                %>
-                <script>
-                    function CheckOtp() {
-                        let emailInput = document.getElementById("email").value; // Get the email input value
-                        var form = document.getElementById("signupForm");
-                        if (form.checkValidity()) {
-                            let xhr = new XMLHttpRequest();
-                            xhr.open("POST", "/main/RegisterConfirmAccountServlet");
-                            xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-                            xhr.send("email=" + emailInput); // Send OTP and user email for validation
-                            const myModal = new bootstrap.Modal(document.getElementById('myModal')).show();
-                        } else {
-                            alert("Please fill in all required fields.");
-                        }
-                    }
-                </script>
                 <%
                     // Server-side code to handle failed registration attempt
                     String message = (String) request.getAttribute("ms");
@@ -197,6 +175,23 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                 <%
                     }
                 %>
+                <div class="WrongRegister">
+                    <p id="key"></p>
+                </div>
+                <div id="captcha-input" class="inline">
+                    <input type="text"
+                           id="captcha"
+                           placeholder="Captcha code" required/>
+                </div>
+
+                <div id="image"
+                     class="inline"
+                     selectable="False">
+                </div>
+                <!-- Button trigger modal -->
+                <button type="button"id="signup_link" class="signup_link">
+                    Sign Up
+                </button>
             </div>
             <!-- Modal -->
             <div class="modal fade" id="myModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -216,6 +211,52 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                 </div>
             </div>
         </form>
+        <script>
+            let captcha;
+            function generate() {
+
+                // Clear old input
+                document.getElementById("captcha").value = "";
+
+                // Access the element to store
+                // the generated captcha
+                captcha = document.getElementById("image");
+                let uniquechar = "";
+
+                const randomchar =
+                        "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+                // Generate captcha for length of
+                // 5 with random character
+                for (let i = 1; i < 5; i++) {
+                    uniquechar += randomchar.charAt(
+                            Math.random() * randomchar.length);
+                }
+
+                // Store generated input
+                captcha.innerHTML = uniquechar;
+            }
+
+            function printmsg() {
+                const usr_input = document.getElementById("captcha").value;
+                var form = document.getElementById("signupForm");
+                // Check whether the input is equal
+                // to generated captcha or not
+                if (usr_input !== captcha.innerHTML) {
+                    let s = document.getElementById("key").innerHTML = "Wrong captcha";
+                    return false;
+                } else {
+                    let emailInput = document.getElementById("email").value; // Get the email input value
+                    let xhr = new XMLHttpRequest();
+                    xhr.open("POST", "/main/RegisterConfirmAccountServlet");
+                    xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                    xhr.send("email=" + emailInput); // Send OTP and user email for validation
+                    const myModal = new bootstrap.Modal(document.getElementById('myModal')).show();
+                    return true;
+                }
+            }
+
+        </script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
     </body>
 </html>
