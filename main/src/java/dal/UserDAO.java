@@ -20,19 +20,20 @@ import model.UserDetails;
  * @author ADMIN
  */
 public class UserDAO extends BaseDAO<User> {
-
     public ArrayList<User> getUsers() {
         ArrayList<User> users = new ArrayList<>();
         try {
-            String sql = "SELECT * FROM Users s\n";
+            String sql = "SELECT * FROM Users s,UserStatus us where s.userId=us.userId\n";
             PreparedStatement statement = connection.prepareStatement(sql);
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
                 User s = new User();
-                s.setUsername(rs.getString("name"));
-                s.setPass(rs.getString("pass"));
+                s.setUsername(rs.getString("username"));
+                s.setPass(rs.getString("password"));
                 s.setUserId(rs.getInt("userId"));
-                s.setIsAuthorized(false);
+                s.setEmail(rs.getString("email"));
+                s.setIsAuthorized(rs.getBoolean("userAuthorization"));
+                s.setStatus(rs.getString("userStatus"));
                 users.add(s);
             }
         } catch (SQLException ex) {
@@ -81,7 +82,6 @@ public class UserDAO extends BaseDAO<User> {
                 s.setIsAuthorized(rs.getBoolean("userAuthorization"));
                 return s;
             }
-
         } catch (SQLException ex) {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -91,7 +91,7 @@ public class UserDAO extends BaseDAO<User> {
     public User getUserByID(int id) {
         try {
             String sql = "SELECT * FROM Users s\n"
-                    + "WHERE s.userId=? ";
+                    + "WHERE s.userId=?";
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setInt(1, id);
             ResultSet rs = statement.executeQuery();
@@ -207,12 +207,12 @@ public class UserDAO extends BaseDAO<User> {
         }
     }
 
-    public void insertUserStatus(User us) {
+    public void insertUserStatus(int userId,String status) {
         try {
             String sql = "insert into UserStatus(userId,userStatus) values(?,?)\n;";
             PreparedStatement statement = connection.prepareStatement(sql);
-            statement.setInt(1, us.getUserId());
-            statement.setString(2, "active");
+            statement.setInt(1, userId);
+            statement.setString(2, status);
             statement.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
