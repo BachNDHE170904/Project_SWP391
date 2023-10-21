@@ -133,6 +133,22 @@ public class UserDAO extends BaseDAO<User> {
         }
         return null;
     }
+    public String getUserStatus(int userID) {
+        try {
+            String sql = "SELECT * FROM UserStatus s\n"
+                    + "WHERE s.userId = ?";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setInt(1, userID);
+            ResultSet rs = statement.executeQuery();
+            if (rs.next()) {
+                return rs.getString("userStatus");
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
 
     public void change(String email, String newPassword) {
         String sql = "update Users set password=? where email=?";
