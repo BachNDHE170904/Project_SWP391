@@ -10,6 +10,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Sign up Page</title>
         <link rel="stylesheet" href="css/RegisterStyleindex.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
     </head>
     <body onload="generate()">
@@ -178,15 +179,19 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                 <div class="WrongRegister">
                     <p id="key"></p>
                 </div>
-                <div id="captcha-input" class="inline">
-                    <input type="text"
-                           id="captcha"
-                           placeholder="Captcha code" required/>
-                </div>
-
-                <div id="image"
-                     class="inline"
-                     selectable="False">
+                <div class="captchaField">
+                    <div id="captcha-input" class="inline">
+                        <input type="text"
+                               id="captcha"
+                               placeholder="Captcha code" required/>
+                    </div>
+                    <div class="inline" onclick="generate()">
+                        <i class="fa fa-refresh" style="font-size:24px"></i>
+                    </div>
+                    <div id="image"
+                         class="inline"
+                         selectable="False">
+                    </div>
                 </div>
                 <!-- Button trigger modal -->
                 <button type="submit"id="signup_link" class="signup_link" >
@@ -228,10 +233,10 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                 if (usr_input !== captcha.innerHTML) {
                     let s = document.getElementById("key").innerHTML = "Wrong captcha";
                     return false;
-                } else if(!form.checkValidity()){
+                } else if (!form.checkValidity()) {
                     alert("Please fill in all required fields.");
                     return false;
-                }else {
+                } else {
                     let emailInput = document.getElementById("email").value; // Get the email input value
                     let xhr = new XMLHttpRequest();
                     xhr.open("POST", "/main/RegisterConfirmAccountServlet");
