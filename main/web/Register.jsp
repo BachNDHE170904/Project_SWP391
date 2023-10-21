@@ -12,9 +12,9 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
         <link rel="stylesheet" href="css/RegisterStyleindex.css">
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
     </head>
-    <body>
+    <body onload="generate()">
         <jsp:include page="NavBar.jsp"></jsp:include>
-            <form action="RegisterServlet" id="signupForm" method="POST" onsubmit="return printmsg();">
+            <form action="RegisterServlet" id="signupForm" method="POST" onsubmit="return printmsg()">
                 <div class="Center">
                     <h1>Sign up</h1>
                     <div class="container text-center">
@@ -189,26 +189,9 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                      selectable="False">
                 </div>
                 <!-- Button trigger modal -->
-                <button type="button"id="signup_link" class="signup_link">
+                <button type="submit"id="signup_link" class="signup_link" >
                     Sign Up
                 </button>
-            </div>
-            <!-- Modal -->
-            <div class="modal fade" id="myModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h1 class="modal-title fs-5" id="staticBackdropLabel">Confirm information</h1>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <label>We have sent an otp code to your email</label>
-                        </div>
-                        <div class="modal-footer">
-                            <input type="submit" class="btn btn-primary" value="Confirm"/>
-                        </div>
-                    </div>
-                </div>
             </div>
         </form>
         <script>
@@ -245,17 +228,18 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                 if (usr_input !== captcha.innerHTML) {
                     let s = document.getElementById("key").innerHTML = "Wrong captcha";
                     return false;
-                } else {
+                } else if(!form.checkValidity()){
+                    alert("Please fill in all required fields.");
+                    return false;
+                }else {
                     let emailInput = document.getElementById("email").value; // Get the email input value
                     let xhr = new XMLHttpRequest();
                     xhr.open("POST", "/main/RegisterConfirmAccountServlet");
                     xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
                     xhr.send("email=" + emailInput); // Send OTP and user email for validation
-                    const myModal = new bootstrap.Modal(document.getElementById('myModal')).show();
                     return true;
                 }
             }
-
         </script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
     </body>

@@ -125,8 +125,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                 if (usr_input !== captcha.innerHTML) {
                     let s = document.getElementById("key").innerHTML = "Wrong captcha";
                     return false;
-                }
-                else{
+                } else {
                     return true;
                 }
             }

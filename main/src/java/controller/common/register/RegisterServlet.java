@@ -64,12 +64,13 @@ public class RegisterServlet extends HttpServlet {
             if (user == null && userByName == null) // No account found
             {
                 User u = new User(username, myHash, email, false);
+                u.setStatus("active");
                 db.insertUser(u);
                 u = db.getUser(email, myHash);
                 int userId = u.getUserId();
                 UserDetails ud = new UserDetails(phone, fullname, address, dob, gender, 2, username, myHash, email, userId, false);//2 means  role is User by default
                 db.insertUserDetails(ud);
-                db.insertUserStatus(u);
+                db.insertUserStatus(userId,u.getStatus());
                 request.getRequestDispatcher("Login.jsp").forward(request, response);
             } else if (userByName != null) {
                 ms = "Username is already taken";
