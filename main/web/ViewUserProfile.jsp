@@ -54,7 +54,7 @@
                                             <label class="btn btn-outline-primary">
                                                 <a class="nav-link active" aria-current="page" href="UpdateProfile.jsp"  >Update Profile</a>
                                             </label>
-                                            <%if (acc.isIsAuthorized() && details.getRoleId() == 3) {%>
+                                            <%if (acc.isIsAuthorized() && (details.getRoleId() == 3||details.getRoleId()==4)) {%>
                                             <label class="btn btn-outline-primary">
                                                 <a class="nav-link active" aria-current="page" href="CreateCV"  >Register Mentor</a>
                                             </label>
