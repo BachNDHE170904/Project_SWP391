@@ -68,7 +68,7 @@
                                                 <legend class="col-form-label col-sm-2 pt-0">Status</legend>
                                                 <div class="col-sm-10">
                                                     <div class="form-check">
-                                                        <input class="form-check-input" type="radio" name="status" id="gridRadios1" value="Active" <c:if test="${'Active'.equalsIgnoreCase(language.getLanguageStatus())}">checked</c:if>>
+                                                        <input class="form-check-input" type="radio" name="status" id="gridRadios1" value="Active" <c:if test="${'Active'.equalsIgnoreCase(language.getLanguageStatus())||languagelanguage.getLanguageStatus()==null}">checked</c:if>>
                                                         <label class="form-check-label" for="gridRadios1">Active</label>
                                                     </div>
                                                     <div class="form-check">

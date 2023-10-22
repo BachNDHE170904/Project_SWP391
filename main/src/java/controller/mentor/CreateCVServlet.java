@@ -3,6 +3,7 @@ package controller.mentor;
 import dal.MentorDAO;
 import dal.ProgramingLanguageDAO;
 import dal.SkillDAO;
+import dal.UserDAO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -80,7 +81,7 @@ public class CreateCVServlet extends HttpServlet {
 
                 User user = (User) request.getSession().getAttribute("user");
 
-
+                UserDAO userDAO=new UserDAO();
                 MentorDAO mentorDAO = new MentorDAO();
 
                 if ("update".equals(action)) {
@@ -111,6 +112,7 @@ public class CreateCVServlet extends HttpServlet {
                         if (mentorId == 0) {
                             request.setAttribute("error", "Insert failed!->" + mentorId);
                         } else {
+                            userDAO.updateMenteeRoleToMentor(user.getUserId());
                             request.setAttribute("msg", "Insert success!->" + mentorId);
                         }
                     }

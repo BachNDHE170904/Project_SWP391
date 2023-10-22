@@ -133,6 +133,22 @@ public class UserDAO extends BaseDAO<User> {
         }
         return null;
     }
+    public String getUserStatus(int userID) {
+        try {
+            String sql = "SELECT * FROM UserStatus s\n"
+                    + "WHERE s.userId = ?";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setInt(1, userID);
+            ResultSet rs = statement.executeQuery();
+            if (rs.next()) {
+                return rs.getString("userStatus");
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
 
     public void change(String email, String newPassword) {
         String sql = "update Users set password=? where email=?";
@@ -289,6 +305,19 @@ public class UserDAO extends BaseDAO<User> {
         try {
             PreparedStatement stm = connection.prepareStatement(sql);
             stm.setInt(1, 3);
+            stm.setInt(2, userId);
+            stm.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, e);
+            return false;
+        }
+    }
+    public boolean updateMenteeRoleToMentor(int userId) {
+        String sql = "update UserDetail set roleId = ? where userId = ?";
+        try {
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setInt(1, 4);
             stm.setInt(2, userId);
             stm.executeUpdate();
             return true;
