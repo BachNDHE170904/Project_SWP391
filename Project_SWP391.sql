@@ -165,10 +165,11 @@ CREATE TABLE RequestDetail(
 
 
 CREATE TABLE requestSkillsChoices (
+   id INT NOT NULL identity(1,1),
    requestId   INT    NOT NULL,
    skillId	  INT    NOT NULL,
    languageId   INT    NOT NULL ,
-   PRIMARY KEY (requestId),
+   PRIMARY KEY (id),
    FOREIGN KEY (skillId) REFERENCES Skills(skillId),
    FOREIGN KEY (requestId) REFERENCES RequestDetail(requestId),
    FOREIGN KEY (languageId) REFERENCES ProgrammingLanguage(languageId),

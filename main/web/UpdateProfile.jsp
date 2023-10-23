@@ -63,8 +63,8 @@
                                         <div class="form-group">
                                             <label class="form-label">Sex</label>
                                             <select name="sex" class="form-control mb-1" required="">
-                                                <option value="1" ${sessionScope.userDetail.sex != null && sessionScope.userDetail.sex eq true ? 'selected' : ''}>Female</option>
-                                                <option value="0" ${sessionScope.userDetail.sex != null && sessionScope.userDetail.sex eq false ? 'selected' : ''}>Male</option>
+                                                <option value="1" ${sessionScope.userDetail.sex != null && sessionScope.userDetail.sex eq true ? 'selected' : ''}>Male</option>
+                                                <option value="0" ${sessionScope.userDetail.sex != null && sessionScope.userDetail.sex eq false ? 'selected' : ''}>Female</option>
                                             </select>
                                         </div>
                                         <div class="form-group">
