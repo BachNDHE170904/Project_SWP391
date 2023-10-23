@@ -42,7 +42,7 @@
                                             <label class="form-label">Programing Language</label>
                                             <select class="form-control mb-1" name="language" required="">
                                                 <c:forEach items="${requestScope.lists}" var="item">
-                                                    <option value="${item.getLanguageId()}">${item.getLanguageName()}</option>
+                                                    <option value="${item.languageId}">${item.getLanguageName()}</option>
                                                 </c:forEach>
                                             </select>
                                         </div>

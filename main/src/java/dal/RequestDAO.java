@@ -44,7 +44,7 @@ public class RequestDAO extends BaseDAO<Skill> {
             xtm.setString(3, content);
             xtm.setDate(4, deadline);
             xtm.setInt(5, statusID);
-            xtm.setInt(6, -1);
+            xtm.setNull(6, java.sql.Types.INTEGER);
             xtm.executeUpdate();
             for (String i : skills) {
                 String qSQL = "INSERT INTO [dbo].[requestSkillsChoices]\n"
@@ -64,7 +64,6 @@ public class RequestDAO extends BaseDAO<Skill> {
         }
 
     }
-
     public int getLastRequest() {
         try {
             String sql = "Select top 1 requestId from Requests order by requestId desc";
