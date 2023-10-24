@@ -13,6 +13,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.sql.Date;
+import java.time.LocalDate;
 import model.User;
 
 /**
@@ -71,16 +72,16 @@ public class updateRequestServlet extends HttpServlet {
     throws ServletException, IOException {
         String id = request.getParameter("id");
         String title = request.getParameter("title");
-        Date createdDate = Date.valueOf(request.getParameter("createdDate"));
+        Date createdDate = Date.valueOf(LocalDate.now());
         Date deadline = Date.valueOf(request.getParameter("deadline"));
-        String status = request.getParameter("status");
+        String status = "1";
         String pro = request.getParameter("pro");
         String[] skills = request.getParameterValues("selectedSkills");
         String content = request.getParameter("content");
         User user = (User) request.getSession().getAttribute("user");
         RequestDAO requestDAO = new RequestDAO();
         requestDAO.updateRequest(user.getUserId(),id,title,createdDate,deadline,status,pro,skills,content);
-        response.sendRedirect("myrequest");
+        response.sendRedirect("myRequest");
     }
 
     /** 
