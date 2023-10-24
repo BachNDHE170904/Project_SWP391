@@ -88,39 +88,44 @@
                                                     <th scope="col">Account Name</th>
                                                     <th scope="col">Role</th>
                                                     <th scope="col">Number of currently requests</th>
+                                                    <th scope="col">Status</th>
+                                                    <th scope="col">Enable/Disable</th>
                                                     <th scope="col">Delete user</th>
-                                                    <th scope="col"></th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                             <%
                                                 UserDAO userDb = new UserDAO();
-                                                int total = userDb.getNumberOfRequests();
+                                                
                                                 ArrayList<UserDetails> users = userDb.getAllUsers();
                                                 int totalMenteeRequests = 0;
                                                 for (int i = 0; i < users.size(); i++) {
                                                     UserDetails user = users.get(i);
                                                     
                                             %>
-                                            <tr>
+                                            <tr <% if (user.isIsAuthorized()== false) { %>
+                                                class="deleted-row"
+                                                <%}%>
+                                                >
                                                 <th scope="row"><%=i + 1%></th>
                                                 <td><%=user.getUserId()%></td>
                                                 <td><%=user.getFullname()%></td>
                                                 <td><%=user.getUsername()%></td>
                                                 <td><%= Constants.roleNames.get(user.getRoleId()) %></td>
-                                                <td><%
-                    if (Constants.roleNames.get(user.getRoleId()).equalsIgnoreCase("MENTEE")) {
-                        totalMenteeRequests += userDb.getNumberOfRequests();
-                        out.print(userDb.getNumberOfRequests());
-                    } else if (Constants.roleNames.get(user.getRoleId()).equals("USER")) {
-                        out.print("0"); // Hi?n th? 0 request cho User
-                    }
-                    %></td>
+                                                <td></td>
+                                                <td>
+                                                    <% if (user.isIsAuthorized() == true) { %>
+                                                    ACTIVE
+                                                    <% } else { %>
+                                                    INACTIVE
+                                                    <% }%>
+                                                </td>
+                                                <td><a href="UpdateUserStatusServlet?userId=<%=user.getUserId()%>">Enable/Disable</a></td>
                                                 <td><a href="DeleteUserServlet?userId=<%=user.getUserId()%>"><svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 448 512">
                                                         <!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com 
                                                         License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
                                                         <style>svg{fill:#87eaf7}</style><path d="M135.2 17.7L128 32H32C14.3 32 0 46.3 0 64S14.3 96 32 96H416c17.7 0 32-14.3 32-32s-14.3-32-32-32H320l-7.2-14.3C307.4 6.8 296.3 0 284.2 0H163.8c-12.1 0-23.2 6.8-28.6 17.7zM416 128H32L53.2 467c1.6 25.3 22.6 45 47.9 45H346.9c25.3 0 46.3-19.7 47.9-45L416 128z"/></svg></a></td>
-                                                <td></td>
+
                                             </tr>
                                             <% 
                                                 }
@@ -146,17 +151,14 @@
         %>
         <script>
 function searchUsers() {
-    // L?y giá tr? nh?p vào t? tr??ng tìm ki?m
+    
     var searchValue = document.getElementById("choices-text-preset-values").value.toLowerCase();
         
-    // L?y t?t c? các dòng c?a b?ng
     var tableRows = document.querySelectorAll(".table tbody tr");
 
-    // Duy?t qua t?ng dòng và ki?m tra Full Name
     for (var i = 0; i < tableRows.length; i++) {
         var fullName = tableRows[i].querySelector("td:nth-child(3)").textContent.toLowerCase();
 
-        // N?u Full Name ch?a chu?i tìm ki?m, hi?n th? dòng, ng??c l?i ?n dòng
         if (fullName.includes(searchValue)) {
             tableRows[i].style.display = "";
         } else {

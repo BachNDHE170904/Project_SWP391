@@ -242,4 +242,36 @@ public class MentorDAO extends BaseDAO<Skill> {
       return new ArrayList<>();
     }
   }
+
+  public ArrayList<Mentor> getAllMentors() {
+        ArrayList<Mentor> mentors = new ArrayList<>();
+        try {
+            String sql = "SELECT \n"
+                    + "ud.userId AS ID,\n"
+                    + "ud.fullname AS Fullname,\n"
+                    + "ud.username AS AccountName,\n"
+                    + "mc.profession AS Profession,\n"
+                    + "u.userAuthorization AS UserAuthorized\n"
+                    + "FROM UserDetail ud \n"
+                    + "INNER JOIN Users u ON u.userId = ud.userId\n"
+                    + "INNER JOIN Mentor m ON ud.userId = m.userId\n"
+                    + "INNER JOIN MentorCV mc ON m.mentorId = mc.mentorId\n"
+                    + "where ud.roleId = 3";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                Mentor mentor = new Mentor();
+                mentor.setUserid(rs.getInt("ID"));
+                mentor.setFullname(rs.getString("Fullname"));
+                mentor.setUsername(rs.getString("AccountName"));
+                // Lấy thông tin về profession từ ResultSet và thiết lập cho mentor
+                mentor.setProfession(rs.getString("Profession"));
+
+                mentors.add(mentor);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return mentors;
+    }
 }

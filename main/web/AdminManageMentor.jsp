@@ -1,4 +1,4 @@
-
+<%@page import="dal.MentorDAO"%>
 <%@page import="model.Mentor"%>
 <%@page import="controller.Constants"%>
 <%@page import="model.Skill"%>
@@ -96,8 +96,8 @@
                                             </thead>
                                             <tbody>
                                             <%
-                                                UserDAO userDb = new UserDAO();
-                                                ArrayList<Mentor> mentors = userDb.getAllMentors();
+                                                MentorDAO md = new MentorDAO();
+                                                ArrayList<Mentor> mentors = md.getAllMentors();
                                                 int totalMenteeRequests = 0;
                                                 for (int i = 0; i < mentors.size(); i++) {
                                                     Mentor mentor = mentors.get(i);
@@ -108,7 +108,7 @@
                                                 <td><%=mentor.getUserid()%></td>
                                                 <td><%=mentor.getFullname()%></td>
                                                 <td><%=mentor.getUsername()%></td>
-                                                <td></td>
+                                                <td><%=mentor.getProfession()%></td>
                                                 <td></td>
                                                 <td></td>
                                             </tr>
@@ -136,17 +136,14 @@
         %>
         <script>
 function searchUsers() {
-    // L?y giá tr? nh?p vào t? tr??ng tìm ki?m
+    
     var searchValue = document.getElementById("choices-text-preset-values").value.toLowerCase();
         
-    // L?y t?t c? các dòng c?a b?ng
     var tableRows = document.querySelectorAll(".table tbody tr");
 
-    // Duy?t qua t?ng dòng và ki?m tra Full Name
     for (var i = 0; i < tableRows.length; i++) {
         var fullName = tableRows[i].querySelector("td:nth-child(3)").textContent.toLowerCase();
 
-        // N?u Full Name ch?a chu?i tìm ki?m, hi?n th? dòng, ng??c l?i ?n dòng
         if (fullName.includes(searchValue)) {
             tableRows[i].style.display = "";
         } else {
