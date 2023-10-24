@@ -1,4 +1,4 @@
-
+<%@page import="dal.MentorDAO"%>
 <%@page import="model.Mentor"%>
 <%@page import="controller.Constants"%>
 <%@page import="model.Skill"%>
@@ -96,8 +96,8 @@
                                             </thead>
                                             <tbody>
                                             <%
-                                                UserDAO userDb = new UserDAO();
-                                                ArrayList<Mentor> mentors = userDb.getAllMentors();
+                                                MentorDAO md = new MentorDAO();
+                                                ArrayList<Mentor> mentors = md.getAllMentors();
                                                 int totalMenteeRequests = 0;
                                                 for (int i = 0; i < mentors.size(); i++) {
                                                     Mentor mentor = mentors.get(i);
