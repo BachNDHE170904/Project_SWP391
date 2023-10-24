@@ -7,7 +7,7 @@ package model;
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class Mentor {
+public class Mentor extends UserDetails{
 
     private int mentorId;
     private int userid;

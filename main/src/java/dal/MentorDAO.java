@@ -256,7 +256,7 @@ public class MentorDAO extends BaseDAO<Skill> {
                     + "INNER JOIN Users u ON u.userId = ud.userId\n"
                     + "INNER JOIN Mentor m ON ud.userId = m.userId\n"
                     + "INNER JOIN MentorCV mc ON m.mentorId = mc.mentorId\n"
-                    + "where ud.roleId = 3";
+                    + "where ud.roleId = 4";
             PreparedStatement statement = connection.prepareStatement(sql);
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {

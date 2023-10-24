@@ -11,10 +11,10 @@ public class Constants {
     // Định nghĩa các tên vai trò
     public static final Map<Integer, String> roleNames = new HashMap<>();
     static {
-        roleNames.put(1, "ADMIN");
-        roleNames.put(2, "USER");
-        roleNames.put(3, "MENTOR");
-        roleNames.put(4, "MENTEE");
+        roleNames.put(1, "Admin");
+        roleNames.put(2, "User");
+        roleNames.put(3, "Mentee");
+        roleNames.put(4, "Mentor");
     }
 
     // Định nghĩa các trạng thái của vai trò

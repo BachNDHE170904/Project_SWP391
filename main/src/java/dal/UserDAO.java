@@ -403,7 +403,7 @@ public class UserDAO extends BaseDAO<User> {
     public ArrayList<UserDetails> getAllUsers() {
         ArrayList<UserDetails> users = new ArrayList<>();
         try {
-            String sql = "SELECT * FROM Users, UserDetail where Users.userId = UserDetail.userId AND (UserDetail.roleId = 2 OR UserDetail.roleId = 4)";
+            String sql = "SELECT * FROM Users, UserDetail where Users.userId = UserDetail.userId AND (UserDetail.roleId = 2 OR UserDetail.roleId = 3)";
             PreparedStatement statement = connection.prepareStatement(sql);
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
@@ -414,7 +414,6 @@ public class UserDAO extends BaseDAO<User> {
                 s.setRoleId(rs.getInt("roleId"));
                 s.setIsAuthorized(rs.getBoolean("userAuthorization"));
                 users.add(s);
-                System.out.println(s);
             }
         } catch (SQLException ex) {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
