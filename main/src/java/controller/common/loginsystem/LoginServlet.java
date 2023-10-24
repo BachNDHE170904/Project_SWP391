@@ -15,6 +15,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import javax.xml.bind.DatatypeConverter;
 import model.User;
 import model.UserDetails;
@@ -35,7 +36,6 @@ public class LoginServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
-
             String email = request.getParameter("email");
             String pass = request.getParameter("password");
             String rememberPass = request.getParameter("rememberPass");
@@ -45,7 +45,8 @@ public class LoginServlet extends HttpServlet {
             String myChecksum = DatatypeConverter.printHexBinary(digest).toUpperCase();
             UserDAO db = new UserDAO();
             User user = db.getUser(email, myChecksum);
-            String userStatus = db.getUserStatus(user.getUserId());
+            String userStatus="inactive" ;
+            if(user!=null)userStatus=db.getUserStatus(user.getUserId());
             UserDetails details = db.getUserDetails(email);
             HttpSession session = request.getSession();
             if (rememberPass != null && rememberPass.equals("true") && user != null)//remember pass
@@ -73,7 +74,7 @@ public class LoginServlet extends HttpServlet {
                 request.setAttribute("failedLogin", "fail");
                 request.getRequestDispatcher("Login.jsp").forward(request, response);
             }
-        } catch (Exception e) {
+        } catch (NoSuchAlgorithmException e) {
 
         }
     }
