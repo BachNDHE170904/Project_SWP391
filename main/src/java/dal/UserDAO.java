@@ -383,6 +383,7 @@ public class UserDAO extends BaseDAO<User> {
                 s.setFullname(rs.getString("fullname"));
                 s.setUsername(rs.getString("username"));
                 s.setRoleId(rs.getInt("roleId"));
+                s.setIsAuthorized(rs.getBoolean("userAuthorization"));
                 users.add(s);
                 System.out.println(s);
             }
@@ -428,9 +429,7 @@ public class UserDAO extends BaseDAO<User> {
     mentor.setUserid(rs.getInt("ID"));
     mentor.setFullname(rs.getString("Fullname"));
     mentor.setUsername(rs.getString("AccountName"));
-    // Lấy thông tin về profession từ ResultSet và thiết lập cho mentor
-    String profession = rs.getString("Profession");
-    mentor.setProfession(profession);
+    mentor.setProfession(rs.getString("Profession"));
 
     mentors.add(mentor);
             }
