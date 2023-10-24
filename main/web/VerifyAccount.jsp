@@ -14,7 +14,7 @@
         <jsp:include page="NavBar.jsp"></jsp:include>
             <div class="Center">
             <% User acc = (User) session.getAttribute("user");
-                if (!acc.isIsAuthorized()) {
+                if (acc!=null&&!acc.isIsAuthorized()) {
             %>
             <h1>Verify Account</h1>
             <form action="VerifyAccountServlet" method="POST">
@@ -37,7 +37,7 @@
             <%
                     }
                 } else
-                    request.getRequestDispatcher("ViewUserProfile.jsp").forward(request, response);
+                    request.getRequestDispatcher("WelcomePage.jsp").forward(request, response);
             %>
         </div>
         <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>

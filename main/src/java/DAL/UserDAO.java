@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import model.Mentor;
 import model.User;
 import model.UserDetails;
 
@@ -19,19 +20,20 @@ import model.UserDetails;
  * @author ADMIN
  */
 public class UserDAO extends BaseDAO<User> {
-
     public ArrayList<User> getUsers() {
         ArrayList<User> users = new ArrayList<>();
         try {
-            String sql = "SELECT * FROM Users s\n";
+            String sql = "SELECT * FROM Users s,UserStatus us where s.userId=us.userId\n";
             PreparedStatement statement = connection.prepareStatement(sql);
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
                 User s = new User();
-                s.setUsername(rs.getString("name"));
-                s.setPass(rs.getString("pass"));
+                s.setUsername(rs.getString("username"));
+                s.setPass(rs.getString("password"));
                 s.setUserId(rs.getInt("userId"));
-                s.setIsAuthorized(false);
+                s.setEmail(rs.getString("email"));
+                s.setIsAuthorized(rs.getBoolean("userAuthorization"));
+                s.setStatus(rs.getString("userStatus"));
                 users.add(s);
             }
         } catch (SQLException ex) {
@@ -80,7 +82,6 @@ public class UserDAO extends BaseDAO<User> {
                 s.setIsAuthorized(rs.getBoolean("userAuthorization"));
                 return s;
             }
-
         } catch (SQLException ex) {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -90,7 +91,7 @@ public class UserDAO extends BaseDAO<User> {
     public User getUserByID(int id) {
         try {
             String sql = "SELECT * FROM Users s\n"
-                    + "WHERE s.userId=? ";
+                    + "WHERE s.userId=?";
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setInt(1, id);
             ResultSet rs = statement.executeQuery();
@@ -125,6 +126,22 @@ public class UserDAO extends BaseDAO<User> {
                 s.setEmail(rs.getString("email"));
                 s.setIsAuthorized(rs.getBoolean("userAuthorization"));
                 return s;
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+    public String getUserStatus(int userID) {
+        try {
+            String sql = "SELECT * FROM UserStatus s\n"
+                    + "WHERE s.userId = ?";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setInt(1, userID);
+            ResultSet rs = statement.executeQuery();
+            if (rs.next()) {
+                return rs.getString("userStatus");
             }
 
         } catch (SQLException ex) {
@@ -206,12 +223,12 @@ public class UserDAO extends BaseDAO<User> {
         }
     }
 
-    public void insertUserStatus(User us) {
+    public void insertUserStatus(int userId,String status) {
         try {
             String sql = "insert into UserStatus(userId,userStatus) values(?,?)\n;";
             PreparedStatement statement = connection.prepareStatement(sql);
-            statement.setInt(1, us.getUserId());
-            statement.setString(2, "active");
+            statement.setInt(1, userId);
+            statement.setString(2, status);
             statement.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -296,6 +313,19 @@ public class UserDAO extends BaseDAO<User> {
             return false;
         }
     }
+    public boolean updateMenteeRoleToMentor(int userId) {
+        String sql = "update UserDetail set roleId = ? where userId = ?";
+        try {
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setInt(1, 4);
+            stm.setInt(2, userId);
+            stm.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, e);
+            return false;
+        }
+    }
 
     public String getEncryptedPassword(String email) throws SQLException {
 
@@ -337,7 +367,7 @@ public class UserDAO extends BaseDAO<User> {
         }
     }
 
-    public void updateUserDetail(int userID, String username, String fullname, String phone, String address, boolean sex, String dob, String avatar) {
+    public void updateUserDetail(int userID, String username, String fullname, String phone, String address, boolean sex, Date dob, String avatar) {
         String sql = "UPDATE [dbo].[UserDetail]\n"
                 + "   SET \n"
                 + "       [username] = ?\n"
@@ -352,7 +382,7 @@ public class UserDAO extends BaseDAO<User> {
             stm.setString(1, username);
             stm.setString(2, phone);
             stm.setString(3, fullname);
-            stm.setDate(4, Date.valueOf(dob));
+            stm.setDate(4, dob);
             stm.setBoolean(5, sex);
             stm.setString(6, address);
             stm.setInt(7, userID);
@@ -361,7 +391,7 @@ public class UserDAO extends BaseDAO<User> {
                     + "   SET [avatarLink] = ?\n"
                     + " WHERE userId = ?";
             PreparedStatement qtm = connection.prepareStatement(xSQL);
-            qtm.setString(1,avatar);
+            qtm.setString(1, avatar);
             qtm.setInt(2, userID);
             qtm.executeUpdate();
         } catch (SQLException e) {
@@ -370,4 +400,77 @@ public class UserDAO extends BaseDAO<User> {
         }
     }
 
+    public ArrayList<UserDetails> getAllUsers() {
+        ArrayList<UserDetails> users = new ArrayList<>();
+        try {
+            String sql = "SELECT * FROM Users, UserDetail where Users.userId = UserDetail.userId AND (UserDetail.roleId = 2 OR UserDetail.roleId = 4)";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                UserDetails s = new UserDetails();
+                s.setUserId(rs.getInt("userId"));
+                s.setFullname(rs.getString("fullname"));
+                s.setUsername(rs.getString("username"));
+                s.setRoleId(rs.getInt("roleId"));
+                users.add(s);
+                System.out.println(s);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return users;
+    }
+
+    public boolean deleteUser(int userId) {
+        String sql = "DELETE FROM users WHERE userId = ?";
+        try {
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setInt(1, userId);
+            int rowsAffected = stm.executeUpdate();
+            if (rowsAffected > 0) {
+                return true;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+//    public ArrayList<Mentor> getAllMentors() {
+//        ArrayList<Mentor> mentors = new ArrayList<>();
+//        try {
+//            String sql = "SELECT \n"
+//                    + "ud.userId AS ID,\n"
+//                    + "ud.fullname AS Fullname,\n"
+//                    + "ud.username AS AccountName,\n"
+//                    + "mc.profession AS Profession,\n"
+//                    + "u.userAuthorization AS UserAuthorized\n"
+//                    + "FROM UserDetail ud \n"
+//                    + "INNER JOIN Users u ON u.userId = ud.userId\n"
+//                    + "INNER JOIN Mentor m ON ud.userId = m.userId\n"
+//                    + "INNER JOIN MentorCV mc ON m.mentorId = mc.mentorId\n"
+//                    + "where ud.roleId = 3";
+//            PreparedStatement statement = connection.prepareStatement(sql);
+//            ResultSet rs = statement.executeQuery();
+//            while (rs.next()) {
+//                Mentor mentor = new Mentor();
+//                mentor.setUserid(rs.getInt("ID"));
+//                mentor.setFullname(rs.getString("Fullname"));
+//                mentor.setUsername(rs.getString("AccountName"));
+//                // Lấy thông tin về profession từ ResultSet và thiết lập cho mentor
+//                String profession = rs.getString("Profession");
+//                mentor.setProfession(profession);
+//
+//                mentors.add(mentor);
+//            }
+//        } catch (SQLException ex) {
+//            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//        return mentors;
+//    }
+
+    public int getNumberOfRequests(int userId) {
+
+        return 0;
+    }
 }

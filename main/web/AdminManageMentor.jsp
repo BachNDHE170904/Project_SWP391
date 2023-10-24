@@ -1,4 +1,6 @@
 
+<%@page import="model.Mentor"%>
+<%@page import="controller.Constants"%>
 <%@page import="model.Skill"%>
 <%@page import="model.Skill"%>
 <%@page import="dal.SkillDAO"%>
@@ -60,45 +62,60 @@
                     <!-- Navbar End -->
 
                     <!-- Table Start -->
+                   
                     <div class="container-fluid pt-4 px-4">
                         <div class="row g-4">
                             <div class="col-12">
                                 <div class="bg-light rounded h-100 p-4">
-                                    <h6 class="mb-4">Manage skills</h6>
+                                    <h6 class="mb-4">Manage mentors</h6>
+                                    <div class="inner-form">
+                                        <div class="input-field">
+                                            <input class="form-control" id="choices-text-preset-values" type="text" placeholder="Type to search..." />
+                                            <button class="btn-search" type="button">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                                                <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path>
+                                                </svg>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    
                                     <div class="table-responsive">
                                         <table class="table">
                                             <thead>
                                                 <tr>
                                                     <th scope="col">#</th>
                                                     <th scope="col">ID</th>
-                                                    <th scope="col">Skill Name</th>
-                                                    <th scope="col">Status</th>
+                                                    <th scope="col">Full Name</th>
+                                                    <th scope="col">Account Name</th>
+                                                    <th scope="col">Profession</th>
+                                                    <th scope="col">Number of currently accepted requests</th>
+                                                    <th scope="col">Percentage completed</th>
+                                                    <th scope="col">Rate star</th>
                                                     <th scope="col">Enable/Disable</th>
-                                                    <th scope="col">Update</th>
-                                                    <th scope="col"><a href="CreateNewSkill.jsp">+</a></th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                             <%
-                                                SkillDAO skillDb = new SkillDAO();
-                                                ArrayList<Skill> skills = skillDb.getSkills();
-                                                for (int i = 0; i < skills.size(); i++) {
-                                                    Skill skill = skills.get(i);
+                                                UserDAO userDb = new UserDAO();
+                                                ArrayList<Mentor> mentors = userDb.getAllMentors();
+                                                int totalMenteeRequests = 0;
+                                                for (int i = 0; i < mentors.size(); i++) {
+                                                    Mentor mentor = mentors.get(i);
+                                                    
                                             %>
-                                            <tr 
-                                                <% if (skill.getSkillStatus().equals("inactive")) { %>
-                                                class="deleted-row"
-                                                <%}%>
-                                                >
+                                            <tr>
                                                 <th scope="row"><%=i + 1%></th>
-                                                <td><%=skill.getSkillId()%></td>
-                                                <td><%=skill.getSkillName()%></td>
-                                                <td><%=skill.getSkillStatus()%></td>
-                                                <td><a href="UpdateSkillStatusServlet?skillId=<%=skill.getSkillId()%>">Enable/Disable</a></td>
-                                                <td><a href="UpdateSkill.jsp?skillId=<%=skill.getSkillId() %>">Update</a></td>
+                                                <td><%=mentor.getUserid()%></td>
+                                                <td><%=mentor.getFullname()%></td>
+                                                <td><%=mentor.getUsername()%></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
                                             </tr>
-                                            <% } %>
-                                        </tbody>
+                                            <% 
+                                                }
+                                            %>
+                                            </tbody>
                                     </table>
                                 </div>
                             </div>
@@ -117,6 +134,28 @@
             } else
                 request.getRequestDispatcher("WelcomePage.jsp").forward(request, response);
         %>
+        <script>
+function searchUsers() {
+    // L?y giá tr? nh?p vào t? tr??ng tìm ki?m
+    var searchValue = document.getElementById("choices-text-preset-values").value.toLowerCase();
+        
+    // L?y t?t c? các dòng c?a b?ng
+    var tableRows = document.querySelectorAll(".table tbody tr");
+
+    // Duy?t qua t?ng dòng và ki?m tra Full Name
+    for (var i = 0; i < tableRows.length; i++) {
+        var fullName = tableRows[i].querySelector("td:nth-child(3)").textContent.toLowerCase();
+
+        // N?u Full Name ch?a chu?i tìm ki?m, hi?n th? dòng, ng??c l?i ?n dòng
+        if (fullName.includes(searchValue)) {
+            tableRows[i].style.display = "";
+        } else {
+            tableRows[i].style.display = "none";
+        }
+    }
+}
+document.querySelector(".btn-search").addEventListener("click", searchUsers);
+        </script>
         <!-- JavaScript Libraries -->
         <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
@@ -133,3 +172,4 @@
     </body>
 
 </html>
+

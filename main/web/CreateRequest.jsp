@@ -39,33 +39,21 @@
                                             <input class="form-control mb-1" id="date" type="date" name="deadline" placeholder="Input title here...." required="">
                                         </div>
                                         <div class="form-group">
-                                            <label class="form-label">Status</label>
-                                            <select class="form-control mb-1" name="status" required="">
-                                                <option value="0">Inactive</option>
-                                                <option value="1">Active</option>
-                                            </select>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="form-label">Status</label>
-                                            <select class="form-control mb-1" name="status" required="">
-                                                <option value="1">Open</option>
-                                                <option value="2">Processing</option>
-                                                <option value="3">Cancel</option>
-                                                <option value="4">Closed</option>
-                                            </select>
-                                        </div>
-                                        <div class="form-group">
                                             <label class="form-label">Programing Language</label>
                                             <select class="form-control mb-1" name="language" required="">
                                                 <c:forEach items="${requestScope.lists}" var="item">
-                                                    <option value="${item.getLanguageId()}">${item.getLanguageName()}</option>
+                                                    <option value="${item.languageId}">${item.getLanguageName()}</option>
                                                 </c:forEach>
                                             </select>
                                         </div>
                                         <div class="form-group">
                                             <label class="form-label">Skills</label>
-                                            <c:forEach items="${requestScope.skills}" var="item">
-                                                <input class="form-control mb-1" type="checkbox" value="${item.getSkillId()}" name="skill" required=""> 
+                                            <c:forEach items="${requestScope.skills}" var="skill">
+                                                <br>
+                                                <label>
+                                                    <input type="checkbox" class="form-check-input" name="selectedSkills" value="${skill.skillId}" >
+                                                    ${skill.skillName}
+                                                </label>
                                             </c:forEach>
                                         </div>
                                         <div class="form-group">

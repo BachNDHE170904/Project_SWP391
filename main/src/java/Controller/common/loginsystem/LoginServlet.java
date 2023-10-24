@@ -15,6 +15,9 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.xml.bind.DatatypeConverter;
 import model.User;
 import model.UserDetails;
@@ -34,17 +37,24 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try {
-
+        System.out.println("ABCD");
+//        try {
             String email = request.getParameter("email");
             String pass = request.getParameter("password");
             String rememberPass = request.getParameter("rememberPass");
-            MessageDigest md = MessageDigest.getInstance("MD5");
+            MessageDigest md = null;
+        try {
+            md = MessageDigest.getInstance("MD5");
+        } catch (NoSuchAlgorithmException ex) {
+            Logger.getLogger(LoginServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
             md.update(pass.getBytes());
             byte[] digest = md.digest();
             String myChecksum = DatatypeConverter.printHexBinary(digest).toUpperCase();
             UserDAO db = new UserDAO();
             User user = db.getUser(email, myChecksum);
+           
+            String userStatus = db.getUserStatus(user.getUserId());
             UserDetails details = db.getUserDetails(email);
             HttpSession session = request.getSession();
             if (rememberPass != null && rememberPass.equals("true") && user != null)//remember pass
@@ -58,7 +68,7 @@ public class LoginServlet extends HttpServlet {
                 response.addCookie(c_pass);
                 response.addCookie(c_user);
             }
-            if (user != null && details.getRoleId() != 1)//login successfull and is not admin
+            if (user != null && details.getRoleId() != 1 && userStatus.equalsIgnoreCase("active"))//login successfull and is not admin
             {
                 session.setAttribute("user", user);
                 session.setAttribute("userDetail", details);
@@ -72,9 +82,12 @@ public class LoginServlet extends HttpServlet {
                 request.setAttribute("failedLogin", "fail");
                 request.getRequestDispatcher("Login.jsp").forward(request, response);
             }
-        } catch (Exception e) {
-
-        }
+//        } catch (Exception e) {
+//            System.out.println("Something wrong!!");
+//            System.out.println(e);
+//            System.out.println(e.getMessage());
+//            request.getRequestDispatcher("Login.jsp").forward(request, response);
+//        }
     }
 
     /**
