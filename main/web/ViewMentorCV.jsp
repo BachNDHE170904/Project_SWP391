@@ -31,7 +31,7 @@
     <body>
         <%
             try {
-                int id = Integer.parseInt(request.getParameter("mentorId"));
+                int id = Integer.parseInt(request.getParameter("userId"));
                 UserDAO userDAO = new UserDAO();
                 MentorDAO mentorDAO = new MentorDAO();
                 User mentor = userDAO.getUserByID(id);

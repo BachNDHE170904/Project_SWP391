@@ -53,7 +53,7 @@
                             <div class="p-4">
                                 <i class="fa fa-3x fa-graduation-cap text-primary mb-4"></i>
                                 <h5 class="mb-3">Skilled Mentors</h5>
-                                <p>See all available mentors</p>
+                                <a href="ViewAllMentorsServlet">See all available mentors</a>
                             </div>
                         </div>
                     </div>
@@ -62,7 +62,7 @@
                             <div class="p-4">
                                 <i class="fa fa-3x fa-globe text-primary mb-4"></i>
                                 <h5 class="mb-3">Programming skills</h5>
-                                <p>All programming skills we have to offer</p>
+                                <a  href="ViewSkills.jsp">All programming skills we have to offer</a>
                             </div>
                         </div>
                     </div>
@@ -88,10 +88,10 @@
                         <p class="mb-4">Our website also allows mentors to support mentees to learn programming</p>
                         <div class="row gy-2 gx-4 mb-4">
                             <div class="col-sm-6">
-                                <p class="mb-0"><i class="fa fa-arrow-right text-primary me-2"></i>Skilled Mentors</p>
+                                <a class="mb-0" href="ViewAllMentorsServlet"><i class="fa fa-arrow-right text-primary me-2"></i>Skilled Mentors</a>
                             </div>
                             <div class="col-sm-6">
-                                <p class="mb-0"><i class="fa fa-arrow-right text-primary me-2"></i>Programming skills</p>
+                                <a class="mb-0" href="ViewSkills.jsp"><i class="fa fa-arrow-right text-primary me-2"></i>Programming skills</a>
                             </div>
                         </div>
                         <a class="btn btn-primary py-3 px-5 mt-2" href="">Read More</a>
