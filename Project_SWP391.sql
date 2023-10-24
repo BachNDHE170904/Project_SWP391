@@ -6,7 +6,6 @@ create database SWP391
 GO
 USE SWP391
 GO
-
 CREATE TABLE Roles (
    roleId INT NOT NULL identity(1,1),
    roleName NVARCHAR (50)  UNIQUE   NOT NULL,
@@ -16,6 +15,7 @@ insert into Roles(roleName)values('Admin');
 insert into Roles(roleName)values('User');
 insert into Roles(roleName)values('Mentee');
 insert into Roles(roleName)values('Mentor');
+
 CREATE TABLE Users (
    userId   INT    NOT NULL identity(1,1),
    email NVARCHAR (50)  Unique   NOT NULL,
@@ -25,6 +25,13 @@ CREATE TABLE Users (
    PRIMARY KEY (userId),
 );
 insert into Users(email,username,password,userAuthorization)values('happyprogramming551@gmail.com','Admin','552B2EBE774BB5AAA0AD2021DA259D22','1')
+CREATE TABLE UserStatus (
+   userId   INT  NOT NULL,
+   userStatus NVARCHAR(50) NOT NULL,
+   PRIMARY KEY (userId),
+   FOREIGN KEY (userId) REFERENCES Users(userId),
+);
+insert into UserStatus(userId,userStatus) values(1,'active')
 
 CREATE TABLE UserAvatar (
    userId   INT    NOT NULL ,
@@ -158,10 +165,11 @@ CREATE TABLE RequestDetail(
 
 
 CREATE TABLE requestSkillsChoices (
+   id INT NOT NULL identity(1,1),
    requestId   INT    NOT NULL,
    skillId	  INT    NOT NULL,
    languageId   INT    NOT NULL ,
-   PRIMARY KEY (requestId),
+   PRIMARY KEY (id),
    FOREIGN KEY (skillId) REFERENCES Skills(skillId),
    FOREIGN KEY (requestId) REFERENCES RequestDetail(requestId),
    FOREIGN KEY (languageId) REFERENCES ProgrammingLanguage(languageId),

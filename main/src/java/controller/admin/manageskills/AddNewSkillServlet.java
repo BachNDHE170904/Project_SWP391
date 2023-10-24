@@ -19,9 +19,25 @@ import model.Skill;
  */
 public class AddNewSkillServlet extends HttpServlet {
 
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
+        SkillDAO db = new SkillDAO();
+        int skillId = Integer.parseInt(request.getParameter("skillId"));
+        String skillName = request.getParameter("skillName");
+        String status = request.getParameter("status");
+        Skill newSkill = new Skill();
+        newSkill.setSkillId(skillId);
+        newSkill.setSkillName(skillName);
+        newSkill.setSkillStatus(status);
+        if (db.updateSkill(newSkill)) {
+            request.getRequestDispatcher("AdminManageSkills.jsp").forward(request, response);
+        }
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
         SkillDAO db = new SkillDAO();
         String skillName = request.getParameter("skillName");
         String status = request.getParameter("status");
@@ -31,18 +47,6 @@ public class AddNewSkillServlet extends HttpServlet {
         if (db.insertSkill(newSkill)) {
             request.getRequestDispatcher("AdminManageSkills.jsp").forward(request, response);
         }
-    }
-
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        processRequest(request, response);
-    }
-
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        processRequest(request, response);
     }
 
     @Override

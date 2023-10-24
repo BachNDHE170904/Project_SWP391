@@ -45,6 +45,7 @@ public class LoginServlet extends HttpServlet {
             String myChecksum = DatatypeConverter.printHexBinary(digest).toUpperCase();
             UserDAO db = new UserDAO();
             User user = db.getUser(email, myChecksum);
+            String userStatus = db.getUserStatus(user.getUserId());
             UserDetails details = db.getUserDetails(email);
             HttpSession session = request.getSession();
             if (rememberPass != null && rememberPass.equals("true") && user != null)//remember pass
@@ -58,7 +59,7 @@ public class LoginServlet extends HttpServlet {
                 response.addCookie(c_pass);
                 response.addCookie(c_user);
             }
-            if (user != null && details.getRoleId() != 1)//login successfull and is not admin
+            if (user != null && details.getRoleId() != 1 && userStatus.equalsIgnoreCase("active"))//login successfull and is not admin
             {
                 session.setAttribute("user", user);
                 session.setAttribute("userDetail", details);

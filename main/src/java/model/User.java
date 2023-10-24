@@ -13,7 +13,7 @@ public class User {
     private String username, pass, email;
     private int userId;
     private boolean isAuthorized;
-
+    String status;
     public User() {
     }
 
@@ -36,6 +36,15 @@ public class User {
         this.username = username;
         this.pass = pass;
         this.isAuthorized = isAuthorized;
+    }
+
+    public User(String username, String pass, String email, int userId, boolean isAuthorized, String status) {
+        this.username = username;
+        this.pass = pass;
+        this.email = email;
+        this.userId = userId;
+        this.isAuthorized = isAuthorized;
+        this.status = status;
     }
     
     
@@ -84,6 +93,14 @@ public class User {
 
     public void setIsAuthorized(boolean isAuthorized) {
         this.isAuthorized = isAuthorized;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     @Override

@@ -76,10 +76,11 @@ public class CreateRequestServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
         try {
+            PrintWriter out = response.getWriter();
             String title = request.getParameter("title");
             Date deadline = Date.valueOf(request.getParameter("deadline"));
             int languageId=Integer.parseInt(request.getParameter("language"));
-            String[] skill = request.getParameterValues("skill");
+            String[] skill = request.getParameterValues("selectedSkills");
             String content = request.getParameter("content");
             User user = (User) request.getSession().getAttribute("user");
             RequestDAO requestDAO = new RequestDAO();
