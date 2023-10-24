@@ -49,6 +49,10 @@
         <servlet-class>controller.mentee.CreateRequestServlet</servlet-class>
     </servlet>
     <servlet>
+        <servlet-name>updateRequestServlet</servlet-name>
+        <servlet-class>controller.mentee.updateRequestServlet</servlet-class>
+    </servlet>
+    <servlet>
         <servlet-name>UpdateProfileServlet</servlet-name>
         <servlet-class>controller.mentee.UpdateProfileServlet</servlet-class>
     </servlet>
@@ -107,6 +111,10 @@
     <servlet-mapping>
         <servlet-name>CreateRequestServlet</servlet-name>
         <url-pattern>/createRequest</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>updateRequestServlet</servlet-name>
+        <url-pattern>/updateRequest</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>UpdateProfileServlet</servlet-name>

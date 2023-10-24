@@ -32,7 +32,7 @@
                                     <tr>
                                         <th>STT</th>
                                         <th>Title</th>
-                                        <th>Created Date</th>
+                                        <th>Last Updated Date</th>
                                         <th>Deadline</th>
                                         <th>Status</th>
                                         <th colspan="2">Action</th>
@@ -66,26 +66,13 @@
                                                             <input type="text" name="title" value="${item.title}" class="form-control" id="recipient-name" required="">
                                                         </div>
                                                         <div class="form-group">
-                                                            <fmt:formatDate value="${item.createDate}" pattern="yyyy-MM-dd" var="formattedDate" />
-                                                            <label for="recipient-name" class="col-form-label">Created Date</label>
-                                                            <input type="date" name="createdDate" value="${formattedDate}" class="form-control" id="recipient-name" required="">
-                                                        </div>
-                                                        <div class="form-group">
                                                             <fmt:formatDate value="${item.deadline}" pattern="yyyy-MM-dd" var="deadline" />
-                                                            <label for="recipient-name" class="col-form-label">Created Date</label>
+                                                            <label for="recipient-name" class="col-form-label">DeadLine</label>
                                                             <input type="date" name="deadline" value="${deadline}" class="form-control" id="recipient-name" required="">
                                                         </div>
                                                         <div class="form-group">
                                                             <label for="content" class="col-form-label">Content</label>
                                                             <textarea name="content" class="form-control" id="content" required="">${item.content}</textarea>
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label for="message-text" class="col-form-label">Status</label>
-                                                            <select class="form-control" name="status">
-                                                                <c:forEach items="${requestScope.statuses}" var="i">
-                                                                    <option value="${i.id}" ${i.id == item.status.id ? 'selected' : ''}>${i.name}</option>
-                                                                </c:forEach>
-                                                            </select>
                                                         </div>
                                                         <div class="form-group">
                                                             <label for="message-text" class="col-form-label">Programing Language</label>
