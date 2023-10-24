@@ -61,6 +61,7 @@ public class RegisterServlet extends HttpServlet {
             UserDAO db = new UserDAO();
             User user = db.getUserByEmailOnly(email);
             User userByName = db.getUserByUserName(username);
+            HttpSession session = request.getSession();
             if (user == null && userByName == null) // No account found
             {
                 User u = new User(username, myHash, email, false);
@@ -70,6 +71,7 @@ public class RegisterServlet extends HttpServlet {
                 UserDetails ud = new UserDetails(phone, fullname, address, dob, gender, 2, username, myHash, email, userId, false);//2 means  role is User by default
                 db.insertUserDetails(ud);
                 db.insertUserStatus(userId,"active");
+                session.setAttribute("status", "Registered successfully !");
                 request.getRequestDispatcher("Login.jsp").forward(request, response);
             } else if (userByName != null) {
                 ms = "Username is already taken";
