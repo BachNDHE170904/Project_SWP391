@@ -49,9 +49,11 @@
                     <% if (acc != null) {%>
                     <li><a class="dropdown-item" href="ViewUserProfile.jsp">View my Profile</a></li>
                     <li><a class="dropdown-item" href="ChangePassword.jsp">Change Password</a></li>
+                        <%if (details.getRoleId() == 3) {%>
                     <li><a class="dropdown-item" href="createRequest">Create Request</a></li>
                     <li><a class="dropdown-item" href="myRequest">List Request</a></li>
-                        <%}%>
+                        <%}
+                            }%>
                     <li><hr class="dropdown-divider"></li>
                     <li><a class="dropdown-item" href="LogOutServlet">Log Out</a></li>
                 </ul>
