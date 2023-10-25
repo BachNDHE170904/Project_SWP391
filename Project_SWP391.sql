@@ -24,15 +24,12 @@ CREATE TABLE Users (
    userAuthorization bit  NOT NULL,
    PRIMARY KEY (userId),
 );
-insert into Users(email,username,password,userAuthorization)values('happyprogramming551@gmail.com','Admin','552B2EBE774BB5AAA0AD2021DA259D22','1')
 CREATE TABLE UserStatus (
    userId   INT  NOT NULL,
    userStatus NVARCHAR(50) NOT NULL,
    PRIMARY KEY (userId),
    FOREIGN KEY (userId) REFERENCES Users(userId),
 );
-insert into UserStatus(userId,userStatus) values(1,'active')
-
 CREATE TABLE UserAvatar (
    userId   INT    NOT NULL ,
    avatarLink NVARCHAR (50)     NOT NULL,
@@ -62,7 +59,6 @@ CREATE TABLE UserDetail (
    FOREIGN KEY (roleId) REFERENCES Roles(roleId),
    FOREIGN KEY (gender) REFERENCES Gender(gender),
 );
-insert into UserDetail(userId,username,phone,fullname,dob,gender,userAddress,roleId)values(1,'Admin','0912345678','Admin','2003-03-18',1,'Hanoi','1')
 
 CREATE TABLE SkillStatus (
    skillStatusId   INT    NOT NULL identity(0,1),
