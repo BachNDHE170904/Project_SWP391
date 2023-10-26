@@ -1,0 +1,28 @@
+/* Thiết lập các kiểu cho container chứa ô tìm kiếm */
+.search-container {
+    text-align: center;
+    margin: 20px;
+}
+
+/* Thiết lập cho ô tìm kiếm */
+#search-input {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 200px;
+}
+
+/* Thiết lập cho nút tìm kiếm */
+#search-button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+/* Đổi màu nút khi di chuột qua */
+#search-button:hover {
+    background-color: #0056b3;
+}

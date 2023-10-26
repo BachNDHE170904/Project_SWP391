@@ -1,7 +1,7 @@
 <%-- 
-    Document   : newjsp
-    Created on : 16-Oct-2023, 03:41:06
-    Author     : GIN
+    Document   : ViewSkill
+    Created on : Oct 18, 2023, 3:45:10 PM
+    Author     : trand
 --%>
 
 <%@page import="model.Skill"%>

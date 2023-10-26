@@ -40,7 +40,7 @@
             <a href="AdminManageSkills.jsp" class="nav-item nav-link"><i class="fa fa-keyboard me-2"></i>Manage Skills</a>
             <a href="ProgramLanguageServlet" class="nav-item nav-link"><i class="fa fa-code me-2"></i>Manage Program Language</a>
             <a href="#" class="nav-item nav-link"><i class="fa fa-table me-2"></i>Manage Mentors</a>
-            <a href="#" class="nav-item nav-link"><i class="fa fa-chart-bar me-2"></i>Manage Requests</a>
+            <a href="ListRequestController" class="nav-item nav-link"><i class="fa fa-chart-bar me-2"></i>Manage Requests</a>
         </div>
     </nav>
 </div>
