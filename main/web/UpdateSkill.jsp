@@ -43,10 +43,11 @@
             User acc = (User) session.getAttribute("user");
             UserDetails details = (UserDetails) session.getAttribute("userDetail");
             UserDAO db = new UserDAO();
-            int skillId=Integer.parseInt(request.getParameter("skillId"));
-            SkillDAO skillDAO=new SkillDAO();
-            Skill skill=skillDAO.getSkillById(skillId);
+            int skillId = Integer.parseInt(request.getParameter("skillId"));
+            SkillDAO skillDAO = new SkillDAO();
+            Skill skill = skillDAO.getSkillById(skillId);
             if (acc != null && details.getRoleId() == 1) {
+                int pageNum = Integer.parseInt(request.getParameter("page"));
         %>
         <div class="container-fluid position-relative bg-white d-flex p-0">
             <!-- Sidebar Start -->
@@ -62,44 +63,46 @@
                     <div class="col-sm-12 col-xl-12">
                         <div class="bg-light rounded h-100 p-4">
                             <form action="AddNewSkillServlet" method="GET">
-                                <h6 class="mb-4">Update skill</h6>
-                                <div class="form-floating mb-3">
-                                    <input type="text" class="form-control" id="floatingInput"
-                                           name="skillName" value="<%=skill.getSkillName() %>" required>
-                                    <label for="floatingInput">Skill Name</label>
-                                </div>
-                                <fieldset class="row mb-3">
-                                    <legend class="col-form-label col-sm-2 pt-0">Status</legend>
-                                    <div class="col-sm-10">
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="status"
-                                                   id="gridRadios1" value="Active" <%if(skill.getSkillStatus().equalsIgnoreCase("active"))%>checked>
-                                            <label class="form-check-label" for="gridRadios1">
-                                                Active
-                                            </label>
-                                        </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="status"
-                                                   id="gridRadios2" value="Inactive"<%if(skill.getSkillStatus().equalsIgnoreCase("inactive"))%>checked>
-                                            <label class="form-check-label" for="gridRadios2">
-                                                Inactive
-                                            </label>
-                                        </div>
+                                <input name="skillId"value="<%=skillId%>"hidden>
+                            <input name="page"value="<%=pageNum%>"hidden>
+                            <h6 class="mb-4">Update skill</h6>
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control" id="floatingInput"
+                                       name="skillName" value="<%=skill.getSkillName()%>" required>
+                                <label for="floatingInput">Skill Name</label>
+                            </div>
+                            <fieldset class="row mb-3">
+                                <legend class="col-form-label col-sm-2 pt-0">Status</legend>
+                                <div class="col-sm-10">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="status"
+                                               id="gridRadios1" value="Active" <%if (skill.getSkillStatus().equalsIgnoreCase("active"))%>checked>
+                                        <label class="form-check-label" for="gridRadios1">
+                                            Active
+                                        </label>
                                     </div>
-                                </fieldset>
-                                <button type="submit" class="btn btn-primary">Ok</button>
-                            </form>
-                        </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="status"
+                                               id="gridRadios2" value="Inactive"<%if (skill.getSkillStatus().equalsIgnoreCase("inactive"))%>checked>
+                                        <label class="form-check-label" for="gridRadios2">
+                                            Inactive
+                                        </label>
+                                    </div>
+                                </div>
+                            </fieldset>
+                            <button type="submit" class="btn btn-primary">Ok</button>
+                        </form>
                     </div>
                 </div>
-                <!-- Form End -->
             </div>
-            <!-- Content End -->
-
-
-            <!-- Back to Top -->
-            <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
+            <!-- Form End -->
         </div>
+        <!-- Content End -->
+
+
+        <!-- Back to Top -->
+        <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
+    </div>
     <%
         } else
             request.getRequestDispatcher("WelcomePage.jsp").forward(request, response);

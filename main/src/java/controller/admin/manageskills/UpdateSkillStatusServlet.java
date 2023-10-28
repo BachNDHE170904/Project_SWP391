@@ -31,11 +31,12 @@ public class UpdateSkillStatusServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         int skillId=Integer.parseInt(request.getParameter("skillId"));
+        int page=Integer.parseInt(request.getParameter("page"));
         SkillDAO db=new SkillDAO();
         Skill ski=db.getSkillById(skillId);
         if(ski.getSkillStatus().equalsIgnoreCase("Active"))db.updateSkillStatus(skillId, "Inactive");
         else db.updateSkillStatus(skillId, "Active");
-        request.getRequestDispatcher("AdminManageSkills.jsp").forward(request, response);
+        request.getRequestDispatcher("AdminManageSkills.jsp?page="+page).forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

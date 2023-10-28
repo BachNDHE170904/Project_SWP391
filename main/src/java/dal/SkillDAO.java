@@ -37,6 +37,42 @@ public class SkillDAO extends BaseDAO<Skill> {
         return skills;
     }
 
+    public ArrayList<Skill> getSkillsWithPagination(int start, int total) {
+        ArrayList<Skill> skills = new ArrayList<>();
+        try {
+            String sql = "SELECT * FROM Skills,SkillStatus where Skills.skillStatusId=SkillStatus.skillStatusId\n"
+                    +"order by skillId\n"
+                    +"OFFSET "+start+" ROWS \n"
+                    +"FETCH NEXT "+ total + " ROWS ONLY \n";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                Skill s = new Skill();
+                s.setSkillId(rs.getInt("skillId"));
+                s.setSkillName(rs.getString("skillName"));
+                s.setSkillStatus(rs.getString("skillStatus"));
+                skills.add(s);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return skills;
+    }
+
+    public int getTotalSkills() {
+        try {
+            String sql = "SELECT COUNT(*) as total FROM Skills,SkillStatus where Skills.skillStatusId=SkillStatus.skillStatusId ";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                return rs.getInt("total");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return 0;
+    }
+
     public Skill getSkillById(int skillId) {
         Skill s = new Skill();
         try {
@@ -75,13 +111,17 @@ public class SkillDAO extends BaseDAO<Skill> {
         }
         return false;
     }
+
     public boolean updateSkill(Skill skill) {
         String sql = "update Skills set skillStatusId = ?,skillName=? where skillId = ?";
         try {
             PreparedStatement stm = connection.prepareStatement(sql);
-            String status=skill.getSkillStatus();
-            if(status.equalsIgnoreCase("Active"))stm.setInt(1,1);
-            else stm.setInt(1, 0);
+            String status = skill.getSkillStatus();
+            if (status.equalsIgnoreCase("Active")) {
+                stm.setInt(1, 1);
+            } else {
+                stm.setInt(1, 0);
+            }
             stm.setString(2, skill.getSkillName());
             stm.setInt(3, skill.getSkillId());
             stm.executeUpdate();
@@ -91,12 +131,16 @@ public class SkillDAO extends BaseDAO<Skill> {
             return false;
         }
     }
-    public boolean updateSkillStatus(int skillId,String status) {
+
+    public boolean updateSkillStatus(int skillId, String status) {
         String sql = "update Skills set skillStatusId = ? where skillId = ?";
         try {
             PreparedStatement stm = connection.prepareStatement(sql);
-            if(status.equalsIgnoreCase("Active"))stm.setInt(1,1);
-            else stm.setInt(1, 0);
+            if (status.equalsIgnoreCase("Active")) {
+                stm.setInt(1, 1);
+            } else {
+                stm.setInt(1, 0);
+            }
             stm.setInt(2, skillId);
             stm.executeUpdate();
             return true;
