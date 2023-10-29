@@ -20,6 +20,8 @@ public class Request {
     private List<Skill> skills;
     private ProgramingLanguage pro;
     private Status status;
+    private String userName;
+    private String statusName;
 
     public Request() {
     }
@@ -33,6 +35,12 @@ public class Request {
         this.skills = skills;
         this.pro = pro;
         this.status = status;
+    }
+    public Request(int id, String userName, String tittle, String statusName) {
+        this.id = id;
+        this.userName = userName;
+        this.title = tittle;
+        this.statusName = statusName;
     }
 
     public int getId() {
@@ -97,6 +105,22 @@ public class Request {
 
     public void setStatus(Status status) {
         this.status = status;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public String getStatusName() {
+        return statusName;
+    }
+
+    public void setStatusName(String statusName) {
+        this.statusName = statusName;
     }
     
     
