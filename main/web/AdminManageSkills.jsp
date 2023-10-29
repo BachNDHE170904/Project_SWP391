@@ -71,7 +71,6 @@
                                         <table class="table">
                                             <thead>
                                                 <tr>
-                                                    <th scope="col">#</th>
                                                     <th scope="col">ID</th>
                                                     <th scope="col">Skill Name</th>
                                                     <th scope="col">Status</th>
@@ -92,7 +91,6 @@
                                                 class="deleted-row"
                                                 <%}%>
                                                 >
-                                                <th scope="row"><%=i + 1%></th>
                                                 <td><%=skill.getSkillId()%></td>
                                                 <td><%=skill.getSkillName()%></td>
                                                 <td><%=skill.getSkillStatus()%></td>
