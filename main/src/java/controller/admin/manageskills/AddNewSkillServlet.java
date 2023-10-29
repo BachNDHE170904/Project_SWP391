@@ -30,8 +30,9 @@ public class AddNewSkillServlet extends HttpServlet {
         newSkill.setSkillId(skillId);
         newSkill.setSkillName(skillName);
         newSkill.setSkillStatus(status);
+        int page=Integer.parseInt(request.getParameter("page"));
         if (db.updateSkill(newSkill)) {
-            request.getRequestDispatcher("AdminManageSkills.jsp").forward(request, response);
+            request.getRequestDispatcher("AdminManageSkills.jsp?page="+page).forward(request, response);
         }
     }
 
@@ -44,8 +45,10 @@ public class AddNewSkillServlet extends HttpServlet {
         Skill newSkill = new Skill();
         newSkill.setSkillName(skillName);
         newSkill.setSkillStatus(status);
+        int total=db.getTotalSkills();
+        int page=(int) Math.ceil((double) (total) / 10);
         if (db.insertSkill(newSkill)) {
-            request.getRequestDispatcher("AdminManageSkills.jsp").forward(request, response);
+            request.getRequestDispatcher("AdminManageSkills.jsp?page="+page).forward(request, response);
         }
     }
 
