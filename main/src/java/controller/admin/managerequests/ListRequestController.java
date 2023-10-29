@@ -4,7 +4,10 @@
  */
 package controller.admin.managerequests;
 
+import dal.ProgramingLanguageDAO;
 import dal.RequestDAO;
+import dal.SkillDAO;
+import dal.StatusDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
@@ -13,7 +16,11 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
+import model.ProgramingLanguage;
 import model.Request;
+import model.Skill;
+import model.Status;
 
 /**
  *
@@ -62,6 +69,15 @@ public class ListRequestController extends HttpServlet {
             throws ServletException, IOException {
         RequestDAO rd = new RequestDAO();
         List<Request> lr = rd.getRequests();
+        StatusDAO statusDAO = new StatusDAO();
+        ArrayList<Status> statuses = statusDAO.getAll();
+        ProgramingLanguageDAO programingLanguageDAO = new ProgramingLanguageDAO();
+        ArrayList<ProgramingLanguage> listPro = programingLanguageDAO.getProgramingLanguage();
+        SkillDAO skillDAO = new SkillDAO();
+        ArrayList<Skill> skills = skillDAO.getSkills();
+        request.setAttribute("statuses", statuses);
+        request.setAttribute("pros", listPro);
+        request.setAttribute("skills", skills);
         request.setAttribute("listRequests", lr);
         request.getRequestDispatcher("admin/ListRequest.jsp").forward(request, response);
     }
