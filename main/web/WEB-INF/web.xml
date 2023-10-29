@@ -72,6 +72,10 @@
         <servlet-name>ViewMentorCVServlet</servlet-name>
         <servlet-class>controller.mentor.ViewMentorCV</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ListRequestController</servlet-name>
+        <servlet-class>controller.admin.managerequests.ListRequestController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
         <url-pattern>/LoginServlet</url-pattern>
@@ -143,6 +147,10 @@
     <servlet-mapping>
         <servlet-name>ViewMentorCVServlet</servlet-name>
         <url-pattern>/ViewMentorCV</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ListRequestController</servlet-name>
+        <url-pattern>/ListRequestController</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
