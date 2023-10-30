@@ -88,12 +88,11 @@ public class UserDAO extends BaseDAO<User> {
         return null;
     }
 
-    public User getUserByID(int id) {
+    public User getUserByID(int userId) {
         try {
-            String sql = "SELECT * FROM Users s\n"
-                    + "WHERE s.userId=?";
+            String sql = "SELECT * FROM UserStatus us, Users s WHERE us.userId = s.userId AND us.userId=?";
             PreparedStatement statement = connection.prepareStatement(sql);
-            statement.setInt(1, id);
+            statement.setInt(1, userId);
             ResultSet rs = statement.executeQuery();
             if (rs.next()) {
                 User s = new User();
@@ -101,7 +100,7 @@ public class UserDAO extends BaseDAO<User> {
                 s.setPass(rs.getString("password"));
                 s.setUserId(rs.getInt("userId"));
                 s.setEmail(rs.getString("email"));
-                s.setIsAuthorized(rs.getBoolean("userAuthorization"));
+                s.setStatus(rs.getString("userStatus"));
                 return s;
             }
 
@@ -403,7 +402,7 @@ public class UserDAO extends BaseDAO<User> {
     public ArrayList<UserDetails> getAllUsers() {
         ArrayList<UserDetails> users = new ArrayList<>();
         try {
-            String sql = "SELECT * FROM Users, UserDetail where Users.userId = UserDetail.userId AND (UserDetail.roleId = 2 OR UserDetail.roleId = 3)";
+            String sql = "SELECT * FROM Users, UserDetail, UserStatus where Users.userId = UserDetail.userId  AND Users.userId= UserStatus.userId AND (UserDetail.roleId = 2 OR UserDetail.roleId = 3)";
             PreparedStatement statement = connection.prepareStatement(sql);
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
@@ -412,7 +411,7 @@ public class UserDAO extends BaseDAO<User> {
                 s.setFullname(rs.getString("fullname"));
                 s.setUsername(rs.getString("username"));
                 s.setRoleId(rs.getInt("roleId"));
-                s.setIsAuthorized(rs.getBoolean("userAuthorization"));
+                s.setStatus(rs.getString("userStatus"));
                 users.add(s);
             }
         } catch (SQLException ex) {
@@ -439,5 +438,21 @@ public class UserDAO extends BaseDAO<User> {
     public int getNumberOfRequests(int userId) {
 
         return 0;
+    }
+    
+    public boolean updateUserStatus(int userId, String status) {
+        String sql = "UPDATE UserStatus set userStatus = ? where userId = ?";
+        try {
+            PreparedStatement stm = connection.prepareStatement(sql);
+            if(status.equalsIgnoreCase("Active"))
+            stm.setString(1, "inactive");
+            else stm.setString(1, "active");
+            stm.setInt(2, userId);
+            stm.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, e);
+        }
+        return false;
     }
 }

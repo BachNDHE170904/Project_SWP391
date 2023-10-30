@@ -135,7 +135,7 @@
                 request.getRequestDispatcher("WelcomePage.jsp").forward(request, response);
         %>
         <script>
-function searchUsers() {
+function searchMentors() {
     
     var searchValue = document.getElementById("choices-text-preset-values").value.toLowerCase();
         
@@ -151,7 +151,12 @@ function searchUsers() {
         }
     }
 }
-document.querySelector(".btn-search").addEventListener("click", searchUsers);
+document.querySelector(".btn-search").addEventListener("click", searchMentors);
+document.getElementById("choices-text-preset-values").addEventListener("keydown", function(event) {
+    if (event.key === "Enter") {
+        searchMentors();
+    }
+});
         </script>
         <!-- JavaScript Libraries -->
         <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>

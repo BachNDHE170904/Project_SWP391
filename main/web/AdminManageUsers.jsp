@@ -90,7 +90,7 @@
                                                     <th scope="col">Number of currently requests</th>
                                                     <th scope="col">Status</th>
                                                     <th scope="col">Enable/Disable</th>
-                                                    <th scope="col">Delete user</th>
+                                                   
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -103,7 +103,7 @@
                                                     UserDetails user = users.get(i);
                                                     
                                             %>
-                                            <tr <% if (user.isIsAuthorized()== false) { %>
+                                            <tr <% if (user.getStatus().equalsIgnoreCase("Inactive")) { %>
                                                 class="deleted-row"
                                                 <%}%>
                                                 >
@@ -114,17 +114,13 @@
                                                 <td><%= Constants.roleNames.get(user.getRoleId()) %></td>
                                                 <td></td>
                                                 <td>
-                                                    <% if (user.isIsAuthorized() == true) { %>
+                                                    <% if (user.getStatus().equalsIgnoreCase("Active")) { %>
                                                     ACTIVE
                                                     <% } else { %>
                                                     INACTIVE
                                                     <% }%>
                                                 </td>
                                                 <td><a href="UpdateUserStatusServlet?userId=<%=user.getUserId()%>">Enable/Disable</a></td>
-                                                <td><a href="DeleteUserServlet?userId=<%=user.getUserId()%>"><svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 448 512">
-                                                        <!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com 
-                                                        License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
-                                                        <style>svg{fill:#87eaf7}</style><path d="M135.2 17.7L128 32H32C14.3 32 0 46.3 0 64S14.3 96 32 96H416c17.7 0 32-14.3 32-32s-14.3-32-32-32H320l-7.2-14.3C307.4 6.8 296.3 0 284.2 0H163.8c-12.1 0-23.2 6.8-28.6 17.7zM416 128H32L53.2 467c1.6 25.3 22.6 45 47.9 45H346.9c25.3 0 46.3-19.7 47.9-45L416 128z"/></svg></a></td>
 
                                             </tr>
                                             <% 
@@ -167,6 +163,11 @@ function searchUsers() {
     }
 }
 document.querySelector(".btn-search").addEventListener("click", searchUsers);
+document.getElementById("choices-text-preset-values").addEventListener("keydown", function(event) {
+    if (event.key === "Enter") {
+        searchUsers();
+    }
+});
         </script>
         <!-- JavaScript Libraries -->
         <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
