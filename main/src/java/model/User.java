@@ -13,7 +13,7 @@ public class User {
     private String username, pass, email;
     private int userId;
     private boolean isAuthorized;
-    String status;
+    private String status;
     public User() {
     }
 
