@@ -174,11 +174,13 @@ CREATE TABLE requestSkillsChoices (
 CREATE TABLE Comment (
    commentId   int NOT NULL identity(1,1),
    commentDetail NVARCHAR (200)     NOT NULL,
+   createdDate Date NOT NULL,
    PRIMARY KEY (commentId),
 );
 
 CREATE TABLE Rating (
-   ratingId   INT    NOT NULL,
+   ratingId   INT    NOT NULL identity(1,1),
+   rating   INT    NOT NULL CHECK (rating >= 1 AND rating <= 5),
    commentId	  INT    NOT NULL,
    requestId   INT    NOT NULL,
    PRIMARY KEY (requestId),

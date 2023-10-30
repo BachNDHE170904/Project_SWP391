@@ -20,7 +20,8 @@ public class Request {
     private List<Skill> skills;
     private ProgramingLanguage pro;
     private Status status;
-
+    private String userName;
+    private int mentorId;
     public Request() {
     }
 
@@ -98,6 +99,21 @@ public class Request {
     public void setStatus(Status status) {
         this.status = status;
     }
-    
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public int getMentorId() {
+        return mentorId;
+    }
+
+    public void setMentorId(int mentorId) {
+        this.mentorId = mentorId;
+    }
     
 }

@@ -61,6 +61,17 @@ public class RegisterServlet extends HttpServlet {
             UserDAO db = new UserDAO();
             User user = db.getUserByEmailOnly(email);
             User userByName = db.getUserByUserName(username);
+            UserDetails ud=new UserDetails();
+            ud.setPhone(phone);
+            ud.setFullname(fullname);
+            ud.setAddress(address);
+            ud.setDob(dob);
+            ud.setSex(gender);
+            ud.setRoleId(2);
+            ud.setUsername(username);
+            ud.setPass(password);
+            ud.setEmail(email);
+            ud.setIsAuthorized(false);
             HttpSession session = request.getSession();
             if (user == null && userByName == null) // No account found
             {
@@ -68,7 +79,7 @@ public class RegisterServlet extends HttpServlet {
                 db.insertUser(u);
                 u = db.getUser(email, myHash);
                 int userId = u.getUserId();
-                UserDetails ud = new UserDetails(phone, fullname, address, dob, gender, 2, username, myHash, email, userId, false);//2 means  role is User by default
+                ud.setUserId(userId);
                 db.insertUserDetails(ud);
                 db.insertUserStatus(userId,"active");
                 session.setAttribute("status", "Registered successfully !");
@@ -76,14 +87,16 @@ public class RegisterServlet extends HttpServlet {
             } else if (userByName != null) {
                 ms = "Username is already taken";
                 request.setAttribute("ms", ms);
+                request.setAttribute("details", ud);
                 request.getRequestDispatcher("Register.jsp").forward(request, response);
             } else //Account already existed
             {
                 ms = "Account already existed";
                 request.setAttribute("ms", ms);
+                request.setAttribute("details", ud);
                 request.getRequestDispatcher("Register.jsp").forward(request, response);
             }
-        } catch (Exception e) {
+        } catch (NoSuchAlgorithmException e) {
             System.out.println(e);
         }
     }

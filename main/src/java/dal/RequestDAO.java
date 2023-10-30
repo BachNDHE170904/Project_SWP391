@@ -177,4 +177,93 @@ public class RequestDAO extends BaseDAO<Skill> {
             Logger.getLogger(RequestDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
+//    public ArrayList<Request> getRequests() {
+//        ArrayList<Request> skills = new ArrayList<>();
+//        try {
+//            String sql = "  select rd.requestId, u.username, rd.title, rd.statusId from RequestDetail rd \n"
+//                    + "  inner join Requests r on r.requestId = rd.requestId inner join Users u on u.userId = r.userId inner join Statuses s on s.statusId = rd.statusId";
+//            PreparedStatement statement = connection.prepareStatement(sql);
+//            ResultSet rs = statement.executeQuery();
+//            while (rs.next()) {
+//                skills.add(new Request(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4)));
+//            }
+//        } catch (SQLException ex) {
+//            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//        return skills;
+//    }
+    public List<Request> getRequests() {
+        try {
+            List<Request> list = new ArrayList<>();
+            String sql = "Select * from RequestDetail r join Requests re on r.requestId = re.requestId join Users u on u.userId = re.userId\n";
+            PreparedStatement ptm = connection.prepareStatement(sql);
+            ResultSet rs = ptm.executeQuery();
+            while (rs.next()) {
+                Request request = new Request();
+                request.setId(rs.getInt(1));
+                request.setTitle(rs.getString(2));
+                request.setContent(rs.getString(3));
+                request.setCreateDate(rs.getDate(4));
+                request.setDeadline(rs.getDate(5));
+                request.setUserName(rs.getString("username"));
+                int mentorId=rs.getInt("mentorId");
+                if(rs.wasNull()){
+                    request.setMentorId(0);
+                }else request.setMentorId(mentorId);
+                Status status = new Status();
+                String xSQL = "Select * from Statuses where statusId = ?";
+                PreparedStatement qtm = connection.prepareStatement(xSQL);
+                qtm.setInt(1, rs.getInt(6));
+                ResultSet resultSet = qtm.executeQuery();
+                while (resultSet.next()) {
+                    status.setId(resultSet.getInt(1));
+                    status.setName(resultSet.getString(2));
+                }
+                request.setStatus(status);
+                String qSQL = "Select * from requestSkillsChoices where requestId = ?";
+                PreparedStatement xtm = connection.prepareStatement(qSQL);
+                xtm.setInt(1, rs.getInt(1));
+                ResultSet a = xtm.executeQuery();
+                ProgramingLanguage pg = new ProgramingLanguage();
+                ProgramingLanguageDAO programingLanguageDAO = new ProgramingLanguageDAO();
+                if (a.next()) {
+                    pg = programingLanguageDAO.getProgramingLanguageById(a.getInt(4));
+                }
+                request.setPro(pg);
+                List<Skill> skills = new ArrayList<Skill>();
+                String mSQL = "Select * from requestSkillsChoices where requestId = ?";
+                PreparedStatement b = connection.prepareStatement(mSQL);
+                xtm.setInt(1, rs.getInt(1));
+                ResultSet ab = xtm.executeQuery();
+                while (ab.next()) {
+                    SkillDAO skillDAO = new SkillDAO();
+                    skills.add(skillDAO.getSkillById(ab.getInt(3)));
+                }
+                request.setSkills(skills);
+                list.add(request);
+            }
+            return list;
+        } catch (SQLException ex) {
+            Logger.getLogger(RequestDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+    
+//    public ArrayList<Request> searchRequests(String search) {
+//        ArrayList<Request> skills = new ArrayList<>();
+//        try {
+//            String sql = "  select rd.requestId, u.username, rd.title, rd.statusId from RequestDetail rd \n"
+//                    + "  inner join Requests r on r.requestId = rd.requestId inner join Users u on u.userId = r.userId inner join Statuses s on s.statusId = rd.statusId\n"
+//                    + "  where rd.title like '%" + search + "%' or u.username like '%" + search + "%'";
+//            PreparedStatement statement = connection.prepareStatement(sql);
+//            ResultSet rs = statement.executeQuery();
+//            while (rs.next()) {
+//                skills.add(new Request(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4)));
+//            }
+//        } catch (SQLException ex) {
+//            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//        return skills;
+//    }
 }

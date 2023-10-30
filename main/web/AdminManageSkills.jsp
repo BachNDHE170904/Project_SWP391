@@ -44,9 +44,11 @@
         <%
             //check if the user is logged in or not
             User acc = (User) session.getAttribute("user");
-            UserDetails details = (UserDetails) session.getAttribute("userDetail");
-            UserDAO db = new UserDAO();
+            UserDetails details = (UserDetails) session.getAttribute("userDetail");;
             if (acc != null && details.getRoleId() == 1) {
+                SkillDAO skillDAO = new SkillDAO();
+                int total = skillDAO.getTotalSkills();
+                int pageNum = Integer.parseInt(request.getParameter("page"));
         %>
         <div class="container-fluid position-relative bg-white d-flex p-0">
             <!-- Sidebar Start -->
@@ -69,19 +71,18 @@
                                         <table class="table">
                                             <thead>
                                                 <tr>
-                                                    <th scope="col">#</th>
                                                     <th scope="col">ID</th>
                                                     <th scope="col">Skill Name</th>
                                                     <th scope="col">Status</th>
                                                     <th scope="col">Enable/Disable</th>
                                                     <th scope="col">Update</th>
-                                                    <th scope="col"><a href="CreateNewSkill.jsp">+</a></th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
+                                                    <th scope="col"><a href="CreateNewSkill.jsp?&&page=<%= pageNum%>">+</a></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
                                             <%
                                                 SkillDAO skillDb = new SkillDAO();
-                                                ArrayList<Skill> skills = skillDb.getSkills();
+                                                ArrayList<Skill> skills = skillDb.getSkillsWithPagination((pageNum - 1) * 10, 10);
                                                 for (int i = 0; i < skills.size(); i++) {
                                                     Skill skill = skills.get(i);
                                             %>
@@ -90,12 +91,11 @@
                                                 class="deleted-row"
                                                 <%}%>
                                                 >
-                                                <th scope="row"><%=i + 1%></th>
                                                 <td><%=skill.getSkillId()%></td>
                                                 <td><%=skill.getSkillName()%></td>
                                                 <td><%=skill.getSkillStatus()%></td>
-                                                <td><a href="UpdateSkillStatusServlet?skillId=<%=skill.getSkillId()%>">Enable/Disable</a></td>
-                                                <td><a href="UpdateSkill.jsp?skillId=<%=skill.getSkillId() %>">Update</a></td>
+                                                <td><a href="UpdateSkillStatusServlet?skillId=<%=skill.getSkillId()%>&&page=<%= pageNum%>">Enable/Disable</a></td>
+                                                <td><a href="UpdateSkill.jsp?skillId=<%=skill.getSkillId()%>&&page=<%= pageNum%>">Update</a></td>
                                             </tr>
                                             <% } %>
                                         </tbody>
@@ -105,6 +105,13 @@
                         </div>
                     </div>
                 </div>
+                <nav aria-label="...">
+                    <ul class="pagination pagination-sm">
+                        <%for (int i = 1; i <= (int) Math.ceil((double) (total) / 10); i++) {%>
+                        <li class="page-item"><a class="page-link" href="AdminManageSkills.jsp?page=<%=i%>"><%= i%></a></li>
+                            <%}%>
+                    </ul>
+                </nav>
                 <!-- Table End -->
             </div>
             <!-- Content End -->

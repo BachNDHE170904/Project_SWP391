@@ -1,5 +1,7 @@
 
+<%@page import="model.UserDetails"%>
 <%@page import="model.SendEmail"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <!--
 Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
@@ -23,12 +25,12 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                             <div class="col">
                                 <!-- Username input -->
                                 <div class="txt_field">
-                                    <input type="text" name="username" required /> 
+                                    <input type="text" id="username" name="username"<c:if test="${ requestScope.details.username!=null }">value="${requestScope.details.username}"</c:if>  required /> 
                                     <span></span>
                                     <label>Username</label>
                                 </div>
                                 <div class="txt_field">
-                                    <input type="text"id="email" name="email" required /> 
+                                    <input type="text"id="email" name="email"<c:if test="${ requestScope.details.email!=null }">value="${requestScope.details.email}"</c:if> required /> 
                                     <span></span>
                                     <label>Email</label>
                                 </div>
@@ -52,7 +54,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                                 </script>
                                 <!-- Password input -->
                                 <div class="txt_field">
-                                    <input type="password" id="password" name="password" required>
+                                    <input type="password" id="password" name="password" <c:if test="${ requestScope.details.pass!=null }">value="${requestScope.details.pass}"</c:if>required>
                                     <span></span>
                                     <label>Password</label>
                                 </div>
@@ -74,7 +76,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                                     });
                                 </script>
                                 <div class="txt_field">
-                                    <input type="password" id="confirmPassword" name="confirmPassword" required />
+                                    <input type="password" id="confirmPassword" name="confirmPassword"<c:if test="${ requestScope.details.pass!=null }">value="${requestScope.details.pass}"</c:if> required />
                                     <span></span>
                                     <label>Confirm Password</label>
                                 </div>
@@ -94,14 +96,14 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                                     });
                                 </script>
                                 <div class="txt_field">
-                                    <input type="text" name="fullname" required />
+                                    <input type="text" name="fullname" <c:if test="${ requestScope.details.fullname!=null }">value="${requestScope.details.fullname}"</c:if>required />
                                     <span></span>
                                     <label>Full Name</label>
                                 </div>
                             </div>
                             <div class="col">
                                 <div class="txt_field">
-                                    <input type="text" id="phone" name="phone" required />
+                                    <input type="text" id="phone" name="phone"<c:if test="${ requestScope.details.phone!=null }">value="${requestScope.details.phone}"</c:if> required />
                                     <span></span>
                                     <label>Phone number</label>
                                 </div>
@@ -121,7 +123,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                                 </script>
                                 <div class="date_field">
                                     <label>Date of Birth:</label> 
-                                    <input type="date"id="dob" name="dob" required />
+                                    <input type="date"id="dob" name="dob"<c:if test="${ requestScope.details.dob!=null }">value="${requestScope.details.dob}"</c:if> required />
                                 </div>
                                 <script>//check dob
                                     let dob = document.getElementById("dob");
@@ -151,13 +153,12 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                                 </script>
                                 <div class="Sex_field">
                                     <select class="form-select" name="gender" aria-label="DefaSult select example">
-                                        <option selected>Gender</option>
-                                        <option value="Male">Male</option>
-                                        <option value="Female">Female</option>
+                                        <option value="Male"<c:if test="${ requestScope.details.sex!=null&&requestScope.details.sex==true }">selected</c:if> >Male</option>
+                                        <option value="Female"<c:if test="${ requestScope.details.sex!=null&&requestScope.details.sex==false }">selected</c:if>>Female</option>
                                     </select>
                                 </div>
                                 <div class="txt_field">
-                                    <input type="text" name="address" required />
+                                    <input type="text" name="address" <c:if test="${ requestScope.details.address!=null }">value="${requestScope.details.address}"</c:if>required />
                                     <span></span>
                                     <label>Address</label>
                                 </div>
@@ -238,10 +239,11 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                     return false;
                 } else {
                     let emailInput = document.getElementById("email").value; // Get the email input value
+                    let username = document.getElementById("username").value;
                     let xhr = new XMLHttpRequest();
                     xhr.open("POST", "/main/RegisterConfirmAccountServlet");
                     xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-                    xhr.send("email=" + emailInput); // Send OTP and user email for validation
+                    xhr.send("email=" + emailInput+"&username="+username+"&register=true"); // Send OTP and user email for validation
                     return true;
                 }
             }

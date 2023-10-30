@@ -2,16 +2,28 @@ insert into Users(email,username,password,userAuthorization)values('happyprogram
 insert into Users(email,username,password,userAuthorization)values('bachnd.2003@gmail.com','bach','D18E7B9AB96C45E9DC5FFD53B7FFD1F7',1)
 insert into Users(email,username,password,userAuthorization)values('bachndhe170904@fpt.edu.vn','mra','D18E7B9AB96C45E9DC5FFD53B7FFD1F7',0)
 insert into Users(email,username,password,userAuthorization)values('dungld2003@gmail.com','dung','D18E7B9AB96C45E9DC5FFD53B7FFD1F7',1)
+insert into Users(email,username,password,userAuthorization)values('bachnd20003@gmail.com','b','D18E7B9AB96C45E9DC5FFD53B7FFD1F7',1)
+insert into Users(email,username,password,userAuthorization)values('abc@gmail.com','c','D18E7B9AB96C45E9DC5FFD53B7FFD1F7',1)
+insert into Users(email,username,password,userAuthorization)values('abc123@gmail.com','d','D18E7B9AB96C45E9DC5FFD53B7FFD1F7',1)
+insert into Users(email,username,password,userAuthorization)values('abc123123@gmail.com','e','D18E7B9AB96C45E9DC5FFD53B7FFD1F7',1)
 
 insert into UserStatus(userId,userStatus) values(1,'active')
 insert into UserStatus(userId,userStatus) values(2,'active')
 insert into UserStatus(userId,userStatus) values(3,'active')
 insert into UserStatus(userId,userStatus) values(4,'active')
+insert into UserStatus(userId,userStatus) values(5,'active')
+insert into UserStatus(userId,userStatus) values(6,'active')
+insert into UserStatus(userId,userStatus) values(7,'active')
+insert into UserStatus(userId,userStatus) values(8,'active')
 
 insert into UserDetail(userId,username,phone,fullname,dob,gender,userAddress,roleId)values(1,'Admin','0912345678','Admin','2003-03-18',1,'Hanoi',1)
 insert into UserDetail(userId,username,phone,fullname,dob,gender,userAddress,roleId)values(2,'bach','0912345678','Nguyen Dinh Bach','2003-03-18',1,'Hanoi',3)
 insert into UserDetail(userId,username,phone,fullname,dob,gender,userAddress,roleId)values(3,'mra','0912345678','Nguyen Van A','2003-03-18',1,'Hanoi',2)
 insert into UserDetail(userId,username,phone,fullname,dob,gender,userAddress,roleId)values(4,'dung','0912345678','Luong Dinh Dung','2003-06-20',1,'Hanoi',3)
+insert into UserDetail(userId,username,phone,fullname,dob,gender,userAddress,roleId)values(5,'b','0912345678','Nguyen Van B','2003-06-20',1,'Hanoi',3)
+insert into UserDetail(userId,username,phone,fullname,dob,gender,userAddress,roleId)values(6,'c','0912345678','Nguyen Van C','2003-06-20',1,'Hanoi',3)
+insert into UserDetail(userId,username,phone,fullname,dob,gender,userAddress,roleId)values(7,'d','0912345678','Nguyen Van D','2003-06-20',1,'Hanoi',3)
+insert into UserDetail(userId,username,phone,fullname,dob,gender,userAddress,roleId)values(8,'e','0912345678','Nguyen Van E','2003-06-20',1,'Hanoi',3)
 
 INSERT INTO Skills (skillName, skillStatusId) VALUES
 ('Software Development', 1),

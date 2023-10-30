@@ -111,6 +111,8 @@
                                                 <td><%=mentor.getProfession()%></td>
                                                 <td></td>
                                                 <td></td>
+                                                <td><%=mentor.getAverageRating()%></td>
+                                                <td></td>
                                             </tr>
                                             <% 
                                                 }

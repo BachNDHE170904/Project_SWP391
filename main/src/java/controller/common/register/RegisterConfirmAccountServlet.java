@@ -4,6 +4,7 @@
  */
 package controller.common.register;
 
+import dal.UserDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -34,15 +35,22 @@ public class RegisterConfirmAccountServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         HttpSession session = request.getSession();
         SendEmail sm = new SendEmail();
+        UserDAO userDAO = new UserDAO();
         int otp = sm.getOtp();
         String emailContent = "Your otp code to confirm your account is: " + otp;
         String toEmail = request.getParameter("email");
-        boolean send = sm.sendEmail(toEmail, emailContent);
-        session.setAttribute("otpCode", otp);
-        Cookie otpCode = new Cookie("otpCode", Integer.toString(otp));
-        otpCode.setMaxAge(3600 * 24);
-        otpCode.setPath("main/VerifyAccount.jsp");
-        response.addCookie(otpCode);
+        String username = request.getParameter("username");
+        String register = request.getParameter("register");
+        if ((userDAO.getUserByEmailOnly(toEmail) != null || userDAO.getUserByUserName(username) != null) && register.equalsIgnoreCase("true")) {
+
+        } else {
+            boolean send = sm.sendEmail(toEmail, emailContent);
+            session.setAttribute("otpCode", otp);
+            Cookie otpCode = new Cookie("otpCode", Integer.toString(otp));
+            otpCode.setMaxAge(3600 * 24);
+            otpCode.setPath("main/VerifyAccount.jsp");
+            response.addCookie(otpCode);
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

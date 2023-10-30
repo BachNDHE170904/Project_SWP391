@@ -70,7 +70,7 @@
                                     </div>
                                     <div class="form-group">
                                         <label class="form-label">Full Name</label>
-                                        <label class="form-control mb-1"><%= details.getFullname()%></label>
+                                        <label class="form-control mb-1" id="username"><%= details.getFullname()%></label>
                                     </div>
                                     <div class="form-group">
                                         <label class="form-label">E-mail</label>
@@ -85,10 +85,11 @@
                                         <script>
                                             function CheckOtp() {
                                                 let emailInput = document.getElementById("email").innerHTML;
+                                                let username = document.getElementById("username").innerHTML;
                                                 let xhr = new XMLHttpRequest();
                                                 xhr.open("POST", "/main/RegisterConfirmAccountServlet");
                                                 xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-                                                xhr.send("email=" + emailInput); // Send OTP and user email for validation
+                                                xhr.send("email=" + emailInput+"&username="+username+"register=false"); // Send OTP and user email for validation
                                                 const myModal = new bootstrap.Modal(document.getElementById('myModal')).show();
                                             }
                                         </script>

@@ -144,6 +144,9 @@
                         <label id="validate" style="color: red"></label>
                     </div>
                 </div>
+                <jsp:include page="Comments.jsp">
+                    <jsp:param name="mentorId" value="<%= mentorCV.getMentorId() %>" />
+                </jsp:include>
             </div>
         </div>
         <%} catch (Exception e) {
