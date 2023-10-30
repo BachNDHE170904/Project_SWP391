@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.StringJoiner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import model.Comment;
 import model.Mentor;
 import model.Skill;
 
@@ -283,6 +284,7 @@ public class MentorDAO extends BaseDAO<Skill> {
         try {
             String sql = "SELECT \n"
                     + "ud.userId AS ID,\n"
+                    + "m.mentorId,\n"
                     + "ud.fullname AS Fullname,\n"
                     + "ud.username AS AccountName,\n"
                     + "mc.profession AS Profession,\n"
@@ -297,6 +299,7 @@ public class MentorDAO extends BaseDAO<Skill> {
             while (rs.next()) {
                 Mentor mentor = new Mentor();
                 mentor.setUserid(rs.getInt("ID"));
+                mentor.setMentorId(rs.getInt("mentorId"));
                 mentor.setFullname(rs.getString("Fullname"));
                 mentor.setUsername(rs.getString("AccountName"));
                 // Lấy thông tin về profession từ ResultSet và thiết lập cho mentor
@@ -326,6 +329,7 @@ public class MentorDAO extends BaseDAO<Skill> {
         }
         return 0;
     }
+
     public double getAverageRatingOfMentorByMentorId(int mentorId) {
         try {
             String sql = "select AVG(rt.rating)as totalRating from Requests r Inner Join RequestDetail rd on r.requestId=rd.requestId\n"
@@ -341,5 +345,31 @@ public class MentorDAO extends BaseDAO<Skill> {
             Logger.getLogger(MentorDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return 0;
+    }
+
+    public ArrayList<Comment> getCommentsOfMentorByMentorId(int mentorId) {
+        try {
+            ArrayList<Comment> comments = new ArrayList<>();
+            String sql = "select c.commentId,c.commentDetail,r.userId,rd.mentorId,c.createdDate from Requests r Inner Join RequestDetail rd on r.requestId=rd.requestId\n"
+                    + "Inner Join Rating rt on r.requestId=rt.requestId\n"
+                    + "INNER JOIN Comment c on rt.commentId=c.commentId\n"
+                    + "where rd.mentorId=?";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setInt(1, mentorId);
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                Comment c=new Comment();
+                c.setCommentId(rs.getInt(1));
+                c.setCommentDetail(rs.getString(2));
+                c.setUserId(rs.getInt(3));
+                c.setMentorId(rs.getInt(4));
+                c.setCreatedDate(rs.getDate(5));
+                comments.add(c);
+            }
+            return comments;
+        } catch (SQLException ex) {
+            Logger.getLogger(MentorDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
     }
 }

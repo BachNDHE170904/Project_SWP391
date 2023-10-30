@@ -4,6 +4,9 @@
     Author     : GIN
 --%>
 
+<%@page import="model.Comment"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="dal.MentorDAO"%>
 <%@page import="model.UserDetails"%>
 <%@page import="model.User"%>
 <%@page import="dal.UserDAO"%>
@@ -38,23 +41,24 @@
             </thead>
             <tbody>
                 <% int i = 1;
+                    UserDAO userDAO = new UserDAO();
+                    MentorDAO mentorDAO=new MentorDAO();
                     for (Mentor m : list) {
-                        UserDAO userDAO = new UserDAO();
                         User mentor = userDAO.getUserByID(m.getUserid());
-                        UserDetails mentorDetail = userDAO.getUserDetails(mentor.getEmail());
+                        ArrayList<Comment>comments=mentorDAO.getCommentsOfMentorByMentorId(m.getMentorId());
                 %>
                 <tr>
                     <th scope="row"><%=i%></th>
                     <td><%=m.getMentorId()%></td>
-                    <td><%=mentorDetail.getFullname()%></td>
-                    <td><%=mentorDetail.getUsername()%></td>
+                    <td><%=m.getFullname() %></td>
+                    <td><%=m.getUsername() %></td>
                     <td><%=m.getProfession()%></td>
-                    <td>4.5</td>
-                    <td>Great mentor</td>
+                    <td><%=m.getAverageRating()%> </td>
+                    <td><%=comments.size() %> Comments</td>
                     <td><a href="ViewMentorCV.jsp?userId=<%=mentor.getUserId()%>">Detail</a></td>
                 </tr>
                 <%
-                    i++;
+                        i++;
                     }
                 %>
             </tbody>
