@@ -207,6 +207,10 @@ public class RequestDAO extends BaseDAO<Skill> {
                 request.setCreateDate(rs.getDate(4));
                 request.setDeadline(rs.getDate(5));
                 request.setUserName(rs.getString("username"));
+                int mentorId=rs.getInt("mentorId");
+                if(rs.wasNull()){
+                    request.setMentorId(0);
+                }else request.setMentorId(mentorId);
                 Status status = new Status();
                 String xSQL = "Select * from Statuses where statusId = ?";
                 PreparedStatement qtm = connection.prepareStatement(xSQL);
@@ -246,20 +250,20 @@ public class RequestDAO extends BaseDAO<Skill> {
         return null;
     }
     
-    public ArrayList<Request> searchRequests(String search) {
-        ArrayList<Request> skills = new ArrayList<>();
-        try {
-            String sql = "  select rd.requestId, u.username, rd.title, rd.statusId from RequestDetail rd \n"
-                    + "  inner join Requests r on r.requestId = rd.requestId inner join Users u on u.userId = r.userId inner join Statuses s on s.statusId = rd.statusId\n"
-                    + "  where rd.title like '%" + search + "%' or u.username like '%" + search + "%'";
-            PreparedStatement statement = connection.prepareStatement(sql);
-            ResultSet rs = statement.executeQuery();
-            while (rs.next()) {
-                skills.add(new Request(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4)));
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return skills;
-    }
+//    public ArrayList<Request> searchRequests(String search) {
+//        ArrayList<Request> skills = new ArrayList<>();
+//        try {
+//            String sql = "  select rd.requestId, u.username, rd.title, rd.statusId from RequestDetail rd \n"
+//                    + "  inner join Requests r on r.requestId = rd.requestId inner join Users u on u.userId = r.userId inner join Statuses s on s.statusId = rd.statusId\n"
+//                    + "  where rd.title like '%" + search + "%' or u.username like '%" + search + "%'";
+//            PreparedStatement statement = connection.prepareStatement(sql);
+//            ResultSet rs = statement.executeQuery();
+//            while (rs.next()) {
+//                skills.add(new Request(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4)));
+//            }
+//        } catch (SQLException ex) {
+//            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//        return skills;
+//    }
 }
