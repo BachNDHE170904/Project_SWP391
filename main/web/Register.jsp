@@ -25,7 +25,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                             <div class="col">
                                 <!-- Username input -->
                                 <div class="txt_field">
-                                    <input type="text" name="username"<c:if test="${ requestScope.details.username!=null }">value="${requestScope.details.username}"</c:if>  required /> 
+                                    <input type="text" id="username" name="username"<c:if test="${ requestScope.details.username!=null }">value="${requestScope.details.username}"</c:if>  required /> 
                                     <span></span>
                                     <label>Username</label>
                                 </div>
@@ -239,10 +239,11 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                     return false;
                 } else {
                     let emailInput = document.getElementById("email").value; // Get the email input value
+                    let username = document.getElementById("username").value;
                     let xhr = new XMLHttpRequest();
                     xhr.open("POST", "/main/RegisterConfirmAccountServlet");
                     xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-                    xhr.send("email=" + emailInput); // Send OTP and user email for validation
+                    xhr.send("email=" + emailInput+"&username="+username+"&register=true"); // Send OTP and user email for validation
                     return true;
                 }
             }
