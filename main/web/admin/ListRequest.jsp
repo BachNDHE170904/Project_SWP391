@@ -58,7 +58,7 @@
                             <div class="row g-4">
                                 <div class="col-12">
                                     <div class="bg-light rounded h-100 p-4">
-                                        <h6 class="mb-4">Manage program language</h6>
+                                        <h6 class="mb-4">Manage Requests</h6>
                                         <div class="inner-form">
                                             <div class="input-field">
                                                 <input class="form-control" id="choices-text-preset-values" type="text" placeholder="Type to search..." />
@@ -110,8 +110,12 @@
                                                                             <input type="date" readonly name="deadline" value="${item.deadline}" class="form-control" id="recipient-name" required="">
                                                                         </div>
                                                                         <div class="form-group">
-                                                                            <label for="content" class="col-form-label">Content</label>
-                                                                            <textarea name="content" readonly class="form-control" id="content" required="">${item.content}</textarea>
+                                                                            <label for="recipient-name" class="col-form-label">Mentor</label>
+                                                                            <input type="text" readonly name="title" <c:if test="${ item.mentorId!=0 }">value="${item.mentorId}"</c:if><c:if test="${ item.mentorId==0 }">value="No mentor assigned" </c:if> class="form-control" id="recipient-name" required="">
+                                                                            </div>
+                                                                            <div class="form-group">
+                                                                                <label for="content" class="col-form-label">Content</label>
+                                                                                    <textarea name="content" readonly class="form-control" id="content" required="">${item.content}</textarea>
                                                                         </div>
                                                                         <div class="form-group">
                                                                             <label for="message-text" class="col-form-label">Programing Language</label>

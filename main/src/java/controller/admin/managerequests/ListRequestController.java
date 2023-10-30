@@ -93,11 +93,11 @@ public class ListRequestController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String search = request.getParameter("search");
-        RequestDAO dr = new RequestDAO();
-        List<Request> lr = dr.searchRequests(search);
-        request.setAttribute("listRequests", lr);
-        request.getRequestDispatcher("admin/ListRequest.jsp").forward(request, response);
+//        String search = request.getParameter("search");
+//        RequestDAO dr = new RequestDAO();
+//        List<Request> lr = dr.searchRequests(search);
+//        request.setAttribute("listRequests", lr);
+//        request.getRequestDispatcher("admin/ListRequest.jsp").forward(request, response);
     }
 
     /**

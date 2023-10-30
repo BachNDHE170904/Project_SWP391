@@ -7,7 +7,7 @@ package model;
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class Mentor extends UserDetails{
+public class Mentor extends UserDetails {
 
     private int mentorId;
     private int userid;
@@ -17,6 +17,8 @@ public class Mentor extends UserDetails{
     private String professionInfo;
     private String serviceInfo;
     private String achivementInfo;
+    private int totalRating;
+    private double averageRating;
 
     public Mentor() {
     }
@@ -32,6 +34,22 @@ public class Mentor extends UserDetails{
         this.professionInfo = professionInfo;
         this.serviceInfo = serviceInfo;
         this.achivementInfo = achivementInfo;
+    }
+
+    public int getTotalRating() {
+        return totalRating;
+    }
+
+    public void setTotalRating(int totalRating) {
+        this.totalRating = totalRating;
+    }
+
+    public double getAverageRating() {
+        return averageRating;
+    }
+
+    public void setAverageRating(double averageRating) {
+        this.averageRating = averageRating;
     }
 
     public int getMentorId() {

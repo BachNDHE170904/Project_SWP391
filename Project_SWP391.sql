@@ -174,6 +174,7 @@ CREATE TABLE requestSkillsChoices (
 CREATE TABLE Comment (
    commentId   int NOT NULL identity(1,1),
    commentDetail NVARCHAR (200)     NOT NULL,
+   createdDate Date NOT NULL,
    PRIMARY KEY (commentId),
 );
 
