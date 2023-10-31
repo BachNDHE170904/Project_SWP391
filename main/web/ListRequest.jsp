@@ -83,7 +83,7 @@
                                                             </select>
                                                         </div>
                                                         <div class="form-group">
-                                                            <label for="message-text" class="col-form-label">Skills</label>
+                                                            <label for="message-text" class="col-form-label">Skills (Select up to 3)</label>
                                                             <c:forEach items="${requestScope.skills}" var="i">
                                                                 <c:set var="temp" value="0"/>
                                                                 <c:forEach items="${item.skills}" var="a">
@@ -93,11 +93,23 @@
                                                                 </c:forEach>
                                                                 <br>
                                                                 <label>
-                                                                    <input type="checkbox" class="form-check-input" name="selectedSkills" value="${i.skillId}" ${temp == 1 ? 'checked' : ''}>
+                                                                    <input type="checkbox" class="form-check-input" name="selectedSkills" data-item-id="${item.id}" value="${i.skillId}" ${temp == 1 ? 'checked' : ''} onchange="limitSkills(this)">
                                                                     ${i.skillName}
                                                                 </label>
                                                             </c:forEach>
                                                         </div>
+                                                        <script type="text/javascript">
+                                                            function limitSkills(checkbox) {
+                                                                var maxSkills = 3;
+                                                                var itemId = checkbox.getAttribute('data-item-id');
+                                                                var selectedSkills = document.querySelectorAll('input[name="selectedSkills"][data-item-id="' + itemId + '"]:checked');
+
+                                                                if (selectedSkills.length > maxSkills) {
+                                                                    checkbox.checked = false; // Uncheck the current checkbox
+                                                                }
+                                                            }
+                                                        </script>
+
                                                         <div class="modal-footer">
                                                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                                                             <button type="submit" class="btn btn-primary">Update</button>

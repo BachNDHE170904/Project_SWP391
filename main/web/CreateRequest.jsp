@@ -47,15 +47,26 @@
                                             </select>
                                         </div>
                                         <div class="form-group">
-                                            <label class="form-label">Skills</label>
+                                            <label class="form-label">Skills (Select up to 3)</label>
                                             <c:forEach items="${requestScope.skills}" var="skill">
                                                 <br>
                                                 <label>
-                                                    <input type="checkbox" class="form-check-input" name="selectedSkills" value="${skill.skillId}" >
+                                                    <input type="checkbox" class="form-check-input" name="selectedSkills" value="${skill.skillId}" onchange="limitSkills(this)">
                                                     ${skill.skillName}
                                                 </label>
                                             </c:forEach>
                                         </div>
+
+                                        <script type="text/javascript">
+                                            function limitSkills(checkbox) {
+                                                var maxSkills = 3;
+                                                var selectedSkills = document.querySelectorAll('input[name="selectedSkills"]:checked');
+
+                                                if (selectedSkills.length > maxSkills) {
+                                                    checkbox.checked = false; // Uncheck the current checkbox
+                                                }
+                                            }
+                                        </script>
                                         <div class="form-group">
                                             <label class="form-label">Content</label>
                                             <textarea class="form-control mb-1" name="content" placeholder="Input content here...." required=""></textarea>
