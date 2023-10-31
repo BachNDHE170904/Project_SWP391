@@ -154,7 +154,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                                 <div class="Sex_field">
                                     <select class="form-select" name="gender" aria-label="DefaSult select example">
                                         <option value="Male"<c:if test="${ requestScope.details.sex!=null&&requestScope.details.sex==true }">selected</c:if> >Male</option>
-                                        <option value="Female"<c:if test="${ requestScope.details.sex!=null&&requestScope.details.sex==false }">selected</c:if>>Female</option>
+                                    <option value="Female"<c:if test="${ requestScope.details.sex!=null&&requestScope.details.sex==false }">selected</c:if>>Female</option>
                                     </select>
                                 </div>
                                 <div class="txt_field">
@@ -190,11 +190,10 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                     return false;
                 } else {
                     let emailInput = document.getElementById("email").value; // Get the email input value
-                    let username = document.getElementById("username").value;
                     let xhr = new XMLHttpRequest();
                     xhr.open("POST", "/main/RegisterConfirmAccountServlet");
                     xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-                    xhr.send("email=" + emailInput+"&username="+username+"&register=true"); // Send OTP and user email for validation
+                    xhr.send("email=" + emailInput); // Send OTP and user email for validation
                     return true;
                 }
             }

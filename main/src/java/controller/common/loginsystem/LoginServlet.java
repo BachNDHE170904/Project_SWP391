@@ -5,9 +5,7 @@ package controller.common.loginsystem;
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
 import dal.UserDAO;
-import jakarta.servlet.ServletContext;
 import java.io.IOException;
-import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
@@ -16,6 +14,8 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.xml.bind.DatatypeConverter;
 import model.User;
 import model.UserDetails;
@@ -75,7 +75,7 @@ public class LoginServlet extends HttpServlet {
                 request.getRequestDispatcher("Login.jsp").forward(request, response);
             }
         } catch (NoSuchAlgorithmException e) {
-
+            Logger.getLogger(LoginServlet.class.getName()).log(Level.SEVERE, null, e);
         }
     }
 
