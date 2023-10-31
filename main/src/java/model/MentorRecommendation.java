@@ -53,7 +53,7 @@ public class MentorRecommendation {
             double matchingSkillsFactor=0;
             if((mentor.getSkillsId().containsAll(requestSkillIds))&&mentor.getLanguageId().contains(request.getPro().getLanguageId()))matchingSkillsFactor=1;
             mentor.setTotalRating(mentorDAO.getTotalRatingOfMentorByMentorId(mentor.getMentorId()));
-            double score = totalRatingsFactor * mentor.getTotalRating() + averageRatingFactor * mentor.getAverageRating()+matchingSkillsFactor;
+            double score = (totalRatingsFactor * mentor.getTotalRating() + averageRatingFactor * mentor.getAverageRating())*matchingSkillsFactor;
             mentor.setScore(score);
         }
 
@@ -64,7 +64,7 @@ public class MentorRecommendation {
         int numMentorsToSuggest = 3; // You can change this number
         List<Mentor> suggestedMentors = new ArrayList<>();
         for (int i = 0; i < numMentorsToSuggest && i < mentors.size(); i++) {
-            suggestedMentors.add(mentors.get(i));
+            if(mentors.get(i).getScore()>0) suggestedMentors.add(mentors.get(i));
         }
 
         return suggestedMentors;
