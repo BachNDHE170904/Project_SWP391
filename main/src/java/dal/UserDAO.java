@@ -436,7 +436,21 @@ public class UserDAO extends BaseDAO<User> {
     }
 
     public int getNumberOfRequests(int userId) {
-
+        String sql = "SELECT COUNT(r.requestId) AS 'Number requests of Mentee' FROM RequestDetail rd JOIN Requests r ON rd.requestId = r.requestId \n" +
+                     "JOIN Users u ON u.userId = r.userId AND u.userId = ? where rd.statusId = 1 OR rd.statusId = 2";
+        try {
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setInt(1, userId);
+            ResultSet rs = stm.executeQuery();
+            if (rs.next()) {
+                int count = rs.getInt("Number requests of Mentee");
+                rs.close();
+                stm.close();
+                return count;
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
         return 0;
     }
     
