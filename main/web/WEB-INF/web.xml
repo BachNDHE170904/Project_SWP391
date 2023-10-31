@@ -75,10 +75,14 @@
     <servlet>
         <servlet-name>UpdateUserStatusServlet</servlet-name>
         <servlet-class>controller.admin.manageusers.UpdateUserStatusServlet</servlet-class>
-      </servlet>
-  <servlet>
+    </servlet>
+    <servlet>
         <servlet-name>ListRequestController</servlet-name>
         <servlet-class>controller.admin.managerequests.ListRequestController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>UpdateMentorStatusServlet</servlet-name>
+        <servlet-class>controller.admin.managementors.UpdateMentorStatusServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
@@ -152,14 +156,18 @@
         <servlet-name>ViewMentorCVServlet</servlet-name>
         <url-pattern>/ViewMentorCV</url-pattern>
     </servlet-mapping>
-<servlet-mapping>
+    <servlet-mapping>
         <servlet-name>UpdateUserStatusServlet</servlet-name>
         <url-pattern>/UpdateUserStatusServlet</url-pattern>
-  </servlet-mapping>
-<servlet-mapping>
+    </servlet-mapping>
+    <servlet-mapping>
         <servlet-name>ListRequestController</servlet-name>
         <url-pattern>/ListRequestController</url-pattern>
-</servlet-mapping>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UpdateMentorStatusServlet</servlet-name>
+        <url-pattern>/UpdateMentorStatusServlet</url-pattern>
+    </servlet-mapping>
     <session-config>
         <session-timeout>
             30
