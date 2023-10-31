@@ -21,27 +21,27 @@
             String avatarLink = db.getUserAvatar(acc.getUserId());
         %>
         <jsp:include page="NavBar.jsp"></jsp:include>
-        <div class="container light-style flex-grow-1 container-p-y">
-            <h4 class="font-weight-bold py-3 mb-4">
-                Account Profile
-            </h4>
-            <div class="card overflow-hidden">
-                <div class="row no-gutters row-bordered row-border-light">
-                    <div class="col-md-3 pt-0">
-                        <div class="list-group list-group-flush account-settings-links">
-                            <a class="list-group-item list-group-item-action active" data-toggle="list"
-                               href="#account-general">General</a>
-                            <a class="list-group-item list-group-item-action" data-toggle="list"
-                               href="#account-info">Info</a>
+            <div class="container light-style flex-grow-1 container-p-y">
+                <h4 class="font-weight-bold py-3 mb-4">
+                    Account Profile
+                </h4>
+                <div class="card overflow-hidden">
+                    <div class="row no-gutters row-bordered row-border-light">
+                        <div class="col-md-3 pt-0">
+                            <div class="list-group list-group-flush account-settings-links">
+                                <a class="list-group-item list-group-item-action active" data-toggle="list"
+                                   href="#account-general">General</a>
+                                <a class="list-group-item list-group-item-action" data-toggle="list"
+                                   href="#account-info">Info</a>
 
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-md-9">
-                        <div class="tab-content">
-                            <div class="tab-pane fade active show" id="account-general">
-                                <div class="container text-center">
-                                    <div class="row">
-                                        <div class="col-md-3">
+                        <div class="col-md-9">
+                            <div class="tab-content">
+                                <div class="tab-pane fade active show" id="account-general">
+                                    <div class="container text-center">
+                                        <div class="row">
+                                            <div class="col-md-3">
                                             <%
                                                 if (avatarLink == null || avatarLink.isEmpty()) {
                                             %>
@@ -54,7 +54,7 @@
                                             <label class="btn btn-outline-primary">
                                                 <a class="nav-link active" aria-current="page" href="UpdateProfile.jsp"  >Update Profile</a>
                                             </label>
-                                            <%if (acc.isIsAuthorized() && (details.getRoleId() == 3||details.getRoleId()==4)) {%>
+                                            <%if (acc.isIsAuthorized() && (details.getRoleId() == 3 || details.getRoleId() == 4)) {%>
                                             <label class="btn btn-outline-primary">
                                                 <a class="nav-link active" aria-current="page" href="CreateCV"  >Register Mentor</a>
                                             </label>
@@ -70,7 +70,7 @@
                                     </div>
                                     <div class="form-group">
                                         <label class="form-label">Full Name</label>
-                                        <label class="form-control mb-1" id="username"><%= details.getFullname()%></label>
+                                        <label class="form-control mb-1"><%= details.getFullname()%></label>
                                     </div>
                                     <div class="form-group">
                                         <label class="form-label">E-mail</label>
@@ -85,11 +85,10 @@
                                         <script>
                                             function CheckOtp() {
                                                 let emailInput = document.getElementById("email").innerHTML;
-                                                let username = document.getElementById("username").innerHTML;
                                                 let xhr = new XMLHttpRequest();
                                                 xhr.open("POST", "/main/RegisterConfirmAccountServlet");
                                                 xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-                                                xhr.send("email=" + emailInput+"&username="+username+"register=false"); // Send OTP and user email for validation
+                                                xhr.send("email=" + emailInput); // Send OTP and user email for validation
                                                 const myModal = new bootstrap.Modal(document.getElementById('myModal')).show();
                                             }
                                         </script>

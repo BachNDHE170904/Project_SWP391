@@ -46,9 +46,6 @@
             User acc = (User) session.getAttribute("user");
             UserDetails details = (UserDetails) session.getAttribute("userDetail");;
             if (acc != null && details.getRoleId() == 1) {
-                SkillDAO skillDAO = new SkillDAO();
-                int total = skillDAO.getTotalSkills();
-                int pageNum = Integer.parseInt(request.getParameter("page"));
         %>
         <div class="container-fluid position-relative bg-white d-flex p-0">
             <!-- Sidebar Start -->
@@ -68,21 +65,20 @@
                                 <div class="bg-light rounded h-100 p-4">
                                     <h6 class="mb-4">Manage skills</h6>
                                     <div class="table-responsive">
-                                        <table class="table">
+                                        <table  id="sampleTable" class="table sampleTable">
                                             <thead>
                                                 <tr>
                                                     <th scope="col">ID</th>
                                                     <th scope="col">Skill Name</th>
                                                     <th scope="col">Status</th>
-                                                    <th scope="col">Enable/Disable</th>
                                                     <th scope="col">Update</th>
-                                                    <th scope="col"><a href="CreateNewSkill.jsp?&&page=<%= pageNum%>">+</a></th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
+                                                    <th scope="col"><a href="CreateNewSkill.jsp">+</a></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
                                             <%
                                                 SkillDAO skillDb = new SkillDAO();
-                                                ArrayList<Skill> skills = skillDb.getSkillsWithPagination((pageNum - 1) * 10, 10);
+                                                ArrayList<Skill> skills = skillDb.getSkills();
                                                 for (int i = 0; i < skills.size(); i++) {
                                                     Skill skill = skills.get(i);
                                             %>
@@ -93,9 +89,8 @@
                                                 >
                                                 <td><%=skill.getSkillId()%></td>
                                                 <td><%=skill.getSkillName()%></td>
-                                                <td><%=skill.getSkillStatus()%></td>
-                                                <td><a href="UpdateSkillStatusServlet?skillId=<%=skill.getSkillId()%>&&page=<%= pageNum%>">Enable/Disable</a></td>
-                                                <td><a href="UpdateSkill.jsp?skillId=<%=skill.getSkillId()%>&&page=<%= pageNum%>">Update</a></td>
+                                                <td><a href="UpdateSkillStatusServlet?skillId=<%=skill.getSkillId()%>"><%=skill.getSkillStatus()%></a></td>
+                                                <td><a href="UpdateSkill.jsp?skillId=<%=skill.getSkillId()%>">Update</a></td>
                                             </tr>
                                             <% } %>
                                         </tbody>
@@ -105,13 +100,6 @@
                         </div>
                     </div>
                 </div>
-                <nav aria-label="...">
-                    <ul class="pagination pagination-sm">
-                        <%for (int i = 1; i <= (int) Math.ceil((double) (total) / 10); i++) {%>
-                        <li class="page-item"><a class="page-link" href="AdminManageSkills.jsp?page=<%=i%>"><%= i%></a></li>
-                            <%}%>
-                    </ul>
-                </nav>
                 <!-- Table End -->
             </div>
             <!-- Content End -->
@@ -125,6 +113,7 @@
                 request.getRequestDispatcher("WelcomePage.jsp").forward(request, response);
         %>
         <!-- JavaScript Libraries -->
+        <script src="js/fancyTable.js"></script>
         <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
         <script src="lib/chart/chart.min.js"></script>
@@ -137,6 +126,22 @@
 
         <!-- Template Javascript -->
         <script src="js/main.js"></script>
+        <script src="js/fancyTable.js">
+        </script>
+        <script type="text/javascript">
+
+            $(document).ready(function () {
+                $(".sampleTable").fancyTable({
+                    /* Setting pagination or enabling */
+                    pagination: true,
+                    /* Rows per page kept for display */
+                    perPage: 10,
+                    globalSearch: true,
+                    sortable: false,
+                });
+
+            });
+        </script>
     </body>
 
 </html>

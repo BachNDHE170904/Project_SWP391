@@ -5,19 +5,14 @@
 package controller.common.register;
 
 import dal.UserDAO;
-import jakarta.servlet.ServletContext;
 import java.io.IOException;
-import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.security.MessageDigest;
 import java.sql.Date;
-import java.util.Properties;
-import model.SendEmail;
 import model.User;
 import model.UserDetails;
 import java.security.NoSuchAlgorithmException;
@@ -53,11 +48,7 @@ public class RegisterServlet extends HttpServlet {
             md.update(password.getBytes());
             byte[] digest = md.digest();
             String myHash = DatatypeConverter.printHexBinary(digest).toUpperCase();
-            if (genderStr.compareToIgnoreCase("Male") == 0) {
-                gender = true;
-            } else {
-                gender = false;
-            }
+            gender = genderStr.compareToIgnoreCase("Male") == 0;
             UserDAO db = new UserDAO();
             User user = db.getUserByEmailOnly(email);
             User userByName = db.getUserByUserName(username);
