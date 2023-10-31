@@ -288,7 +288,7 @@ public class MentorDAO extends BaseDAO<Skill> {
                     + "ud.fullname AS Fullname,\n"
                     + "ud.username AS AccountName,\n"
                     + "mc.profession AS Profession,\n"
-                    + "us.userStatus AS userStatus"
+                    + "us.userStatus AS userStatus,"
                     + "u.userAuthorization AS UserAuthorized\n"
                     + "FROM UserDetail ud \n"
                     + "INNER JOIN UserStatus us ON us.userId = ud.userId\n"
