@@ -304,10 +304,29 @@ public class MentorDAO extends BaseDAO<Skill> {
                 mentor.setMentorId(rs.getInt("mentorId"));
                 mentor.setFullname(rs.getString("Fullname"));
                 mentor.setUsername(rs.getString("AccountName"));
+
                 // Lấy thông tin về profession từ ResultSet và thiết lập cho mentor
                 mentor.setProfession(rs.getString("Profession"));
                 mentor.setStatus(rs.getString("userStatus"));
                 mentor.setAverageRating(this.getAverageRatingOfMentorByMentorId(mentor.getMentorId()));
+                String selectSkills = "select * from MentorSkills m where m.mentorId = ?\n";
+                String selectLanguages = "select * from MentorProgramingLanguage m where m.mentorId = ?\n";
+                ArrayList<Integer> skills = new ArrayList<>();
+                ArrayList<Integer> languages = new ArrayList<>();
+                PreparedStatement selectSkillsStatement = connection.prepareStatement(selectSkills);
+                selectSkillsStatement.setInt(1, mentor.getMentorId());
+                ResultSet rs2 = selectSkillsStatement.executeQuery();
+                while (rs2.next()) {
+                    skills.add(rs2.getInt("skillId"));
+                }
+                PreparedStatement selectLanguagesStatement = connection.prepareStatement(selectLanguages);
+                selectLanguagesStatement.setInt(1, mentor.getMentorId());
+                ResultSet rs3 = selectLanguagesStatement.executeQuery();
+                while (rs3.next()) {
+                    languages.add(rs3.getInt("languageId"));
+                }
+                mentor.setSkillsId(skills);
+                mentor.setLanguageId(languages);
                 mentors.add(mentor);
             }
         } catch (SQLException ex) {
@@ -361,7 +380,7 @@ public class MentorDAO extends BaseDAO<Skill> {
             statement.setInt(1, mentorId);
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
-                Comment c=new Comment();
+                Comment c = new Comment();
                 c.setCommentId(rs.getInt(1));
                 c.setCommentDetail(rs.getString(2));
                 c.setUserId(rs.getInt(3));

@@ -20,6 +20,7 @@ public class Mentor extends UserDetails {
     private String achivementInfo;
     private int totalRating;
     private double averageRating;
+    private double score;
 
     public Mentor() {
     }
@@ -129,6 +130,14 @@ public class Mentor extends UserDetails {
 
     public void setAchivementInfo(String achivementInfo) {
         this.achivementInfo = achivementInfo;
+    }
+
+    public double getScore() {
+        return score;
+    }
+
+    public void setScore(double score) {
+        this.score = score;
     }
 
 }

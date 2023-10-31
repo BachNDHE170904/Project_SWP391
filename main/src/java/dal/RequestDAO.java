@@ -138,6 +138,58 @@ public class RequestDAO extends BaseDAO<Skill> {
         return null;
     }
 
+    public Request getRequestByRequestID(int requestId) {
+        try {
+            Request request = new Request();
+            String sql = "Select * from RequestDetail r join Requests re on r.requestId = re.requestId\n"
+                    + "where r.requestId = ?";
+            PreparedStatement ptm = connection.prepareStatement(sql);
+            ptm.setInt(1, requestId);
+            ResultSet rs = ptm.executeQuery();
+            while (rs.next()) {
+                request.setId(rs.getInt(1));
+                request.setTitle(rs.getString(2));
+                request.setContent(rs.getString(3));
+                request.setCreateDate(rs.getDate(4));
+                request.setDeadline(rs.getDate(5));
+                Status status = new Status();
+                String xSQL = "Select * from Statuses where statusId = ?";
+                PreparedStatement qtm = connection.prepareStatement(xSQL);
+                qtm.setInt(1, rs.getInt(6));
+                ResultSet resultSet = qtm.executeQuery();
+                while (resultSet.next()) {
+                    status.setId(resultSet.getInt(1));
+                    status.setName(resultSet.getString(2));
+                }
+                request.setStatus(status);
+                String qSQL = "Select * from requestSkillsChoices where requestId = ?";
+                PreparedStatement xtm = connection.prepareStatement(qSQL);
+                xtm.setInt(1, rs.getInt(1));
+                ResultSet a = xtm.executeQuery();
+                ProgramingLanguage pg = new ProgramingLanguage();
+                ProgramingLanguageDAO programingLanguageDAO = new ProgramingLanguageDAO();
+                if (a.next()) {
+                    pg = programingLanguageDAO.getProgramingLanguageById(a.getInt(4));
+                }
+                request.setPro(pg);
+                List<Skill> skills = new ArrayList<Skill>();
+                String mSQL = "Select * from requestSkillsChoices where requestId = ?";
+                PreparedStatement b = connection.prepareStatement(mSQL);
+                xtm.setInt(1, rs.getInt(1));
+                ResultSet ab = xtm.executeQuery();
+                while (ab.next()) {
+                    SkillDAO skillDAO = new SkillDAO();
+                    skills.add(skillDAO.getSkillById(ab.getInt(3)));
+                }
+                request.setSkills(skills);
+            }
+            return request;
+        } catch (SQLException ex) {
+            Logger.getLogger(RequestDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+
     public void updateRequest(int userID, String id, String title, Date createdDate, Date deadline, String status, String pro, String[] skills, String content) {
         try {
             String xSQL = "UPDATE [dbo].[RequestDetail]\n"
@@ -178,21 +230,6 @@ public class RequestDAO extends BaseDAO<Skill> {
         }
     }
 
-//    public ArrayList<Request> getRequests() {
-//        ArrayList<Request> skills = new ArrayList<>();
-//        try {
-//            String sql = "  select rd.requestId, u.username, rd.title, rd.statusId from RequestDetail rd \n"
-//                    + "  inner join Requests r on r.requestId = rd.requestId inner join Users u on u.userId = r.userId inner join Statuses s on s.statusId = rd.statusId";
-//            PreparedStatement statement = connection.prepareStatement(sql);
-//            ResultSet rs = statement.executeQuery();
-//            while (rs.next()) {
-//                skills.add(new Request(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4)));
-//            }
-//        } catch (SQLException ex) {
-//            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//        return skills;
-//    }
     public List<Request> getRequests() {
         try {
             List<Request> list = new ArrayList<>();
@@ -207,10 +244,12 @@ public class RequestDAO extends BaseDAO<Skill> {
                 request.setCreateDate(rs.getDate(4));
                 request.setDeadline(rs.getDate(5));
                 request.setUserName(rs.getString("username"));
-                int mentorId=rs.getInt("mentorId");
-                if(rs.wasNull()){
+                int mentorId = rs.getInt("mentorId");
+                if (rs.wasNull()) {
                     request.setMentorId(0);
-                }else request.setMentorId(mentorId);
+                } else {
+                    request.setMentorId(mentorId);
+                }
                 Status status = new Status();
                 String xSQL = "Select * from Statuses where statusId = ?";
                 PreparedStatement qtm = connection.prepareStatement(xSQL);
@@ -249,7 +288,7 @@ public class RequestDAO extends BaseDAO<Skill> {
         }
         return null;
     }
-    
+
 //    public ArrayList<Request> searchRequests(String search) {
 //        ArrayList<Request> skills = new ArrayList<>();
 //        try {
