@@ -98,9 +98,10 @@
                                                 UserDAO userDb = new UserDAO();
                                                 
                                                 ArrayList<UserDetails> users = userDb.getAllUsers();
-                                                int totalMenteeRequests = 0;
+                                                
                                                 for (int i = 0; i < users.size(); i++) {
                                                     UserDetails user = users.get(i);
+                                                    int countRequest = userDb.getNumberOfRequests(user.getUserId());
                                                     
                                             %>
                                             <tr <% if (user.getStatus().equalsIgnoreCase("Inactive")) { %>
@@ -111,8 +112,8 @@
                                                 <td><%=user.getUserId()%></td>
                                                 <td><%=user.getFullname()%></td>
                                                 <td><%=user.getUsername()%></td>
-                                                <td><%= Constants.roleNames.get(user.getRoleId()) %></td>
-                                                <td></td>
+                                                <td><%=Constants.roleNames.get(user.getRoleId()) %></td>
+                                                <td style="text-align: center"><%=countRequest%></td>
                                                 <td>
                                                     <% if (user.getStatus().equalsIgnoreCase("Active")) { %>
                                                     ACTIVE
@@ -121,7 +122,6 @@
                                                     <% }%>
                                                 </td>
                                                 <td><a href="UpdateUserStatusServlet?userId=<%=user.getUserId()%>">Enable/Disable</a></td>
-
                                             </tr>
                                             <% 
                                                 }
