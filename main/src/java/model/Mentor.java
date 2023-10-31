@@ -4,6 +4,7 @@
  */
 package model;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -21,6 +22,20 @@ public class Mentor extends UserDetails {
     private double averageRating;
 
     public Mentor() {
+    }
+
+    public Mentor(int mentorId, int userid, ArrayList<Integer> skillsId, ArrayList<Integer> languageId, String profession, String professionInfo, String serviceInfo, String achivementInfo, int totalRating, double averageRating, String phone, String fullname, String address, Date dob, boolean sex, int roleId, String username, String pass, String email, int userId, boolean isAuthorized, String status) {
+        super(phone, fullname, address, dob, sex, roleId, username, pass, email, userId, isAuthorized, status);
+        this.mentorId = mentorId;
+        this.userid = userid;
+        this.skillsId = skillsId;
+        this.languageId = languageId;
+        this.profession = profession;
+        this.professionInfo = professionInfo;
+        this.serviceInfo = serviceInfo;
+        this.achivementInfo = achivementInfo;
+        this.totalRating = totalRating;
+        this.averageRating = averageRating;
     }
 
     public Mentor(int mentorId, int userid, ArrayList<Integer> skillsId, ArrayList<Integer> languageId, String profession, String professionInfo,

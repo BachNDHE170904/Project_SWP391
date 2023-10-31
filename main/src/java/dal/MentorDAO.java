@@ -288,8 +288,10 @@ public class MentorDAO extends BaseDAO<Skill> {
                     + "ud.fullname AS Fullname,\n"
                     + "ud.username AS AccountName,\n"
                     + "mc.profession AS Profession,\n"
+                    + "us.userStatus AS userStatus"
                     + "u.userAuthorization AS UserAuthorized\n"
                     + "FROM UserDetail ud \n"
+                    + "INNER JOIN UserStatus us ON us.userId = ud.userId\n"
                     + "INNER JOIN Users u ON u.userId = ud.userId\n"
                     + "INNER JOIN Mentor m ON ud.userId = m.userId\n"
                     + "INNER JOIN MentorCV mc ON m.mentorId = mc.mentorId\n"
@@ -304,6 +306,7 @@ public class MentorDAO extends BaseDAO<Skill> {
                 mentor.setUsername(rs.getString("AccountName"));
                 // Lấy thông tin về profession từ ResultSet và thiết lập cho mentor
                 mentor.setProfession(rs.getString("Profession"));
+                mentor.setStatus(rs.getString("userStatus"));
                 mentor.setAverageRating(this.getAverageRatingOfMentorByMentorId(mentor.getMentorId()));
                 mentors.add(mentor);
             }

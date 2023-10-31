@@ -91,6 +91,7 @@
                                                     <th scope="col">Number of currently accepted requests</th>
                                                     <th scope="col">Percentage completed</th>
                                                     <th scope="col">Rate star</th>
+                                                    <th scope="col">Status</th>
                                                     <th scope="col">Enable/Disable</th>
                                                 </tr>
                                             </thead>
@@ -98,12 +99,15 @@
                                             <%
                                                 MentorDAO md = new MentorDAO();
                                                 ArrayList<Mentor> mentors = md.getAllMentors();
-                                                int totalMenteeRequests = 0;
+                                                
                                                 for (int i = 0; i < mentors.size(); i++) {
                                                     Mentor mentor = mentors.get(i);
                                                     
                                             %>
-                                            <tr>
+                                            <tr <% if (mentor.getStatus().equalsIgnoreCase("Inactive")) { %>
+                                                class="deleted-row"
+                                                <%}%>
+                                                >
                                                 <th scope="row"><%=i + 1%></th>
                                                 <td><%=mentor.getUserid()%></td>
                                                 <td><%=mentor.getFullname()%></td>
@@ -111,8 +115,13 @@
                                                 <td><%=mentor.getProfession()%></td>
                                                 <td></td>
                                                 <td></td>
-                                                <td><%=mentor.getAverageRating()%></td>
                                                 <td></td>
+                                                <td><% if (mentor.getStatus().equalsIgnoreCase("Active")) { %>
+                                                    ACTIVE
+                                                    <% } else { %>
+                                                    INACTIVE
+                                                    <% }%></td>
+                                                <td><a href="UpdateMentorStatusServlet?userId=<%=mentor.getUserid()%>">Enable/Disable</a></td>
                                             </tr>
                                             <% 
                                                 }
