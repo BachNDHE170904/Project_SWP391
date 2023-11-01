@@ -92,9 +92,9 @@ public class ListRequest extends HttpServlet {
         StatusDAO statusDAO = new StatusDAO();
         ArrayList<Status> statuses = statusDAO.getAll();
         ProgramingLanguageDAO programingLanguageDAO = new ProgramingLanguageDAO();
-        ArrayList<ProgramingLanguage> listPro = programingLanguageDAO.getProgramingLanguage();
+        ArrayList<ProgramingLanguage> listPro = programingLanguageDAO.getActiveProgramingLanguage();
         SkillDAO skillDAO = new SkillDAO();
-        ArrayList<Skill> skills = skillDAO.getSkills();
+        ArrayList<Skill> skills = skillDAO.getActiveSkills();
         request.setAttribute("list", list);
         request.setAttribute("statuses", statuses);
         request.setAttribute("pros", listPro);
