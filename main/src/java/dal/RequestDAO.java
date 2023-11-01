@@ -99,6 +99,12 @@ public class RequestDAO extends BaseDAO<Skill> {
                 request.setContent(rs.getString(3));
                 request.setCreateDate(rs.getDate(4));
                 request.setDeadline(rs.getDate(5));
+                int mentorId = rs.getInt("mentorId");
+                if (rs.wasNull()) {
+                    request.setMentorId(0);
+                } else {
+                    request.setMentorId(mentorId);
+                }
                 Status status = new Status();
                 String xSQL = "Select * from Statuses where statusId = ?";
                 PreparedStatement qtm = connection.prepareStatement(xSQL);
@@ -152,6 +158,12 @@ public class RequestDAO extends BaseDAO<Skill> {
                 request.setContent(rs.getString(3));
                 request.setCreateDate(rs.getDate(4));
                 request.setDeadline(rs.getDate(5));
+                int mentorId = rs.getInt("mentorId");
+                if (rs.wasNull()) {
+                    request.setMentorId(0);
+                } else {
+                    request.setMentorId(mentorId);
+                }
                 Status status = new Status();
                 String xSQL = "Select * from Statuses where statusId = ?";
                 PreparedStatement qtm = connection.prepareStatement(xSQL);
@@ -305,11 +317,25 @@ public class RequestDAO extends BaseDAO<Skill> {
 //        }
 //        return skills;
 //    }
-    public boolean updateRequestStatusToClosed(int requestId){
+    public boolean updateRequestStatusToClosed(int requestId) {
         try {
             String sql = "update RequestDetail set statusId = ? where requestId = ?";
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setInt(1, 4);
+            statement.setInt(2, requestId);
+            statement.executeUpdate();
+            return true;
+        } catch (SQLException ex) {
+            Logger.getLogger(RequestDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
+    }
+
+    public boolean setMentorIdForRequest(int requestId, int mentorId) {
+        try {
+            String sql = "update RequestDetail set mentorId = ? where requestId = ?";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setInt(1, mentorId);
             statement.setInt(2, requestId);
             statement.executeUpdate();
             return true;
