@@ -48,6 +48,7 @@ public class AddNewSkillServlet extends HttpServlet {
         int total=db.getTotalSkills();
         int page=(int) Math.ceil((double) (total) / 10);
         if (db.insertSkill(newSkill)) {
+            request.getSession().removeAttribute("searchValue");
             request.getRequestDispatcher("AdminManageSkills.jsp?page="+page).forward(request, response);
         }
     }
