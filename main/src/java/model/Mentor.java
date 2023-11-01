@@ -140,4 +140,9 @@ public class Mentor extends UserDetails {
         this.currentRequests = currentRequests;
     }
 
+    @Override
+    public String toString() {
+        return "Mentor{" + "mentorId=" + mentorId + ", userid=" + userid + ", skillsId=" + skillsId + ", languageId=" + languageId + ", profession=" + profession + ", professionInfo=" + professionInfo + ", serviceInfo=" + serviceInfo + ", achivementInfo=" + achivementInfo + ", totalRating=" + totalRating + ", averageRating=" + averageRating + ", currentRequests=" + currentRequests + '}';
+    }
+
 }

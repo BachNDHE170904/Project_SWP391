@@ -11,10 +11,22 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Profile</title>
         <link rel="stylesheet" href="ViewProfileStyleIndex.css">
+        <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+        <link rel="stylesheet" href="alert/dist/sweetalert.css">
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
     </head>
 
     <body>
+        <%
+            String msg = (String) session.getAttribute("successMsg");
+            if (msg != null) {%>
+
+        <script>
+            swal("Congrats", "<%= msg%>", "success");
+        </script>
+
+        <% session.removeAttribute("successMsg");
+            }%>
         <jsp:include page="NavBar.jsp"></jsp:include>
             <div class="container light-style flex-grow-1 container-p-y">
                 <h4 class="font-weight-bold py-3 mb-4">
@@ -38,6 +50,7 @@
                                         <th>Last Updated Date</th>
                                         <th>Deadline</th>
                                         <th>Status</th>
+                                        <th>Assigned Mentor</th>
                                         <th colspan="3">Action</th>
                                     </tr>
                                 </thead>
@@ -49,11 +62,13 @@
                                             <td>${item.createDate}</td>
                                             <td>${item.deadline}</td>
                                             <td>${item.status.name}</td>
-                                            <c:if test="${ item.status.id==1 }"><td><a href="#" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal${item.id}">Update</a></td></c:if>
-                                            <c:if test="${ item.status.id==1 }"><td><a href="#">Delete</a></td></c:if>
-                                            <c:if test="${ item.status.id==1 }"><td><a href="#" data-toggle="modal" data-target="#mentorModal${item.id}">mentor suggestion</a></td></c:if>
-                                        </tr>
-                                    <div class="modal fade" id="exampleModal${item.id}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <c:if test="${item.mentorId==0}"><td>No one assigned</td></c:if>
+                                            <c:if test="${item.mentorId!=0}"><td><a href="ViewMentorCV.jsp?mentorId=${item.mentorId}">${item.mentorId}</a></td></c:if>
+                                            <c:if test="${ item.status.id==1 &&item.mentorId==0}"><td><a href="#" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal${item.id}">Update</a></td></c:if>
+                                            <c:if test="${ item.status.id==1 &&item.mentorId==0}"><td><a href="#">Delete</a></td></c:if>
+                                            <c:if test="${ item.status.id==1 &&item.mentorId==0}"><td><a href="#" data-toggle="modal" data-target="#mentorModal${item.id}">mentor suggestion</a></td></c:if>
+                                            </tr>
+                                        <div class="modal fade" id="exampleModal${item.id}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                         <div class="modal-dialog" role="document">
                                             <div class="modal-content">
                                                 <div class="modal-header">
@@ -130,32 +145,36 @@
                             </button>
                         </div>
                         <div class="modal-body">
-                            <div>
-                                <table class="table table-bordered" border="1" style="text-align: center">
-                                    <thead class="thead-dark">
-                                        <tr>
-                                            <th>Full Name</th>
-                                            <th>User Name</th>
-                                            <th>Total ratings</th>
-                                            <th>Average Ratings</th>
-                                            <th>Current requests</th>
-                                            <th colspan="1">Action</th>
+                            <form action="InviteMentorServlet" method="GET">
+                                <input type="hidden" name="requestId" value="${item.id}">
+                                <div>
+                                    <table class="table table-bordered" border="1" style="text-align: center">
+                                        <thead class="thead-dark">
+                                            <tr>
+                                                <th>Full Name</th>
+                                                <th>User Name</th>
+                                                <th>Total ratings</th>
+                                                <th>Average Ratings</th>
+                                                <th>Current requests</th>
+                                                <th colspan="1">Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <c:forEach items="${requestScope.suggestedMentorList[item.id]}" var="mentor">
+                                            <input type="hidden" name="mentorId" value="${mentor.mentorId}">
+                                            <td>${mentor.fullname}</td>
+                                            <td>${mentor.username}</td>
+                                            <td>${mentor.totalRating}</td>
+                                            <td>${mentor.averageRating}</td>
+                                            <td>${mentor.currentRequests}</td>
+                                            <td><button type="submit" class="btn btn-primary" >Invite</button></td>
+                                        </c:forEach>
                                         </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <c:forEach items="${requestScope.suggestedMentorList[item.id]}" var="mentor">
-                                                <td>${mentor.fullname}</td>
-                                                <td>${mentor.username}</td>
-                                                <td>${mentor.totalRating}</td>
-                                                <td>${mentor.averageRating}</td>
-                                                <td>${mentor.currentRequests}</td>
-                                                <td><a href="#" class="btn btn-primary" >Invite</a></td>
-                                            </c:forEach>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </div>

@@ -74,7 +74,7 @@ public class ListRequest extends HttpServlet {
     throws ServletException, IOException {
         User user = (User) request.getSession().getAttribute("user");
         MentorRecommendation recommend=new MentorRecommendation();
-        HashMap<Integer,List<Mentor>>suggestedMentors=new HashMap<Integer,List<Mentor>>();
+        HashMap<Integer,List<Mentor>>suggestedMentors=new HashMap<>();
         int pagenum = request.getParameter("pagenum") != null ? Integer.parseInt(request.getParameter("pagenum")) : 1;
         RequestDAO requestDAO = new RequestDAO();
         List<Request> list = requestDAO.getRequestByID(user.getUserId());

@@ -31,13 +31,14 @@
     <body>
         <%
             try {
-                int id = Integer.parseInt(request.getParameter("userId"));
-                UserDAO userDAO = new UserDAO();
+                int mentorId = Integer.parseInt(request.getParameter("mentorId"));
                 MentorDAO mentorDAO = new MentorDAO();
-                User mentor = userDAO.getUserByID(id);
-                UserDetails mentorDetail = userDAO.getUserDetails(mentor.getEmail());
-                String avatarLink = userDAO.getUserAvatar(id);
-                Mentor mentorCV = mentorDAO.getMentorByUserID(id);
+                UserDAO userDAO = new UserDAO();
+                Mentor mentor = mentorDAO.getMentorByMentorID(mentorId);
+                User user = userDAO.getUserByID(mentor.getUserid());
+                UserDetails mentorDetail = userDAO.getUserDetailsByUserId(mentor.getUserid());
+                String avatarLink = userDAO.getUserAvatar(mentor.getUserid());
+                Mentor mentorCV = mentorDAO.getMentorByUserID(mentor.getUserid());
 
                 SkillDAO skillDAO = new SkillDAO();
                 ArrayList<Skill> skills = skillDAO.getActiveSkills();
@@ -47,7 +48,7 @@
         <jsp:include page="NavBar.jsp"></jsp:include>
             <div class="container light-style flex-grow-1 container-p-y">
                 <h4 class="font-weight-bold py-3 mb-4">
-                <%= mentor.getUsername()%>'s CV
+                <%= user.getUsername()%>'s CV
             </h4>
             <%
                 if (avatarLink == null || avatarLink.isEmpty()) {
@@ -65,7 +66,7 @@
                     <div class="card-body" style="margin: 0 30px;">
                         <div class="form-group">
                             <label class="form-label">Username <font color="red">*</font></label>
-                            <label class="form-control mb-1" name="profession"><%=mentor.getUsername()%></label>
+                            <label class="form-control mb-1" name="profession"><%=user.getUsername()%></label>
                         </div>
                         <div class="form-group">
                             <label class="form-label">Full name <font color="red">*</font></label>
@@ -145,7 +146,7 @@
                     </div>
                 </div>
                 <jsp:include page="Comments.jsp">
-                    <jsp:param name="mentorId" value="<%= mentorCV.getMentorId() %>" />
+                    <jsp:param name="mentorId" value="<%= mentorCV.getMentorId()%>" />
                 </jsp:include>
             </div>
         </div>

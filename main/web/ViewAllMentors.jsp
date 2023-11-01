@@ -44,7 +44,6 @@
                     UserDAO userDAO = new UserDAO();
                     MentorDAO mentorDAO=new MentorDAO();
                     for (Mentor m : list) {
-                        User mentor = userDAO.getUserByID(m.getUserid());
                         ArrayList<Comment>comments=mentorDAO.getCommentsOfMentorByMentorId(m.getMentorId());
                 %>
                 <tr>
@@ -55,7 +54,7 @@
                     <td><%=m.getProfession()%></td>
                     <td><%=m.getAverageRating()%> </td>
                     <td><%=comments.size() %> Comments</td>
-                    <td><a href="ViewMentorCV.jsp?userId=<%=mentor.getUserId()%>">Detail</a></td>
+                    <td><a href="ViewMentorCV.jsp?mentorId=<%=m.getMentorId()%>">Detail</a></td>
                 </tr>
                 <%
                         i++;
