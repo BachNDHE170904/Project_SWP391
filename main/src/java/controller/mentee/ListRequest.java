@@ -16,8 +16,14 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import model.Mentor;
+import model.MentorRecommendation;
 import model.ProgramingLanguage;
 import model.Request;
 import model.Skill;
@@ -67,9 +73,22 @@ public class ListRequest extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
         User user = (User) request.getSession().getAttribute("user");
+        MentorRecommendation recommend=new MentorRecommendation();
+        HashMap<Integer,List<Mentor>>suggestedMentors=new HashMap<Integer,List<Mentor>>();
         int pagenum = request.getParameter("pagenum") != null ? Integer.parseInt(request.getParameter("pagenum")) : 1;
         RequestDAO requestDAO = new RequestDAO();
         List<Request> list = requestDAO.getRequestByID(user.getUserId());
+        Date currentDate = new Date();
+        for(Request r:list){
+            Date deadline=r.getDeadline();
+            if(r.getStatus().getId()==2&&deadline.before(currentDate)){
+                requestDAO.updateRequestStatusToClosed(r.getId());
+                r.setStatus(new Status(4,"Closed"));
+            }else if(r.getStatus().getId()==1&&r.getMentorId()==0){
+                List<Mentor> suggestedlist=recommend.mentorSuggestionForMentee(r.getId());
+                suggestedMentors.put(r.getId(), suggestedlist);
+            }
+        }
         StatusDAO statusDAO = new StatusDAO();
         ArrayList<Status> statuses = statusDAO.getAll();
         ProgramingLanguageDAO programingLanguageDAO = new ProgramingLanguageDAO();
@@ -80,6 +99,7 @@ public class ListRequest extends HttpServlet {
         request.setAttribute("statuses", statuses);
         request.setAttribute("pros", listPro);
         request.setAttribute("skills", skills);
+        request.setAttribute("suggestedMentorList", suggestedMentors);
         request.getRequestDispatcher("ListRequest.jsp").forward(request, response);
     } 
 

@@ -115,5 +115,10 @@ public class Request {
     public void setMentorId(int mentorId) {
         this.mentorId = mentorId;
     }
+
+    @Override
+    public String toString() {
+        return "Request{" + "id=" + id + ", title=" + title + ", content=" + content + ", createDate=" + createDate + ", deadline=" + deadline + ", skills=" + skills + ", pro=" + pro + ", status=" + status + ", userName=" + userName + ", mentorId=" + mentorId + '}';
+    }
     
 }

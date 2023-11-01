@@ -304,10 +304,31 @@ public class MentorDAO extends BaseDAO<Skill> {
                 mentor.setMentorId(rs.getInt("mentorId"));
                 mentor.setFullname(rs.getString("Fullname"));
                 mentor.setUsername(rs.getString("AccountName"));
+
                 // Lấy thông tin về profession từ ResultSet và thiết lập cho mentor
                 mentor.setProfession(rs.getString("Profession"));
                 mentor.setStatus(rs.getString("userStatus"));
                 mentor.setAverageRating(this.getAverageRatingOfMentorByMentorId(mentor.getMentorId()));
+                mentor.setTotalRating(this.getTotalRatingOfMentorByMentorId(mentor.getMentorId()));
+                mentor.setCurrentRequests(this.getNumberOfRequestsMentorHas(mentor.getMentorId()));
+                String selectSkills = "select * from MentorSkills m where m.mentorId = ?\n";
+                String selectLanguages = "select * from MentorProgramingLanguage m where m.mentorId = ?\n";
+                ArrayList<Integer> skills = new ArrayList<>();
+                ArrayList<Integer> languages = new ArrayList<>();
+                PreparedStatement selectSkillsStatement = connection.prepareStatement(selectSkills);
+                selectSkillsStatement.setInt(1, mentor.getMentorId());
+                ResultSet rs2 = selectSkillsStatement.executeQuery();
+                while (rs2.next()) {
+                    skills.add(rs2.getInt("skillId"));
+                }
+                PreparedStatement selectLanguagesStatement = connection.prepareStatement(selectLanguages);
+                selectLanguagesStatement.setInt(1, mentor.getMentorId());
+                ResultSet rs3 = selectLanguagesStatement.executeQuery();
+                while (rs3.next()) {
+                    languages.add(rs3.getInt("languageId"));
+                }
+                mentor.setSkillsId(skills);
+                mentor.setLanguageId(languages);
                 mentors.add(mentor);
             }
         } catch (SQLException ex) {
@@ -315,10 +336,80 @@ public class MentorDAO extends BaseDAO<Skill> {
         }
         return mentors;
     }
+    public ArrayList<Mentor> getAllActiveMentors() {
+        ArrayList<Mentor> mentors = new ArrayList<>();
+        try {
+            String sql = "SELECT \n"
+                    + "ud.userId AS ID,\n"
+                    + "m.mentorId,\n"
+                    + "ud.fullname AS Fullname,\n"
+                    + "ud.username AS AccountName,\n"
+                    + "mc.profession AS Profession,\n"
+                    + "us.userStatus AS userStatus,"
+                    + "u.userAuthorization AS UserAuthorized\n"
+                    + "FROM UserDetail ud \n"
+                    + "INNER JOIN UserStatus us ON us.userId = ud.userId\n"
+                    + "INNER JOIN Users u ON u.userId = ud.userId\n"
+                    + "INNER JOIN Mentor m ON ud.userId = m.userId\n"
+                    + "INNER JOIN MentorCV mc ON m.mentorId = mc.mentorId\n"
+                    + "where ud.roleId = 4 and userStatus='active'";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                Mentor mentor = new Mentor();
+                mentor.setUserid(rs.getInt("ID"));
+                mentor.setMentorId(rs.getInt("mentorId"));
+                mentor.setFullname(rs.getString("Fullname"));
+                mentor.setUsername(rs.getString("AccountName"));
 
+                // Lấy thông tin về profession từ ResultSet và thiết lập cho mentor
+                mentor.setProfession(rs.getString("Profession"));
+                mentor.setStatus(rs.getString("userStatus"));
+                mentor.setAverageRating(this.getAverageRatingOfMentorByMentorId(mentor.getMentorId()));
+                mentor.setTotalRating(this.getTotalRatingOfMentorByMentorId(mentor.getMentorId()));
+                mentor.setCurrentRequests(this.getNumberOfRequestsMentorHas(mentor.getMentorId()));
+                String selectSkills = "select * from MentorSkills m where m.mentorId = ?\n";
+                String selectLanguages = "select * from MentorProgramingLanguage m where m.mentorId = ?\n";
+                ArrayList<Integer> skills = new ArrayList<>();
+                ArrayList<Integer> languages = new ArrayList<>();
+                PreparedStatement selectSkillsStatement = connection.prepareStatement(selectSkills);
+                selectSkillsStatement.setInt(1, mentor.getMentorId());
+                ResultSet rs2 = selectSkillsStatement.executeQuery();
+                while (rs2.next()) {
+                    skills.add(rs2.getInt("skillId"));
+                }
+                PreparedStatement selectLanguagesStatement = connection.prepareStatement(selectLanguages);
+                selectLanguagesStatement.setInt(1, mentor.getMentorId());
+                ResultSet rs3 = selectLanguagesStatement.executeQuery();
+                while (rs3.next()) {
+                    languages.add(rs3.getInt("languageId"));
+                }
+                mentor.setSkillsId(skills);
+                mentor.setLanguageId(languages);
+                mentors.add(mentor);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return mentors;
+    }
+    public int getNumberOfRequestsMentorHas(int mentorId){
+        try {
+            String sql = "select COUNT(requestId)as requests from RequestDetail rd where statusId=2 and mentorId=?";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setInt(1, mentorId);
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                return rs.getInt("requests");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(MentorDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return 0;
+    }
     public int getTotalRatingOfMentorByMentorId(int mentorId) {
         try {
-            String sql = "select Count(rt.rating)as totalRating from Requests r Inner Join RequestDetail rd on r.requestId=rd.requestId\n"
+            String sql = "select Count(rt.ratingId)as totalRating from Requests r Inner Join RequestDetail rd on r.requestId=rd.requestId\n"
                     + "Inner Join Rating rt on r.requestId=rt.requestId\n"
                     + "where rd.mentorId=?";
             PreparedStatement statement = connection.prepareStatement(sql);
@@ -361,7 +452,7 @@ public class MentorDAO extends BaseDAO<Skill> {
             statement.setInt(1, mentorId);
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
-                Comment c=new Comment();
+                Comment c = new Comment();
                 c.setCommentId(rs.getInt(1));
                 c.setCommentDetail(rs.getString(2));
                 c.setUserId(rs.getInt(3));

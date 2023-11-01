@@ -1,3 +1,6 @@
+<%@page import="java.util.HashMap"%>
+<%@page import="java.util.List"%>
+<%@page import="model.Mentor"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -35,7 +38,7 @@
                                         <th>Last Updated Date</th>
                                         <th>Deadline</th>
                                         <th>Status</th>
-                                        <th colspan="2">Action</th>
+                                        <th colspan="3">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -46,8 +49,9 @@
                                             <td>${item.createDate}</td>
                                             <td>${item.deadline}</td>
                                             <td>${item.status.name}</td>
-                                            <td><a href="#" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal${item.id}">Update</a></td>
-                                            <td><a href="#">Delete</a></td>
+                                            <c:if test="${ item.status.id==1 }"><td><a href="#" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal${item.id}">Update</a></td></c:if>
+                                            <c:if test="${ item.status.id==1 }"><td><a href="#">Delete</a></td></c:if>
+                                            <c:if test="${ item.status.id==1 }"><td><a href="#" data-toggle="modal" data-target="#mentorModal${item.id}">mentor suggestion</a></td></c:if>
                                         </tr>
                                     <div class="modal fade" id="exampleModal${item.id}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                         <div class="modal-dialog" role="document">
@@ -83,7 +87,7 @@
                                                             </select>
                                                         </div>
                                                         <div class="form-group">
-                                                            <label for="message-text" class="col-form-label">Skills</label>
+                                                            <label for="message-text" class="col-form-label">Skills (Select up to 3)</label>
                                                             <c:forEach items="${requestScope.skills}" var="i">
                                                                 <c:set var="temp" value="0"/>
                                                                 <c:forEach items="${item.skills}" var="a">
@@ -93,7 +97,7 @@
                                                                 </c:forEach>
                                                                 <br>
                                                                 <label>
-                                                                    <input type="checkbox" class="form-check-input" name="selectedSkills" value="${i.skillId}" ${temp == 1 ? 'checked' : ''}>
+                                                                    <input type="checkbox" class="form-check-input" name="selectedSkills" data-item-id="${item.id}" value="${i.skillId}" ${temp == 1 ? 'checked' : ''} onchange="limitSkills(this)">
                                                                     ${i.skillName}
                                                                 </label>
                                                             </c:forEach>
@@ -104,24 +108,72 @@
                                                         </div>
                                                     </form>
                                                 </div>
-
                                             </div>
                                         </div>
                                     </div>
                                 </c:forEach>
                                 </tbody>
                             </table>
-
                         </div>
                     </div>
                 </div>
-
-
             </div>
-
         </div>
+        <c:forEach items="${requestScope.list}" var="item" varStatus="loop">
+            <div class="modal fade" id="mentorModal${item.id}" tabindex="-1" role="table" aria-labelledby="mentorModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-xl" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="mentorModalLabel">Mentors suggestion</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div>
+                                <table class="table table-bordered" border="1" style="text-align: center">
+                                    <thead class="thead-dark">
+                                        <tr>
+                                            <th>Full Name</th>
+                                            <th>User Name</th>
+                                            <th>Total ratings</th>
+                                            <th>Average Ratings</th>
+                                            <th>Current requests</th>
+                                            <th colspan="1">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <c:forEach items="${requestScope.suggestedMentorList[item.id]}" var="mentor">
+                                                <td>${mentor.fullname}</td>
+                                                <td>${mentor.username}</td>
+                                                <td>${mentor.totalRating}</td>
+                                                <td>${mentor.averageRating}</td>
+                                                <td>${mentor.currentRequests}</td>
+                                                <td><a href="#" class="btn btn-primary" >Invite</a></td>
+                                            </c:forEach>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </c:forEach>
         <script>
             document.getElementById("date").min = new Date().toISOString().split("T")[0];
+        </script>
+        <script type="text/javascript">
+            function limitSkills(checkbox) {
+                var maxSkills = 3;
+                var itemId = checkbox.getAttribute('data-item-id');
+                var selectedSkills = document.querySelectorAll('input[name="selectedSkills"][data-item-id="' + itemId + '"]:checked');
+
+                if (selectedSkills.length > maxSkills) {
+                    checkbox.checked = false; // Uncheck the current checkbox
+                }
+            }
         </script>
         <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.bundle.min.js"></script>
