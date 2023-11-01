@@ -26,7 +26,7 @@
                     </div>
                     <div class="col-md-9">
                         <div class="tab-content">
-                            <form action="createRequest" method="post">
+                            <form action="createRequest" method="post" onsubmit="return validateSkills()">
                                 <div class="tab-pane fade active show" id="account-general">
                                     <hr class="border-light m-0">
                                     <div class="card-body">
@@ -65,6 +65,22 @@
                                                 if (selectedSkills.length > maxSkills) {
                                                     checkbox.checked = false; // Uncheck the current checkbox
                                                 }
+                                            }
+                                            function validateSkills() {
+                                                var checkboxes = document.querySelectorAll('input[name="selectedSkills"]');
+                                                var checkedCount = 0;
+
+                                                for (var i = 0; i < checkboxes.length; i++) {
+                                                    if (checkboxes[i].checked) {
+                                                        checkedCount++;
+                                                    }
+                                                }
+
+                                                if (checkedCount === 0) {
+                                                    alert("Please select at least one skill.");
+                                                    return false; // Prevent form submission
+                                                }
+                                                return true; // Allow form submission
                                             }
                                         </script>
                                         <div class="form-group">
