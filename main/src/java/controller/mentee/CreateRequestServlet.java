@@ -24,10 +24,6 @@ import model.ProgramingLanguage;
 import model.Skill;
 import model.User;
 
-/**
- *
- * @author kienb
- */
 public class CreateRequestServlet extends HttpServlet {
    
     /** 
@@ -76,7 +72,6 @@ public class CreateRequestServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
         try {
-            PrintWriter out = response.getWriter();
             String title = request.getParameter("title");
             Date deadline = Date.valueOf(request.getParameter("deadline"));
             int languageId=Integer.parseInt(request.getParameter("language"));
@@ -85,7 +80,8 @@ public class CreateRequestServlet extends HttpServlet {
             User user = (User) request.getSession().getAttribute("user");
             RequestDAO requestDAO = new RequestDAO();
             requestDAO.insertRequest(user.getUserId(), title, content, deadline, 1, skill,languageId );
-            request.getRequestDispatcher("WelcomePage.jsp").forward(request, response);
+            request.getSession().setAttribute("successMsg", "Your request is created successfully!");
+            response.sendRedirect("myRequest");
         } catch (Exception ex) {
             Logger.getLogger(CreateRequestServlet.class.getName()).log(Level.SEVERE, null, ex);
         }

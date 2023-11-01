@@ -85,9 +85,8 @@
                                                             <input type="text" name="title" value="${item.title}" class="form-control" id="recipient-name" required="">
                                                         </div>
                                                         <div class="form-group">
-                                                            <fmt:formatDate value="${item.deadline}" pattern="yyyy-MM-dd" var="deadline" />
                                                             <label for="recipient-name" class="col-form-label">DeadLine</label>
-                                                            <input type="date" name="deadline" value="${deadline}" class="form-control" id="recipient-name" required="">
+                                                            <input type="date" name="deadline" value="${item.deadline}" class="form-control" id="recipient-name" required="">
                                                         </div>
                                                         <div class="form-group">
                                                             <label for="content" class="col-form-label">Content</label>
