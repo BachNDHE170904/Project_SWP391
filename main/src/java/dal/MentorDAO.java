@@ -409,7 +409,7 @@ public class MentorDAO extends BaseDAO<Skill> {
     }
     public int getTotalRatingOfMentorByMentorId(int mentorId) {
         try {
-            String sql = "select Count(rt.rating)as totalRating from Requests r Inner Join RequestDetail rd on r.requestId=rd.requestId\n"
+            String sql = "select Count(rt.ratingId)as totalRating from Requests r Inner Join RequestDetail rd on r.requestId=rd.requestId\n"
                     + "Inner Join Rating rt on r.requestId=rt.requestId\n"
                     + "where rd.mentorId=?";
             PreparedStatement statement = connection.prepareStatement(sql);
