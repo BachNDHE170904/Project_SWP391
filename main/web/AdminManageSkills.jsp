@@ -46,6 +46,19 @@
             User acc = (User) session.getAttribute("user");
             UserDetails details = (UserDetails) session.getAttribute("userDetail");;
             if (acc != null && details.getRoleId() == 1) {
+                int pageNum = Integer.parseInt(request.getParameter("page"));
+                String searchValue;
+                if (request.getParameter("searchValue") == null && session.getAttribute("searchValue") == null) {
+                    searchValue = "";
+                } else if (request.getParameter("searchValue") != null) {
+                    searchValue = request.getParameter("searchValue");
+                    session.setAttribute("searchValue", searchValue);
+                } else {
+                    searchValue = (String) session.getAttribute("searchValue");
+                }
+                SkillDAO skillDb = new SkillDAO();
+                int total = skillDb.getTotalSkillsWithSearch(searchValue);
+                ArrayList<Skill> skills = skillDb.getSkillsWithPagination((pageNum - 1) * 10, 10, searchValue);
         %>
         <div class="container-fluid position-relative bg-white d-flex p-0">
             <!-- Sidebar Start -->
@@ -64,21 +77,32 @@
                             <div class="col-12">
                                 <div class="bg-light rounded h-100 p-4">
                                     <h6 class="mb-4">Manage skills</h6>
-                                    <div class="table-responsive">
-                                        <table  id="sampleTable" class="table sampleTable">
-                                            <thead>
-                                                <tr>
-                                                    <th scope="col">ID</th>
-                                                    <th scope="col">Skill Name</th>
-                                                    <th scope="col">Status</th>
-                                                    <th scope="col">Update</th>
-                                                    <th scope="col"><a href="CreateNewSkill.jsp">+</a></th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
+                                    <div class="inner-form">
+                                        <div class="input-field">
+                                            <form action="AdminManageSkills.jsp" >
+                                                <input type="text" name="page" value="1" hidden/>
+                                            <input class="form-control"name="searchValue" type="text" placeholder="Type to search..." value="<%=searchValue%>"/>
+                                            <button class="btn-search" type="submit">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                                                <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path>
+                                                </svg>
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
+                                <div class="table-responsive">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">ID</th>
+                                                <th scope="col">Skill Name</th>
+                                                <th scope="col">Enable/Disable</th>
+                                                <th scope="col">Update</th>
+                                                <th scope="col"><a href="CreateNewSkill.jsp?&&page=<%= pageNum%>">+</a></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
                                             <%
-                                                SkillDAO skillDb = new SkillDAO();
-                                                ArrayList<Skill> skills = skillDb.getSkills();
                                                 for (int i = 0; i < skills.size(); i++) {
                                                     Skill skill = skills.get(i);
                                             %>
@@ -89,8 +113,8 @@
                                                 >
                                                 <td><%=skill.getSkillId()%></td>
                                                 <td><%=skill.getSkillName()%></td>
-                                                <td><a href="UpdateSkillStatusServlet?skillId=<%=skill.getSkillId()%>"><%=skill.getSkillStatus()%></a></td>
-                                                <td><a href="UpdateSkill.jsp?skillId=<%=skill.getSkillId()%>">Update</a></td>
+                                                <td><a href="UpdateSkillStatusServlet?skillId=<%=skill.getSkillId()%>&&page=<%= pageNum%>"><%=skill.getSkillStatus()%></a></td>
+                                                <td><a href="UpdateSkill.jsp?skillId=<%=skill.getSkillId()%>&&page=<%= pageNum%>">Update</a></td>
                                             </tr>
                                             <% } %>
                                         </tbody>
@@ -100,6 +124,13 @@
                         </div>
                     </div>
                 </div>
+                <nav aria-label="...">
+                    <ul class="pagination pagination-sm">
+                        <%for (int i = 1; i <= (int) Math.ceil((double) (total) / 10); i++) {%>
+                        <li class="page-item"><a class="page-link" href="AdminManageSkills.jsp?searchValue=<%=searchValue%>&page=<%=i%>"><%= i%></a></li>
+                            <%}%>
+                    </ul>
+                </nav>
                 <!-- Table End -->
             </div>
             <!-- Content End -->
@@ -113,7 +144,6 @@
                 request.getRequestDispatcher("WelcomePage.jsp").forward(request, response);
         %>
         <!-- JavaScript Libraries -->
-        <script src="js/fancyTable.js"></script>
         <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
         <script src="lib/chart/chart.min.js"></script>
@@ -126,22 +156,6 @@
 
         <!-- Template Javascript -->
         <script src="js/main.js"></script>
-        <script src="js/fancyTable.js">
-        </script>
-        <script type="text/javascript">
-
-            $(document).ready(function () {
-                $(".sampleTable").fancyTable({
-                    /* Setting pagination or enabling */
-                    pagination: true,
-                    /* Rows per page kept for display */
-                    perPage: 10,
-                    globalSearch: true,
-                    sortable: false,
-                });
-
-            });
-        </script>
     </body>
 
 </html>

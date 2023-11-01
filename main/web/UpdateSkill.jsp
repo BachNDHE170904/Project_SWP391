@@ -42,12 +42,12 @@
             //check if the user is logged in or not
             User acc = (User) session.getAttribute("user");
             UserDetails details = (UserDetails) session.getAttribute("userDetail");
+            UserDAO db = new UserDAO();
             int skillId = Integer.parseInt(request.getParameter("skillId"));
             SkillDAO skillDAO = new SkillDAO();
             Skill skill = skillDAO.getSkillById(skillId);
-            if (acc == null || details.getRoleId() != 1) {
-                request.getRequestDispatcher("WelcomePage.jsp").forward(request, response);
-            }
+            if (acc != null && details.getRoleId() == 1) {
+                int pageNum = Integer.parseInt(request.getParameter("page"));
         %>
         <div class="container-fluid position-relative bg-white d-flex p-0">
             <!-- Sidebar Start -->
@@ -64,6 +64,7 @@
                         <div class="bg-light rounded h-100 p-4">
                             <form action="AddNewSkillServlet" method="GET">
                                 <input name="skillId"value="<%=skillId%>"hidden>
+                            <input name="page"value="<%=pageNum%>"hidden>
                             <h6 class="mb-4">Update skill</h6>
                             <div class="form-floating mb-3">
                                 <input type="text" class="form-control" id="floatingInput"
@@ -101,19 +102,24 @@
 
         <!-- Back to Top -->
         <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
-        <!-- JavaScript Libraries -->
-        <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-        <script src="lib/chart/chart.min.js"></script>
-        <script src="lib/easing/easing.min.js"></script>
-        <script src="lib/waypoints/waypoints.min.js"></script>
-        <script src="lib/owlcarousel/owl.carousel.min.js"></script>
-        <script src="lib/tempusdominus/js/moment.min.js"></script>
-        <script src="lib/tempusdominus/js/moment-timezone.min.js"></script>
-        <script src="lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
+    </div>
+    <%
+        } else
+            request.getRequestDispatcher("WelcomePage.jsp").forward(request, response);
+    %>
+    <!-- JavaScript Libraries -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="lib/chart/chart.min.js"></script>
+    <script src="lib/easing/easing.min.js"></script>
+    <script src="lib/waypoints/waypoints.min.js"></script>
+    <script src="lib/owlcarousel/owl.carousel.min.js"></script>
+    <script src="lib/tempusdominus/js/moment.min.js"></script>
+    <script src="lib/tempusdominus/js/moment-timezone.min.js"></script>
+    <script src="lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
 
-        <!-- Template Javascript -->
-        <script src="js/main.js"></script>
-    </body>
+    <!-- Template Javascript -->
+    <script src="js/main.js"></script>
+</body>
 
 </html>
