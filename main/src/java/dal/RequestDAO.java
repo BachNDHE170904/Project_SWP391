@@ -305,4 +305,17 @@ public class RequestDAO extends BaseDAO<Skill> {
 //        }
 //        return skills;
 //    }
+    public boolean updateRequestStatusToClosed(int requestId){
+        try {
+            String sql = "update RequestDetail set statusId = ? where requestId = ?";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setInt(1, 4);
+            statement.setInt(2, requestId);
+            statement.executeUpdate();
+            return true;
+        } catch (SQLException ex) {
+            Logger.getLogger(RequestDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
+    }
 }

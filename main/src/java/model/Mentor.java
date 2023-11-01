@@ -20,7 +20,7 @@ public class Mentor extends UserDetails {
     private String achivementInfo;
     private int totalRating;
     private double averageRating;
-    private double score;
+    private int currentRequests;
 
     public Mentor() {
     }
@@ -132,12 +132,12 @@ public class Mentor extends UserDetails {
         this.achivementInfo = achivementInfo;
     }
 
-    public double getScore() {
-        return score;
+    public int getCurrentRequests() {
+        return currentRequests;
     }
 
-    public void setScore(double score) {
-        this.score = score;
+    public void setCurrentRequests(int currentRequests) {
+        this.currentRequests = currentRequests;
     }
 
 }

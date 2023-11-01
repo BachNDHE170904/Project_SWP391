@@ -25,7 +25,7 @@ public class ViewAllMentor extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         MentorDAO mentorDAO = new MentorDAO();
-        List<Mentor> listMentor = mentorDAO.getAllMentors();
+        List<Mentor> listMentor = mentorDAO.getAllActiveMentors();
         request.setAttribute("listMentor", listMentor);
         request.getRequestDispatcher("ViewAllMentors.jsp").forward(request, response);
     }

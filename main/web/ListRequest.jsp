@@ -35,7 +35,7 @@
                                         <th>Last Updated Date</th>
                                         <th>Deadline</th>
                                         <th>Status</th>
-                                        <th colspan="2">Action</th>
+                                        <th colspan="3">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -48,6 +48,7 @@
                                             <td>${item.status.name}</td>
                                             <td><a href="#" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal${item.id}">Update</a></td>
                                             <td><a href="#">Delete</a></td>
+                                            <td><a href="#" data-toggle="modal" data-target="#exampleModal${item.id}">Update</a></td>
                                         </tr>
                                     <div class="modal fade" id="exampleModal${item.id}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                         <div class="modal-dialog" role="document">
