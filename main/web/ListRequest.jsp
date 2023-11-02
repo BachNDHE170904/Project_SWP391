@@ -1,3 +1,4 @@
+<%@page import="dal.MentorDAO"%>
 <%@page import="java.util.HashMap"%>
 <%@page import="java.util.List"%>
 <%@page import="model.Mentor"%>
@@ -50,7 +51,7 @@
                                     <input type="radio" name="status" value="Open" id="filter-open"> <label for="filter-open">Open</label><br>
                                     <input type="radio" name="status" value="Processing" id="filter-processing"> <label for="filter-processing">Processing</label><br>
                                     <input type="radio" name="status" value="Cancel" id="filter-cancel"> <label for="filter-cancel">Cancel</label><br>
-                                    <input type="radio" name="status" value="Close" id="filter-close"> <label for="filter-close">Close</label><br>
+                                    <input type="radio" name="status" value="Closed" id="filter-close"> <label for="filter-close">Closed</label><br>
                                     <input type="radio" checked name="status" value="All" id="filter-all"> <label for="filter-all">All</label><br>
                                 </form>
                             </div>
@@ -67,7 +68,7 @@
                                         <th>Deadline</th>
                                         <th>Status</th>
                                         <th>Assigned Mentor</th>
-                                        <th colspan="4">Action</th>
+                                        <th colspan="100%">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -79,13 +80,13 @@
                                             <td>${item.deadline}</td>
                                             <td>${item.status.name}</td>
                                             <c:if test="${item.mentorId==0}"><td>No one assigned</td></c:if>
-                                            <c:if test="${item.mentorId!=0}"><td><a href="ViewMentorCV.jsp?mentorId=${item.mentorId}">${item.mentorId}</a></td></c:if>
+                                            <c:if test="${item.mentorId!=0}"><td><a href="ViewMentorCV.jsp?mentorId=${item.mentorId}">${item.mentorEmail}</a></td></c:if>
                                             <c:if test="${ item.status.id==1 &&item.mentorId==0}"><td><a href="#" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal${item.id}">Update</a></td></c:if>
-                                            <c:if test="${ item.status.id==1 &&item.mentorId==0}"><td><a href="#">Delete</a></td></c:if>
-                                            <c:if test="${ item.status.id==1 &&item.mentorId==0}"><td><a href="#" data-toggle="modal" data-target="#mentorModal${item.id}">mentor suggestion</a></td></c:if>
-                                            <td><a href="#" class="btn btn-primary" data-toggle="modal" data-target="#feedbackModal${item.id}">Comment and Rate star</a></td>
-                                        </tr>
-                                    <div class="modal fade" id="exampleModal${item.id}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <c:if test="${ item.status.id==1 &&item.mentorId==0}"><td><a href="#"class="btn btn-primary">Delete</a></td></c:if>
+                                            <c:if test="${ item.status.id==1 &&item.mentorId==0}"><td><a href="#" class="btn btn-primary" data-toggle="modal" data-target="#mentorModal${item.id}">mentor suggestion</a></td></c:if>
+                                            <c:if test="${item.mentorId!=0}"><td><a href="#" class="btn btn-primary" data-toggle="modal" data-target="#feedbackModal${item.id}">Comment and Rate star</a></td></c:if>
+                                            </tr>
+                                        <div class="modal fade" id="exampleModal${item.id}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                         <div class="modal-dialog" role="document">
                                             <div class="modal-content">
                                                 <div class="modal-header">
