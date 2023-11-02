@@ -17,8 +17,17 @@ public class Comment {
     private int rating;
     private String commentDetail;
     private Date createdDate;
+    private int rating;
 
     public Comment() {
+    }
+
+    public int getRating() {
+        return rating;
+    }
+
+    public void setRating(int rating) {
+        this.rating = rating;
     }
 
     public int getCommentId() {
