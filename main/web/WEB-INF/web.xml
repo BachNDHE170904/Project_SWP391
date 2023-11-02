@@ -88,6 +88,10 @@
         <servlet-name>InviteMentorServlet</servlet-name>
         <servlet-class>controller.mentee.InviteMentorServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>CommentAndRateStarServlet</servlet-name>
+        <servlet-class>controller.mentee.CommentAndRateStarServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
         <url-pattern>/LoginServlet</url-pattern>
@@ -175,6 +179,10 @@
     <servlet-mapping>
         <servlet-name>InviteMentorServlet</servlet-name>
         <url-pattern>/InviteMentorServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CommentAndRateStarServlet</servlet-name>
+        <url-pattern>/CommentAndRateStar</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

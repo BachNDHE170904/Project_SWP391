@@ -51,7 +51,7 @@
                                         <th>Deadline</th>
                                         <th>Status</th>
                                         <th>Assigned Mentor</th>
-                                        <th colspan="3">Action</th>
+                                        <th colspan="4">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -67,8 +67,9 @@
                                             <c:if test="${ item.status.id==1 &&item.mentorId==0}"><td><a href="#" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal${item.id}">Update</a></td></c:if>
                                             <c:if test="${ item.status.id==1 &&item.mentorId==0}"><td><a href="#">Delete</a></td></c:if>
                                             <c:if test="${ item.status.id==1 &&item.mentorId==0}"><td><a href="#" data-toggle="modal" data-target="#mentorModal${item.id}">mentor suggestion</a></td></c:if>
-                                            </tr>
-                                        <div class="modal fade" id="exampleModal${item.id}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <td><a href="#" class="btn btn-primary" data-toggle="modal" data-target="#feedbackModal${item.id}">Comment and Rate star</a></td>
+                                        </tr>
+                                    <div class="modal fade" id="exampleModal${item.id}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                         <div class="modal-dialog" role="document">
                                             <div class="modal-content">
                                                 <div class="modal-header">
@@ -119,6 +120,35 @@
                                                         <div class="modal-footer">
                                                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                                                             <button type="submit" class="btn btn-primary">Update</button>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal fade" id="feedbackModal${item.id}" tabindex="-1" role="dialog" aria-labelledby="feedbackModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="feedbackModalLabel">Comment and Rate star</h5>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <form action="CommentAndRateStar" method="post">
+                                                        <input type="hidden" name="id" value="${item.id}">
+                                                        <div class="form-group">
+                                                            <label for="comment" class="col-form-label">Feedback</label>
+                                                            <textarea name="comment" class="form-control" id="comment" required></textarea>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="rating" class="col-form-label">Rating</label>
+                                                            <input type="number" name="rating" class="form-control" id="rating" min="1" max="5" required>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                            <button type="submit" class="btn btn-primary">Submit</button>
                                                         </div>
                                                     </form>
                                                 </div>
@@ -179,6 +209,35 @@
                 </div>
             </div>
         </c:forEach>
+        <script>
+            document.getElementById("status-filter-form").addEventListener("change", function (e) {
+                const selectedStatus = document.querySelector('input[name="status"]:checked').value;
+                if (selectedStatus === "All") {
+                    showAllRows();
+                } else {
+                    filterTableByStatus(selectedStatus);
+                }
+            });
+
+            function filterTableByStatus(status) {
+                const rows = document.querySelectorAll("table tbody tr");
+                rows.forEach(row => {
+                    const statusCell = row.querySelector("td:nth-child(5)"); // Số 5 ứng với cột Status
+                    if (statusCell.textContent === status) {
+                        row.style.display = "table-row";
+                    } else {
+                        row.style.display = "none";
+                    }
+                });
+            }
+
+            function showAllRows() {
+                const rows = document.querySelectorAll("table tbody tr");
+                rows.forEach(row => {
+                    row.style.display = "table-row";
+                });
+            }
+        </script>
         <script>
             document.getElementById("date").min = new Date().toISOString().split("T")[0];
         </script>
