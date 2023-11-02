@@ -36,17 +36,18 @@
                         %>
                         <!-- COMMENT  - START -->
                         <div class="media">
-                            <a class="pull-left" href="#"><img class="media-object" src="https://bootdey.com/img/Content/avatar/avatar1.png" alt=""></a>
+                            <a class="pull-left" href="#"><img class="media-object" src="img/default_avatar.jpg" alt=""></a>
                             <div class="media-body">
                                 <h4 class="media-heading"><%= u.getUsername()%></h4>
                                 <p><%= c.getCommentDetail()%></p>
                                 <ul class="list-unstyled list-inline media-detail pull-left">
                                     <li><i class="fa fa-calendar"></i><%= c.getCreatedDate()%></li>
+                                        <%for (int i = 1; i <= c.getRating(); i++) {%>
                                     <span class="fa fa-star checked"></span>
-                                    <span class="fa fa-star checked"></span>
-                                    <span class="fa fa-star checked"></span>
+                                    <%}%>
+                                    <%for (int i = 1; i <= 5 - c.getRating(); i++) {%>
                                     <span class="fa fa-star"></span>
-                                    <span class="fa fa-star"></span>
+                                    <%}%>
                                 </ul>
                             </div>
                         </div>

@@ -37,10 +37,10 @@ public class SkillDAO extends BaseDAO<Skill> {
         return skills;
     }
 
-    public ArrayList<Skill> getSkillsWithPagination(int start, int total,String search) {
+    public ArrayList<Skill> getSkillsWithPagination(int start, int total,String search,String filterValue) {
         ArrayList<Skill> skills = new ArrayList<>();
         try {
-            String sql = "SELECT * FROM Skills,SkillStatus where Skills.skillStatusId=SkillStatus.skillStatusId and skillName like'%"+search+"%'\n"
+            String sql = "SELECT * FROM Skills,SkillStatus where Skills.skillStatusId=SkillStatus.skillStatusId and skillName like'%"+search+"%'and skillStatus like'"+filterValue+"%'\n"
                     +"order by skillId\n"
                     +"OFFSET "+start+" ROWS \n"
                     +"FETCH NEXT "+ total + " ROWS ONLY \n";
@@ -72,9 +72,9 @@ public class SkillDAO extends BaseDAO<Skill> {
         }
         return 0;
     }
-    public int getTotalSkillsWithSearch(String search) {
+    public int getTotalSkillsWithSearch(String search,String filterValue) {
         try {
-            String sql = "SELECT COUNT(*) as total FROM Skills,SkillStatus where Skills.skillStatusId=SkillStatus.skillStatusId and skillName like'%"+search+"%'";
+            String sql = "SELECT COUNT(*) as total FROM Skills,SkillStatus where Skills.skillStatusId=SkillStatus.skillStatusId and skillName like'%"+search+"%'and skillStatus like'"+filterValue+"%'";
             PreparedStatement statement = connection.prepareStatement(sql);
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {

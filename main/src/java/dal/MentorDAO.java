@@ -444,7 +444,7 @@ public class MentorDAO extends BaseDAO<Skill> {
     public ArrayList<Comment> getCommentsOfMentorByMentorId(int mentorId) {
         try {
             ArrayList<Comment> comments = new ArrayList<>();
-            String sql = "select c.commentId,c.commentDetail,r.userId,rd.mentorId,c.createdDate from Requests r Inner Join RequestDetail rd on r.requestId=rd.requestId\n"
+            String sql = "select c.commentId,c.commentDetail,r.userId,rd.mentorId,c.createdDate,rt.rating from Requests r Inner Join RequestDetail rd on r.requestId=rd.requestId\n"
                     + "Inner Join Rating rt on r.requestId=rt.requestId\n"
                     + "INNER JOIN Comment c on rt.commentId=c.commentId\n"
                     + "where rd.mentorId=?";
@@ -458,6 +458,7 @@ public class MentorDAO extends BaseDAO<Skill> {
                 c.setUserId(rs.getInt(3));
                 c.setMentorId(rs.getInt(4));
                 c.setCreatedDate(rs.getDate(5));
+                c.setRating(rs.getInt(6));
                 comments.add(c);
             }
             return comments;

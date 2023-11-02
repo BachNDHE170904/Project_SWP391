@@ -185,11 +185,15 @@
         <script type="text/javascript">
             function limitSkills(checkbox) {
                 var maxSkills = 3;
+                var minSkills=1;
                 var itemId = checkbox.getAttribute('data-item-id');
                 var selectedSkills = document.querySelectorAll('input[name="selectedSkills"][data-item-id="' + itemId + '"]:checked');
 
                 if (selectedSkills.length > maxSkills) {
                     checkbox.checked = false; // Uncheck the current checkbox
+                }else if(selectedSkills.length<minSkills){
+                    alert("Please select at least one skill");
+                    checkbox.checked = true;
                 }
             }
         </script>

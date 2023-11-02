@@ -14,6 +14,7 @@ public class Comment {
     private int commentId;
     private int userId;
     private int mentorId;
+    private int rating;
     private String commentDetail;
     private Date createdDate;
 
@@ -58,6 +59,14 @@ public class Comment {
 
     public void setCreatedDate(Date createdDate) {
         this.createdDate = createdDate;
+    }
+
+    public int getRating() {
+        return rating;
+    }
+
+    public void setRating(int rating) {
+        this.rating = rating;
     }
     
 }
