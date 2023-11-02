@@ -56,7 +56,7 @@
                 } else {
                     searchValue = (String) session.getAttribute("searchValue");
                 }
-                String filterValue ;
+                String filterValue;
                 if (request.getParameter("filterValue") == null && session.getAttribute("filterValue") == null) {
                     filterValue = "";
                 } else if (request.getParameter("filterValue") != null) {
@@ -66,7 +66,7 @@
                     filterValue = (String) session.getAttribute("filterValue");
                 }
                 SkillDAO skillDb = new SkillDAO();
-                int total = skillDb.getTotalSkillsWithSearch(searchValue,filterValue);
+                int total = skillDb.getTotalSkillsWithSearch(searchValue, filterValue);
                 ArrayList<Skill> skills = skillDb.getSkillsWithPagination((pageNum - 1) * 10, 10, searchValue, filterValue);
         %>
         <div class="container-fluid position-relative bg-white d-flex p-0">
