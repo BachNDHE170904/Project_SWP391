@@ -56,9 +56,18 @@
                 } else {
                     searchValue = (String) session.getAttribute("searchValue");
                 }
+                String filterValue ;
+                if (request.getParameter("filterValue") == null && session.getAttribute("filterValue") == null) {
+                    filterValue = "";
+                } else if (request.getParameter("filterValue") != null) {
+                    filterValue = request.getParameter("filterValue");
+                    session.setAttribute("filterValue", filterValue);
+                } else {
+                    filterValue = (String) session.getAttribute("filterValue");
+                }
                 SkillDAO skillDb = new SkillDAO();
-                int total = skillDb.getTotalSkillsWithSearch(searchValue);
-                ArrayList<Skill> skills = skillDb.getSkillsWithPagination((pageNum - 1) * 10, 10, searchValue);
+                int total = skillDb.getTotalSkillsWithSearch(searchValue,filterValue);
+                ArrayList<Skill> skills = skillDb.getSkillsWithPagination((pageNum - 1) * 10, 10, searchValue, filterValue);
         %>
         <div class="container-fluid position-relative bg-white d-flex p-0">
             <!-- Sidebar Start -->
@@ -78,17 +87,26 @@
                                 <div class="bg-light rounded h-100 p-4">
                                     <h6 class="mb-4">Manage skills</h6>
                                     <div class="inner-form">
-                                        <div class="input-field">
-                                            <form action="AdminManageSkills.jsp" >
+                                        <form action="AdminManageSkills.jsp" >
+                                            <div class="input-field">
                                                 <input type="text" name="page" value="1" hidden/>
-                                            <input class="form-control"name="searchValue" type="text" placeholder="Type to search..." value="<%=searchValue%>"/>
-                                            <button class="btn-search" type="submit">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                                                <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path>
-                                                </svg>
+                                                <div class="form-group">
+                                                    <input class="form-control"name="searchValue" type="text" placeholder="Type to search..." value="<%=searchValue%>"/>
+                                            </div>
+                                        </div>
+                                        <div class="dropdown">
+                                            <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                Filter by Status
                                             </button>
-                                        </form>
-                                    </div>
+                                            <ul class="dropdown-menu">
+                                                <i class="dropdown-item" data-filter="" id="filter-1">All</i>
+                                                <i class="dropdown-item" data-filter="active" id="filter-2">Active</i>
+                                                <i class="dropdown-item" data-filter="inactive" id="filter-3">Inactive</i>
+                                                <input type="hidden" name="filterValue" id="selected-filter" value="" required>
+                                            </ul>
+                                            <button class="btn btn-primary" type="submit">Filter</button>
+                                        </div>
+                                    </form>
                                 </div>
                                 <div class="table-responsive">
                                     <table class="table">
@@ -127,7 +145,7 @@
                 <nav aria-label="...">
                     <ul class="pagination pagination-sm">
                         <%for (int i = 1; i <= (int) Math.ceil((double) (total) / 10); i++) {%>
-                        <li class="page-item"><a class="page-link" href="AdminManageSkills.jsp?searchValue=<%=searchValue%>&page=<%=i%>"><%= i%></a></li>
+                        <li class="page-item"><a class="page-link" href="AdminManageSkills.jsp?searchValue=<%=searchValue%>&page=<%=i%>&filterValue=<%=filterValue%>"><%= i%></a></li>
                             <%}%>
                     </ul>
                 </nav>
@@ -144,6 +162,16 @@
                 request.getRequestDispatcher("WelcomePage.jsp").forward(request, response);
         %>
         <!-- JavaScript Libraries -->
+        <script>
+            let filters = document.querySelectorAll(".dropdown-item");
+            let selectedFilter = document.getElementById("selected-filter");
+            filters.forEach(filter => {
+                filter.addEventListener("click", () => {
+                    let filterValue = filter.getAttribute("data-filter");
+                    selectedFilter.value = filterValue;
+                });
+            });
+        </script>
         <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
         <script src="lib/chart/chart.min.js"></script>
