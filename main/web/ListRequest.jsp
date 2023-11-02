@@ -189,8 +189,8 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <c:forEach items="${requestScope.suggestedMentorList[item.id]}" var="mentor">
+                                            <c:forEach items="${requestScope.suggestedMentorList[item.id]}" var="mentor">
+                                                <tr>
                                             <input type="hidden" name="mentorId" value="${mentor.mentorId}">
                                             <td>${mentor.fullname}</td>
                                             <td>${mentor.username}</td>
@@ -198,8 +198,8 @@
                                             <td>${mentor.averageRating}</td>
                                             <td>${mentor.currentRequests}</td>
                                             <td><button type="submit" class="btn btn-primary" >Invite</button></td>
+                                            </tr>
                                         </c:forEach>
-                                        </tr>
                                         </tbody>
                                     </table>
                                 </div>
@@ -244,13 +244,13 @@
         <script type="text/javascript">
             function limitSkills(checkbox) {
                 var maxSkills = 3;
-                var minSkills=1;
+                var minSkills = 1;
                 var itemId = checkbox.getAttribute('data-item-id');
                 var selectedSkills = document.querySelectorAll('input[name="selectedSkills"][data-item-id="' + itemId + '"]:checked');
 
                 if (selectedSkills.length > maxSkills) {
                     checkbox.checked = false; // Uncheck the current checkbox
-                }else if(selectedSkills.length<minSkills){
+                } else if (selectedSkills.length < minSkills) {
                     alert("Please select at least one skill");
                     checkbox.checked = true;
                 }
