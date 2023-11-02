@@ -34,7 +34,7 @@
                     <th scope="col">Fullname</th>
                     <th scope="col">Accountname</th>
                     <th scope="col">Profession</th>
-                    <th scope="col">Rating</th>
+                    <th scope="col">Average Rating</th>
                     <th scope="col">Comments</th>
                     <th scope="col">View Mentor CV</th>
                 </tr>

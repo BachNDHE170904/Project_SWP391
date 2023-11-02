@@ -31,13 +31,13 @@
                         %>
 
                         <h3><%= comments.size()%> Comments</h3>
-                        <% for (Comment c : comments) {
-                                User u = userDAO.getUserByID(c.getUserId());
-                        %>
                         <!-- COMMENT  - START -->
                         <div class="media">
-                            <a class="pull-left" href="#"><img class="media-object" src="img/default_avatar.jpg" alt=""></a>
                             <div class="media-body">
+                                <% for (Comment c : comments) {
+                                        User u = userDAO.getUserByID(c.getUserId());
+                                %>
+                                <a class="pull-left" href="#"><img class="media-object" src="img/default_avatar.jpg" alt=""></a>
                                 <h4 class="media-heading"><%= u.getUsername()%></h4>
                                 <p><%= c.getCommentDetail()%></p>
                                 <ul class="list-unstyled list-inline media-detail pull-left">
@@ -49,13 +49,16 @@
                                     <span class="fa fa-star"></span>
                                     <%}%>
                                 </ul>
+                                <br>
+                                <br>
+                                <br>
+                                <%}%>
                             </div>
                         </div>
                         <!-- COMMENT  - END -->
-                        <%}%>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </section>
-    </body>
-</html>
+            </section>
+        </body>
+    </html>

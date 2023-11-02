@@ -62,7 +62,7 @@ public class MentorDAO extends BaseDAO<Skill> {
             String selectMentor = "select * from Mentor m join MentorCV mcv on m.mentorId = mcv.mentorId where m.mentorId = ?\n";
             String selectSkills = "select * from MentorSkills m where m.mentorId = ?\n";
             String selectLanguages = "select * from MentorProgramingLanguage m where m.mentorId = ?\n";
-
+            String selectMentorDetail = "select *from UserDetail ud join Users u on ud.userId=u.userId where ud.userId = ?\n";
             PreparedStatement selectMentorStatement = connection.prepareStatement(selectMentor);
             selectMentorStatement.setInt(1, mentorId);
             ResultSet rs1 = selectMentorStatement.executeQuery();
@@ -90,6 +90,13 @@ public class MentorDAO extends BaseDAO<Skill> {
                 }
                 mentor.setSkillsId(skills);
                 mentor.setLanguageId(languages);
+                PreparedStatement selectMentorDetailStatement = connection.prepareStatement(selectMentorDetail);
+                selectMentorDetailStatement.setInt(1, mentor.getUserid());
+                ResultSet rs4 = selectMentorDetailStatement.executeQuery();
+                while (rs4.next()) {
+                    mentor.setUsername(rs4.getString("username"));
+                    mentor.setEmail(rs4.getString("email"));
+                }
             }
             return mentor;
         } catch (SQLException ex) {
@@ -336,6 +343,7 @@ public class MentorDAO extends BaseDAO<Skill> {
         }
         return mentors;
     }
+
     public ArrayList<Mentor> getAllActiveMentors() {
         ArrayList<Mentor> mentors = new ArrayList<>();
         try {
@@ -393,7 +401,8 @@ public class MentorDAO extends BaseDAO<Skill> {
         }
         return mentors;
     }
-    public int getNumberOfRequestsMentorHas(int mentorId){
+
+    public int getNumberOfRequestsMentorHas(int mentorId) {
         try {
             String sql = "select COUNT(requestId)as requests from RequestDetail rd where statusId=2 and mentorId=?";
             PreparedStatement statement = connection.prepareStatement(sql);
@@ -407,6 +416,7 @@ public class MentorDAO extends BaseDAO<Skill> {
         }
         return 0;
     }
+
     public int getTotalRatingOfMentorByMentorId(int mentorId) {
         try {
             String sql = "select Count(rt.ratingId)as totalRating from Requests r Inner Join RequestDetail rd on r.requestId=rd.requestId\n"

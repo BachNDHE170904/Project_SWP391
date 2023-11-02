@@ -5,6 +5,7 @@
 
 package controller.mentee;
 
+import dal.MentorDAO;
 import dal.ProgramingLanguageDAO;
 import dal.RequestDAO;
 import dal.SkillDAO;
@@ -72,6 +73,7 @@ public class ListRequest extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
+        MentorDAO mentorDAO=new MentorDAO();
         User user = (User) request.getSession().getAttribute("user");
         MentorRecommendation recommend=new MentorRecommendation();
         HashMap<Integer,List<Mentor>>suggestedMentors=new HashMap<>();
@@ -87,6 +89,10 @@ public class ListRequest extends HttpServlet {
             }else if(r.getStatus().getId()==1&&r.getMentorId()==0){
                 List<Mentor> suggestedlist=recommend.mentorSuggestionForMentee(r.getId());
                 suggestedMentors.put(r.getId(), suggestedlist);
+            }
+            if(r.getMentorId()!=0){
+                r.setMentorUserName(mentorDAO.getMentorByMentorID(r.getMentorId()).getUsername());
+                r.setMentorEmail(mentorDAO.getMentorByMentorID(r.getMentorId()).getEmail());
             }
         }
         StatusDAO statusDAO = new StatusDAO();

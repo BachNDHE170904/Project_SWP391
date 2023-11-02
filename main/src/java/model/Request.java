@@ -12,6 +12,7 @@ import java.util.List;
  * @author ddtd2
  */
 public class Request {
+
     private int id;
     private String title;
     private String content;
@@ -22,6 +23,9 @@ public class Request {
     private Status status;
     private String userName;
     private int mentorId;
+    private String mentorUserName;
+    private String mentorEmail;
+
     public Request() {
     }
 
@@ -116,9 +120,25 @@ public class Request {
         this.mentorId = mentorId;
     }
 
+    public String getMentorUserName() {
+        return mentorUserName;
+    }
+
+    public void setMentorUserName(String mentorUserName) {
+        this.mentorUserName = mentorUserName;
+    }
+
+    public String getMentorEmail() {
+        return mentorEmail;
+    }
+
+    public void setMentorEmail(String mentorEmail) {
+        this.mentorEmail = mentorEmail;
+    }
+
     @Override
     public String toString() {
         return "Request{" + "id=" + id + ", title=" + title + ", content=" + content + ", createDate=" + createDate + ", deadline=" + deadline + ", skills=" + skills + ", pro=" + pro + ", status=" + status + ", userName=" + userName + ", mentorId=" + mentorId + '}';
     }
-    
+
 }
