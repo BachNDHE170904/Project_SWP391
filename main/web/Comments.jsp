@@ -4,6 +4,8 @@
     Author     : ADMIN
 --%>
 
+<%@page import="java.util.Comparator"%>
+<%@page import="java.util.Collections"%>
 <%@page import="model.User"%>
 <%@page import="dal.UserDAO"%>
 <%@page import="model.Comment"%>
@@ -28,6 +30,12 @@
                             MentorDAO mentorDAO = new MentorDAO();
                             UserDAO userDAO = new UserDAO();
                             List<Comment> comments = mentorDAO.getCommentsOfMentorByMentorId(mentorId);
+                            Collections.sort(comments, new Comparator<Comment>() {
+                                @Override
+                                public int compare(Comment s1, Comment s2) {
+                                    return s2.getCreatedDate().compareTo(s1.getCreatedDate());
+                                }
+                            });
                         %>
 
                         <h3><%= comments.size()%> Comments</h3>
