@@ -81,6 +81,7 @@ public class updateRequestServlet extends HttpServlet {
         User user = (User) request.getSession().getAttribute("user");
         RequestDAO requestDAO = new RequestDAO();
         requestDAO.updateRequest(user.getUserId(),id,title,createdDate,deadline,status,pro,skills,content);
+        request.getSession().setAttribute("successMsg", "Your request is updated successfully!");
         response.sendRedirect("myRequest");
     }
 

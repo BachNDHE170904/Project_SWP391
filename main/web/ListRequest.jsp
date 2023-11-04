@@ -83,8 +83,6 @@
                                             <c:if test="${item.mentorId!=0}"><td><a href="ViewMentorCV.jsp?mentorId=${item.mentorId}">${item.mentorEmail}</a></td></c:if>
                                             <td><a href="#" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal${item.id}">Details</a></td>
                                             <c:if test="${ item.status.id==1 &&item.mentorId==0}"><td><a href="#"class="btn btn-primary">Delete</a></td></c:if>
-                                            <c:if test="${ item.status.id==1 &&item.mentorId==0}"><td><a href="#" class="btn btn-primary" data-toggle="modal" data-target="#mentorModal${item.id}">mentor suggestion</a></td></c:if>
-                                            <c:if test="${item.mentorId!=0}"><td><a href="#" class="btn btn-primary" data-toggle="modal" data-target="#feedbackModal${item.id}">Comment and Rate star</a></td></c:if>
                                             </tr>
                                         <div class="modal fade" id="exampleModal${item.id}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                         <div class="modal-dialog" role="document">
@@ -135,11 +133,13 @@
                                                                     </label>
                                                                 </c:forEach>
                                                             </div>
-                                                            <div class="modal-footer">
-                                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                                <c:if test="${ item.status.id==1 &&item.mentorId==0}"><button type="submit" class="btn btn-primary">Update</button></c:if>
-                                                                </div>
-                                                            </fieldset>
+                                                        </fieldset>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                            <c:if test="${ item.status.id==1 &&item.mentorId==0}"><a href="#" class="btn btn-primary" data-toggle="modal" data-target="#mentorModal${item.id}">mentor suggestion</a></c:if>
+                                                            <c:if test="${item.mentorId!=0}"><a href="#" class="btn btn-primary" data-toggle="modal" data-target="#feedbackModal${item.id}">Comment and Rate star</a></c:if>
+                                                            <c:if test="${ item.status.id==1 &&item.mentorId==0}"><button type="submit" class="btn btn-primary">Update</button></c:if>
+                                                            </div>
                                                         </form>
                                                     </div>
                                                 </div>
