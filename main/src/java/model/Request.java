@@ -11,7 +11,7 @@ import java.util.List;
  *
  * @author ddtd2
  */
-public class Request {
+public class Request extends Comment{
 
     private int id;
     private String title;

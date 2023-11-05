@@ -20,10 +20,6 @@ import java.sql.Date;
 import model.User;
 import model.UserDetails;
 
-/**
- *
- * @author kienb
- */
 @MultipartConfig(fileSizeThreshold = 1024 * 1024 * 10, maxFileSize = 1024 * 1024 * 30, maxRequestSize = 1024 * 1024 * 50)
 public class UpdateProfileServlet extends HttpServlet {
    
