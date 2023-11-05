@@ -85,9 +85,6 @@
                                                 <th>STT</th>
                                                 <th>Title</th>
                                                 <th>Deadline</th>
-                                                <th>Content</th>
-                                                <th>Skill</th>
-                                                <th>Language</th>
                                                 <th>Mentee</th>
                                                 <th colspan="100%">Action</th>
                                             </tr>
@@ -98,17 +95,67 @@
                                                 <td>${loop.index + 1}</td>
                                                 <td>${item.title}</td>
                                                 <td>${item.deadline}</td>
-                                                <td>${item.content}</td>
-                                                <td>
-                                                    <c:forEach items="${item.skills}" var="skill" varStatus="loop">
-                                                        ${skill.skillName}, 
-                                                    </c:forEach>
-                                                </td>
-                                                <td>${item.pro.languageName}</td>
                                                 <td>${item.userName}</td>
+                                                <td><a href="#" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal${item.id}">Details</a></td>
                                                 <td><a href="MentorRequestServlet?id=${item.id}"class="btn btn-primary" onclick="return confirm('Are you sure?')">Cancel</a></td>
                                             </tr>
-                                        </c:forEach>
+                                        <div class="modal fade" id="exampleModal${item.id}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="exampleModalLabel">Request Details</h5>
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <fieldset <c:if test="${ item.status.id!=1 ||item.mentorId!=0}">disabled="disabled"</c:if>>
+                                                            <input type="hidden" name="id" value="${item.id}">
+                                                            <div class="form-group">
+                                                                <label for="recipient-name" class="col-form-label">Title</label>
+                                                                <input type="text" name="title" value="${item.title}" class="form-control" id="recipient-name" required="">
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="recipient-name" class="col-form-label">DeadLine</label>
+                                                                <input type="date" name="deadline" value="${item.deadline}" class="form-control" id="recipient-name" required="">
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="content" class="col-form-label">Content</label>
+                                                                <textarea name="content" class="form-control" id="content" required="">${item.content}</textarea>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="message-text" class="col-form-label">Programing Language</label>
+                                                                <select class="form-control" name="pro">
+                                                                    <c:forEach items="${requestScope.pros}" var="i">
+                                                                        <option value="${i.getLanguageId()}" ${i.getLanguageId() == item.pro.getLanguageId() ? 'selected' : ''}>${i.getLanguageName()}</option>
+                                                                    </c:forEach>
+                                                                </select>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="message-text" class="col-form-label">Skills (Select up to 3)</label>
+                                                                <c:forEach items="${requestScope.skills}" var="i">
+                                                                    <c:set var="temp" value="0"/>
+                                                                    <c:forEach items="${item.skills}" var="a">
+                                                                        <c:if test="${a.skillId == i.skillId}">
+                                                                            <c:set var="temp" value="1"/>
+                                                                        </c:if>
+                                                                    </c:forEach>
+                                                                    <br>
+                                                                    <label>
+                                                                        <input type="checkbox" class="form-check-input" name="selectedSkills" data-item-id="${item.id}" value="${i.skillId}" ${temp == 1 ? 'checked' : ''} onchange="limitSkills(this)">
+                                                                        ${i.skillName}
+                                                                    </label>
+                                                                </c:forEach>
+                                                            </div>
+                                                        </fieldset>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </c:forEach>
                                     </tbody>
                                 </table>
                                 <div class="pagination">
@@ -160,26 +207,16 @@
                 </div>
             </c:otherwise>
         </c:choose>
-        <!-- JavaScript Libraries -->
-        <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-        <script src="lib/chart/chart.min.js"></script>
-        <script src="lib/easing/easing.min.js"></script>
-        <script src="lib/waypoints/waypoints.min.js"></script>
-        <script src="lib/owlcarousel/owl.carousel.min.js"></script>
-        <script src="lib/tempusdominus/js/moment.min.js"></script>
-        <script src="lib/tempusdominus/js/moment-timezone.min.js"></script>
-        <script src="lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
-
-        <!-- Template Javascript -->
-        <script src="js/main.js"></script>
+        <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
         <script>
-                                                    $('button#view-statistic').click(function () {
-                                                        $('div.popup').show();
-                                                    });
-                                                    $('div.overlay, button#close').click(function () {
-                                                        $('div.popup').hide();
-                                                    });
+                                                                            $('button#view-statistic').click(function () {
+                                                                                $('div.popup').show();
+                                                                            });
+                                                                            $('div.overlay, button#close').click(function () {
+                                                                                $('div.popup').hide();
+                                                                            });
         </script>
     </body>
 

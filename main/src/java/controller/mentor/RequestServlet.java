@@ -6,7 +6,9 @@ package controller.mentor;
 
 import controller.Common;
 import dal.MentorDAO;
+import dal.ProgramingLanguageDAO;
 import dal.RequestDAO;
+import dal.SkillDAO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -16,7 +18,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import model.ProgramingLanguage;
 import model.Request;
+import model.Skill;
 import model.User;
 
 @WebServlet(name = "RequestServlet", urlPatterns = {"/MentorRequestServlet"})
@@ -50,8 +54,14 @@ public class RequestServlet extends HttpServlet {
             int canceled = requestDAO.countRequestByMentorID(user.getUserId(), 3);
             int completed = requestDAO.countRequestByMentorID(user.getUserId(), 4);
             double rating = mentorDAO.getAverageRatingOfMentorByMentorId(1);
+            ProgramingLanguageDAO programingLanguageDAO = new ProgramingLanguageDAO();
+            ArrayList<ProgramingLanguage> listPro = programingLanguageDAO.getActiveProgramingLanguage();
+            SkillDAO skillDAO = new SkillDAO();
+            ArrayList<Skill> skills = skillDAO.getActiveSkills();
 
             request.setAttribute("list", list);
+            request.setAttribute("pros", listPro);
+            request.setAttribute("skills", skills);
             request.setAttribute("currPage", (currPage < 1 ? 1 : currPage));
             request.setAttribute("pageNum", pageNum);
 

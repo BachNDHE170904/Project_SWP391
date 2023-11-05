@@ -64,9 +64,9 @@
                             </div>
                         </div>
                         <!-- COMMENT  - END -->
-                        </div>
                     </div>
                 </div>
-            </section>
-        </body>
-    </html>
+            </div>
+        </section>
+    </body>
+</html>
