@@ -14,11 +14,22 @@ import model.ProgramingLanguage;
 
 public class ProgramingLanguageDAO extends BaseDAO<ProgramingLanguage> {
 
-    public ArrayList<ProgramingLanguage> getProgramingLanguage() {
+    public ArrayList<ProgramingLanguage> getProgramingLanguage(int[] page, String key, int status) {
         ArrayList<ProgramingLanguage> programingLanguages = new ArrayList<>();
         try {
-            String sql = "SELECT * FROM ProgrammingLanguage, LanguageStatus where ProgrammingLanguage.languageStatusId= LanguageStatus.languageStatusId \n";
+            String sql = "SELECT * FROM ProgrammingLanguage, LanguageStatus where ProgrammingLanguage.languageStatusId = LanguageStatus.languageStatusId and languageName like ? ";
+            if (status >= 0) {
+                sql += "and LanguageStatus.languageStatusId = ? ";
+            }
+            sql += "order by languageId offset ? rows fetch next ? rows only";
             PreparedStatement statement = connection.prepareStatement(sql);
+            int i = 1;
+            statement.setString(i++, "%" + key + "%");
+            if (status >= 0) {
+                statement.setInt(i++, status);
+            }
+            statement.setInt(i++, page[0]);
+            statement.setInt(i++, page[1]);
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
                 ProgramingLanguage s = new ProgramingLanguage();
@@ -31,6 +42,29 @@ public class ProgramingLanguageDAO extends BaseDAO<ProgramingLanguage> {
             Logger.getLogger(ProgramingLanguageDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return programingLanguages;
+    }
+
+    public int countProgramingLanguage(String key, int status) {
+        int count = 0;
+        try {
+            String sql = "SELECT count(*) FROM ProgrammingLanguage, LanguageStatus where ProgrammingLanguage.languageStatusId = LanguageStatus.languageStatusId and languageName like ? ";
+            if (status >= 0) {
+                sql += "and LanguageStatus.languageStatusId = ? ";
+            }
+            PreparedStatement statement = connection.prepareStatement(sql);
+            int i = 1;
+            statement.setString(i++, "%" + key + "%");
+            if (status >= 0) {
+                statement.setInt(i++, status);
+            }
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                count = rs.getInt(1);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ProgramingLanguageDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return count;
     }
 
     public ArrayList<ProgramingLanguage> getActiveProgramingLanguage() {

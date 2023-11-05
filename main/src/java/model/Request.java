@@ -25,6 +25,7 @@ public class Request {
     private int mentorId;
     private String mentorUserName;
     private String mentorEmail;
+    private int userID;
 
     public Request() {
     }
@@ -134,6 +135,14 @@ public class Request {
 
     public void setMentorEmail(String mentorEmail) {
         this.mentorEmail = mentorEmail;
+    }
+
+    public int getUserID() {
+        return userID;
+    }
+
+    public void setUserID(int userID) {
+        this.userID = userID;
     }
 
     @Override
