@@ -4,6 +4,8 @@
     Author     : ADMIN
 --%>
 
+<%@page import="model.Mentor"%>
+<%@page import="dal.MentorDAO"%>
 <%@page import="dal.UserDAO"%>
 <%@page import="model.UserDetails"%>
 <%@page import="model.User"%>
@@ -54,16 +56,19 @@
                     <li><a class="dropdown-item" href="myRequest">List Request</a></li>
                         <%}
                             }%>
-                    <c:if test="${sessionScope.userDetail.getRoleId() == 4}">
-                        <li><a class="dropdown-item" href="CreateMentorRequestServlet">Create Request</a></li>
-                        <li><a class="dropdown-item" href="ViewMentorRequestServlet">List Request</a></li>
-                    </c:if>
+                        <c:if test="${sessionScope.userDetail.getRoleId() == 4}">
+                        <li><a class="dropdown-item" href="MentorRequestServlet">List Following Requests</a></li>
+                            <%
+                                MentorDAO mentorDAO = new MentorDAO();
+                                Mentor m=mentorDAO.getMentorByUserID(acc.getUserId());
+                            %>
+                        <li><a class="dropdown-item" href="ViewMentorCV.jsp?mentorId=<%=m.getMentorId()%>">View my CV</a></li>
+                        </c:if>
                     <li><hr class="dropdown-divider"></li>
                     <li><a class="dropdown-item" href="LogOutServlet">Log Out</a></li>
                 </ul>
             </div>
-            <%
-            } else {
+            <%            } else {
             %>
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item">

@@ -118,19 +118,17 @@
                                                             <th scope="col">ID</th>
                                                             <th scope="col">Language Name</th>
                                                             <th scope="col">Status</th>
-                                                            <th scope="col">Enable/Disable</th>
-                                                            <th scope="col">Update</th>
+                                                            <th scope="col">Action</th>
                                                             <th scope="col"><a href="ProgramLanguageServlet?action=add">+</a></th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
                                                     <c:forEach items="${programingLanguages}" var="programingLanguage" varStatus="i">
-                                                        <tr>
+                                                        <tr<c:if test="${'Inactive'.equalsIgnoreCase(programingLanguage.getLanguageStatus())}"> class="deleted-row" </c:if>>
                                                             <th scope="row">${i.index + 1}</th>
                                                             <td>${programingLanguage.getLanguageId()}</td>
                                                             <td>${programingLanguage.getLanguageName()}</td>
-                                                            <td>${programingLanguage.getLanguageStatus()}</td>
-                                                            <td><a href="ProgramLanguageServlet?action=update_status&id=${programingLanguage.getLanguageId()}">Enable/Disable</a></td>
+                                                            <td><a href="ProgramLanguageServlet?action=update_status&id=${programingLanguage.getLanguageId()}">${programingLanguage.getLanguageStatus()}</a></td>
                                                             <td><a href="ProgramLanguageServlet?action=update&id=${programingLanguage.getLanguageId()}">Update</a></td>
                                                         </tr>
                                                     </c:forEach>
