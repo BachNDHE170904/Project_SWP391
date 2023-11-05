@@ -10,28 +10,10 @@
         <meta content="width=device-width, initial-scale=1.0" name="viewport">
         <meta content="" name="keywords">
         <meta content="" name="description">
-
-        <!-- Favicon -->
-        <link href="img/favicon.ico" rel="icon">
-
-        <!-- Google Web Fonts -->
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700&display=swap" rel="stylesheet">
-
-        <!-- Icon Font Stylesheet -->
-        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
-
-        <!-- Libraries Stylesheet -->
-        <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
-        <link href="lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet" />
-
-        <!-- Customized Bootstrap Stylesheet -->
-        <link href="css/bootstrap.min.css" rel="stylesheet">
-
-        <!-- Template Stylesheet -->
-        <link href="css/AdminDashBoardStyleIndex.css" rel="stylesheet">
+        <link rel="stylesheet" href="ViewProfileStyleIndex.css">
+        <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+        <link rel="stylesheet" href="alert/dist/sweetalert.css">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
         <style>
             .pagination {
                 display: inline-block;
@@ -57,7 +39,7 @@
                 height: 100%;
                 position: absolute;
                 top: 0;
-                display: none; 
+                display: none;
                 z-index: 1000;
             }
 
@@ -192,12 +174,12 @@
         <!-- Template Javascript -->
         <script src="js/main.js"></script>
         <script>
-            $('button#view-statistic').click(function () {
-                $('div.popup').show();
-            });
-            $('div.overlay, button#close').click(function () {
-                $('div.popup').hide();
-            });
+                                                    $('button#view-statistic').click(function () {
+                                                        $('div.popup').show();
+                                                    });
+                                                    $('div.overlay, button#close').click(function () {
+                                                        $('div.popup').hide();
+                                                    });
         </script>
     </body>
 

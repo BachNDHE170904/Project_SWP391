@@ -115,7 +115,7 @@
                                                 <th scope="col">ID</th>
                                                 <th scope="col">Skill Name</th>
                                                 <th scope="col">Status</th>
-                                                <th scope="col">Update</th>
+                                                <th scope="col">Action</th>
                                                 <th scope="col"><a href="CreateNewSkill.jsp?&&page=<%= pageNum%>">+</a></th>
                                             </tr>
                                         </thead>
