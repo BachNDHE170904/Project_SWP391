@@ -344,4 +344,104 @@ public class RequestDAO extends BaseDAO<Skill> {
         }
         return false;
     }
+
+    public ArrayList<Request> getRequestByMentorID(int mentorId, int stt, int[] page) {
+        try {
+            ArrayList<Request> list = new ArrayList<>();
+            String sql = "Select r.requestId, title, requestContent, deadline, statusId, m.userId as mentorId, username, u.userId as menteeId "
+                    + "from RequestDetail r join Requests re on r.requestId = re.requestId "
+                    + "join Users u on u.userId = re.userId "
+                    + "join Mentor m on m.mentorId = r.mentorId "
+                    + "where m.userId = ? and r.statusId = ? "
+                    + "order by r.requestId offset ? rows fetch next ? rows only";
+            PreparedStatement ptm = connection.prepareStatement(sql);
+            int i = 1;
+            ptm.setInt(i++, mentorId);
+            ptm.setInt(i++, stt);
+            ptm.setInt(i++, page[0]);
+            ptm.setInt(i++, page[1]);
+            ResultSet rs = ptm.executeQuery();
+            while (rs.next()) {
+                Request request = new Request();
+                request.setId(rs.getInt(1));
+                request.setTitle(rs.getString(2));
+                request.setContent(rs.getString(3));
+                request.setDeadline(rs.getDate(4));
+                request.setMentorId(rs.getInt(6));
+                request.setUserName(rs.getString(7));
+                request.setUserID(rs.getInt(8));
+                Status status = new Status();
+                String xSQL = "Select * from Statuses where statusId = ?";
+                PreparedStatement qtm = connection.prepareStatement(xSQL);
+                qtm.setInt(1, rs.getInt(5));
+                ResultSet resultSet = qtm.executeQuery();
+                while (resultSet.next()) {
+                    status.setId(resultSet.getInt(1));
+                    status.setName(resultSet.getString(2));
+                }
+                request.setStatus(status);
+                String qSQL = "Select * from requestSkillsChoices where requestId = ?";
+                PreparedStatement xtm = connection.prepareStatement(qSQL);
+                xtm.setInt(1, rs.getInt(1));
+                ResultSet a = xtm.executeQuery();
+                ProgramingLanguage pg = new ProgramingLanguage();
+                ProgramingLanguageDAO programingLanguageDAO = new ProgramingLanguageDAO();
+                if (a.next()) {
+                    pg = programingLanguageDAO.getProgramingLanguageById(a.getInt(4));
+                }
+                request.setPro(pg);
+                List<Skill> skills = new ArrayList<>();
+                String mSQL = "Select * from requestSkillsChoices where requestId = ?";
+                PreparedStatement b = connection.prepareStatement(mSQL);
+                b.setInt(1, rs.getInt(1));
+                ResultSet ab = b.executeQuery();
+                while (ab.next()) {
+                    SkillDAO skillDAO = new SkillDAO();
+                    skills.add(skillDAO.getSkillById(ab.getInt(3)));
+                }
+                request.setSkills(skills);
+                list.add(request);
+            }
+            return list;
+        } catch (SQLException ex) {
+            Logger.getLogger(RequestDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+
+    public int countRequestByMentorID(int mentorId, int status) {
+        int count = 0;
+        try {
+            String sql = "Select count(r.requestId) "
+                    + "from RequestDetail r join Requests re on r.requestId = re.requestId "
+                    + "join Users u on u.userId = re.userId "
+                    + "join Mentor m on m.mentorId = r.mentorId "
+                    + "where m.userId = ? and r.statusId = ? ";
+            PreparedStatement ptm = connection.prepareStatement(sql);
+            int i = 1;
+            ptm.setInt(i++, mentorId);
+            ptm.setInt(i++, status);
+            ResultSet rs = ptm.executeQuery();
+            while (rs.next()) {
+                count = rs.getInt(1);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(RequestDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return count;
+    }
+
+    public boolean updateRequestStatus(int requestId, int status) {
+        try {
+            String sql = "update RequestDetail set statusId = ? where requestId = ?";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setInt(1, status);
+            statement.setInt(2, requestId);
+            statement.executeUpdate();
+            return true;
+        } catch (SQLException ex) {
+            Logger.getLogger(RequestDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
+    }
 }

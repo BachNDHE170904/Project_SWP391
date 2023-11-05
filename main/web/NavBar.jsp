@@ -54,6 +54,10 @@
                     <li><a class="dropdown-item" href="myRequest">List Request</a></li>
                         <%}
                             }%>
+                    <c:if test="${sessionScope.userDetail.getRoleId() == 4}">
+                        <li><a class="dropdown-item" href="CreateMentorRequestServlet">Create Request</a></li>
+                        <li><a class="dropdown-item" href="ViewMentorRequestServlet">List Request</a></li>
+                    </c:if>
                     <li><hr class="dropdown-divider"></li>
                     <li><a class="dropdown-item" href="LogOutServlet">Log Out</a></li>
                 </ul>

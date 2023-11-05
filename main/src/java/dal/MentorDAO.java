@@ -179,13 +179,13 @@ public class MentorDAO extends BaseDAO<Skill> {
 
             for (int skillId : skills) {
                 if (skillsDB.contains(skillId)) {
-                    skillsDB.remove(new Integer(skillId));
+                    skillsDB.remove(Integer.valueOf(skillId));
                 } else {
                     i = 1;
                     insertMentorSkillsStatement.setInt(i++, mentor.getMentorId());
                     insertMentorSkillsStatement.setInt(i++, skillId);
                     insertMentorSkillsStatement.executeUpdate();
-                    skillsDB.remove(new Integer(skillId));
+                    skillsDB.remove(Integer.valueOf(skillId));
                 }
             }
             if (!skillsDB.isEmpty()) {
@@ -201,13 +201,13 @@ public class MentorDAO extends BaseDAO<Skill> {
 
             for (int languageId : languages) {
                 if (languagesDB.contains(languageId)) {
-                    languagesDB.remove(new Integer(languageId));
+                    languagesDB.remove(Integer.valueOf(languageId));
                 } else {
                     i = 1;
                     insertMentorLanguagesStatement.setInt(i++, mentor.getMentorId());
                     insertMentorLanguagesStatement.setInt(i++, languageId);
                     insertMentorLanguagesStatement.executeUpdate();
-                    languagesDB.remove(new Integer(languageId));
+                    languagesDB.remove(Integer.valueOf(languageId));
                 }
             }
             if (!languagesDB.isEmpty()) {
