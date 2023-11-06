@@ -436,14 +436,14 @@ public class MentorDAO extends BaseDAO<Skill> {
 
     public double getAverageRatingOfMentorByMentorId(int mentorId) {
         try {
-            String sql = "select AVG(rt.rating)as totalRating from Requests r Inner Join RequestDetail rd on r.requestId=rd.requestId\n"
+            String sql = "select AVG(CAST(rt.rating as float))as totalRating from Requests r Inner Join RequestDetail rd on r.requestId=rd.requestId\n"
                     + "Inner Join Rating rt on r.requestId=rt.requestId\n"
                     + "where rd.mentorId=?";
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setInt(1, mentorId);
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
-                return rs.getInt("totalRating");
+                return rs.getDouble("totalRating");
             }
         } catch (SQLException ex) {
             Logger.getLogger(MentorDAO.class.getName()).log(Level.SEVERE, null, ex);
