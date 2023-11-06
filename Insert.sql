@@ -6,6 +6,9 @@ insert into Users(email,username,password,userAuthorization)values('bachnd20003@
 insert into Users(email,username,password,userAuthorization)values('abc@gmail.com','c','D18E7B9AB96C45E9DC5FFD53B7FFD1F7',1)
 insert into Users(email,username,password,userAuthorization)values('abc123@gmail.com','d','D18E7B9AB96C45E9DC5FFD53B7FFD1F7',1)
 insert into Users(email,username,password,userAuthorization)values('abc123123@gmail.com','e','D18E7B9AB96C45E9DC5FFD53B7FFD1F7',1)
+insert into Users(email,username,password,userAuthorization)values('abc1231234@gmail.com','f','D18E7B9AB96C45E9DC5FFD53B7FFD1F7',1)
+insert into Users(email,username,password,userAuthorization)values('abc123123456@gmail.com','g','D18E7B9AB96C45E9DC5FFD53B7FFD1F7',1)
+insert into Users(email,username,password,userAuthorization)values('abc1231234567@gmail.com','h','D18E7B9AB96C45E9DC5FFD53B7FFD1F7',1)
 
 insert into UserStatus(userId,userStatus) values(1,'active')
 insert into UserStatus(userId,userStatus) values(2,'active')
@@ -24,6 +27,13 @@ insert into UserDetail(userId,username,phone,fullname,dob,gender,userAddress,rol
 insert into UserDetail(userId,username,phone,fullname,dob,gender,userAddress,roleId)values(6,'c','0912345678','Nguyen Van C','2003-06-20',1,'Hanoi',3)
 insert into UserDetail(userId,username,phone,fullname,dob,gender,userAddress,roleId)values(7,'d','0912345678','Nguyen Van D','2003-06-20',1,'Hanoi',3)
 insert into UserDetail(userId,username,phone,fullname,dob,gender,userAddress,roleId)values(8,'e','0912345678','Nguyen Van E','2003-06-20',1,'Hanoi',3)
+insert into UserDetail(userId,username,phone,fullname,dob,gender,userAddress,roleId)values(16,'f','0912345678','Nguyen Van F','2003-06-20',1,'Hanoi',3)
+insert into UserDetail(userId,username,phone,fullname,dob,gender,userAddress,roleId)values(17,'g','0912345678','Nguyen Van G','2003-06-20',1,'Hanoi',3)
+insert into UserDetail(userId,username,phone,fullname,dob,gender,userAddress,roleId)values(18,'h','0912345678','Nguyen Van H','2003-06-20',1,'Hanoi',3)
+
+insert into UserStatus(userId, userStatus) values (16,'active')
+insert into UserStatus(userId, userStatus) values (17,'active')
+insert into UserStatus(userId, userStatus) values (18,'active')
 
 INSERT INTO Skills (skillName, skillStatusId) VALUES
 ('Software Development', 1),

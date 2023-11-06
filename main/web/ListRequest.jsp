@@ -27,12 +27,18 @@
         <%
             String msg = (String) session.getAttribute("successMsg");
             if (msg != null) {%>
-
         <script>
             swal("Congrats", "<%= msg%>", "success");
         </script>
-
         <% session.removeAttribute("successMsg");
+            }%>
+        <%
+            String emsg = (String) session.getAttribute("errorMsg");
+            if (emsg != null) {%>
+        <script>
+            swal("Oops", "<%= emsg%>", "error");
+        </script>
+        <% session.removeAttribute("errorMsg");
             }%>
         <jsp:include page="NavBar.jsp"></jsp:include>
             <div class="container light-style flex-grow-1 container-p-y">

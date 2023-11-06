@@ -57,18 +57,9 @@
                 } else {
                     searchFullname = (String) session.getAttribute("searchFullname");
                 }
-            String filterRole;
-                if (request.getParameter("filterRole") == null && session.getAttribute("filterRole") == null) {
-                    filterRole = "";
-                } else if (request.getParameter("filterRole") != null) {
-                    filterRole = request.getParameter("filterRole");
-                    session.setAttribute("filterRole", filterRole);
-                } else {
-                    filterRole = (String) session.getAttribute("filterRole");
-                }
             UserDAO ud = new UserDAO();
-            int total = ud.getTotalUsersWithSearch(searchFullname, filterRole);
-            ArrayList<UserDetails> us = ud.getUsersWithPagination((pageNum - 1) * 10, 10, searchFullname, filterRole);
+            int total = ud.getTotalUsersWithSearch(searchFullname);
+            ArrayList<UserDetails> us = ud.getUsersWithPagination((pageNum - 1) * 10, 10, searchFullname);
         %>
         <div class="container-fluid position-relative bg-white d-flex p-0">
             <!-- Sidebar Start -->
@@ -96,18 +87,6 @@
                                                     <input class="form-control"name="searchFullname" type="text" placeholder="Type to search..." value="<%=searchFullname%>"/>
                                             </div>
                                         </div>
-                                        <div class="dropdown">
-                                            <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                                Filter by Status
-                                            </button>
-                                            <ul class="dropdown-menu">
-                                                <i class="dropdown-item" data-filter="" id="filter-1">All</i>
-                                                <i class="dropdown-item" data-filter="active" id="filter-2">Active</i>
-                                                <i class="dropdown-item" data-filter="inactive" id="filter-3">Inactive</i>
-                                                <input type="hidden" name="filterRole" id="selected-filter" value="" required>
-                                            </ul>
-                                            <button class="btn btn-primary" type="submit">Filter</button>
-                                        </div>
                                     </form>
                                     </div>
                                     
@@ -119,11 +98,8 @@
                                                     <th scope="col">ID</th>
                                                     <th scope="col">Full Name</th>
                                                     <th scope="col">Account Name</th>
-                                                    <th scope="col">Role</th>
-                                                    <th scope="col">Number of currently requests</th>
-                                                    
-                                                    <th scope="col">Status</th>
-                                                   
+                                                    <th scope="col">Total of all requests</th>
+                                                    <th scope="col">Total of skills of all requests</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -145,12 +121,6 @@
                                                 <td><%=user.getUsername()%></td>
                                                 <td><%=Constants.roleNames.get(user.getRoleId()) %></td>
                                                 <td style="text-align: center"><%=countRequest%></td>
-                                                
-                                                <td><a href="UpdateUserStatusServlet?userId=<%=user.getUserId()%>&&page=<%= pageNum%>"><% if (user.getStatus().equalsIgnoreCase("Active")) { %>
-                                                    ACTIVE
-                                                    <% } else { %>
-                                                    INACTIVE
-                                                    <% }%></a></td>
                                             </tr>
                                             <% 
                                                 }
@@ -165,7 +135,7 @@
                 <nav aria-label="...">
                     <ul class="pagination pagination-sm">
                         <%for (int i = 1; i <= (int) Math.ceil((double) (total) / 10); i++) {%>
-                        <li class="page-item"><a class="page-link" href="AdminManageUsers.jsp?searchFullname=<%=searchFullname%>&page=<%=i%>&filterRole=<%=filterRole%>"><%= i%></a></li>
+                        <li class="page-item"><a class="page-link" href="StatisticOfAllMentee.jsp?searchFullname=<%=searchFullname%>&page=<%=i%>"><%= i%></a></li>
                             <%}%>
                     </ul>
                 </nav>

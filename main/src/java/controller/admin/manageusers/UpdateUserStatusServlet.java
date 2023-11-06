@@ -33,6 +33,7 @@ public class UpdateUserStatusServlet extends HttpServlet {
         int userId = Integer.parseInt(request.getParameter("userId"));
         UserDAO ud = new UserDAO();
         User u = ud.getUserByID(userId);
+        int page=Integer.parseInt(request.getParameter("page"));
         if(u.getStatus().equalsIgnoreCase("Active")){ 
             ud.updateUserStatus(userId, "Active");
         }
@@ -40,7 +41,7 @@ public class UpdateUserStatusServlet extends HttpServlet {
             ud.updateUserStatus(userId, "Inactive");
         }
         
-        request.getRequestDispatcher("AdminManageUsers.jsp").forward(request, response);
+        request.getRequestDispatcher("AdminManageUsers.jsp?page="+page).forward(request, response);
         }
         
 

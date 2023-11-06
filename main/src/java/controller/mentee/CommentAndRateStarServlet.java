@@ -11,6 +11,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 /**
  *
@@ -35,7 +36,7 @@ public class CommentAndRateStarServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet CommentAndRateStarServlet</title>");            
+            out.println("<title>Servlet CommentAndRateStarServlet</title>");
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet CommentAndRateStarServlet at " + request.getContextPath() + "</h1>");
@@ -70,14 +71,20 @@ public class CommentAndRateStarServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        HttpSession session = request.getSession();
         int id = Integer.parseInt(request.getParameter("id"));
         String comment = request.getParameter("comment");
         int rating = Integer.parseInt(request.getParameter("rating"));
-        String message = null;
-        if(rating>=1 && rating <=5) {
-        CommentDAO cm = new CommentDAO();
-        cm.insertCommentAndRateStar(id, comment, rating);
-        response.sendRedirect("myRequest");
+        if (rating >= 1 && rating <= 5) {
+            CommentDAO cm = new CommentDAO();
+            if (cm.insertCommentAndRateStar(id, comment, rating)) {
+                session.setAttribute("successMsg", "Your feedback is sent to mentor successfully!");
+                response.sendRedirect("myRequest");
+            } else {
+                session.setAttribute("errorMsg", "You have sent feedback before!");
+                response.sendRedirect("myRequest");
+            }
+
         }
     }
 
