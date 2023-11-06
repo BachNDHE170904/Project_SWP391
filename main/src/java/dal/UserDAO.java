@@ -497,4 +497,46 @@ public class UserDAO extends BaseDAO<User> {
         }
         return false;
     }
+    
+    public int getTotalUsersWithSearch(String search,String filterValue) {
+        try {
+            String sql = "SELECT COUNT(*) as total FROM Users, UserDetail, UserStatus, Roles where Users.userId = UserDetail.userId  AND Users.userId= UserStatus.userId AND (UserDetail.roleId = 2 OR UserDetail.roleId = 3) AND UserDetail.roleId = Roles.roleId AND Users.username like'%"+search+"%'and Roles.roleName like'"+filterValue+"%'";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                return rs.getInt("total");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return 0;
+    }
+    
+    public ArrayList<UserDetails> getUsersWithPagination(int start, int total,String search,String filterValue) {
+        ArrayList<UserDetails> us = new ArrayList<>();
+        try {
+            String sql = "SELECT * FROM Users, UserDetail, UserStatus, Roles where Users.userId = UserDetail.userId  AND Users.userId= UserStatus.userId AND (UserDetail.roleId = 2 OR UserDetail.roleId = 3) AND UserDetail.roleId = Roles.roleId AND Users.username like'%"+search+"%'and Roles.roleName like'"+filterValue+"%'"
+                    +"order by Users.userId\n"
+                    +"OFFSET "+start+" ROWS \n"
+                    +"FETCH NEXT "+ total + " ROWS ONLY \n";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                UserDetails s = new UserDetails();
+                s.setUserId(rs.getInt("userId"));
+                s.setFullname(rs.getString("fullname"));
+                s.setUsername(rs.getString("username"));
+                s.setRoleId(rs.getInt("roleId"));
+                s.setStatus(rs.getString("userStatus"));
+                us.add(s);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return us;
+    }
+    public static void main(String[] args) {
+        UserDAO ud = new UserDAO();
+        System.out.println(ud.getUsersWithPagination(0, 5, "", ""));
+    }
 }

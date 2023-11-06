@@ -92,7 +92,6 @@
                                                     <th scope="col">Percentage completed</th>
                                                     <th scope="col">Rate star</th>
                                                     <th scope="col">Status</th>
-                                                    <th scope="col">Enable/Disable</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -102,7 +101,7 @@
                                                 
                                                 for (int i = 0; i < mentors.size(); i++) {
                                                     Mentor mentor = mentors.get(i);
-                                                    
+                                                    int count = md.getTotalRatingOfMentorByMentorId(mentor.getMentorId());
                                             %>
                                             <tr <% if (mentor.getStatus().equalsIgnoreCase("Inactive")) { %>
                                                 class="deleted-row"
@@ -115,13 +114,12 @@
                                                 <td><%=mentor.getProfession()%></td>
                                                 <td></td>
                                                 <td></td>
-                                                <td></td>
-                                                <td><% if (mentor.getStatus().equalsIgnoreCase("Active")) { %>
+                                                <td style="text-align: center"><%=count%></td>
+                                                <td><a href="UpdateMentorStatusServlet?userId=<%=mentor.getUserid()%>"><% if (mentor.getStatus().equalsIgnoreCase("Active")) { %>
                                                     ACTIVE
                                                     <% } else { %>
                                                     INACTIVE
-                                                    <% }%></td>
-                                                <td><a href="UpdateMentorStatusServlet?userId=<%=mentor.getUserid()%>">Enable/Disable</a></td>
+                                                    <% }%></a></td>
                                             </tr>
                                             <% 
                                                 }

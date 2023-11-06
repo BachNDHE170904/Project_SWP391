@@ -46,8 +46,29 @@
             //check if the user is logged in or not
             User acc = (User) session.getAttribute("user");
             UserDetails details = (UserDetails) session.getAttribute("userDetail");
-            UserDAO db = new UserDAO();
             if (acc != null && details.getRoleId() == 1) {
+            int pageNum = Integer.parseInt(request.getParameter("page"));
+            String searchValue;
+                if (request.getParameter("searchValue") == null && session.getAttribute("searchValue") == null) {
+                    searchValue = "";
+                } else if (request.getParameter("searchValue") != null) {
+                    searchValue = request.getParameter("searchValue");
+                    session.setAttribute("searchValue", searchValue);
+                } else {
+                    searchValue = (String) session.getAttribute("searchValue");
+                }
+            String filterValue;
+                if (request.getParameter("filterValue") == null && session.getAttribute("filterValue") == null) {
+                    filterValue = "";
+                } else if (request.getParameter("filterValue") != null) {
+                    filterValue = request.getParameter("filterValue");
+                    session.setAttribute("filterValue", filterValue);
+                } else {
+                    filterValue = (String) session.getAttribute("filterValue");
+                }
+            UserDAO ud = new UserDAO();
+            int total = ud.getTotalUsersWithSearch(searchValue, filterValue);
+            ArrayList<UserDetails> us = ud.getUsersWithPagination((pageNum - 1) * 10, 10, searchValue, filterValue);
         %>
         <div class="container-fluid position-relative bg-white d-flex p-0">
             <!-- Sidebar Start -->
@@ -68,14 +89,26 @@
                                 <div class="bg-light rounded h-100 p-4">
                                     <h6 class="mb-4">Manage users</h6>
                                     <div class="inner-form">
-                                        <div class="input-field">
-                                            <input class="form-control" id="choices-text-preset-values" type="text" placeholder="Type to search..." />
-                                            <button class="btn-search" type="button">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                                                <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path>
-                                                </svg>
-                                            </button>
+                                        <form action="AdminManageUsers.jsp" >
+                                            <div class="input-field">
+                                                <input type="text" name="page" value="1" hidden/>
+                                                <div class="form-group">
+                                                    <input class="form-control"name="searchValue" type="text" placeholder="Type to search..." value="<%=searchValue%>"/>
+                                            </div>
                                         </div>
+                                        <div class="dropdown">
+                                            <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                Filter by Role
+                                            </button>
+                                            <ul class="dropdown-menu">
+                                                <i class="dropdown-item" data-filter="" id="filter-1">All</i>
+                                                <i class="dropdown-item" data-filter="mentee" id="filter-2">Mentee</i>
+                                                <i class="dropdown-item" data-filter="user" id="filter-3">User</i>
+                                                <input type="hidden" name="filterValue" id="selected-filter" value="" required>
+                                            </ul>
+                                            <button class="btn btn-primary" type="submit">Filter</button>
+                                        </div>
+                                    </form>
                                     </div>
                                     
                                     <div class="table-responsive">
@@ -88,8 +121,8 @@
                                                     <th scope="col">Account Name</th>
                                                     <th scope="col">Role</th>
                                                     <th scope="col">Number of currently requests</th>
+                                                    
                                                     <th scope="col">Status</th>
-                                                    <th scope="col">Enable/Disable</th>
                                                    
                                                 </tr>
                                             </thead>
@@ -114,14 +147,12 @@
                                                 <td><%=user.getUsername()%></td>
                                                 <td><%=Constants.roleNames.get(user.getRoleId()) %></td>
                                                 <td style="text-align: center"><%=countRequest%></td>
-                                                <td>
-                                                    <% if (user.getStatus().equalsIgnoreCase("Active")) { %>
+                                                
+                                                <td><a href="UpdateUserStatusServlet?userId=<%=user.getUserId()%>&&page=<%= pageNum%>"><% if (user.getStatus().equalsIgnoreCase("Active")) { %>
                                                     ACTIVE
                                                     <% } else { %>
                                                     INACTIVE
-                                                    <% }%>
-                                                </td>
-                                                <td><a href="UpdateUserStatusServlet?userId=<%=user.getUserId()%>">Enable/Disable</a></td>
+                                                    <% }%></a></td>
                                             </tr>
                                             <% 
                                                 }
@@ -133,6 +164,13 @@
                         </div>
                     </div>
                 </div>
+                <nav aria-label="...">
+                    <ul class="pagination pagination-sm">
+                        <%for (int i = 1; i <= (int) Math.ceil((double) (total) / 10); i++) {%>
+                        <li class="page-item"><a class="page-link" href="AdminManageUsers.jsp?searchValue=<%=searchValue%>&page=<%=i%>&filterValue=<%=filterValue%>"><%= i%></a></li>
+                            <%}%>
+                    </ul>
+                </nav>
                 <!-- Table End -->
             </div>
             <!-- Content End -->
@@ -146,28 +184,14 @@
                 request.getRequestDispatcher("WelcomePage.jsp").forward(request, response);
         %>
         <script>
-function searchUsers() {
-    
-    var searchValue = document.getElementById("choices-text-preset-values").value.toLowerCase();
-        
-    var tableRows = document.querySelectorAll(".table tbody tr");
-
-    for (var i = 0; i < tableRows.length; i++) {
-        var fullName = tableRows[i].querySelector("td:nth-child(3)").textContent.toLowerCase();
-
-        if (fullName.includes(searchValue)) {
-            tableRows[i].style.display = "";
-        } else {
-            tableRows[i].style.display = "none";
-        }
-    }
-}
-document.querySelector(".btn-search").addEventListener("click", searchUsers);
-document.getElementById("choices-text-preset-values").addEventListener("keydown", function(event) {
-    if (event.key === "Enter") {
-        searchUsers();
-    }
-});
+            let filters = document.querySelectorAll(".dropdown-item");
+            let selectedFilter = document.getElementById("selected-filter");
+            filters.forEach(filter => {
+                filter.addEventListener("click", () => {
+                    let filterValue = filter.getAttribute("data-filter");
+                    selectedFilter.value = filterValue;
+                });
+            });
         </script>
         <!-- JavaScript Libraries -->
         <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
