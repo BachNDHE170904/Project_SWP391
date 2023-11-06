@@ -96,6 +96,10 @@
         <servlet-name>ListRequestsHistoryServlet</servlet-name>
         <servlet-class>controller.mentor.ListRequestsHistoryServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ListInvitedRequestServlet</servlet-name>
+        <servlet-class>controller.mentor.ListInvitedRequestServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
         <url-pattern>/LoginServlet</url-pattern>
@@ -191,6 +195,10 @@
     <servlet-mapping>
         <servlet-name>ListRequestsHistoryServlet</servlet-name>
         <url-pattern>/ListRequestsHistoryServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ListInvitedRequestServlet</servlet-name>
+        <url-pattern>/ListInvitedRequestServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

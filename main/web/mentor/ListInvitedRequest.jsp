@@ -6,7 +6,7 @@
 
     <head>
         <meta charset="utf-8">
-        <title>List of following requests</title>
+        <title>List of invited requests</title>
         <meta content="width=device-width, initial-scale=1.0" name="viewport">
         <meta content="" name="keywords">
         <meta content="" name="description">
@@ -15,49 +15,49 @@
         <link rel="stylesheet" href="alert/dist/sweetalert.css">
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
         <style>
-    .pagination {
-        display: inline-block;
-    }
-    .pagination a {
-        color: black;
-        float: left;
-        padding: 8px 16px;
-        text-decoration: none;
-    }
-    .pagination a.active {
-        background-color: #4CAF50;
-        color: white;
-    }
-    .pagination a:hover:not(.active) {
-        background-color: #ddd;
-    }
-    .popup {
-        width: 100%;
-        height: 100%;
-        position: absolute;
-        top: 0;
-        display: none;
-        z-index: 1000;
-    }
-    .overlay {
-        width: 100%;
-        height: 100%;
-        position: absolute;
-        z-index: 12;
-        background-color: rgba(22, 22, 22, 0.5);
-    }
-    .reveal-modal {
-        background: #e1e1e1;
-        margin: 0 auto;
-        width: max-content;
-        position: relative;
-        z-index: 1000;
-        top: 25%;
-        padding: 14px;
-        -webkit-box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
-        -moz-box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
-    }
+            .pagination {
+                display: inline-block;
+            }
+            .pagination a {
+                color: black;
+                float: left;
+                padding: 8px 16px;
+                text-decoration: none;
+            }
+            .pagination a.active {
+                background-color: #4CAF50;
+                color: white;
+            }
+            .pagination a:hover:not(.active) {
+                background-color: #ddd;
+            }
+            .popup {
+                width: 100%;
+                height: 100%;
+                position: absolute;
+                top: 0;
+                display: none;
+                z-index: 1000;
+            }
+            .overlay {
+                width: 100%;
+                height: 100%;
+                position: absolute;
+                z-index: 12;
+                background-color: rgba(22, 22, 22, 0.5);
+            }
+            .reveal-modal {
+                background: #e1e1e1;
+                margin: 0 auto;
+                width: max-content;
+                position: relative;
+                z-index: 1000;
+                top: 25%;
+                padding: 14px;
+                -webkit-box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
+                -moz-box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
+            }
         </style>
     </head>
 
@@ -69,7 +69,7 @@
             <c:otherwise>
                 <jsp:include page="../NavBar.jsp"></jsp:include>
                     <div class="container light-style flex-grow-1 container-p-y">
-                        <h4 class="font-weight-bold py-3 mb-4">List of following requests</h4>
+                        <h4 class="font-weight-bold py-3 mb-4">List of invited request</h4>
                         <div class="card overflow-hidden">
                             <div class="row no-gutters row-bordered row-border-light">
                                 <div class="tab-content">
@@ -91,7 +91,6 @@
                                                 <td>${item.deadline}</td>
                                                 <td>${item.userName}</td>
                                                 <td><a href="#" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal${item.id}">Details</a></td>
-                                                <td><a href="MentorRequestServlet?id=${item.id}"class="btn btn-primary" onclick="return confirm('Are you sure?')">Cancel</a></td>
                                             </tr>
                                         <div class="modal fade" id="exampleModal${item.id}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                             <div class="modal-dialog" role="document">
@@ -144,6 +143,8 @@
                                                         </fieldset>
                                                         <div class="modal-footer">
                                                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                            <a href="ListInvitedRequestServlet?id=${item.id}&&action=accept"class="btn btn-primary" onclick="return confirm('Are you sure?')">Accept</a>
+                                                            <a href="ListInvitedRequestServlet?id=${item.id}&&action=reject"class="btn btn-primary" onclick="return confirm('Are you sure?')">Reject</a>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -153,18 +154,18 @@
                                     </tbody>
                                 </table>
                                 <div class="pagination">
-                                    <a href="MentorRequestServlet?page=1">&laquo;</a>
+                                    <a href="ListInvitedRequestServlet?page=1">&laquo;</a>
                                     <c:forEach var="i" begin="1" end="${pageNum}">
                                         <c:choose>
                                             <c:when test="${i==currPage}">
-                                                <a class="active" href="MentorRequestServlet?page=${i}">${i}</a>
+                                                <a class="active" href="ListInvitedRequestServlet?page=${i}">${i}</a>
                                             </c:when>
                                             <c:otherwise>
-                                                <a href="MentorRequestServlet?page=${i}">${i}</a>
+                                                <a href="ListInvitedRequestServlet?page=${i}">${i}</a>
                                             </c:otherwise>
                                         </c:choose>
                                     </c:forEach>
-                                    <a href="MentorRequestServlet?page=${pageNum}">&raquo;</a>
+                                    <a href="ListInvitedRequestServlet?page=${pageNum}">&raquo;</a>
                                 </div>
                             </div>
                         </div>

@@ -332,7 +332,11 @@ public class RequestDAO extends BaseDAO<Skill> {
         try {
             String sql = "update RequestDetail set mentorId = ? where requestId = ?";
             PreparedStatement statement = connection.prepareStatement(sql);
-            statement.setInt(1, mentorId);
+            if (mentorId == 0) {
+                statement.setNull(1, java.sql.Types.INTEGER);
+            } else {
+                statement.setInt(1, mentorId);
+            }
             statement.setInt(2, requestId);
             statement.executeUpdate();
             return true;
@@ -465,7 +469,7 @@ public class RequestDAO extends BaseDAO<Skill> {
                 PreparedStatement c = connection.prepareStatement(ratingSQL);
                 c.setInt(1, rs.getInt(1));
                 ResultSet abc = c.executeQuery();
-                while(abc.next()){
+                while (abc.next()) {
                     request.setCommentDetail(abc.getString("commentDetail"));
                     request.setRating(abc.getInt("rating"));
                 }

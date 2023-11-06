@@ -57,6 +57,7 @@
                         <%}
                             }%>
                         <c:if test="${sessionScope.userDetail.getRoleId() == 4}">
+                        <li><a class="dropdown-item" href="ListInvitedRequestServlet">List Invited Requests</a></li>
                         <li><a class="dropdown-item" href="MentorRequestServlet">List Following Requests</a></li>
                         <li><a class="dropdown-item" href="ListRequestsHistoryServlet?page=1">List Requests History</a></li>
                             <%
