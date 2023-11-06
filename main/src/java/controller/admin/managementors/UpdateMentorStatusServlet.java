@@ -33,6 +33,7 @@ public class UpdateMentorStatusServlet extends HttpServlet {
         int userId = Integer.parseInt(request.getParameter("userId"));
         UserDAO ud = new UserDAO();
         User u = ud.getUserByID(userId);
+        int page=Integer.parseInt(request.getParameter("page"));
         if(u.getStatus().equalsIgnoreCase("Active")){ 
             ud.updateUserStatus(userId, "Active");
         }
@@ -40,7 +41,7 @@ public class UpdateMentorStatusServlet extends HttpServlet {
             ud.updateUserStatus(userId, "Inactive");
         }
         
-        request.getRequestDispatcher("AdminManageMentor.jsp").forward(request, response);
+        request.getRequestDispatcher("AdminManageMentor.jsp?page="+page).forward(request, response);
         }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

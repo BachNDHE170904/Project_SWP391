@@ -498,9 +498,9 @@ public class UserDAO extends BaseDAO<User> {
         return false;
     }
     
-    public int getTotalUsersWithSearch(String search,String filterValue) {
+    public int getTotalUsersWithSearch(String search,String filterRole) {
         try {
-            String sql = "SELECT COUNT(*) as total FROM Users, UserDetail, UserStatus, Roles where Users.userId = UserDetail.userId  AND Users.userId= UserStatus.userId AND (UserDetail.roleId = 2 OR UserDetail.roleId = 3) AND UserDetail.roleId = Roles.roleId AND Users.username like'%"+search+"%'and Roles.roleName like'"+filterValue+"%'";
+            String sql = "SELECT COUNT(*) as total FROM Users, UserDetail, UserStatus, Roles where Users.userId = UserDetail.userId  AND Users.userId= UserStatus.userId AND (UserDetail.roleId = 2 OR UserDetail.roleId = 3) AND UserDetail.roleId = Roles.roleId AND UserDetail.fullname like'%"+search+"%'and UserStatus.userStatus like'"+filterRole+"%'";
             PreparedStatement statement = connection.prepareStatement(sql);
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
@@ -512,10 +512,10 @@ public class UserDAO extends BaseDAO<User> {
         return 0;
     }
     
-    public ArrayList<UserDetails> getUsersWithPagination(int start, int total,String search,String filterValue) {
+    public ArrayList<UserDetails> getUsersWithPagination(int start, int total,String search,String filterRole) {
         ArrayList<UserDetails> us = new ArrayList<>();
         try {
-            String sql = "SELECT * FROM Users, UserDetail, UserStatus, Roles where Users.userId = UserDetail.userId  AND Users.userId= UserStatus.userId AND (UserDetail.roleId = 2 OR UserDetail.roleId = 3) AND UserDetail.roleId = Roles.roleId AND Users.username like'%"+search+"%'and Roles.roleName like'"+filterValue+"%'"
+            String sql = "SELECT * FROM Users, UserDetail, UserStatus, Roles where Users.userId = UserDetail.userId  AND Users.userId= UserStatus.userId AND (UserDetail.roleId = 2 OR UserDetail.roleId = 3) AND UserDetail.roleId = Roles.roleId AND UserDetail.fullname like'%"+search+"%'and UserStatus.userStatus like'"+filterRole+"%'"
                     +"order by Users.userId\n"
                     +"OFFSET "+start+" ROWS \n"
                     +"FETCH NEXT "+ total + " ROWS ONLY \n";

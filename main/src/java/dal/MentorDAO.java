@@ -11,6 +11,7 @@ import java.util.logging.Logger;
 import model.Comment;
 import model.Mentor;
 import model.Skill;
+import model.UserDetails;
 
 public class MentorDAO extends BaseDAO<Skill> {
 
@@ -476,5 +477,91 @@ public class MentorDAO extends BaseDAO<Skill> {
             Logger.getLogger(MentorDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
+    }
+    
+    public int getTotalMentorWithSearch(String search,String filterStatus) {
+        try {
+            String sql = "SELECT COUNT(*) AS total\n"
+                    + "FROM UserDetail ud \n"
+                    + "INNER JOIN UserStatus us ON us.userId = ud.userId\n"
+                    + "INNER JOIN Users u ON u.userId = ud.userId\n"
+                    + "INNER JOIN Mentor m ON ud.userId = m.userId\n"
+                    + "INNER JOIN MentorCV mc ON m.mentorId = mc.mentorId\n"
+                    + "where ud.roleId = 4 AND ud.fullname like'%"+search+"%'and us.userStatus like'"+filterStatus+"%'";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                return rs.getInt("total");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return 0;
+    }
+    
+    public ArrayList<Mentor> getMentorWithPagination(int start, int total,String search,String filterStatus) {
+        ArrayList<Mentor> mt = new ArrayList<>();
+        try {
+            String sql = "SELECT * "
+                    + "FROM UserDetail ud \n"
+                    + "INNER JOIN UserStatus us ON us.userId = ud.userId\n"
+                    + "INNER JOIN Users u ON u.userId = ud.userId\n"
+                    + "INNER JOIN Mentor m ON ud.userId = m.userId\n"
+                    + "INNER JOIN MentorCV mc ON m.mentorId = mc.mentorId\n"
+                    + "where ud.roleId = 4 AND ud.fullname like'%"+search+"%'and us.userStatus like'"+filterStatus+"%'"
+                    +"order by u.userId\n"
+                    +"OFFSET "+start+" ROWS \n"
+                    +"FETCH NEXT "+ total + " ROWS ONLY \n";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                Mentor s = new Mentor();
+                s.setMentorId(rs.getInt("mentorId"));
+                s.setUserid(rs.getInt("userId"));
+                s.setFullname(rs.getString("fullname"));
+                s.setUsername(rs.getString("username"));
+                s.setProfession(rs.getString("profession"));
+                s.setStatus(rs.getString("userStatus"));
+                mt.add(s);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return mt;
+    }
+    
+    public float getPercentageCompleted(int mentorId) {
+        String sql = "SELECT \n"
+                + "    t1.mentorId,\n"
+                + "    t1.total_requests,\n"
+                + "    t2.closed_requests,\n"
+                + "    ROUND(CASE WHEN t1.total_requests = 0 THEN 0\n"
+                + "               ELSE t2.closed_requests * 100.0 / t1.total_requests END, 2) AS completion_rate\n"
+                + "FROM\n"
+                + "(\n"
+                + "    SELECT m.mentorId, COUNT(rd.requestId) AS total_requests \n"
+                + "FROM Mentor m\n"
+                + "LEFT JOIN RequestDetail rd ON m.mentorId = rd.mentorId\n"
+                + "GROUP BY m.mentorId\n"
+                + ") t1\n"
+                + "INNER JOIN\n"
+                + "(\n"
+                + "   SELECT m.mentorId, COUNT(rd.requestId) AS closed_requests\n"
+                + "FROM Mentor m \n"
+                + "LEFT JOIN RequestDetail rd ON m.mentorId = rd.mentorId\n"
+                + "WHERE rd.statusId = (SELECT statusId FROM Statuses WHERE statusName='Closed')\n"
+                + "GROUP BY m.mentorId\n"
+                + ") t2 ON t1.mentorId = t2.mentorId where t1.mentorId = ?";
+        try {
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setInt(1, mentorId);
+            ResultSet rs = stm.executeQuery();
+            while(rs.next()) {
+                return rs.getFloat("completion_rate");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return 0;
     }
 }

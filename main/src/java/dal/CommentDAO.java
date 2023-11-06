@@ -19,7 +19,7 @@ import model.Comment;
  * @author admin
  */
 public class CommentDAO extends BaseDAO<Comment> {
-    public void insertCommentAndRateStar(int id, String comment, int rate) {
+    public boolean insertCommentAndRateStar(int id, String comment, int rate) {
         try {
             String insertComment = "INSERT INTO Comment(commentDetail, createdDate) VALUES(?,GETDATE())";
             PreparedStatement stm = connection.prepareStatement(insertComment);
@@ -32,9 +32,11 @@ public class CommentDAO extends BaseDAO<Comment> {
             xstm.setInt(2, commentId);
             xstm.setInt(3, id);
             xstm.executeUpdate();
+            return true;
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return false;
     }
     public int getCommentId() {
         try {
