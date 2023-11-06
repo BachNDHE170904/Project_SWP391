@@ -46,7 +46,10 @@
             User acc = (User) session.getAttribute("user");
             UserDetails details = (UserDetails) session.getAttribute("userDetail");;
             if (acc != null && details.getRoleId() == 1) {
-                int pageNum = Integer.parseInt(request.getParameter("page"));
+                int pageNum = 1;
+                if (request.getParameter("page") != null) {
+                    pageNum = Integer.parseInt(request.getParameter("page"));
+                }
                 String searchValue;
                 if (request.getParameter("searchValue") == null && session.getAttribute("searchValue") == null) {
                     searchValue = "";
