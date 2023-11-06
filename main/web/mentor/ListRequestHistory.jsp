@@ -107,6 +107,9 @@
                                                 <input type="radio" name="status" value="Closed" id="filter-close"> <label for="filter-close">Closed</label><br>
                                                 <input type="radio" checked name="status" value="All" id="filter-all"> <label for="filter-all">All</label><br>
                                             </form>
+                                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#statisticModal">
+                                                View statistic
+                                            </button>
                                         </div>
                                     </div>
                                 </div>
@@ -237,6 +240,42 @@
                                         <a href="ListRequestsHistoryServlet?page=${pageNum}">&raquo;</a>
                                     </div>
                                 </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal fade" id="statisticModal" tabindex="-1" aria-labelledby="statisticModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5" id="statisticModalLabel">Mentor Statistic</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="form-group">
+                                    <span>Accepted request: </span>
+                                    <span>${accepted}</span>
+                                </div>
+                                <div class="form-group">
+                                    <span>Invited request: </span>
+                                    <span>${invited}</span>
+                                </div>
+                                <div class="form-group">
+                                    <span>Canceled request: </span>
+                                    <span>${canceled}</span>
+                                </div>
+                                <div class="form-group">
+                                    <span>Completed request: </span>
+                                    <span>${completed}</span>
+                                </div>
+                                <div class="form-group">
+                                    <span>Rating: </span>
+                                    <span>${rating}</span>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-primary">Save changes</button>
                             </div>
                         </div>
                     </div>

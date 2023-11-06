@@ -5,6 +5,7 @@ package controller.mentor;
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
 import controller.Common;
+import dal.MentorDAO;
 import dal.ProgramingLanguageDAO;
 import dal.RequestDAO;
 import dal.SkillDAO;
@@ -35,15 +36,21 @@ public class ListRequestsHistoryServlet extends HttpServlet {
         User user = (User) request.getSession().getAttribute("user");
         int currPage = Common.handleInt(request.getParameter("page"));
         RequestDAO requestDAO = new RequestDAO();
+        MentorDAO mentorDAO=new MentorDAO();
         StatusDAO statusDAO = new StatusDAO();
         ArrayList<Status> statuses = statusDAO.getAll();
         int pageNum = Common.handleNum(requestDAO.countRequestByMentorIDHistory(user.getUserId()));
-        List<Request> list = requestDAO.getRequestHistoryByMentorID(user.getUserId(), (currPage-1)*10, 10);
-        
+        List<Request> list = requestDAO.getRequestHistoryByMentorID(user.getUserId(), (currPage - 1) * 10, 10);
+
         ProgramingLanguageDAO programingLanguageDAO = new ProgramingLanguageDAO();
         ArrayList<ProgramingLanguage> listPro = programingLanguageDAO.getActiveProgramingLanguage();
         SkillDAO skillDAO = new SkillDAO();
         ArrayList<Skill> skills = skillDAO.getActiveSkills();
+        int accepted = requestDAO.countRequestByMentorID(user.getUserId(), 2);
+        int invited = requestDAO.countRequestByMentorID(user.getUserId(), 1);
+        int canceled = requestDAO.countRequestByMentorID(user.getUserId(), 3);
+        int completed = requestDAO.countRequestByMentorID(user.getUserId(), 4);
+        double rating = mentorDAO.getAverageRatingOfMentorByMentorId(1);
 
         request.setAttribute("list", list);
         request.setAttribute("statuses", statuses);
@@ -51,6 +58,11 @@ public class ListRequestsHistoryServlet extends HttpServlet {
         request.setAttribute("skills", skills);
         request.setAttribute("currPage", (currPage < 1 ? 1 : currPage));
         request.setAttribute("pageNum", pageNum);
+        request.setAttribute("accepted", accepted);
+        request.setAttribute("invited", invited);
+        request.setAttribute("canceled", canceled);
+        request.setAttribute("completed", completed);
+        request.setAttribute("rating", rating);
         request.getRequestDispatcher("mentor/ListRequestHistory.jsp").forward(request, response);
     }
 

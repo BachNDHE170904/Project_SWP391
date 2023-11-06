@@ -9,12 +9,12 @@ import dal.MentorDAO;
 import dal.ProgramingLanguageDAO;
 import dal.RequestDAO;
 import dal.SkillDAO;
+import java.io.IOException;
+import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -23,9 +23,13 @@ import model.Request;
 import model.Skill;
 import model.User;
 
-@WebServlet(name = "RequestServlet", urlPatterns = {"/MentorRequestServlet"})
-public class RequestServlet extends HttpServlet {
+/**
+ *
+ * @author ADMIN
+ */
+public class ListInvitedRequestServlet extends HttpServlet {
 
+    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *
@@ -41,12 +45,15 @@ public class RequestServlet extends HttpServlet {
             String id = Common.handleString(request.getParameter("id"));
             int currPage = Common.handleInt(request.getParameter("page"));
             User user = (User) request.getSession().getAttribute("user");
-            MentorDAO mentorDAO = new MentorDAO();
+            String action=Common.handleString(request.getParameter("action"));
             RequestDAO requestDAO = new RequestDAO();
-            if (!id.isEmpty()) {
-                requestDAO.updateRequestStatus(Common.handleInt(id), 3);
+            if (!id.isEmpty()&&action.equalsIgnoreCase("accept")) {
+                requestDAO.updateRequestStatus(Common.handleInt(id), 2);
             }
-            ArrayList<Request> list = requestDAO.getRequestByMentorID(user.getUserId(), 2, Common.handlePaging(currPage));
+            if(!id.isEmpty()&&action.equalsIgnoreCase("reject")){
+                requestDAO.setMentorIdForRequest(Common.handleInt(id), 0);
+            }
+            ArrayList<Request> list = requestDAO.getRequestByMentorID(user.getUserId(), 1, Common.handlePaging(currPage));
             int pageNum = Common.handleNum(requestDAO.countRequestByMentorID(user.getUserId(), 2));
             
             ProgramingLanguageDAO programingLanguageDAO = new ProgramingLanguageDAO();
@@ -60,7 +67,7 @@ public class RequestServlet extends HttpServlet {
             request.setAttribute("currPage", (currPage < 1 ? 1 : currPage));
             request.setAttribute("pageNum", pageNum);
 
-            request.getRequestDispatcher("mentor/ListRequest.jsp").forward(request, response);
+            request.getRequestDispatcher("mentor/ListInvitedRequest.jsp").forward(request, response);
         } catch (Exception e) {
             Logger.getLogger(RequestServlet.class.getName()).log(Level.SEVERE, null, e);
         }
@@ -77,11 +84,7 @@ public class RequestServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try {
-            request.getRequestDispatcher("mentor/ListRequest.jsp").forward(request, response);
-        } catch (Exception e) {
-            Logger.getLogger(RequestServlet.class.getName()).log(Level.SEVERE, null, e);
-        }
+        
     }
 
     /**
