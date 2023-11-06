@@ -101,8 +101,6 @@
                                         <div class="sideBar col-md-9" style="margin-top: 20px; margin-left: 13px">
                                             <h5>Filter by Status</h5>
                                             <form id="status-filter-form">
-                                                <input type="radio" name="status" value="Open" id="filter-open"> <label for="filter-open">Open</label><br>
-                                                <input type="radio" name="status" value="Processing" id="filter-processing"> <label for="filter-processing">Processing</label><br>
                                                 <input type="radio" name="status" value="Cancel" id="filter-cancel"> <label for="filter-cancel">Cancel</label><br>
                                                 <input type="radio" name="status" value="Closed" id="filter-close"> <label for="filter-close">Closed</label><br>
                                                 <input type="radio" checked name="status" value="All" id="filter-all"> <label for="filter-all">All</label><br>

@@ -417,7 +417,7 @@ public class RequestDAO extends BaseDAO<Skill> {
                     + "from RequestDetail r join Requests re on r.requestId = re.requestId "
                     + "join Users u on u.userId = re.userId "
                     + "join Mentor m on m.mentorId = r.mentorId "
-                    + "where m.userId = ? "
+                    + "where m.userId = ? and (r.statusId=3 or r.statusId=4)"
                     + "order by r.requestId offset ? rows fetch next ? rows only";
             PreparedStatement ptm = connection.prepareStatement(sql);
             ptm.setInt(1, mentorId);
@@ -511,7 +511,7 @@ public class RequestDAO extends BaseDAO<Skill> {
                     + "from RequestDetail r join Requests re on r.requestId = re.requestId "
                     + "join Users u on u.userId = re.userId "
                     + "join Mentor m on m.mentorId = r.mentorId "
-                    + "where m.userId = ?";
+                    + "where m.userId = ? and (r.statusId=3 or r.statusId=4)";
             PreparedStatement ptm = connection.prepareStatement(sql);
             ptm.setInt(1, mentorId);
             ResultSet rs = ptm.executeQuery();
