@@ -75,7 +75,6 @@
                 <jsp:include page="../NavBar.jsp"></jsp:include>
                     <div class="container light-style flex-grow-1 container-p-y">
                         <h4 class="font-weight-bold py-3 mb-4">List request</h4>
-                        <button id="view-statistic">View statistic</button>
                         <div class="card overflow-hidden">
                             <div class="row no-gutters row-bordered row-border-light">
                                 <div class="tab-content">
@@ -210,14 +209,6 @@
         <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.bundle.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
-        <script>
-                                                                            $('button#view-statistic').click(function () {
-                                                                                $('div.popup').show();
-                                                                            });
-                                                                            $('div.overlay, button#close').click(function () {
-                                                                                $('div.popup').hide();
-                                                                            });
-        </script>
     </body>
 
 </html>

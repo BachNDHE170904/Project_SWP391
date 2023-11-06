@@ -48,12 +48,7 @@ public class RequestServlet extends HttpServlet {
             }
             ArrayList<Request> list = requestDAO.getRequestByMentorID(user.getUserId(), 2, Common.handlePaging(currPage));
             int pageNum = Common.handleNum(requestDAO.countRequestByMentorID(user.getUserId(), 2));
-
-            int accepted = requestDAO.countRequestByMentorID(user.getUserId(), 2);
-            int invited = requestDAO.countRequestByMentorID(user.getUserId(), 1);
-            int canceled = requestDAO.countRequestByMentorID(user.getUserId(), 3);
-            int completed = requestDAO.countRequestByMentorID(user.getUserId(), 4);
-            double rating = mentorDAO.getAverageRatingOfMentorByMentorId(1);
+            
             ProgramingLanguageDAO programingLanguageDAO = new ProgramingLanguageDAO();
             ArrayList<ProgramingLanguage> listPro = programingLanguageDAO.getActiveProgramingLanguage();
             SkillDAO skillDAO = new SkillDAO();
@@ -65,11 +60,6 @@ public class RequestServlet extends HttpServlet {
             request.setAttribute("currPage", (currPage < 1 ? 1 : currPage));
             request.setAttribute("pageNum", pageNum);
 
-            request.setAttribute("accepted", accepted);
-            request.setAttribute("invited", invited);
-            request.setAttribute("canceled", canceled);
-            request.setAttribute("completed", completed);
-            request.setAttribute("rating", rating);
             request.getRequestDispatcher("mentor/ListRequest.jsp").forward(request, response);
         } catch (Exception e) {
             Logger.getLogger(RequestServlet.class.getName()).log(Level.SEVERE, null, e);
