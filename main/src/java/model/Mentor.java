@@ -21,6 +21,7 @@ public class Mentor extends UserDetails {
     private int totalRating;
     private double averageRating;
     private int currentRequests;
+    private double score;
 
     public Mentor() {
     }
@@ -138,6 +139,14 @@ public class Mentor extends UserDetails {
 
     public void setCurrentRequests(int currentRequests) {
         this.currentRequests = currentRequests;
+    }
+
+    public double getScore() {
+        return score;
+    }
+
+    public void setScore(double score) {
+        this.score = score;
     }
 
     @Override

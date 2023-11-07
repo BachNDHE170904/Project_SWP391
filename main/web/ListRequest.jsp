@@ -222,6 +222,7 @@
                                             <td>${mentor.totalRating}</td>
                                             <td>${mentor.averageRating}</td>
                                             <td>${mentor.currentRequests}</td>
+                                            <td>${mentor.score}</td>
                                             <td><button type="submit" class="btn btn-primary" >Invite</button></td>
                                             </tr>
                                         </c:forEach>
