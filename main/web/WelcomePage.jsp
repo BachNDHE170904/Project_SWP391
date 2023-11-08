@@ -1,4 +1,7 @@
 
+<%@page import="java.util.List"%>
+<%@page import="model.Mentor"%>
+<%@page import="dal.MentorDAO"%>
 <%@page import="java.util.Comparator"%>
 <%@page import="java.util.Collections"%>
 <%@page import="java.util.ArrayList"%>
@@ -44,197 +47,138 @@
         <jsp:include page="NavBar.jsp"></jsp:include>
 
 
-        <!-- Service Start -->
-        <div class="container-xxl py-4">
-            <div class="container">
-                <div class="row g-4">
-                    <div class="col-lg-6 col-sm-6 wow fadeInUp" data-wow-delay="0.1s">
-                        <div class="service-item text-center pt-3">
-                            <div class="p-4">
-                                <i class="fa fa-3x fa-graduation-cap text-primary mb-4"></i>
-                                <h5 class="mb-3">Skilled Mentors</h5>
-                                <a href="ViewAllMentorsServlet">See all available mentors</a>
+            <!-- Service Start -->
+            <div class="container-xxl py-4">
+                <div class="container">
+                    <div class="row g-4">
+                        <div class="col-lg-4 col-sm-6 wow fadeInUp" data-wow-delay="0.1s">
+                            <div class="service-item text-center pt-3">
+                                <div class="p-4">
+                                    <i class="fa fa-3x fa-graduation-cap text-primary mb-4"></i>
+                                    <h5 class="mb-3">Skilled Mentors</h5>
+                                    <a href="ViewAllMentorsServlet">See all available mentors</a>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-lg-6 col-sm-6 wow fadeInUp" data-wow-delay="0.3s">
-                        <div class="service-item text-center pt-3">
-                            <div class="p-4">
-                                <i class="fa fa-3x fa-globe text-primary mb-4"></i>
-                                <h5 class="mb-3">Programming skills</h5>
-                                <a  href="ViewSkills.jsp">All programming skills we have to offer</a>
+                        <div class="col-lg-4 col-sm-6 wow fadeInUp" data-wow-delay="0.3s">
+                            <div class="service-item text-center pt-3">
+                                <div class="p-4">
+                                    <i class="fa fa-3x fa-globe text-primary mb-4"></i>
+                                    <h5 class="mb-3">Programming skills</h5>
+                                    <a  href="ViewSkills.jsp">All programming skills we have to offer</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-sm-6 wow fadeInUp" data-wow-delay="0.3s">
+                            <div class="service-item text-center pt-3">
+                                <div class="p-4">
+                                    <i class="fa fa-3x fa-globe text-primary mb-4"></i>
+                                    <h5 class="mb-3">Programming Languages</h5>
+                                    <a  href="#">All programming languages we can support</a>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <!-- Service End -->
+            <!-- Service End -->
 
 
-        <!-- About Start -->
-        <div class="container-xxl py-5">
-            <div class="container">
-                <div class="row g-5">
-                    <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.1s" style="min-height: 400px;">
-                        <div class="position-relative h-100">
-                            <img class="img-fluid position-absolute w-100 h-100" src="img/about.jpg" alt="" style="object-fit: cover;">
-                        </div>
-                    </div>
-                    <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.3s">
-                        <h6 class="section-title bg-white text-start text-primary pe-3">About Us</h6>
-                        <h1 class="mb-4">Welcome to Happy Programming</h1>
-                        <p class="mb-4">Our website allows mentors, mentees to connect with each others online</p>
-                        <p class="mb-4">Our website also allows mentors to support mentees to learn programming</p>
-                        <div class="row gy-2 gx-4 mb-4">
-                            <div class="col-sm-6">
-                                <a class="mb-0" href="ViewAllMentorsServlet"><i class="fa fa-arrow-right text-primary me-2"></i>Skilled Mentors</a>
-                            </div>
-                            <div class="col-sm-6">
-                                <a class="mb-0" href="ViewSkills.jsp"><i class="fa fa-arrow-right text-primary me-2"></i>Programming skills</a>
+            <!-- About Start -->
+            <div class="container-xxl py-5">
+                <div class="container">
+                    <div class="row g-5">
+                        <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.1s" style="min-height: 400px;">
+                            <div class="position-relative h-100">
+                                <img class="img-fluid position-absolute w-100 h-100" src="img/about.jpg" alt="" style="object-fit: cover;">
                             </div>
                         </div>
-                        <a class="btn btn-primary py-3 px-5 mt-2" href="">Read More</a>
+                        <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.3s">
+                            <h6 class="section-title bg-white text-start text-primary pe-3">About Us</h6>
+                            <h1 class="mb-4">Welcome to Happy Programming</h1>
+                            <p class="mb-4">Our website allows mentors, mentees to connect with each others online</p>
+                            <p class="mb-4">Our website also allows mentors to support mentees to learn programming</p>
+                            <div class="row gy-2 gx-4 mb-4">
+                                <div class="col-sm-6">
+                                    <p class="mb-0" ><i class="fa fa-arrow-right text-primary me-2"></i>Skilled Mentors</p>
+                                </div>
+                                <div class="col-sm-6">
+                                    <p class="mb-0" ><i class="fa fa-arrow-right text-primary me-2"></i>Programming skills</p>
+                                </div>
+                                <div class="col-sm-6">
+                                    <p class="mb-0" ><i class="fa fa-arrow-right text-primary me-2"></i>Programming languages</p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <!-- About End -->
+            <!-- About End -->
 
 
-        <!-- Categories Start -->
-        <div class="container-xxl py-5 category">
-            <div class="container">
-                <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
-                    <h6 class="section-title bg-white text-center text-primary px-3">Categories</h6>
-                    <h1 class="mb-5">Skills Categories</h1>
-                </div>
-                <div class="row g-3">
-                    <div class="col-lg-7 col-md-6">
-                        <div class="row g-3">
-                            <div class="col-lg-12 col-md-12 wow zoomIn" data-wow-delay="0.1s">
-                                <a class="position-relative d-block overflow-hidden" href="">
-                                    <img class="img-fluid" src="img/cat-1.jpg" alt="">
-                                    <div class="bg-white text-center position-absolute bottom-0 end-0 py-2 px-3" style="margin: 1px;">
-                                        <h5 class="m-0">Web Design</h5>
-                                        <small class="text-primary">49 Mentors</small>
-                                    </div>
-                                </a>
-                            </div>
-                            <div class="col-lg-6 col-md-12 wow zoomIn" data-wow-delay="0.3s">
-                                <a class="position-relative d-block overflow-hidden" href="">
-                                    <img class="img-fluid" src="img/cat-2.jpg" alt="">
-                                    <div class="bg-white text-center position-absolute bottom-0 end-0 py-2 px-3" style="margin: 1px;">
-                                        <h5 class="m-0">Graphic Design</h5>
-                                        <small class="text-primary">49 Mentors</small>
-                                    </div>
-                                </a>
-                            </div>
-                            <div class="col-lg-6 col-md-12 wow zoomIn" data-wow-delay="0.5s">
-                                <a class="position-relative d-block overflow-hidden" href="">
-                                    <img class="img-fluid" src="img/cat-3.jpg" alt="">
-                                    <div class="bg-white text-center position-absolute bottom-0 end-0 py-2 px-3" style="margin: 1px;">
-                                        <h5 class="m-0">Video Editing</h5>
-                                        <small class="text-primary">49 Mentors</small>
-                                    </div>
-                                </a>
-                            </div>
+            <!-- Categories Start -->
+            <section class="page-section" id="services">
+                <div class="container">
+                    <div class="text-center">
+                        <h2 class="section-heading text-uppercase"> Skills</h2>
+                        <h3 class="section-subheading text-muted">Some skills that we can train</h3>
+                    </div>
+                    <div class="row text-center">
+                        <div class="col-md-4">
+                            <span class="fa-stack fa-4x">
+                                <i class="fas fa-circle fa-stack-2x text-primary"></i>
+                                <i class="fas fa-shopping-cart fa-stack-1x fa-inverse"></i>
+                            </span>
+                            <h4 class="my-3">Web develovement</h4>
+                            <p class="text-muted">You can design a website quickly and easily to start a business, create a blog, or post your portfolio</p>
+                        </div>
+                        <div class="col-md-4">
+                            <span class="fa-stack fa-4x">
+                                <i class="fas fa-circle fa-stack-2x text-primary"></i>
+                                <i class="fas fa-laptop fa-stack-1x fa-inverse"></i>
+                            </span>
+                            <h4 class="my-3">Software develovement</h4>
+                            <p class="text-muted">We can help you build software to meet your specific needs and achieve your business goals. Whether you require a custom application, a mobile app, a website, or a complex system, our team of experienced developers and designers can create a solution that perfectly aligns with your vision and requirements.</p>
+                        </div>
+                        <div class="col-md-4">
+                            <span class="fa-stack fa-4x">
+                                <i class="fas fa-circle fa-stack-2x text-primary"></i>
+                                <i class="fas fa-lock fa-stack-1x fa-inverse"></i>
+                            </span>
+                            <h4 class="my-3">Game Development</h4>
+                            <p class="text-muted">We can help you make a game that captivates and entertains your audience. Our team of skilled mentors can bring your gaming concept to life. From concept creation and game design to development and testing, we have the expertise to turn your ideas into a fully immersive and enjoyable gaming experience.</p>
                         </div>
                     </div>
-                    <div class="col-lg-5 col-md-6 wow zoomIn" data-wow-delay="0.7s" style="min-height: 350px;">
-                        <a class="position-relative d-block h-100 overflow-hidden" href="">
-                            <img class="img-fluid position-absolute w-100 h-100" src="img/cat-4.jpg" alt="" style="object-fit: cover;">
-                            <div class="bg-white text-center position-absolute bottom-0 end-0 py-2 px-3" style="margin:  1px;">
-                                <h5 class="m-0">Online Marketing</h5>
-                                <small class="text-primary">49 Mentors</small>
-                            </div>
-                        </a>
-                    </div>
                 </div>
-            </div>
-        </div>
-        <!-- Categories End -->
+            </section>
+            <!-- Categories End -->
 
-        <!-- Team Start -->
-        <div class="container-xxl py-5">
-            <div class="container">
-                <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
-                    <h6 class="section-title bg-white text-center text-primary px-3">Mentors</h6>
-                    <h1 class="mb-5">Expert Mentors</h1>
-                </div>
-                <div class="row g-4">
+            <!-- Team Start -->
+            <div class="container-xxl py-5">
+                <div class="container">
+                    <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+                        <h6 class="section-title bg-white text-center text-primary px-3">Mentors</h6>
+                        <h1 class="mb-5">Expert Mentors</h1>
+                    </div>
+                    <div class="row g-4">
+                    <%
+                        MentorDAO mentorDAO = new MentorDAO();
+                        List<Mentor> listMentor = mentorDAO.getTop4ActiveMentors();
+                        for (int i=0;i<listMentor.size();i++) {
+                        Mentor m=listMentor.get(i);
+                    %>
                     <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
                         <div class="team-item bg-light">
                             <div class="overflow-hidden">
-                                <img class="img-fluid" src="img/team-1.jpg" alt="">
-                            </div>
-                            <div class="position-relative d-flex justify-content-center" style="margin-top: -23px;">
-                                <div class="bg-light d-flex justify-content-center pt-2 px-1">
-                                    <a class="btn btn-sm-square btn-primary mx-1" href=""><i class="fab fa-facebook-f"></i></a>
-                                    <a class="btn btn-sm-square btn-primary mx-1" href=""><i class="fab fa-twitter"></i></a>
-                                    <a class="btn btn-sm-square btn-primary mx-1" href=""><i class="fab fa-instagram"></i></a>
-                                </div>
+                                <img class="img-fluid" src="img/team-<%=i+1%>.jpg" alt="">
                             </div>
                             <div class="text-center p-4">
-                                <h5 class="mb-0">Mentor Name</h5>
-                                <small>Designation</small>
+                                <h5 class="mb-0"><%= m.getFullname() %></h5>
+                                <small>Profession:<%=m.getProfession()%></small>
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.3s">
-                        <div class="team-item bg-light">
-                            <div class="overflow-hidden">
-                                <img class="img-fluid" src="img/team-2.jpg" alt="">
-                            </div>
-                            <div class="position-relative d-flex justify-content-center" style="margin-top: -23px;">
-                                <div class="bg-light d-flex justify-content-center pt-2 px-1">
-                                    <a class="btn btn-sm-square btn-primary mx-1" href=""><i class="fab fa-facebook-f"></i></a>
-                                    <a class="btn btn-sm-square btn-primary mx-1" href=""><i class="fab fa-twitter"></i></a>
-                                    <a class="btn btn-sm-square btn-primary mx-1" href=""><i class="fab fa-instagram"></i></a>
-                                </div>
-                            </div>
-                            <div class="text-center p-4">
-                                <h5 class="mb-0">Mentor Name</h5>
-                                <small>Designation</small>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.5s">
-                        <div class="team-item bg-light">
-                            <div class="overflow-hidden">
-                                <img class="img-fluid" src="img/team-3.jpg" alt="">
-                            </div>
-                            <div class="position-relative d-flex justify-content-center" style="margin-top: -23px;">
-                                <div class="bg-light d-flex justify-content-center pt-2 px-1">
-                                    <a class="btn btn-sm-square btn-primary mx-1" href=""><i class="fab fa-facebook-f"></i></a>
-                                    <a class="btn btn-sm-square btn-primary mx-1" href=""><i class="fab fa-twitter"></i></a>
-                                    <a class="btn btn-sm-square btn-primary mx-1" href=""><i class="fab fa-instagram"></i></a>
-                                </div>
-                            </div>
-                            <div class="text-center p-4">
-                                <h5 class="mb-0">Mentor Name</h5>
-                                <small>Designation</small>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.7s">
-                        <div class="team-item bg-light">
-                            <div class="overflow-hidden">
-                                <img class="img-fluid" src="img/team-4.jpg" alt="">
-                            </div>
-                            <div class="position-relative d-flex justify-content-center" style="margin-top: -23px;">
-                                <div class="bg-light d-flex justify-content-center pt-2 px-1">
-                                    <a class="btn btn-sm-square btn-primary mx-1" href=""><i class="fab fa-facebook-f"></i></a>
-                                    <a class="btn btn-sm-square btn-primary mx-1" href=""><i class="fab fa-twitter"></i></a>
-                                    <a class="btn btn-sm-square btn-primary mx-1" href=""><i class="fab fa-instagram"></i></a>
-                                </div>
-                            </div>
-                            <div class="text-center p-4">
-                                <h5 class="mb-0">Mentor Name</h5>
-                                <small>Designation</small>
-                            </div>
-                        </div>
-                    </div>
+                    <%}%>
                 </div>
             </div>
         </div>
