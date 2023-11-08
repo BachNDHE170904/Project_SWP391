@@ -593,5 +593,28 @@ public class UserDAO extends BaseDAO<User> {
         return 0;
     }
     
-    
+    public int getAllNumberOfSkillOfRequests(int userId) {
+        String sql = "SELECT COUNT(DISTINCT rs.skillId) AS total_skills\n" 
+                        +"FROM Users u\n" 
+                        +"LEFT JOIN UserDetail ud ON u.userId = ud.userId\n" 
+                        +"LEFT JOIN Requests r ON u.userId = r.userId  \n" 
+                        +"LEFT JOIN requestSkillsChoices rs ON r.requestId = rs.requestId\n" 
+                        +"WHERE ud.roleId = (SELECT roleId FROM Roles WHERE roleName = 'Mentee') AND u.userId = ?\n" 
+                        +"GROUP BY u.userId, ud.fullName  \n" 
+                        +"ORDER BY ud.fullName";
+        try {
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setInt(1, userId);
+            ResultSet rs = stm.executeQuery();
+            if (rs.next()) {
+                int count = rs.getInt("total_skills");
+                rs.close();
+                stm.close();
+                return count;
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return 0;
+    }
 }
