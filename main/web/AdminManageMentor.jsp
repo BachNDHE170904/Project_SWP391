@@ -48,7 +48,10 @@
             User acc = (User) session.getAttribute("user");
             UserDetails details = (UserDetails) session.getAttribute("userDetail");
             if (acc != null && details.getRoleId() == 1) {
-                int pageNum = Integer.parseInt(request.getParameter("page"));
+                int pageNum = 1;
+                if (request.getParameter("page") != null) {
+                    pageNum = Integer.parseInt(request.getParameter("page"));
+                }
                 String searchMentorname;
                 if (request.getParameter("searchMentorname") == null && session.getAttribute("searchMentorname") == null) {
                     searchMentorname = "";
@@ -69,6 +72,7 @@
                 }
                 MentorDAO md = new MentorDAO();
                 int total = md.getTotalMentorWithSearch(searchMentorname, filterStatus);
+                int totalPage = (int) Math.ceil((double) (total) / 10);
                 ArrayList<Mentor> mt = md.getMentorWithPagination((pageNum - 1) * 10, 10, searchMentorname, filterStatus);
         %>
         <div class="container-fluid position-relative bg-white d-flex p-0">
