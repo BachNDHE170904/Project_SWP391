@@ -21,7 +21,7 @@ public class CancelRequestController extends HttpServlet {
         RequestDAO dbRequest = new RequestDAO();
         int id = Integer.parseInt(raw_id);
         dbRequest.updateRequestStatus(id, 3);
-        response.sendRedirect("http://localhost:9999/main/myRequest");
+        response.sendRedirect("myRequest");
     }
 
     @Override
@@ -30,7 +30,7 @@ public class CancelRequestController extends HttpServlet {
         RequestDAO dbRequest = new RequestDAO();
         int id = Integer.parseInt(raw_id);
         dbRequest.updateRequestStatus(id, 3);
-        response.sendRedirect("http://localhost:9999/main/myRequest");
+        response.sendRedirect("myRequest");
     }
 
 }
