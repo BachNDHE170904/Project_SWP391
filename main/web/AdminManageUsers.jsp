@@ -101,7 +101,7 @@
                                             </div>
                                         </div>
                                         <label class="col-form-label">Status: </label>
-                                        <select name="filterValue">
+                                        <select name="filterRole">
                                             <option value="" >All</option>
                                             <option value="Active" <%if (filterRole.equalsIgnoreCase("Active")) {%>selected<%}%>>Active</option>
                                             <option value="Inactive"<%if (filterRole.equalsIgnoreCase("Inactive")) {%>selected<%}%>>Inactive</option>
@@ -187,16 +187,6 @@
             } else
                 request.getRequestDispatcher("WelcomePage.jsp").forward(request, response);
         %>
-        <script>
-            let filters = document.querySelectorAll(".dropdown-item");
-            let selectedFilter = document.getElementById("selected-filter");
-            filters.forEach(filter => {
-                filter.addEventListener("click", () => {
-                    let filterRole = filter.getAttribute("data-filter");
-                    selectedFilter.value = filterRole;
-                });
-            });
-        </script>
         <!-- JavaScript Libraries -->
         <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
