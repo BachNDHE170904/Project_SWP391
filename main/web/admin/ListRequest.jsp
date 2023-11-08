@@ -43,6 +43,14 @@
                 <jsp:forward page="../WelcomePage.jsp"></jsp:forward>
             </c:when>
             <c:otherwise>
+                <%
+                    String msg = (String) session.getAttribute("successMsg");
+                    if (msg != null) {%>
+                <script>
+                    swal("Congrats", "<%= msg%>", "success");
+                </script>
+                <% session.removeAttribute("successMsg");
+                    }%>
                 <div class="container-fluid position-relative bg-white d-flex p-0">
                     <!-- Sidebar Start -->
                     <jsp:include page="../DashBoardSideBar.jsp"></jsp:include>
@@ -78,6 +86,7 @@
                                                         <th scope="col">Account Name</th>
                                                         <th scope="col">Title</th>
                                                         <th scope="col">Status</th>
+                                                        <th scope="col">Action</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -88,6 +97,7 @@
                                                             <td>${item.userName}</td>
                                                             <td>${item.title}</td>
                                                             <td>${item.status.name}</td>
+                                                            <td><a href="updateAdminRequest?id=${item.id}" class="btn btn-success">Update</a></td>
                                                         </tr>
                                                     <div class="modal fade" id="exampleModal${item.id}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                                         <div class="modal-dialog" role="document">
@@ -153,6 +163,46 @@
                                                 </c:forEach>
                                                 </tbody>
                                             </table>
+
+                                            <div class="col-12">
+                                                <ul class="pagination justify-content-center">
+                                                    <c:if test="${page eq 1}">
+                                                        <li class="page-item disabled">
+                                                            <a class="page-link" href="ListRequestController?page=${page-1}" tabindex="-1"><</a>
+                                                        </li>
+                                                    </c:if>
+                                                    <c:if test="${page != 1}">
+                                                        <li class="page-item">
+                                                            <a class="page-link" href="ListRequestController?page=${page-1}" tabindex="-1"><</a>
+                                                        </li>
+                                                    </c:if>
+
+                                                    <c:forEach begin="${1}" end="${total}" step="${1}" var="i">
+                                                        <c:if test="${page eq i}">
+                                                            <li class="page-item active">
+                                                                <a class="page-link" href="ListRequestController?page=${i}">${i}</a> 
+                                                                <span class="sr-only">(current)</span>
+                                                            </li>
+                                                        </c:if>
+                                                        <c:if test="${page != i}">
+                                                            <li class="page-item">
+                                                                <a class="page-link" href="ListRequestController?page=${i}">${i}</a> 
+                                                            </li>
+                                                        </c:if>
+                                                    </c:forEach>
+                                                    <c:if test="${page == total}">
+                                                        <li class="page-item disabled">
+                                                            <a class="page-link" href="ListRequestController?page=${page+1}">></a>
+                                                        </li>
+                                                    </c:if>
+                                                    <c:if test="${page != total and page < total}">
+                                                        <li>
+                                                            <a class="page-link" href="ListRequestController?page=${page+1}">></a>
+                                                        </li>
+                                                    </c:if>
+                                                </ul>
+                                            </div>
+
                                         </div>
                                     </div>
                                 </div>

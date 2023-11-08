@@ -31,6 +31,16 @@
         <button class="navbar-toggler ms-auto" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
+        <c:if test="${sessionScope.userDetail.roleId!= 1}">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="ViewAllMentorsServlet">View all mentors</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="ViewSkills.jsp">View Skills</a>
+                </li>
+            </ul>
+        </c:if>
         <div class="collapse navbar-collapse " id="navbarSupportedContent">
             <%
                 if (acc != null) {
@@ -48,12 +58,12 @@
                     <%= acc.getUsername()%>
                 </a>
                 <ul class="dropdown-menu dropdown-menu-end">
-                    <% if (acc != null) {%>
                     <li><a class="dropdown-item" href="ViewUserProfile.jsp">View my Profile</a></li>
                     <li><a class="dropdown-item" href="ChangePassword.jsp">Change Password</a></li>
                         <c:if test="${sessionScope.userDetail.getRoleId() == 3}">
                         <li><a class="dropdown-item" href="createRequest">Create Request</a></li>
                         <li><a class="dropdown-item" href="myRequest">List Request</a></li>
+                        <li><a class="dropdown-item" href="statisticRequest">Stataistic request by me</a></li>
                         </c:if>
                         <c:if test="${sessionScope.userDetail.getRoleId() == 4}">
                         <li><a class="dropdown-item" href="ListInvitedRequestServlet">List Invited Requests</a></li>
@@ -65,12 +75,11 @@
                             %>
                         <li><a class="dropdown-item" href="ViewMentorCV.jsp?mentorId=<%=m.getMentorId()%>">View my CV</a></li>
                         </c:if>
-                        <%}%>
                     <li><hr class="dropdown-divider"></li>
                     <li><a class="dropdown-item" href="LogOutServlet">Log Out</a></li>
                 </ul>
             </div>
-            <%} else {
+            <%            } else {
             %>
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item">
