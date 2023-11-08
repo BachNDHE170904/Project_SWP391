@@ -91,7 +91,7 @@
                                                 <td>${item.deadline}</td>
                                                 <td>${item.userName}</td>
                                                 <td><a href="#" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal${item.id}">Details</a></td>
-                                                <td><a href="MentorRequestServlet?id=${item.id}"class="btn btn-primary" onclick="return confirm('Are you sure?')">Cancel</a></td>
+                                                <td><a href="MentorRequestServlet?id=${item.id}"class="btn btn-danger" onclick="return confirm('Are you sure?')">Cancel</a></td>
                                             </tr>
                                         <div class="modal fade" id="exampleModal${item.id}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                             <div class="modal-dialog" role="document">
