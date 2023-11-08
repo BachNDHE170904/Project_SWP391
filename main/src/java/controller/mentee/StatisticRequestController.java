@@ -15,6 +15,10 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -27,6 +31,10 @@ import model.Skill;
 import model.Status;
 import model.User;
 
+/**
+ *
+ * @author nocol
+ */
 @WebServlet(name = "StatisticRequestController", urlPatterns = {"/statisticRequest"})
 public class StatisticRequestController extends HttpServlet {
 
@@ -36,13 +44,15 @@ public class StatisticRequestController extends HttpServlet {
         User user = (User) request.getSession().getAttribute("user");
         MentorRecommendation recommend = new MentorRecommendation();
         HashMap<Integer, List<Mentor>> suggestedMentors = new HashMap<>();
+        int pagenum = request.getParameter("pagenum") != null ? Integer.parseInt(request.getParameter("pagenum")) : 1;
         RequestDAO requestDAO = new RequestDAO();
         List<Request> list = requestDAO.getRequestByID(user.getUserId());
         int page = 1;
         if (request.getParameter("page") != null) {
             page = Integer.valueOf(request.getParameter("page"));
         }
-        int allRequests = requestDAO.countRequestByUserId(user.getUserId());
+        System.out.println(user.getUserId());
+        int allRequests = requestDAO.countRequestByUserIdWhichIsClosed(user.getUserId());
         request.setAttribute("allRequests", allRequests);
         int totalPage = allRequests / 10;
         if (allRequests % 10 != 0) {
@@ -51,7 +61,23 @@ public class StatisticRequestController extends HttpServlet {
         request.setAttribute("page", page);
         request.setAttribute("total", totalPage);
         request.setAttribute("ep", totalPage);
-        list = requestDAO.getPagingRequestByID(user.getUserId(), page);
+        list = requestDAO.getPagingRequestByIDWhichIsClosed(user.getUserId(), page);
+        long totalDays = 0;
+        for (Request re : list) {
+            java.sql.Date createDate = re.getCreateDate();
+            java.sql.Date deadline = re.getDeadline();
+
+            // Convert java.sql.Date to Instant
+            Instant createInstant = new Date(createDate.getTime()).toInstant();
+            Instant deadlineInstant = new Date(deadline.getTime()).toInstant();
+
+            LocalDate localCreateDate = createInstant.atZone(ZoneId.systemDefault()).toLocalDate();
+            LocalDate localDeadline = deadlineInstant.atZone(ZoneId.systemDefault()).toLocalDate();
+
+            long daysBetween = ChronoUnit.DAYS.between(localCreateDate, localDeadline);
+            totalDays += daysBetween;
+        }
+        request.setAttribute("totalDays", totalDays);
 
         Date currentDate = new Date();
         for (Request r : list) {
