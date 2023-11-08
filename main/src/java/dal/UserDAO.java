@@ -535,8 +535,4 @@ public class UserDAO extends BaseDAO<User> {
         }
         return us;
     }
-    public static void main(String[] args) {
-        UserDAO ud = new UserDAO();
-        System.out.println(ud.getUsersWithPagination(0, 5, "", ""));
-    }
 }
