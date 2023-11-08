@@ -47,7 +47,10 @@
             User acc = (User) session.getAttribute("user");
             UserDetails details = (UserDetails) session.getAttribute("userDetail");
             if (acc != null && details.getRoleId() == 1) {
-            int pageNum = Integer.parseInt(request.getParameter("page"));
+            int pageNum = 1;
+                if (request.getParameter("page") != null) {
+                    pageNum = Integer.parseInt(request.getParameter("page"));
+                }
             String searchFullname;
                 if (request.getParameter("searchFullname") == null && session.getAttribute("searchFullname") == null) {
                     searchFullname = "";
@@ -68,6 +71,7 @@
                 }
             UserDAO ud = new UserDAO();
             int total = ud.getTotalUsersWithSearch(searchFullname, filterRole);
+            int totalPage = (int) Math.ceil((double) (total) / 10);
             ArrayList<UserDetails> us = ud.getUsersWithPagination((pageNum - 1) * 10, 10, searchFullname, filterRole);
         %>
         <div class="container-fluid position-relative bg-white d-flex p-0">
