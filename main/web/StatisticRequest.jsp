@@ -52,16 +52,6 @@
                         <div class="list-group list-group-flush account-settings-links">
                             <a class="list-group-item list-group-item-action active" data-toggle="list"
                                href="#account-general">Statistic of requests by Me</a>
-                            <div class="sideBar col-md-9" style="margin-top: 20px; margin-left: 13px">
-                                <h5>Filter by Status</h5>
-                                <form id="status-filter-form">
-                                    <input type="radio" name="status" value="Open" id="filter-open"> <label for="filter-open">Open</label><br>
-                                    <input type="radio" name="status" value="Processing" id="filter-processing"> <label for="filter-processing">Processing</label><br>
-                                    <input type="radio" name="status" value="Cancel" id="filter-cancel"> <label for="filter-cancel">Cancel</label><br>
-                                    <input type="radio" name="status" value="Closed" id="filter-close"> <label for="filter-close">Closed</label><br>
-                                    <input type="radio" checked name="status" value="All" id="filter-all"> <label for="filter-all">All</label><br>
-                                </form>
-                            </div>
                         </div>
                     </div>
                     <div class="col-md-9">
@@ -207,35 +197,6 @@
                 </div>
             </div>
         </div>
-        <script>
-            document.getElementById("status-filter-form").addEventListener("change", function (e) {
-                const selectedStatus = document.querySelector('input[name="status"]:checked').value;
-                if (selectedStatus === "All") {
-                    showAllRows();
-                } else {
-                    filterTableByStatus(selectedStatus);
-                }
-            });
-
-            function filterTableByStatus(status) {
-                const rows = document.querySelectorAll("table tbody tr");
-                rows.forEach(row => {
-                    const statusCell = row.querySelector("td:nth-child(5)"); // Số 5 ứng với cột Status
-                    if (statusCell.textContent === status) {
-                        row.style.display = "table-row";
-                    } else {
-                        row.style.display = "none";
-                    }
-                });
-            }
-
-            function showAllRows() {
-                const rows = document.querySelectorAll("table tbody tr");
-                rows.forEach(row => {
-                    row.style.display = "table-row";
-                });
-            }
-        </script>
         <script>
             document.getElementById("date").min = new Date().toISOString().split("T")[0];
         </script>
