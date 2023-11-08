@@ -48,18 +48,18 @@
             UserDetails details = (UserDetails) session.getAttribute("userDetail");
             if (acc != null && details.getRoleId() == 1) {
             int pageNum = Integer.parseInt(request.getParameter("page"));
-            String searchFullname;
-                if (request.getParameter("searchFullname") == null && session.getAttribute("searchFullname") == null) {
-                    searchFullname = "";
-                } else if (request.getParameter("searchFullname") != null) {
-                    searchFullname = request.getParameter("searchFullname");
-                    session.setAttribute("searchFullname", searchFullname);
+            String searchname;
+                if (request.getParameter("searchname") == null && session.getAttribute("searchname") == null) {
+                    searchname = "";
+                } else if (request.getParameter("searchname") != null) {
+                    searchname = request.getParameter("searchname");
+                    session.setAttribute("searchname", searchname);
                 } else {
-                    searchFullname = (String) session.getAttribute("searchFullname");
+                    searchname = (String) session.getAttribute("searchname");
                 }
             UserDAO ud = new UserDAO();
-            int total = ud.getTotalUsersWithSearch(searchFullname);
-            ArrayList<UserDetails> us = ud.getUsersWithPagination((pageNum - 1) * 10, 10, searchFullname);
+            int total = ud.getTotalUsersWithSearch(searchname);
+            ArrayList<UserDetails> usd = ud.getUsersWithPagination((pageNum - 1) * 10, 10, searchname);
         %>
         <div class="container-fluid position-relative bg-white d-flex p-0">
             <!-- Sidebar Start -->
@@ -78,13 +78,13 @@
                         <div class="row g-4">
                             <div class="col-12">
                                 <div class="bg-light rounded h-100 p-4">
-                                    <h6 class="mb-4">Manage users</h6>
+                                    <h6 class="mb-4">Statistic Of All Mentee</h6>
                                     <div class="inner-form">
-                                        <form action="AdminManageUsers.jsp" >
+                                        <form action="StatisticOfAllMentee.jsp" >
                                             <div class="input-field">
                                                 <input type="text" name="page" value="1" hidden/>
                                                 <div class="form-group">
-                                                    <input class="form-control"name="searchFullname" type="text" placeholder="Type to search..." value="<%=searchFullname%>"/>
+                                                    <input class="form-control"name="searchname" type="text" placeholder="Type to search..." value="<%=searchname%>"/>
                                             </div>
                                         </div>
                                     </form>
@@ -106,10 +106,10 @@
                                             <%
                                                 
                                                 
-                                                for (int i = 0; i < us.size(); i++) {
-                                                    UserDetails user = us.get(i);
-                                                    int countRequest = ud.getNumberOfRequests(user.getUserId());
-                                                    
+                                                for (int i = 0; i < usd.size(); i++) {
+                                                    UserDetails user = usd.get(i);
+                                                    int countRequest = ud.getAllNumberOfRequests(user.getUserId());
+                                                    int countSkill = ud.getAllNumberOfSkillOfRequests(user.getUserId());
                                             %>
                                             <tr <% if (user.getStatus().equalsIgnoreCase("Inactive")) { %>
                                                 class="deleted-row"
@@ -119,8 +119,8 @@
                                                 <td><%=user.getUserId()%></td>
                                                 <td><%=user.getFullname()%></td>
                                                 <td><%=user.getUsername()%></td>
-                                                <td><%=Constants.roleNames.get(user.getRoleId()) %></td>
                                                 <td style="text-align: center"><%=countRequest%></td>
+                                                <td style="text-align: center"><%=countSkill%></td>
                                             </tr>
                                             <% 
                                                 }
@@ -135,7 +135,7 @@
                 <nav aria-label="...">
                     <ul class="pagination pagination-sm">
                         <%for (int i = 1; i <= (int) Math.ceil((double) (total) / 10); i++) {%>
-                        <li class="page-item"><a class="page-link" href="StatisticOfAllMentee.jsp?searchFullname=<%=searchFullname%>&page=<%=i%>"><%= i%></a></li>
+                        <li class="page-item"><a class="page-link" href="StatisticOfAllMentee.jsp?searchname=<%=searchname%>&page=<%=i%>"><%= i%></a></li>
                             <%}%>
                     </ul>
                 </nav>
