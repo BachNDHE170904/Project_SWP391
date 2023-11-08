@@ -182,9 +182,9 @@
                                                             </li>
                                                         </c:if>
                                                     </c:forEach>
-                                                    <c:if test="${page >= total}">
-                                                        <li>
-                                                            <a class="page-link disabled" href="ListRequestController?page=${page+1}">></a>
+                                                    <c:if test="${page == total}">
+                                                        <li class="page-item disabled">
+                                                            <a class="page-link" href="ListRequestController?page=${page+1}">></a>
                                                         </li>
                                                     </c:if>
                                                     <c:if test="${page != total and page < total}">
