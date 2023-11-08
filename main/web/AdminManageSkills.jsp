@@ -98,6 +98,7 @@
                                                     <input class="form-control"name="searchValue" type="text" placeholder="Type to search..." value="<%=searchValue%>"/>
                                             </div>
                                         </div>
+                                        <label class="col-form-label">Status: </label>
                                         <select name="filterValue">
                                             <option value="" >All</option>
                                             <option value="Active" <%if (filterValue.equalsIgnoreCase("Active")) {%>selected<%}%>>Active</option>
