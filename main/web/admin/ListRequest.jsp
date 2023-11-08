@@ -43,6 +43,14 @@
                 <jsp:forward page="../WelcomePage.jsp"></jsp:forward>
             </c:when>
             <c:otherwise>
+                <%
+                    String msg = (String) session.getAttribute("successMsg");
+                    if (msg != null) {%>
+                <script>
+                    swal("Congrats", "<%= msg%>", "success");
+                </script>
+                <% session.removeAttribute("successMsg");
+                    }%>
                 <div class="container-fluid position-relative bg-white d-flex p-0">
                     <!-- Sidebar Start -->
                     <jsp:include page="../DashBoardSideBar.jsp"></jsp:include>
@@ -194,7 +202,7 @@
                                                     </c:if>
                                                 </ul>
                                             </div>
-                                            
+
                                         </div>
                                     </div>
                                 </div>
