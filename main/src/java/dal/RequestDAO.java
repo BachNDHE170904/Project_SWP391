@@ -630,14 +630,44 @@ public class RequestDAO extends BaseDAO<Skill> {
         return 0;
     }
 
-    public List<Request> getPagingRequests(int index) {
+    public int countPagingRequests(String key, int statusId) {
+        try {
+            String sql = "Select Count(*) from RequestDetail r join Requests re on r.requestId = re.requestId join Users u on u.userId = re.userId Where username like ?\n";
+            if (statusId > 0) {
+                sql += "and statusId = ? ";
+            }
+            PreparedStatement ptm = connection.prepareStatement(sql);
+            int i = 1;
+            ptm.setString(i++, "%" + key + "%");
+            if (statusId > 0) {
+                ptm.setInt(i++, statusId);
+            }
+            ResultSet rs = ptm.executeQuery();
+            while (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(RequestDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return 0;
+    }
+
+    public List<Request> getPagingRequests(int index, String key, int statusId) {
         try {
             List<Request> list = new ArrayList<>();
-            String sql = "Select * from RequestDetail r join Requests re on r.requestId = re.requestId join Users u on u.userId = re.userId\n"
-                    + " order by r.requestId offset ? rows fetch next 10 rows only";
+            String sql = "Select * from RequestDetail r join Requests re on r.requestId = re.requestId join Users u on u.userId = re.userId Where username like ?\n";
+            if (statusId > 0) {
+                sql += "and statusId = ? ";
+            }
+            sql += " order by r.requestId offset ? rows fetch next 10 rows only";
             PreparedStatement ptm = connection.prepareStatement(sql);
             int n = (index - 1) * 10;
-            ptm.setInt(1, n);
+            int i = 1;
+            ptm.setString(i++, "%" + key + "%");
+            if (statusId > 0) {
+                ptm.setInt(i++, statusId);
+            }
+            ptm.setInt(i++, n);
             ResultSet rs = ptm.executeQuery();
             while (rs.next()) {
                 Request request = new Request();
@@ -691,5 +721,4 @@ public class RequestDAO extends BaseDAO<Skill> {
         }
         return null;
     }
-
 }

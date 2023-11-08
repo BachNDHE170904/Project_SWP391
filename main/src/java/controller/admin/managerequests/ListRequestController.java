@@ -4,6 +4,7 @@
  */
 package controller.admin.managerequests;
 
+import controller.Common;
 import dal.ProgramingLanguageDAO;
 import dal.RequestDAO;
 import dal.SkillDAO;
@@ -29,32 +30,45 @@ public class ListRequestController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         RequestDAO rd = new RequestDAO();
-        List<Request> lr = rd.getRequests();
-        
         int page = 1;
         if (request.getParameter("page") != null) {
             page = Integer.valueOf(request.getParameter("page"));
         }
-        int allRequests = rd.countRequest();
-        int totalPage = allRequests / 10;
-        if (allRequests % 10 != 0) {
-            totalPage = totalPage + 1;
-        }
-        request.setAttribute("page", page);
-        request.setAttribute("total", totalPage);
-        request.setAttribute("ep", totalPage);
-        lr = rd.getPagingRequests(page);
-        
+
         StatusDAO statusDAO = new StatusDAO();
         ArrayList<Status> statuses = statusDAO.getAll();
         ProgramingLanguageDAO programingLanguageDAO = new ProgramingLanguageDAO();
         ArrayList<ProgramingLanguage> listPro = programingLanguageDAO.getActiveProgramingLanguage();
         SkillDAO skillDAO = new SkillDAO();
         ArrayList<Skill> skills = skillDAO.getActiveSkills();
+        String key = Common.handleString(request.getParameter("key"));
+        String statusStr = Common.handleString(request.getParameter("status"));
+        int status = 0;
+        if ("1".equals(statusStr)) {
+            status = 1;
+        } else if ("2".equals(statusStr)) {
+            status = 2;
+        } else if ("3".equals(statusStr)) {
+            status = 3;
+        } else if ("4".equals(statusStr)) {
+            status = 4;
+        }
+        int allRequests = rd.countPagingRequests(key, status);
+        int totalPage = allRequests / 10;
+        if (allRequests % 10 != 0) {
+            totalPage = totalPage + 1;
+        }
+        List<Request> lr = rd.getPagingRequests(page, key, status);
+
         request.setAttribute("statuses", statuses);
         request.setAttribute("pros", listPro);
         request.setAttribute("skills", skills);
         request.setAttribute("listRequests", lr);
+        request.setAttribute("key", key);
+        request.setAttribute("status", status);
+        request.setAttribute("page", page);
+        request.setAttribute("total", totalPage);
+        request.setAttribute("ep", totalPage);
         request.getRequestDispatcher("admin/ListRequest.jsp").forward(request, response);
     }
 
