@@ -403,6 +403,64 @@ public class MentorDAO extends BaseDAO<Skill> {
         return mentors;
     }
 
+    public ArrayList<Mentor> getTop4ActiveMentors() {
+        ArrayList<Mentor> mentors = new ArrayList<>();
+        try {
+            String sql = "SELECT top 4\n"
+                    + "    ud.userId AS ID,\n"
+                    + "    m.mentorId,\n"
+                    + "    ud.fullname AS Fullname,\n"
+                    + "    ud.username AS AccountName,\n"
+                    + "    mc.profession AS Profession,\n"
+                    + "    us.userStatus AS userStatus,\n"
+                    + "    u.userAuthorization AS UserAuthorized\n"
+                    + "FROM UserDetail ud\n"
+                    + "INNER JOIN UserStatus us ON us.userId = ud.userId\n"
+                    + "INNER JOIN Users u ON u.userId = ud.userId\n"
+                    + "INNER JOIN Mentor m ON ud.userId = m.userId\n"
+                    + "INNER JOIN MentorCV mc ON m.mentorId = mc.mentorId\n"
+                    + "WHERE ud.roleId = 4 AND us.userStatus = 'active'";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                Mentor mentor = new Mentor();
+                mentor.setUserid(rs.getInt("ID"));
+                mentor.setMentorId(rs.getInt("mentorId"));
+                mentor.setFullname(rs.getString("Fullname"));
+                mentor.setUsername(rs.getString("AccountName"));
+
+                // Lấy thông tin về profession từ ResultSet và thiết lập cho mentor
+                mentor.setProfession(rs.getString("Profession"));
+                mentor.setStatus(rs.getString("userStatus"));
+                mentor.setAverageRating(this.getAverageRatingOfMentorByMentorId(mentor.getMentorId()));
+                mentor.setTotalRating(this.getTotalRatingOfMentorByMentorId(mentor.getMentorId()));
+                mentor.setCurrentRequests(this.getNumberOfRequestsMentorHas(mentor.getMentorId()));
+                String selectSkills = "select * from MentorSkills m where m.mentorId = ?\n";
+                String selectLanguages = "select * from MentorProgramingLanguage m where m.mentorId = ?\n";
+                ArrayList<Integer> skills = new ArrayList<>();
+                ArrayList<Integer> languages = new ArrayList<>();
+                PreparedStatement selectSkillsStatement = connection.prepareStatement(selectSkills);
+                selectSkillsStatement.setInt(1, mentor.getMentorId());
+                ResultSet rs2 = selectSkillsStatement.executeQuery();
+                while (rs2.next()) {
+                    skills.add(rs2.getInt("skillId"));
+                }
+                PreparedStatement selectLanguagesStatement = connection.prepareStatement(selectLanguages);
+                selectLanguagesStatement.setInt(1, mentor.getMentorId());
+                ResultSet rs3 = selectLanguagesStatement.executeQuery();
+                while (rs3.next()) {
+                    languages.add(rs3.getInt("languageId"));
+                }
+                mentor.setSkillsId(skills);
+                mentor.setLanguageId(languages);
+                mentors.add(mentor);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return mentors;
+    }
+
     public int getNumberOfRequestsMentorHas(int mentorId) {
         try {
             String sql = "select COUNT(requestId)as requests from RequestDetail rd where statusId=2 and mentorId=?";
@@ -478,8 +536,8 @@ public class MentorDAO extends BaseDAO<Skill> {
         }
         return null;
     }
-    
-    public int getTotalMentorWithSearch(String search,String filterStatus) {
+
+    public int getTotalMentorWithSearch(String search, String filterStatus) {
         try {
             String sql = "SELECT COUNT(*) AS total\n"
                     + "FROM UserDetail ud \n"
@@ -487,7 +545,7 @@ public class MentorDAO extends BaseDAO<Skill> {
                     + "INNER JOIN Users u ON u.userId = ud.userId\n"
                     + "INNER JOIN Mentor m ON ud.userId = m.userId\n"
                     + "INNER JOIN MentorCV mc ON m.mentorId = mc.mentorId\n"
-                    + "where ud.roleId = 4 AND ud.fullname like'%"+search+"%'and us.userStatus like'"+filterStatus+"%'";
+                    + "where ud.roleId = 4 AND ud.fullname like'%" + search + "%'and us.userStatus like'" + filterStatus + "%'";
             PreparedStatement statement = connection.prepareStatement(sql);
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
@@ -498,8 +556,8 @@ public class MentorDAO extends BaseDAO<Skill> {
         }
         return 0;
     }
-    
-    public ArrayList<Mentor> getMentorWithPagination(int start, int total,String search,String filterStatus) {
+
+    public ArrayList<Mentor> getMentorWithPagination(int start, int total, String search, String filterStatus) {
         ArrayList<Mentor> mt = new ArrayList<>();
         try {
             String sql = "SELECT * "
@@ -508,10 +566,10 @@ public class MentorDAO extends BaseDAO<Skill> {
                     + "INNER JOIN Users u ON u.userId = ud.userId\n"
                     + "INNER JOIN Mentor m ON ud.userId = m.userId\n"
                     + "INNER JOIN MentorCV mc ON m.mentorId = mc.mentorId\n"
-                    + "where ud.roleId = 4 AND ud.fullname like'%"+search+"%'and us.userStatus like'"+filterStatus+"%'"
-                    +"order by u.userId\n"
-                    +"OFFSET "+start+" ROWS \n"
-                    +"FETCH NEXT "+ total + " ROWS ONLY \n";
+                    + "where ud.roleId = 4 AND ud.fullname like'%" + search + "%'and us.userStatus like'" + filterStatus + "%'"
+                    + "order by u.userId\n"
+                    + "OFFSET " + start + " ROWS \n"
+                    + "FETCH NEXT " + total + " ROWS ONLY \n";
             PreparedStatement statement = connection.prepareStatement(sql);
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
@@ -529,7 +587,7 @@ public class MentorDAO extends BaseDAO<Skill> {
         }
         return mt;
     }
-    
+
     public float getPercentageCompleted(int mentorId) {
         String sql = "SELECT \n"
                 + "    t1.mentorId,\n"
@@ -556,7 +614,7 @@ public class MentorDAO extends BaseDAO<Skill> {
             PreparedStatement stm = connection.prepareStatement(sql);
             stm.setInt(1, mentorId);
             ResultSet rs = stm.executeQuery();
-            while(rs.next()) {
+            while (rs.next()) {
                 return rs.getFloat("completion_rate");
             }
         } catch (SQLException ex) {

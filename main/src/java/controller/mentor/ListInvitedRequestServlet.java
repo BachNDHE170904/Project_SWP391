@@ -49,9 +49,11 @@ public class ListInvitedRequestServlet extends HttpServlet {
             RequestDAO requestDAO = new RequestDAO();
             if (!id.isEmpty()&&action.equalsIgnoreCase("accept")) {
                 requestDAO.updateRequestStatus(Common.handleInt(id), 2);
+                request.getSession().setAttribute("successMsg", "The request is accepted successfully!");
             }
             if(!id.isEmpty()&&action.equalsIgnoreCase("reject")){
                 requestDAO.setMentorIdForRequest(Common.handleInt(id), 0);
+                request.getSession().setAttribute("successMsg", "The request is rejected successfully!");
             }
             ArrayList<Request> list = requestDAO.getRequestByMentorID(user.getUserId(), 1, Common.handlePaging(currPage));
             int pageNum = Common.handleNum(requestDAO.countRequestByMentorID(user.getUserId(), 2));

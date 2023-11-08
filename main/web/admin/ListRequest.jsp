@@ -34,7 +34,6 @@
 
         <!-- Template Stylesheet -->
         <link href="css/AdminDashBoardStyleIndex.css" rel="stylesheet">
-        <link rel="stylesheet" type="text/css" href="css/ViewRequest.css">
     </head>
 
     <body>
@@ -61,35 +60,40 @@
                         <jsp:include page="../NavBar.jsp"></jsp:include>
                             <!-- Navbar End -->
                             <!-- Table Start -->
-                        <% List<Request> list = (List<Request>) request.getAttribute("listRequests");%>
-                        <div class="container-fluid pt-4 px-4">
-                            <div class="row g-4">
-                                <div class="col-12">
-                                    <div class="bg-light rounded h-100 p-4">
-                                        <h6 class="mb-4">Manage Requests</h6>
-                                        <div class="inner-form">
-                                            <div class="input-field">
-                                                <input class="form-control" id="choices-text-preset-values" type="text" placeholder="Type to search..." />
-                                                <button class="btn-search" type="button">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                                                    <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path>
-                                                    </svg>
-                                                </button>
-                                            </div>
-                                        </div>
-                                        <div class="table-responsive">
-                                            <table class="table">
-                                                <thead>
-                                                    <tr>
-                                                        <th scope="col">#</th>
-                                                        <th scope="col">ID</th>
-                                                        <th scope="col">Account Name</th>
-                                                        <th scope="col">Title</th>
-                                                        <th scope="col">Status</th>
-                                                        <th scope="col">Action</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
+                            <div class="container-fluid pt-4 px-4">
+                                <div class="row g-4">
+                                    <div class="col-12">
+                                        <div class="bg-light rounded h-100 p-4">
+                                            <h6 class="mb-4">Manage Requests</h6>
+                                            <div class="table-responsive">
+                                                <div class="search-container">
+                                                    <div style="display: contents;">
+                                                        <div class="form-group">
+                                                            <input class="form-control"name="searchValue" id="search" type="text" placeholder="Type to search..." value="${key}"/>
+                                                    </div>
+                                                </div>
+                                                <label class="col-form-label">Status: </label>
+                                                <select id="status" onchange="status()">
+                                                    <option value="-1">All</option>
+                                                    <option value="1" <c:if test="${status == 1}">selected</c:if>>Open</option>
+                                                    <option value="2" <c:if test="${status == 2}">selected</c:if>>Processing</option>
+                                                    <option value="3" <c:if test="${status == 3}">selected</c:if>>Cancel</option>
+                                                    <option value="4" <c:if test="${status == 4}">selected</c:if>>Closed</option>
+                                                    </select>
+                                                    <button class="btn btn-primary" onclick="search()">Filter</button>
+                                                </div>
+                                                <table class="table">
+                                                    <thead>
+                                                        <tr>
+                                                            <th scope="col">#</th>
+                                                            <th scope="col">ID</th>
+                                                            <th scope="col">Account Name</th>
+                                                            <th scope="col">Title</th>
+                                                            <th scope="col">Status</th>
+                                                            <th scope="col">Action</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
                                                     <c:forEach items="${requestScope.listRequests}" var="item" varStatus="loop">
                                                         <tr>
                                                             <td>${loop.index + 1}</td>
@@ -168,36 +172,36 @@
                                                 <ul class="pagination justify-content-center">
                                                     <c:if test="${page eq 1}">
                                                         <li class="page-item disabled">
-                                                            <a class="page-link" href="ListRequestController?page=${page-1}" tabindex="-1"><</a>
+                                                            <a class="page-link" href="ListRequestController?page=${page-1}&key=${key}&status= ${status}" tabindex="-1"><</a>
                                                         </li>
                                                     </c:if>
                                                     <c:if test="${page != 1}">
                                                         <li class="page-item">
-                                                            <a class="page-link" href="ListRequestController?page=${page-1}" tabindex="-1"><</a>
+                                                            <a class="page-link" href="ListRequestController?page=${page-1}&key=${key}&status= ${status}" tabindex="-1"><</a>
                                                         </li>
                                                     </c:if>
 
                                                     <c:forEach begin="${1}" end="${total}" step="${1}" var="i">
                                                         <c:if test="${page eq i}">
                                                             <li class="page-item active">
-                                                                <a class="page-link" href="ListRequestController?page=${i}">${i}</a> 
+                                                                <a class="page-link" href="ListRequestController?page=${i}&key=${key}&status= ${status}">${i}</a> 
                                                                 <span class="sr-only">(current)</span>
                                                             </li>
                                                         </c:if>
                                                         <c:if test="${page != i}">
                                                             <li class="page-item">
-                                                                <a class="page-link" href="ListRequestController?page=${i}">${i}</a> 
+                                                                <a class="page-link" href="ListRequestController?page=${i}&key=${key}&status= ${status}">${i}</a> 
                                                             </li>
                                                         </c:if>
                                                     </c:forEach>
                                                     <c:if test="${page == total}">
                                                         <li class="page-item disabled">
-                                                            <a class="page-link" href="ListRequestController?page=${page+1}">></a>
+                                                            <a class="page-link" href="ListRequestController?page=${page+1}&key=${key}&status= ${status}">></a>
                                                         </li>
                                                     </c:if>
                                                     <c:if test="${page != total and page < total}">
                                                         <li>
-                                                            <a class="page-link" href="ListRequestController?page=${page+1}">></a>
+                                                            <a class="page-link" href="ListRequestController?page=${page+1}&key=${key}&status= ${status}">></a>
                                                         </li>
                                                     </c:if>
                                                 </ul>
@@ -215,25 +219,16 @@
                     <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
                 </div>
             </c:otherwise>
-        </c:choose>
+        </c:choose>        
         <script>
-            function searchUsers() {
-
-                var searchValue = document.getElementById("choices-text-preset-values").value.toLowerCase();
-
-                var tableRows = document.querySelectorAll(".table tbody tr");
-
-                for (var i = 0; i < tableRows.length; i++) {
-                    var fullName = tableRows[i].querySelector("td:nth-child(3)").textContent.toLowerCase();
-
-                    if (fullName.includes(searchValue)) {
-                        tableRows[i].style.display = "";
-                    } else {
-                        tableRows[i].style.display = "none";
-                    }
-                }
+            function search() {
+                let key = document.getElementById('search').value;
+                location.replace("${pageContext.servletContext.contextPath}/ListRequestController?key=" + key + "&status= ${status}");
             }
-            document.querySelector(".btn-search").addEventListener("click", searchUsers);
+            function status() {
+                let status = document.getElementById('status').value;
+                location.replace("${pageContext.servletContext.contextPath}/ListRequestController?key=${key}&status=" + status);
+            }
         </script>
         <!-- JavaScript Libraries -->
         <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>

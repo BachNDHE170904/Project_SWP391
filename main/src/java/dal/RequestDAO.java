@@ -630,14 +630,44 @@ public class RequestDAO extends BaseDAO<Skill> {
         return 0;
     }
 
-    public List<Request> getPagingRequests(int index) {
+    public int countPagingRequests(String key, int statusId) {
+        try {
+            String sql = "Select Count(*) from RequestDetail r join Requests re on r.requestId = re.requestId join Users u on u.userId = re.userId Where username like ?\n";
+            if (statusId > 0) {
+                sql += "and statusId = ? ";
+            }
+            PreparedStatement ptm = connection.prepareStatement(sql);
+            int i = 1;
+            ptm.setString(i++, "%" + key + "%");
+            if (statusId > 0) {
+                ptm.setInt(i++, statusId);
+            }
+            ResultSet rs = ptm.executeQuery();
+            while (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(RequestDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return 0;
+    }
+
+    public List<Request> getPagingRequests(int index, String key, int statusId) {
         try {
             List<Request> list = new ArrayList<>();
-            String sql = "Select * from RequestDetail r join Requests re on r.requestId = re.requestId join Users u on u.userId = re.userId\n"
-                    + " order by r.requestId offset ? rows fetch next 10 rows only";
+            String sql = "Select * from RequestDetail r join Requests re on r.requestId = re.requestId join Users u on u.userId = re.userId Where username like ?\n";
+            if (statusId > 0) {
+                sql += "and statusId = ? ";
+            }
+            sql += " order by r.requestId offset ? rows fetch next 10 rows only";
             PreparedStatement ptm = connection.prepareStatement(sql);
             int n = (index - 1) * 10;
-            ptm.setInt(1, n);
+            int i = 1;
+            ptm.setString(i++, "%" + key + "%");
+            if (statusId > 0) {
+                ptm.setInt(i++, statusId);
+            }
+            ptm.setInt(i++, n);
             ResultSet rs = ptm.executeQuery();
             while (rs.next()) {
                 Request request = new Request();
@@ -692,4 +722,81 @@ public class RequestDAO extends BaseDAO<Skill> {
         return null;
     }
 
+    public List<Request> getPagingRequestByIDWhichIsClosed(int userId, int index) {
+        try {
+            List<Request> list = new ArrayList<>();
+            String sql = "Select * from RequestDetail r join Requests re on r.requestId = re.requestId\n"
+                    + "where userId = ? and r.statusId = 4 order by r.requestId offset ? rows fetch next 10 rows only";
+            PreparedStatement ptm = connection.prepareStatement(sql);
+            ptm.setInt(1, userId);
+            int n = (index - 1) * 10;
+            ptm.setInt(2, n);
+            ResultSet rs = ptm.executeQuery();
+            while (rs.next()) {
+                Request request = new Request();
+                request.setId(rs.getInt(1));
+                request.setTitle(rs.getString(2));
+                request.setContent(rs.getString(3));
+                request.setCreateDate(rs.getDate(4));
+                request.setDeadline(rs.getDate(5));
+                int mentorId = rs.getInt("mentorId");
+                if (rs.wasNull()) {
+                    request.setMentorId(0);
+                } else {
+                    request.setMentorId(mentorId);
+                }
+                Status status = new Status();
+                String xSQL = "Select * from Statuses where statusId = ?";
+                PreparedStatement qtm = connection.prepareStatement(xSQL);
+                qtm.setInt(1, rs.getInt(6));
+                ResultSet resultSet = qtm.executeQuery();
+                while (resultSet.next()) {
+                    status.setId(resultSet.getInt(1));
+                    status.setName(resultSet.getString(2));
+                }
+                request.setStatus(status);
+                String qSQL = "Select * from requestSkillsChoices where requestId = ?";
+                PreparedStatement xtm = connection.prepareStatement(qSQL);
+                xtm.setInt(1, rs.getInt(1));
+                ResultSet a = xtm.executeQuery();
+                ProgramingLanguage pg = new ProgramingLanguage();
+                ProgramingLanguageDAO programingLanguageDAO = new ProgramingLanguageDAO();
+                if (a.next()) {
+                    pg = programingLanguageDAO.getProgramingLanguageById(a.getInt(4));
+                }
+                request.setPro(pg);
+                List<Skill> skills = new ArrayList<Skill>();
+                String mSQL = "Select * from requestSkillsChoices where requestId = ?";
+                PreparedStatement b = connection.prepareStatement(mSQL);
+                xtm.setInt(1, rs.getInt(1));
+                ResultSet ab = xtm.executeQuery();
+                while (ab.next()) {
+                    SkillDAO skillDAO = new SkillDAO();
+                    skills.add(skillDAO.getSkillById(ab.getInt(3)));
+                }
+                request.setSkills(skills);
+                list.add(request);
+            }
+            return list;
+        } catch (SQLException ex) {
+            Logger.getLogger(RequestDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+
+    public int countRequestByUserIdWhichIsClosed(int userId) {
+        try {
+            String sql = "Select count(*) from RequestDetail r join Requests re on r.requestId = re.requestId\n"
+                    + " where userId = ? and r.statusId = 4";
+            PreparedStatement ptm = connection.prepareStatement(sql);
+            ptm.setInt(1, userId);
+            ResultSet rs = ptm.executeQuery();
+            while (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(RequestDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return 0;
+    }
 }

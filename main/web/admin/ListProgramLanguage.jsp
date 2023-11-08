@@ -32,46 +32,6 @@
 
         <!-- Template Stylesheet -->
         <link href="css/AdminDashBoardStyleIndex.css" rel="stylesheet">
-        <style>
-            .pagination {
-                display: inline-block;
-            }
-
-            .pagination a {
-                color: black;
-                float: left;
-                padding: 8px 16px;
-                text-decoration: none;
-            }
-
-            .pagination a.active {
-                background-color: #4CAF50;
-                color: white;
-            }
-
-            .pagination a:hover:not(.active) {
-                background-color: #ddd;
-            }
-            
-            .search-container button {
-                float: right;
-                padding: 2px 10px;
-                background: #ddd;
-                font-size: 17px;
-                border: none;
-                cursor: pointer;
-            }
-            
-            .search-container {
-                float: right;
-                display: flex;
-                align-items: center;
-            }
-
-            .search-container button:hover {
-                background: #ccc;
-            }
-        </style>
     </head>
 
     <body>
@@ -97,18 +57,19 @@
                                             <h6 class="mb-4">Manage program language</h6>
                                             <div class="table-responsive">
                                                 <div class="search-container">
-                                                    <div style="margin-right: 10px;">
-                                                        <label class="col-form-label">Status: </label>
-                                                        <select id="status" onchange="status()">
-                                                            <option value="-1">All</option>
-                                                            <option value="1" <c:if test="${status == 1}">selected</c:if>>Active</option>
-                                                            <option value="0" <c:if test="${status == 0}">selected</c:if>>Inactive</option>
-                                                        </select>
-                                                    </div>
                                                     <div style="display: contents;">
-                                                        <label class="col-form-label">Search: </label>
-                                                        <input type="text" placeholder="Search.." id="search" value="${key}">
-                                                        <button type="button" onclick="search()"><i class="fa fa-search"></i></button>
+                                                        <div class="form-group">
+                                                            <input class="form-control"name="searchValue" id="search" type="text" placeholder="Type to search..." value="${key}"/>
+                                                    </div>
+                                                </div>
+                                                <div style="margin-right: 10px;">
+                                                    <label class="col-form-label">Status: </label>
+                                                    <select id="status" onchange="status()">
+                                                        <option value="-1">All</option>
+                                                        <option value="1" <c:if test="${status == 1}">selected</c:if>>Active</option>
+                                                        <option value="0" <c:if test="${status == 0}">selected</c:if>>Inactive</option>
+                                                        </select>
+                                                        <button class="btn btn-primary" onclick="search()">Filter</button>
                                                     </div>
                                                 </div>
                                                 <table class="table">
@@ -134,20 +95,30 @@
                                                     </c:forEach>
                                                 </tbody>
                                             </table>
-                                            <div class="pagination">
-                                                <a href="ProgramLanguageServlet?page=1&key=${key}&status= ${status}">&laquo;</a>
-                                                <c:forEach var="i" begin="1" end="${pageNum}">
-                                                    <c:choose>
-                                                        <c:when test="${i==currPage}">
-                                                            <a class="active" href="ProgramLanguageServlet?page=${i}&key=${key}&status= ${status}">${i}</a>
-                                                        </c:when>
-                                                        <c:otherwise>
-                                                            <a href="ProgramLanguageServlet?page=${i}&key=${key}&status= ${status}">${i}</a>
-                                                        </c:otherwise>
-                                                    </c:choose>
-                                                </c:forEach>
-                                                <a href="ProgramLanguageServlet?page=${pageNum}&key=${key}&status= ${status}">&raquo;</a>
-                                            </div>
+                                            <nav aria-label="...">
+                                                <ul class="pagination">
+                                                    <li class="page-item">
+                                                        <a class="page-link" href="ProgramLanguageServlet?page=1&key=${key}&status= ${status}">&laquo;</a>
+                                                    </li>
+                                                    <c:forEach var="i" begin="1" end="${pageNum}">
+                                                        <c:choose>
+                                                            <c:when test="${i==currPage}">
+                                                                <li class="page-item">
+                                                                    <a class="page-link active" href="ProgramLanguageServlet?page=${i}&key=${key}&status= ${status}">${i}</a>
+                                                                </li>
+                                                            </c:when>
+                                                            <c:otherwise>
+                                                                <li class="page-item">
+                                                                    <a class="page-link" href="ProgramLanguageServlet?page=${i}&key=${key}&status= ${status}">${i}</a>
+                                                                </li>
+                                                            </c:otherwise>
+                                                        </c:choose>
+                                                    </c:forEach>
+                                                    <li class="page-item">
+                                                        <a class="page-link" href="ProgramLanguageServlet?page=${pageNum}&key=${key}&status= ${status}">&raquo;</a>
+                                                    </li>
+                                                </ul>
+                                            </nav>
                                         </div>
                                     </div>
                                 </div>
@@ -161,7 +132,7 @@
                 </div>
             </c:otherwise>
         </c:choose>
-        <script >
+        <script>
             function search() {
                 let key = document.getElementById('search').value;
                 location.replace("${pageContext.servletContext.contextPath}/ProgramLanguageServlet?key=" + key + "&status= ${status}");
