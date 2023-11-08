@@ -84,8 +84,9 @@
                                             <div class="input-field">
                                                 <input type="text" name="page" value="1" hidden/>
                                                 <div class="form-group">
-                                                    <input class="form-control"name="searchname" type="text" placeholder="Type to search..." value="<%=searchname%>"/>
-                                            </div>
+                                                    <input class="form-control"name="searchname" type="text" placeholder="Type to search..." value="<%=searchname%>" id="myInput"/>
+                                                <button type="submit" id="myBtn" style="background-color: #0dcaf0; color: #ffffff">Search</button>
+                                                </div>
                                         </div>
                                     </form>
                                     </div>
