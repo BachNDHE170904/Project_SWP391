@@ -553,7 +553,7 @@ public class UserDAO extends BaseDAO<User> {
     public ArrayList<UserDetails> getUsersWithPagination(int start, int total,String search) {
         ArrayList<UserDetails> usd = new ArrayList<>();
         try {
-            String sql = "SELECT * FRO M Users, UserDetail, UserStatus, Roles where Users.userId = UserDetail.userId  AND Users.userId= UserStatus.userId AND UserDetail.roleId = 3 AND UserDetail.roleId = Roles.roleId AND UserDetail.fullname like'%"+search+"%'"
+            String sql = "SELECT * FROM Users, UserDetail, UserStatus, Roles where Users.userId = UserDetail.userId  AND Users.userId= UserStatus.userId AND UserDetail.roleId = 3 AND UserDetail.roleId = Roles.roleId AND UserDetail.fullname like'%"+search+"%'"
                     +"order by Users.userId\n"
                     +"OFFSET "+start+" ROWS \n"
                     +"FETCH NEXT "+ total + " ROWS ONLY \n";
