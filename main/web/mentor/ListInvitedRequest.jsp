@@ -62,6 +62,22 @@
     </head>
 
     <body>
+        <%
+                    String msg = (String) session.getAttribute("successMsg");
+                    if (msg != null) {%>
+        <script>
+            swal("Congrats", "<%= msg%>", "success");
+        </script>
+        <% session.removeAttribute("successMsg");
+            }%>
+        <%
+            String emsg = (String) session.getAttribute("errorMsg");
+            if (emsg != null) {%>
+        <script>
+            swal("Oops", "<%= emsg%>", "error");
+        </script>
+        <% session.removeAttribute("errorMsg");
+            }%>
         <c:choose>
             <c:when test="${sessionScope.user == null || sessionScope.userDetail.getRoleId() != 4}">
                 <jsp:forward page="../WelcomePage.jsp"></jsp:forward>
