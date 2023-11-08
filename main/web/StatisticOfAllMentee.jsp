@@ -47,8 +47,8 @@
             User acc = (User) session.getAttribute("user");
             UserDetails details = (UserDetails) session.getAttribute("userDetail");
             if (acc != null && details.getRoleId() == 1) {
-            int pageNum = Integer.parseInt(request.getParameter("page"));
-            String searchname;
+                int pageNum = Integer.parseInt(request.getParameter("page"));
+                String searchname;
                 if (request.getParameter("searchname") == null && session.getAttribute("searchname") == null) {
                     searchname = "";
                 } else if (request.getParameter("searchname") != null) {
@@ -57,9 +57,9 @@
                 } else {
                     searchname = (String) session.getAttribute("searchname");
                 }
-            UserDAO ud = new UserDAO();
-            int total = ud.getTotalUsersWithSearch(searchname);
-            ArrayList<UserDetails> usd = ud.getUsersWithPagination((pageNum - 1) * 10, 10, searchname);
+                UserDAO ud = new UserDAO();
+                int total = ud.getTotalUsersWithSearch(searchname);
+                ArrayList<UserDetails> usd = ud.getUsersWithPagination((pageNum - 1) * 10, 10, searchname);
         %>
         <div class="container-fluid position-relative bg-white d-flex p-0">
             <!-- Sidebar Start -->
@@ -73,7 +73,7 @@
                     <!-- Navbar End -->
 
                     <!-- Table Start -->
-                   
+
                     <div class="container-fluid pt-4 px-4">
                         <div class="row g-4">
                             <div class="col-12">
@@ -86,27 +86,26 @@
                                                 <div class="form-group">
                                                     <input class="form-control"name="searchname" type="text" placeholder="Type to search..." value="<%=searchname%>" id="myInput"/>
                                                 <button type="submit" id="myBtn" style="background-color: #0dcaf0; color: #ffffff">Search</button>
-                                                </div>
+                                            </div>
                                         </div>
                                     </form>
-                                    </div>
-                                    
-                                    <div class="table-responsive">
-                                        <table class="table">
-                                            <thead>
-                                                <tr>
-                                                    <th scope="col">#</th>
-                                                    <th scope="col">ID</th>
-                                                    <th scope="col">Full Name</th>
-                                                    <th scope="col">Account Name</th>
-                                                    <th scope="col">Total of all requests</th>
-                                                    <th scope="col">Total of skills of all requests</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
+                                </div>
+
+                                <div class="table-responsive">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">#</th>
+                                                <th scope="col">ID</th>
+                                                <th scope="col">Full Name</th>
+                                                <th scope="col">Account Name</th>
+                                                <th scope="col">Total of all requests</th>
+                                                <th scope="col">Total of skills of all requests</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
                                             <%
-                                                
-                                                
+
                                                 for (int i = 0; i < usd.size(); i++) {
                                                     UserDetails user = usd.get(i);
                                                     int countRequest = ud.getAllNumberOfRequests(user.getUserId());
@@ -123,10 +122,10 @@
                                                 <td style="text-align: center"><%=countRequest%></td>
                                                 <td style="text-align: center"><%=countSkill%></td>
                                             </tr>
-                                            <% 
+                                            <%
                                                 }
                                             %>
-                                            </tbody>
+                                        </tbody>
                                     </table>
                                 </div>
                             </div>
@@ -161,7 +160,20 @@
                     selectedFilter.value = filterRole;
                 });
             });
+            var input = document.getElementById("myInput");
+
+// Execute a function when the user presses a key on the keyboard
+            input.addEventListener("keypress", function (event) {
+                // If the user presses the "Enter" key on the keyboard
+                if (event.key === "Enter") {
+                    // Cancel the default action, if needed
+                    event.preventDefault();
+                    // Trigger the button element with a click
+                    document.getElementById("myBtn").click();
+                }
+            });
         </script>
+
         <!-- JavaScript Libraries -->
         <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
