@@ -51,26 +51,26 @@
                     <% if (acc != null) {%>
                     <li><a class="dropdown-item" href="ViewUserProfile.jsp">View my Profile</a></li>
                     <li><a class="dropdown-item" href="ChangePassword.jsp">Change Password</a></li>
-                        <%if (details.getRoleId() == 3) {%>
-                    <li><a class="dropdown-item" href="createRequest">Create Request</a></li>
-                    <li><a class="dropdown-item" href="myRequest">List Request</a></li>
-                        <%}
-                            }%>
+                        <c:if test="${sessionScope.userDetail.getRoleId() == 3}">
+                        <li><a class="dropdown-item" href="createRequest">Create Request</a></li>
+                        <li><a class="dropdown-item" href="myRequest">List Request</a></li>
+                        </c:if>
                         <c:if test="${sessionScope.userDetail.getRoleId() == 4}">
                         <li><a class="dropdown-item" href="ListInvitedRequestServlet">List Invited Requests</a></li>
                         <li><a class="dropdown-item" href="MentorRequestServlet">List Following Requests</a></li>
                         <li><a class="dropdown-item" href="ListRequestsHistoryServlet?page=1">List Requests History</a></li>
                             <%
                                 MentorDAO mentorDAO = new MentorDAO();
-                                Mentor m=mentorDAO.getMentorByUserID(acc.getUserId());
+                                Mentor m = mentorDAO.getMentorByUserID(acc.getUserId());
                             %>
                         <li><a class="dropdown-item" href="ViewMentorCV.jsp?mentorId=<%=m.getMentorId()%>">View my CV</a></li>
                         </c:if>
+                        <%}%>
                     <li><hr class="dropdown-divider"></li>
                     <li><a class="dropdown-item" href="LogOutServlet">Log Out</a></li>
                 </ul>
             </div>
-            <%            } else {
+            <%} else {
             %>
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item">
