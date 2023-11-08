@@ -69,6 +69,21 @@ public class ListRequestController extends HttpServlet {
             throws ServletException, IOException {
         RequestDAO rd = new RequestDAO();
         List<Request> lr = rd.getRequests();
+        
+        int page = 1;
+        if (request.getParameter("page") != null) {
+            page = Integer.valueOf(request.getParameter("page"));
+        }
+        int allRequests = rd.countRequest();
+        int totalPage = allRequests / 10;
+        if (allRequests % 10 != 0) {
+            totalPage = totalPage + 1;
+        }
+        request.setAttribute("page", page);
+        request.setAttribute("total", totalPage);
+        request.setAttribute("ep", totalPage);
+        lr = rd.getPagingRequests(page);
+        
         StatusDAO statusDAO = new StatusDAO();
         ArrayList<Status> statuses = statusDAO.getAll();
         ProgramingLanguageDAO programingLanguageDAO = new ProgramingLanguageDAO();
