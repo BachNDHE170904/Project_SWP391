@@ -18,6 +18,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import javax.xml.bind.DatatypeConverter;
 
 /**
@@ -54,7 +55,7 @@ public class NewPassword extends HttpServlet {
                         response.sendRedirect("Login.jsp");
                     } else {
                         request.setAttribute("status", "Password reset failed");
-                        dispatcher = request.getRequestDispatcher("NewPassword.jsp");
+                        request.getRequestDispatcher("NewPassword.jsp").forward(request, response);
                     }
                 } else {
                     message = "Password must contain at least eight characters, at least one letter, one number and one special character.";
@@ -67,8 +68,8 @@ public class NewPassword extends HttpServlet {
                 request.setAttribute("message", message);
                 request.getRequestDispatcher("NewPassword.jsp").forward(request, response);
             }
-        } catch (Exception e) {
-            System.out.println(e);
+        } catch (NoSuchAlgorithmException e) {
+            request.getRequestDispatcher("NewPassword.jsp").forward(request, response);
         }
     }
 }
