@@ -132,7 +132,7 @@
                 </div>
             </c:otherwise>
         </c:choose>
-        <script >
+        <script>
             function search() {
                 let key = document.getElementById('search').value;
                 location.replace("${pageContext.servletContext.contextPath}/ProgramLanguageServlet?key=" + key + "&status= ${status}");
