@@ -15,6 +15,7 @@
         <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
         <link rel="stylesheet" href="alert/dist/sweetalert.css">
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <style>
             .checked {
                 color: orange;
@@ -87,7 +88,10 @@
                                             <td>${item.status.name}</td>
                                             <c:if test="${item.mentorId==0}"><td>No one assigned</td></c:if>
                                             <c:if test="${item.mentorId!=0}"><td><a href="ViewMentorCV.jsp?mentorId=${item.mentorId}">${item.mentorEmail}</a></td></c:if>
-                                            <td><a href="#" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal${item.id}">Details</a></td>
+                                                <td>
+                                                    <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal${item.id}">Details</a>
+                                                <a href="cancelRequest?id=${item.id}" class="btn btn-danger <c:if test="${item.status.id == 3}">disabled</c:if>" >Cancel</a>
+                                            </td>
                                             <c:if test="${ item.status.id==1 &&item.mentorId==0}"><td><a href="#"class="btn btn-primary">Delete</a></td></c:if>
                                             </tr>
                                         <div class="modal fade" id="exampleModal${item.id}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -183,6 +187,44 @@
                                 </c:forEach>
                                 </tbody>
                             </table>
+                            <div class="col-12">
+                                <ul class="pagination justify-content-center">
+                                    <c:if test="${page eq 1}">
+                                        <li class="page-item disabled">
+                                            <a class="page-link" href="myRequest?page=${page-1}" tabindex="-1"><</a>
+                                        </li>
+                                    </c:if>
+                                    <c:if test="${page != 1}">
+                                        <li class="page-item">
+                                            <a class="page-link" href="myRequest?page=${page-1}" tabindex="-1"><</a>
+                                        </li>
+                                    </c:if>
+
+                                    <c:forEach begin="${1}" end="${total}" step="${1}" var="i">
+                                        <c:if test="${page eq i}">
+                                            <li class="page-item active">
+                                                <a class="page-link" href="myRequest?page=${i}">${i}</a> 
+                                                <span class="sr-only">(current)</span>
+                                            </li>
+                                        </c:if>
+                                        <c:if test="${page != i}">
+                                            <li class="page-item">
+                                                <a class="page-link" href="myRequest?page=${i}">${i}</a> 
+                                            </li>
+                                        </c:if>
+                                    </c:forEach>
+                                    <c:if test="${page >= total}">
+                                        <li>
+                                            <a class="page-link disabled" href="myRequest?page=${page+1}">></a>
+                                        </li>
+                                    </c:if>
+                                    <c:if test="${page != total and page < total}">
+                                        <li>
+                                            <a class="page-link" href="myRequest?page=${page+1}">></a>
+                                        </li>
+                                    </c:if>
+                                </ul>
+                            </div>
                         </div>
                     </div>
                 </div>
