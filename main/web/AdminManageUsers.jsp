@@ -155,18 +155,26 @@
                                             %>
                                             </tbody>
                                     </table>
+                                            <nav aria-label="...">
+                                        <ul class="pagination">
+                                            <li class="page-item">
+                                                <a class="page-link" href="AdminManageUsers.jsp?searchFullname=<%=searchFullname%>&page=1&filterRole=<%=filterRole%>">&laquo;</a>
+                                            </li>
+                                            <%for (int i = 1; i <= totalPage; i++) {%>
+                                            <li class="page-item">
+                                                <a class="page-link <%if (i == pageNum) {%> active <%}%>" href="AdminManageUsers.jsp?searchFullname=<%=searchFullname%>&page=<%=i%>&filterRole=<%=filterRole%>"><%= i%></a>
+                                            </li>
+                                            <%}%>
+                                            <li class="page-item">
+                                                <a class="page-link" href="AdminManageUsers.jsp?searchFullname=<%=searchFullname%>&page=<%=totalPage%>&filterRole=<%=filterRole%>">&raquo;</a>
+                                            </li>
+                                        </ul>
+                                    </nav>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <nav aria-label="...">
-                    <ul class="pagination pagination-sm">
-                        <%for (int i = 1; i <= (int) Math.ceil((double) (total) / 10); i++) {%>
-                        <li class="page-item"><a class="page-link" href="AdminManageUsers.jsp?searchFullname=<%=searchFullname%>&page=<%=i%>&filterRole=<%=filterRole%>"><%= i%></a></li>
-                            <%}%>
-                    </ul>
-                </nav>
+                    </div>
                 <!-- Table End -->
             </div>
             <!-- Content End -->
