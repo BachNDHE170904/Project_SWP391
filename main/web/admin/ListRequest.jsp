@@ -43,6 +43,14 @@
                 <jsp:forward page="../WelcomePage.jsp"></jsp:forward>
             </c:when>
             <c:otherwise>
+                <%
+                    String msg = (String) session.getAttribute("successMsg");
+                    if (msg != null) {%>
+                <script>
+                    swal("Congrats", "<%= msg%>", "success");
+                </script>
+                <% session.removeAttribute("successMsg");
+                    }%>
                 <div class="container-fluid position-relative bg-white d-flex p-0">
                     <!-- Sidebar Start -->
                     <jsp:include page="../DashBoardSideBar.jsp"></jsp:include>
@@ -182,9 +190,9 @@
                                                             </li>
                                                         </c:if>
                                                     </c:forEach>
-                                                    <c:if test="${page >= total}">
-                                                        <li>
-                                                            <a class="page-link disabled" href="ListRequestController?page=${page+1}">></a>
+                                                    <c:if test="${page == total}">
+                                                        <li class="page-item disabled">
+                                                            <a class="page-link" href="ListRequestController?page=${page+1}">></a>
                                                         </li>
                                                     </c:if>
                                                     <c:if test="${page != total and page < total}">
@@ -194,7 +202,7 @@
                                                     </c:if>
                                                 </ul>
                                             </div>
-                                            
+
                                         </div>
                                     </div>
                                 </div>

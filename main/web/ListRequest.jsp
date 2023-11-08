@@ -32,8 +32,7 @@
             swal("Congrats", "<%= msg%>", "success");
         </script>
         <% session.removeAttribute("successMsg");
-            }%>
-        <%
+            }
             String emsg = (String) session.getAttribute("errorMsg");
             if (emsg != null) {%>
         <script>
@@ -91,8 +90,7 @@
                                                 <td>
                                                     <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal${item.id}">Details</a>
                                                 <a href="cancelRequest?id=${item.id}" class="btn btn-danger <c:if test="${item.status.id == 3}">disabled</c:if>" >Cancel</a>
-                                            </td>
-                                            <c:if test="${ item.status.id==1 &&item.mentorId==0}"><td><a href="#"class="btn btn-primary">Delete</a></td></c:if>
+                                                </td>
                                             </tr>
                                         <div class="modal fade" id="exampleModal${item.id}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                         <div class="modal-dialog" role="document">
