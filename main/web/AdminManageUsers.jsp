@@ -100,18 +100,13 @@
                                                     <input class="form-control"name="searchFullname" type="text" placeholder="Type to search..." value="<%=searchFullname%>"/>
                                             </div>
                                         </div>
-                                        <div class="dropdown">
-                                            <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                                Filter by Status
-                                            </button>
-                                            <ul class="dropdown-menu">
-                                                <i class="dropdown-item" data-filter="" id="filter-1">All</i>
-                                                <i class="dropdown-item" data-filter="active" id="filter-2">Active</i>
-                                                <i class="dropdown-item" data-filter="inactive" id="filter-3">Inactive</i>
-                                                <input type="hidden" name="filterRole" id="selected-filter" value="" required>
-                                            </ul>
-                                            <button class="btn btn-primary" type="submit">Filter</button>
-                                        </div>
+                                        <label class="col-form-label">Status: </label>
+                                        <select name="filterValue">
+                                            <option value="" >All</option>
+                                            <option value="Active" <%if (filterRole.equalsIgnoreCase("Active")) {%>selected<%}%>>Active</option>
+                                            <option value="Inactive"<%if (filterRole.equalsIgnoreCase("Inactive")) {%>selected<%}%>>Inactive</option>
+                                        </select>
+                                        <button class="btn btn-primary" type="submit">Filter</button>
                                     </form>
                                     </div>
                                     
@@ -125,7 +120,6 @@
                                                     <th scope="col">Account Name</th>
                                                     <th scope="col">Role</th>
                                                     <th scope="col">Number of currently requests</th>
-                                                    
                                                     <th scope="col">Status</th>
                                                    
                                                 </tr>
