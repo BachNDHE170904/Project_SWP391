@@ -70,6 +70,7 @@
                 }
                 SkillDAO skillDb = new SkillDAO();
                 int total = skillDb.getTotalSkillsWithSearch(searchValue, filterValue);
+                int totalPage = (int) Math.ceil((double) (total) / 10);
                 ArrayList<Skill> skills = skillDb.getSkillsWithPagination((pageNum - 1) * 10, 10, searchValue, filterValue);
         %>
         <div class="container-fluid position-relative bg-white d-flex p-0">
@@ -97,18 +98,12 @@
                                                     <input class="form-control"name="searchValue" type="text" placeholder="Type to search..." value="<%=searchValue%>"/>
                                             </div>
                                         </div>
-                                        <div class="dropdown">
-                                            <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                                Filter by Status
-                                            </button>
-                                            <ul class="dropdown-menu">
-                                                <i class="dropdown-item" data-filter="" id="filter-1">All</i>
-                                                <i class="dropdown-item" data-filter="active" id="filter-2">Active</i>
-                                                <i class="dropdown-item" data-filter="inactive" id="filter-3">Inactive</i>
-                                                <input type="hidden" name="filterValue" id="selected-filter" value="" required>
-                                            </ul>
-                                            <button class="btn btn-primary" type="submit">Filter</button>
-                                        </div>
+                                        <select name="filterValue">
+                                            <option value="" >All</option>
+                                            <option value="Active" <%if (filterValue.equalsIgnoreCase("Active")) {%>selected<%}%>>Active</option>
+                                            <option value="Inactive"<%if (filterValue.equalsIgnoreCase("Inactive")) {%>selected<%}%>>Inactive</option>
+                                        </select>
+                                        <button class="btn btn-primary" type="submit">Filter</button>
                                     </form>
                                 </div>
                                 <div class="table-responsive">
@@ -137,21 +132,29 @@
                                                 <td><a href="UpdateSkillStatusServlet?skillId=<%=skill.getSkillId()%>&&page=<%= pageNum%>"><%=skill.getSkillStatus()%></a></td>
                                                 <td><a href="UpdateSkill.jsp?skillId=<%=skill.getSkillId()%>&&page=<%= pageNum%>">Update</a></td>
                                             </tr>
-                                            <% } %>
+                                            <% }%>
                                         </tbody>
                                     </table>
+                                    <nav aria-label="...">
+                                        <ul class="pagination">
+                                            <li class="page-item">
+                                                <a class="page-link" href="AdminManageSkills.jsp?searchValue=<%=searchValue%>&page=1&filterValue=<%=filterValue%>">&laquo;</a>
+                                            </li>
+                                            <%for (int i = 1; i <= totalPage; i++) {%>
+                                            <li class="page-item">
+                                                <a class="page-link <%if (i == pageNum) {%> active <%}%>" href="AdminManageSkills.jsp?searchValue=<%=searchValue%>&page=<%=i%>&filterValue=<%=filterValue%>"><%= i%></a>
+                                            </li>
+                                            <%}%>
+                                            <li class="page-item">
+                                                <a class="page-link" href="AdminManageSkills.jsp?searchValue=<%=searchValue%>&page=<%=totalPage%>&filterValue=<%=filterValue%>">&raquo;</a>
+                                            </li>
+                                        </ul>
+                                    </nav>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <nav aria-label="...">
-                    <ul class="pagination pagination-sm">
-                        <%for (int i = 1; i <= (int) Math.ceil((double) (total) / 10); i++) {%>
-                        <li class="page-item"><a class="page-link" href="AdminManageSkills.jsp?searchValue=<%=searchValue%>&page=<%=i%>&filterValue=<%=filterValue%>"><%= i%></a></li>
-                            <%}%>
-                    </ul>
-                </nav>
                 <!-- Table End -->
             </div>
             <!-- Content End -->
@@ -165,16 +168,6 @@
                 request.getRequestDispatcher("WelcomePage.jsp").forward(request, response);
         %>
         <!-- JavaScript Libraries -->
-        <script>
-            let filters = document.querySelectorAll(".dropdown-item");
-            let selectedFilter = document.getElementById("selected-filter");
-            filters.forEach(filter => {
-                filter.addEventListener("click", () => {
-                    let filterValue = filter.getAttribute("data-filter");
-                    selectedFilter.value = filterValue;
-                });
-            });
-        </script>
         <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
         <script src="lib/chart/chart.min.js"></script>
