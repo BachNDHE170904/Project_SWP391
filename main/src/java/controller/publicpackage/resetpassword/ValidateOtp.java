@@ -43,13 +43,6 @@ public class ValidateOtp extends HttpServlet {
         RequestDispatcher dispatcher = null;
 
         if (value == otp) {
-            Cookie emailCookieRemove = new Cookie("email", "");
-            emailCookieRemove.setMaxAge(0);
-            response.addCookie(emailCookieRemove);
-            Cookie passCookieRemove = new Cookie("password", "");
-            passCookieRemove.setMaxAge(0);
-            response.addCookie(passCookieRemove);
-            request.setAttribute("email", request.getParameter("email"));
             request.setAttribute("status", "success");
             dispatcher = request.getRequestDispatcher("NewPassword.jsp");
             dispatcher.forward(request, response);

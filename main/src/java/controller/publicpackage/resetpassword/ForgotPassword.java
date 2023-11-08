@@ -37,7 +37,8 @@ public class ForgotPassword extends HttpServlet {
             if (email != null || !email.equals("")) {
                 // Get the session object
                 dispatcher = request.getRequestDispatcher("EnterOtp.jsp");
-                request.setAttribute("message", "OTP is sent to your email id");
+                request.setAttribute("message", "OTP is sent to your email ");
+                mySession.setAttribute("email", email);
                 //request.setAttribute("connection", con);
                 dispatcher.forward(request, response);
                 request.setAttribute("status", "success");
