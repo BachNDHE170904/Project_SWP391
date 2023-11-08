@@ -535,4 +535,19 @@ public class UserDAO extends BaseDAO<User> {
         }
         return us;
     }
+    
+    public int getTotalUsersWithSearch(String search) {
+        try {
+            String sql = "SELECT COUNT(*) as total FROM Users, UserDetail, UserStatus, Roles where Users.userId = UserDetail.userId  AND Users.userId= UserStatus.userId AND UserDetail.roleId = 3 AND UserDetail.roleId = Roles.roleId AND UserDetail.fullname like'%"+search+"%'";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                return rs.getInt("total");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return 0;
+    }
+    
 }
