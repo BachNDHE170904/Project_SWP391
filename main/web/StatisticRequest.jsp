@@ -32,7 +32,8 @@
             swal("Congrats", "<%= msg%>", "success");
         </script>
         <% session.removeAttribute("successMsg");
-            }
+            }%>
+        <%
             String emsg = (String) session.getAttribute("errorMsg");
             if (emsg != null) {%>
         <script>
@@ -50,7 +51,7 @@
                     <div class="col-md-3 pt-0">
                         <div class="list-group list-group-flush account-settings-links">
                             <a class="list-group-item list-group-item-action active" data-toggle="list"
-                               href="#account-general">List Request By Me</a>
+                               href="#account-general">Statistic of requests by Me</a>
                             <div class="sideBar col-md-9" style="margin-top: 20px; margin-left: 13px">
                                 <h5>Filter by Status</h5>
                                 <form id="status-filter-form">
@@ -66,6 +67,8 @@
                     <div class="col-md-9">
                         <div class="tab-content">
                             <table class="table table-bordered" border="1" style="text-align: center">
+                                <c:set var="totalHours" value="0"/>
+
                                 <thead class="thead-dark">
                                     <tr>
                                         <th>STT</th>
@@ -74,13 +77,14 @@
                                         <th>Deadline</th>
                                         <th>Status</th>
                                         <th>Assigned Mentor</th>
-                                        <th colspan="100%">Action</th>
+                                        <th colspan="100%">Total Hours</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <c:forEach items="${requestScope.list}" var="item" varStatus="loop">
                                         <tr>
-                                            <td>${loop.index + 1}</td>
+                                            <td> <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal${item.id}">${loop.index + 1}</a>
+                                            </td>
                                             <td>${item.title}</td>
                                             <td>${item.createDate}</td>
                                             <td>${item.deadline}</td>
@@ -88,11 +92,16 @@
                                             <c:if test="${item.mentorId==0}"><td>No one assigned</td></c:if>
                                             <c:if test="${item.mentorId!=0}"><td><a href="ViewMentorCV.jsp?mentorId=${item.mentorId}">${item.mentorEmail}</a></td></c:if>
                                                 <td>
-                                                    <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal${item.id}">Details</a>
-                                                <a href="cancelRequest?id=${item.id}" class="btn btn-danger <c:if test="${item.status.id == 3}">disabled</c:if>" >Cancel</a>
-                                                </td>
-                                            </tr>
-                                        <div class="modal fade" id="exampleModal${item.id}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                <c:set var="createDateMillis" value="${item.createDate.time}" />
+                                                <c:set var="deadlineMillis" value="${item.deadline.time}" />
+                                                <c:set var="millisecondsPerDay" value="86400000" /> <!-- 24 hours * 60 minutes * 60 seconds * 1000 milliseconds -->
+                                                <c:set var="daysBetween" value="${(deadlineMillis - createDateMillis) / millisecondsPerDay}" />
+                                                <c:set var="totalHours" value="${totalHours + daysBetween}"/>
+                                                <c:out value="${daysBetween}" /> day(s)
+
+                                            </td>
+                                        </tr>
+                                    <div class="modal fade" id="exampleModal${item.id}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                         <div class="modal-dialog" role="document">
                                             <div class="modal-content">
                                                 <div class="modal-header">
@@ -144,81 +153,51 @@
                                                         </fieldset>
                                                         <div class="modal-footer">
                                                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                            <c:if test="${ item.status.id==1 &&item.mentorId==0}"><a href="#" class="btn btn-primary" data-toggle="modal" data-target="#mentorModal${item.id}">mentor suggestion</a></c:if>
-                                                            <c:if test="${item.mentorId!=0}"><a href="#" class="btn btn-primary" data-toggle="modal" data-target="#feedbackModal${item.id}">Comment and Rate star</a></c:if>
-                                                            <c:if test="${ item.status.id==1 &&item.mentorId==0}"><button type="submit" class="btn btn-primary">Update</button></c:if>
                                                             </div>
                                                         </form>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="modal fade" id="feedbackModal${item.id}" tabindex="-1" role="dialog" aria-labelledby="feedbackModalLabel" aria-hidden="true">
-                                        <div class="modal-dialog" role="document">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title" id="feedbackModalLabel">Comment and Rate star</h5>
-                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                        <span aria-hidden="true">&times;</span>
-                                                    </button>
-                                                </div>
-                                                <div class="modal-body">
-                                                    <form action="CommentAndRateStar" method="post">
-                                                        <input type="hidden" name="id" value="${item.id}">
-                                                        <div class="form-group">
-                                                            <label for="comment" class="col-form-label">Feedback</label>
-                                                            <textarea name="comment" class="form-control" id="comment" required></textarea>
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label for="rating" class="col-form-label">Rating</label>
-                                                            <input type="number" name="rating" class="form-control" id="rating" min="1" max="5" required>
-                                                        </div>
-                                                        <div class="modal-footer">
-                                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                            <button type="submit" class="btn btn-primary">Submit</button>
-                                                        </div>
-                                                    </form>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
                                 </c:forEach>
                                 </tbody>
                             </table>
+                            <h5>Total requests: ${allRequests} request(s)</h5>
+                            <h5>Total hours of all Request: <c:out value="${totalHours}" /> day(s)</h5>
                             <div class="col-12">
                                 <ul class="pagination justify-content-center">
                                     <c:if test="${page eq 1}">
                                         <li class="page-item disabled">
-                                            <a class="page-link" href="myRequest?page=${page-1}" tabindex="-1"><</a>
+                                            <a class="page-link" href="statisticRequest?page=${page-1}" tabindex="-1"><</a>
                                         </li>
                                     </c:if>
                                     <c:if test="${page != 1}">
                                         <li class="page-item">
-                                            <a class="page-link" href="myRequest?page=${page-1}" tabindex="-1"><</a>
+                                            <a class="page-link" href="statisticRequest?page=${page-1}" tabindex="-1"><</a>
                                         </li>
                                     </c:if>
 
                                     <c:forEach begin="${1}" end="${total}" step="${1}" var="i">
                                         <c:if test="${page eq i}">
                                             <li class="page-item active">
-                                                <a class="page-link" href="myRequest?page=${i}">${i}</a> 
+                                                <a class="page-link" href="statisticRequest?page=${i}">${i}</a> 
                                                 <span class="sr-only">(current)</span>
                                             </li>
                                         </c:if>
                                         <c:if test="${page != i}">
                                             <li class="page-item">
-                                                <a class="page-link" href="myRequest?page=${i}">${i}</a> 
+                                                <a class="page-link" href="statisticRequest?page=${i}">${i}</a> 
                                             </li>
                                         </c:if>
                                     </c:forEach>
                                     <c:if test="${page >= total}">
                                         <li>
-                                            <a class="page-link disabled" href="myRequest?page=${page+1}">></a>
+                                            <a class="page-link disabled" href="statisticRequest?page=${page+1}">></a>
                                         </li>
                                     </c:if>
                                     <c:if test="${page != total and page < total}">
                                         <li>
-                                            <a class="page-link" href="myRequest?page=${page+1}">></a>
+                                            <a class="page-link" href="statisticRequest?page=${page+1}">></a>
                                         </li>
                                     </c:if>
                                 </ul>
@@ -228,52 +207,6 @@
                 </div>
             </div>
         </div>
-        <c:forEach items="${requestScope.list}" var="item" varStatus="loop">
-            <div class="modal fade" id="mentorModal${item.id}" tabindex="-1" role="table" aria-labelledby="mentorModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-xl" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="mentorModalLabel">Mentors suggestion</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <form action="InviteMentorServlet" method="GET">
-                                <input type="hidden" name="requestId" value="${item.id}">
-                                <div>
-                                    <table class="table table-bordered" border="1" style="text-align: center">
-                                        <thead class="thead-dark">
-                                            <tr>
-                                                <th>Full Name</th>
-                                                <th>User Name</th>
-                                                <th>Total ratings</th>
-                                                <th>Average Ratings</th>
-                                                <th>Current requests</th>
-                                                <th colspan="1">Action</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <c:forEach items="${requestScope.suggestedMentorList[item.id]}" var="mentor">
-                                                <tr>
-                                            <input type="hidden" name="mentorId" value="${mentor.mentorId}">
-                                            <td>${mentor.fullname}</td>
-                                            <td>${mentor.username}</td>
-                                            <td>${mentor.totalRating}</td>
-                                            <td>${mentor.averageRating}</td>
-                                            <td>${mentor.currentRequests}</td>
-                                            <td><button type="submit" class="btn btn-primary" >Invite</button></td>
-                                            </tr>
-                                        </c:forEach>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </c:forEach>
         <script>
             document.getElementById("status-filter-form").addEventListener("change", function (e) {
                 const selectedStatus = document.querySelector('input[name="status"]:checked').value;
