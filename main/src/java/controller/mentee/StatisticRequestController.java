@@ -31,10 +31,6 @@ import model.Skill;
 import model.Status;
 import model.User;
 
-/**
- *
- * @author nocol
- */
 @WebServlet(name = "StatisticRequestController", urlPatterns = {"/statisticRequest"})
 public class StatisticRequestController extends HttpServlet {
 
@@ -44,14 +40,12 @@ public class StatisticRequestController extends HttpServlet {
         User user = (User) request.getSession().getAttribute("user");
         MentorRecommendation recommend = new MentorRecommendation();
         HashMap<Integer, List<Mentor>> suggestedMentors = new HashMap<>();
-        int pagenum = request.getParameter("pagenum") != null ? Integer.parseInt(request.getParameter("pagenum")) : 1;
         RequestDAO requestDAO = new RequestDAO();
         List<Request> list = requestDAO.getRequestByID(user.getUserId());
         int page = 1;
         if (request.getParameter("page") != null) {
             page = Integer.valueOf(request.getParameter("page"));
         }
-        System.out.println(user.getUserId());
         int allRequests = requestDAO.countRequestByUserIdWhichIsClosed(user.getUserId());
         request.setAttribute("allRequests", allRequests);
         int totalPage = allRequests / 10;
