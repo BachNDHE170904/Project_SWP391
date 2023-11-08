@@ -158,18 +158,27 @@
                                             %>
                                         </tbody>
                                     </table>
+                                        <nav aria-label="...">
+                                        <ul class="pagination">
+                                            <li class="page-item">
+                                                <a class="page-link" href="AdminManageMentor.jsp?searchMentorname=<%=searchMentorname%>&page=1&filterStatus=<%=filterStatus%>">&laquo;</a>
+                                            </li>
+                                            <%for (int i = 1; i <= totalPage; i++) {%>
+                                            <li class="page-item">
+                                                <a class="page-link <%if (i == pageNum) {%> active <%}%>" href="AdminManageMentor.jsp?searchMentorname=<%=searchMentorname%>&page=<%=i%>&filterStatus=<%=filterStatus%>"><%= i%></a>
+                                            </li>
+                                            <%}%>
+                                            <li class="page-item">
+                                                <a class="page-link" href="AdminManageMentor.jsp?searchMentorname=<%=searchMentorname%>&page=<%=totalPage%>&filterStatus=<%=filterStatus%>">&raquo;</a>
+                                            </li>
+                                        </ul>
+                                    </nav>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <nav aria-label="...">
-                    <ul class="pagination pagination-sm">
-                        <%for (int i = 1; i <= (int) Math.ceil((double) (total) / 10); i++) {%>
-                        <li class="page-item"><a class="page-link" href="AdminManageMentor.jsp?searchMentorname=<%=searchMentorname%>&page=<%=i%>&filterStatus=<%=filterStatus%>"><%= i%></a></li>
-                            <%}%>
-                    </ul>
-                </nav>
+                
                 <!-- Table End -->
             </div>
             <!-- Content End -->
@@ -182,16 +191,7 @@
             } else
                 request.getRequestDispatcher("WelcomePage.jsp").forward(request, response);
         %>
-        <script>
-            let filters = document.querySelectorAll(".dropdown-item");
-            let selectedFilter = document.getElementById("selected-filter");
-            filters.forEach(filter => {
-                filter.addEventListener("click", () => {
-                    let filterStatus = filter.getAttribute("data-filter");
-                    selectedFilter.value = filterStatus;
-                });
-            });
-        </script>
+        
         <!-- JavaScript Libraries -->
         <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
