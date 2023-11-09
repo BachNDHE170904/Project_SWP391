@@ -24,6 +24,12 @@ CREATE TABLE Users (
    userAuthorization bit  NOT NULL,
    PRIMARY KEY (userId),
 );
+CREATE TABLE UserAccountBalance (
+   userId   INT    NOT NULL,
+   balance float default 0,
+   PRIMARY KEY (userId),
+   FOREIGN KEY (userId) REFERENCES Users(userId),
+);
 CREATE TABLE UserStatus (
    userId   INT  NOT NULL,
    userStatus NVARCHAR(50) NOT NULL,
@@ -150,6 +156,7 @@ CREATE TABLE RequestDetail(
    title NVARCHAR (50)     NOT NULL,
    requestContent NVARCHAR (50)     NOT NULL,
    createdDate date NOT NULL,
+   price float,
    deadline date NOT NULL,
    statusId int   default 1  NOT NULL,
    mentorId   INT default 0,
