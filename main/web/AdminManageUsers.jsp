@@ -47,7 +47,10 @@
             User acc = (User) session.getAttribute("user");
             UserDetails details = (UserDetails) session.getAttribute("userDetail");
             if (acc != null && details.getRoleId() == 1) {
-            int pageNum = Integer.parseInt(request.getParameter("page"));
+            int pageNum = 1;
+                if (request.getParameter("page") != null) {
+                    pageNum = Integer.parseInt(request.getParameter("page"));
+                }
             String searchFullname;
                 if (request.getParameter("searchFullname") == null && session.getAttribute("searchFullname") == null) {
                     searchFullname = "";
@@ -68,6 +71,7 @@
                 }
             UserDAO ud = new UserDAO();
             int total = ud.getTotalUsersWithSearch(searchFullname, filterRole);
+            int totalPage = (int) Math.ceil((double) (total) / 10);
             ArrayList<UserDetails> us = ud.getUsersWithPagination((pageNum - 1) * 10, 10, searchFullname, filterRole);
         %>
         <div class="container-fluid position-relative bg-white d-flex p-0">
@@ -96,18 +100,13 @@
                                                     <input class="form-control"name="searchFullname" type="text" placeholder="Type to search..." value="<%=searchFullname%>"/>
                                             </div>
                                         </div>
-                                        <div class="dropdown">
-                                            <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                                Filter by Status
-                                            </button>
-                                            <ul class="dropdown-menu">
-                                                <i class="dropdown-item" data-filter="" id="filter-1">All</i>
-                                                <i class="dropdown-item" data-filter="active" id="filter-2">Active</i>
-                                                <i class="dropdown-item" data-filter="inactive" id="filter-3">Inactive</i>
-                                                <input type="hidden" name="filterRole" id="selected-filter" value="" required>
-                                            </ul>
-                                            <button class="btn btn-primary" type="submit">Filter</button>
-                                        </div>
+                                        <label class="col-form-label">Status: </label>
+                                        <select name="filterRole">
+                                            <option value="" >All</option>
+                                            <option value="Active" <%if (filterRole.equalsIgnoreCase("Active")) {%>selected<%}%>>Active</option>
+                                            <option value="Inactive"<%if (filterRole.equalsIgnoreCase("Inactive")) {%>selected<%}%>>Inactive</option>
+                                        </select>
+                                        <button class="btn btn-primary" type="submit">Filter</button>
                                     </form>
                                     </div>
                                     
@@ -121,7 +120,6 @@
                                                     <th scope="col">Account Name</th>
                                                     <th scope="col">Role</th>
                                                     <th scope="col">Number of currently requests</th>
-                                                    
                                                     <th scope="col">Status</th>
                                                    
                                                 </tr>
@@ -157,18 +155,26 @@
                                             %>
                                             </tbody>
                                     </table>
+                                            <nav aria-label="...">
+                                        <ul class="pagination">
+                                            <li class="page-item">
+                                                <a class="page-link" href="AdminManageUsers.jsp?searchFullname=<%=searchFullname%>&page=1&filterRole=<%=filterRole%>">&laquo;</a>
+                                            </li>
+                                            <%for (int i = 1; i <= totalPage; i++) {%>
+                                            <li class="page-item">
+                                                <a class="page-link <%if (i == pageNum) {%> active <%}%>" href="AdminManageUsers.jsp?searchFullname=<%=searchFullname%>&page=<%=i%>&filterRole=<%=filterRole%>"><%= i%></a>
+                                            </li>
+                                            <%}%>
+                                            <li class="page-item">
+                                                <a class="page-link" href="AdminManageUsers.jsp?searchFullname=<%=searchFullname%>&page=<%=totalPage%>&filterRole=<%=filterRole%>">&raquo;</a>
+                                            </li>
+                                        </ul>
+                                    </nav>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <nav aria-label="...">
-                    <ul class="pagination pagination-sm">
-                        <%for (int i = 1; i <= (int) Math.ceil((double) (total) / 10); i++) {%>
-                        <li class="page-item"><a class="page-link" href="AdminManageUsers.jsp?searchFullname=<%=searchFullname%>&page=<%=i%>&filterRole=<%=filterRole%>"><%= i%></a></li>
-                            <%}%>
-                    </ul>
-                </nav>
+                    </div>
                 <!-- Table End -->
             </div>
             <!-- Content End -->
@@ -181,16 +187,6 @@
             } else
                 request.getRequestDispatcher("WelcomePage.jsp").forward(request, response);
         %>
-        <script>
-            let filters = document.querySelectorAll(".dropdown-item");
-            let selectedFilter = document.getElementById("selected-filter");
-            filters.forEach(filter => {
-                filter.addEventListener("click", () => {
-                    let filterRole = filter.getAttribute("data-filter");
-                    selectedFilter.value = filterRole;
-                });
-            });
-        </script>
         <!-- JavaScript Libraries -->
         <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
