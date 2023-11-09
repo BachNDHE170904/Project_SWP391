@@ -49,7 +49,7 @@
             <div class="container">
                 <div class="row g-4">
                     <div class="col-lg-6 col-sm-6 wow fadeInUp" data-wow-delay="0.1s">
-                        <div class="service-item text-center pt-3">
+                        <div class="service-item text-center pt-3" id="mentor">
                             <div class="p-4">
                                 <i class="fa fa-3x fa-graduation-cap text-primary mb-4"></i>
                                 <h5 class="mb-3">Skilled Mentors</h5>
@@ -63,6 +63,15 @@
                                 <i class="fa fa-3x fa-globe text-primary mb-4"></i>
                                 <h5 class="mb-3">Programming skills</h5>
                                 <p>All programming skills we have to offer</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-sm-6 wow fadeInUp" data-wow-delay="0.3s">
+                        <div class="service-item text-center pt-3" id="programmingLang">
+                            <div class="p-4">
+                                <i class="fa fa-3x fa-globe text-primary mb-4"></i>
+                                <h5 class="mb-3">Programming languages</h5>
+                                <p>All programming languages we have to offer</p>
                             </div>
                         </div>
                     </div>
@@ -270,11 +279,20 @@
             document.addEventListener("DOMContentLoaded", function () {
                 // Lấy phần tử theo ID hoặc selector CSS
                 var programmingSkillElement = document.getElementById("programmingSkill");
-
+                var mentorSkillElement = document.getElementById("mentor");
+                var programmingLangElement = document.getElementById("programmingLang");
                 // Thêm xử lý sự kiện khi bấm vào phần tử
                 programmingSkillElement.addEventListener("click", function () {
                     // Gửi yêu cầu đến servlet bằng cách chuyển trình duyệt đến URL của servlet
                     window.location.href = "ListSkillServlet"; // Thay "/tenservlet" bằng đường dẫn tới servlet của bạn
+                });
+                mentorSkillElement.addEventListener("click", function () {
+                    // Gửi yêu cầu đến servlet bằng cách chuyển trình duyệt đến URL của servlet
+                    window.location.href = "ViewAllMentor"; // Thay "/tenservlet" bằng đường dẫn tới servlet của bạn
+                });
+                programmingLangElement.addEventListener("click", function () {
+                    // Gửi yêu cầu đến servlet bằng cách chuyển trình duyệt đến URL của servlet
+                    window.location.href = "ViewAllLanguage"; // Thay "/tenservlet" bằng đường dẫn tới servlet của bạn
                 });
             });
         </script>

@@ -2,26 +2,23 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package common.common.mentor;
+package common.common.language;
 
-import dal.MentorDAO;
-import dal.UserDAO;
+import dal.ProgramingLanguageDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.List;
+import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import model.Mentor;
-import model.User;
-import model.UserDetails;
+import model.ProgramingLanguage;
 
 /**
  *
  * @author trand
  */
-public class ViewAllMentor extends HttpServlet {
+public class ViewAllLanguage extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -40,10 +37,10 @@ public class ViewAllMentor extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet ViewAllMentor</title>");
+            out.println("<title>Servlet ViewAllLanguage</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet ViewAllMentor at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet ViewAllLanguage at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -61,10 +58,10 @@ public class ViewAllMentor extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        MentorDAO mentorDAO = new MentorDAO();
-        List<Mentor> listMentor = mentorDAO.getAllMentors();
-        request.setAttribute("listMentor", listMentor);
-        request.getRequestDispatcher("ViewAllMentor.jsp").forward(request, response);
+        ProgramingLanguageDAO languageDAO = new ProgramingLanguageDAO();
+        ArrayList<ProgramingLanguage> programingLanguages = languageDAO.getProgramingLanguage();
+        request.setAttribute("listLanguage", programingLanguages);
+                request.getRequestDispatcher("ViewLanguage.jsp").forward(request, response);
     }
 
     /**
@@ -78,12 +75,7 @@ public class ViewAllMentor extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String search = request.getParameter("search");
-        MentorDAO mentorDAO = new MentorDAO();
-        List<Mentor> listMentor = mentorDAO.searchMentors(search);
-        request.setAttribute("listMentor", listMentor);
-        request.getRequestDispatcher("ViewAllMentor.jsp").forward(request, response);
-        
+        processRequest(request, response);
     }
 
     /**

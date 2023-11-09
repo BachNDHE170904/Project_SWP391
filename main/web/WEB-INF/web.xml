@@ -56,6 +56,10 @@
         <servlet-name>ViewAllMentor</servlet-name>
         <servlet-class>common.common.mentor.ViewAllMentor</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ViewAllLanguage</servlet-name>
+        <servlet-class>common.common.language.ViewAllLanguage</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
         <url-pattern>/LoginServlet</url-pattern>
@@ -111,6 +115,10 @@
     <servlet-mapping>
         <servlet-name>ViewAllMentor</servlet-name>
         <url-pattern>/ViewAllMentor</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ViewAllLanguage</servlet-name>
+        <url-pattern>/ViewAllLanguage</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

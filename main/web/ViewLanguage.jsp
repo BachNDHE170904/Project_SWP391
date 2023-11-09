@@ -4,6 +4,7 @@
     Author     : trand
 --%>
 
+<%@page import="model.ProgramingLanguage"%>
 <%@page import="model.UserDetails"%>
 <%@page import="model.User"%>
 <%@page import="dal.UserDAO"%>
@@ -15,47 +16,28 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link rel="stylesheet" href="css/ViewAllMentor.css">
-        <title>Available Mentors</title>
+        <title>Available Languages</title>
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
         <link rel="stylesheet" href="css/bootstrap.min.css">
     </head>
     <body>
-        <form action="ViewAllMentor" method="post">
-            <input type="text" name="search" value="">
-            <input type="submit" value="Search">
-        </form>
-        <% List<Mentor> list = (List<Mentor>) request.getAttribute("listMentor"); %>
+        <% List<ProgramingLanguage> list = (List<ProgramingLanguage>) request.getAttribute("listLanguage"); %>
         <h1>Available Mentors</h1>
         <div id="table__paging">
             <table class="mentor-table">
                 <thead>
                     <tr>
-                        <th>Order</th>
                         <th>ID</th>
-                        <th>Fullname</th>
-                        <th>Accountname</th>
-                        <th>Profession</th>
-                        <th>Rating</th>
-                        <th>Comments</th>
-                        <th>Action</th>
+                        <th>Language Name</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <% for (Mentor m : list) {
-                            UserDAO userDAO = new UserDAO();
-                            User mentor = userDAO.getUserByID(m.getUserid());
-                            UserDetails mentorDetail = userDAO.getUserDetails(mentor.getEmail());
+                    <% for (ProgramingLanguage m : list) {
                     %>
                     <tr>
-                        <td><%=m.getMentorId()%></td>
-                        <td><%=m.getMentorId()%></td>
-                        <td><%=mentorDetail.getFullname()%></td>
-                        <td><%=mentorDetail.getEmail()%></td>
-                        <td><%=m.getProfession()%></td>
-                        <td>4.5</td>
-                        <td>Great mentor</td>
-                        <td><a href="ViewMentorCV?mentorId=<%=m.getMentorId()%>">Detail</a></td>
+                        <td><%=m.getLanguageId()%></td>
+                        <td><%=m.getLanguageName()%></td>
                     </tr>
                     <%
                         }

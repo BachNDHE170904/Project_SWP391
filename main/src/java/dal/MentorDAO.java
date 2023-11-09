@@ -55,7 +55,7 @@ public class MentorDAO extends BaseDAO<Skill> {
         }
         return null;
     }
-    
+
     public List<Mentor> getAllMentors() {
         List<Mentor> listMentor = new ArrayList<>();
         try {
@@ -98,6 +98,52 @@ public class MentorDAO extends BaseDAO<Skill> {
         return null;
     }
 
+    public List<Mentor> searchMentors(String search) {
+        List<Mentor> listMentor = new ArrayList<>();
+        try {
+            String selectMentor = "  select * from Mentor m join MentorCV mcv on m.mentorId = mcv.mentorId\n"
+                    + "  inner join Users u on m.userId = u.userId inner join UserDetail ud on ud.userId = u.userId\n"
+                    + "  where ud.fullname like ? or ud.username like ?";
+            String selectSkills = "select * from MentorSkills m where m.mentorId = ?\n";
+            String selectLanguages = "select * from MentorProgramingLanguage m where m.mentorId = ?\n";
+            PreparedStatement selectMentorStatement = connection.prepareStatement(selectMentor);
+            selectMentorStatement.setString(1, "%"+search+"%");
+            selectMentorStatement.setString(2, "%"+search+"%");
+            ResultSet rs1 = selectMentorStatement.executeQuery();
+            while (rs1.next()) {
+                Mentor mentor = new Mentor();
+                mentor.setMentorId(rs1.getInt("mentorId"));
+                mentor.setUserid(rs1.getInt("userId"));
+                mentor.setProfession(rs1.getString("profession"));
+                mentor.setProfessionInfo(rs1.getString("professionIntro"));
+                mentor.setServiceInfo(rs1.getString("serviceIntro"));
+                mentor.setAchivementInfo(rs1.getString("achivementIntro"));
+
+                ArrayList<Integer> skills = new ArrayList<>();
+                ArrayList<Integer> languages = new ArrayList<>();
+                PreparedStatement selectSkillsStatement = connection.prepareStatement(selectSkills);
+                selectSkillsStatement.setInt(1, mentor.getMentorId());
+                ResultSet rs2 = selectSkillsStatement.executeQuery();
+                while (rs2.next()) {
+                    skills.add(rs2.getInt("skillId"));
+                }
+                PreparedStatement selectLanguagesStatement = connection.prepareStatement(selectLanguages);
+                selectLanguagesStatement.setInt(1, mentor.getMentorId());
+                ResultSet rs3 = selectLanguagesStatement.executeQuery();
+                while (rs3.next()) {
+                    languages.add(rs3.getInt("languageId"));
+                }
+                mentor.setSkillsId(skills);
+                mentor.setLanguageId(languages);
+                listMentor.add(mentor);
+            }
+            return listMentor;
+        } catch (SQLException ex) {
+            Logger.getLogger(ProgramingLanguageDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+
     public int insertMentor(Mentor mentor) throws SQLException {
         connection.setAutoCommit(false);
         String insertMentor = "insert into Mentor(userId) values(?)\n;";
@@ -105,10 +151,7 @@ public class MentorDAO extends BaseDAO<Skill> {
         String insertMentorSkills = "insert into MentorSkills(mentorId, skillId) values(?,?)\n;";
         String insertMentorLanguages = "insert into MentorProgramingLanguage(mentorId, languageId) values(?,?)\n;";
         int mentorId = 0;
-        try ( PreparedStatement insertMentorStatement = connection.prepareStatement(insertMentor, Statement.RETURN_GENERATED_KEYS);
-              PreparedStatement insertMentorCVStatement = connection.prepareStatement(insertMentorCV);
-              PreparedStatement insertMentorSkillsStatement = connection.prepareStatement(insertMentorSkills);
-              PreparedStatement insertMentorLanguagesStatement = connection.prepareStatement(insertMentorLanguages);) {
+        try (PreparedStatement insertMentorStatement = connection.prepareStatement(insertMentor, Statement.RETURN_GENERATED_KEYS); PreparedStatement insertMentorCVStatement = connection.prepareStatement(insertMentorCV); PreparedStatement insertMentorSkillsStatement = connection.prepareStatement(insertMentorSkills); PreparedStatement insertMentorLanguagesStatement = connection.prepareStatement(insertMentorLanguages);) {
             insertMentorStatement.setInt(1, mentor.getUserid());
             insertMentorStatement.executeUpdate();
             ResultSet rs = insertMentorStatement.getGeneratedKeys();
@@ -157,12 +200,7 @@ public class MentorDAO extends BaseDAO<Skill> {
         String insertMentorLanguages = "insert into MentorProgramingLanguage(mentorId, languageId) values(?,?)\n;";
         String deleteMentorLanguages = "DELETE FROM MentorProgramingLanguage WHERE mentorId = ? and languageId in (?)\n;";
 
-        try ( PreparedStatement updateMentorCVStatement = connection.prepareStatement(updateMentorCV);
-              PreparedStatement insertMentorSkillsStatement = connection.prepareStatement(insertMentorSkills);
-              PreparedStatement deleteMentorSkillsStatement = connection.prepareStatement(deleteMentorSkills);
-
-              PreparedStatement insertMentorLanguagesStatement = connection.prepareStatement(insertMentorLanguages);
-              PreparedStatement deleteMentorLanguagesStatement = connection.prepareStatement(deleteMentorLanguages);) {
+        try (PreparedStatement updateMentorCVStatement = connection.prepareStatement(updateMentorCV); PreparedStatement insertMentorSkillsStatement = connection.prepareStatement(insertMentorSkills); PreparedStatement deleteMentorSkillsStatement = connection.prepareStatement(deleteMentorSkills); PreparedStatement insertMentorLanguagesStatement = connection.prepareStatement(insertMentorLanguages); PreparedStatement deleteMentorLanguagesStatement = connection.prepareStatement(deleteMentorLanguages);) {
 
             int i = 1;
             updateMentorCVStatement.setString(i++, mentor.getProfession());
