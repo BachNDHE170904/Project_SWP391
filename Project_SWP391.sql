@@ -166,6 +166,15 @@ CREATE TABLE RequestDetail(
    FOREIGN KEY (mentorId) REFERENCES Mentor(mentorId),
 );
 
+CREATE TABLE MentorSuggestions(
+   id int NOT NULL identity(1,1),
+   requestId int    NOT NULL,
+   mentorId   INT NOT NULL,
+   price float NOT NULL,
+   PRIMARY KEY (id),
+   FOREIGN KEY (requestId) REFERENCES Requests(requestId),
+   FOREIGN KEY (mentorId) REFERENCES Mentor(mentorId),
+);
 
 CREATE TABLE requestSkillsChoices (
    id INT NOT NULL identity(1,1),

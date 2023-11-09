@@ -66,6 +66,7 @@
                         <li><a class="dropdown-item" href="statisticRequest">Stataistic request by me</a></li>
                         </c:if>
                         <c:if test="${sessionScope.userDetail.getRoleId() == 4}">
+                        <li><a class="dropdown-item" href="ListRequestSuggestionServlet">List Requests suggestion</a></li>
                         <li><a class="dropdown-item" href="ListInvitedRequestServlet">List Invited Requests</a></li>
                         <li><a class="dropdown-item" href="MentorRequestServlet">List Following Requests</a></li>
                         <li><a class="dropdown-item" href="ListRequestsHistoryServlet?page=1">List Requests History</a></li>

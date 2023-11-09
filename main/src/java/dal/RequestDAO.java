@@ -799,4 +799,19 @@ public class RequestDAO extends BaseDAO<Skill> {
         }
         return 0;
     }
+
+    public boolean insertOfferToRequest(int id, float price, int mentorId) {
+        try {
+            String insertComment = "insert into MentorSuggestions(requestId,price,mentorId) values(?,?,?)";
+            PreparedStatement stm = connection.prepareStatement(insertComment);
+            stm.setInt(1, id);
+            stm.setFloat(2, price);
+            stm.setInt(3, mentorId);
+            stm.executeUpdate();
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
 }
