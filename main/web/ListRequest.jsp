@@ -89,7 +89,7 @@
                                             <c:if test="${item.mentorId!=0}"><td><a href="ViewMentorCV.jsp?mentorId=${item.mentorId}">${item.mentorEmail}</a></td></c:if>
                                                 <td>
                                                     <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal${item.id}">Details</a>
-                                                <a href="cancelRequest?id=${item.id}" class="btn btn-danger <c:if test="${item.status.id == 3}">disabled</c:if>" >Cancel</a>
+                                                <a href="cancelRequest?id=${item.id}" class="btn btn-danger <c:if test="${item.status.id == 3||item.status.id == 4}">disabled</c:if>" >Cancel</a>
                                                 </td>
                                             </tr>
                                         <div class="modal fade" id="exampleModal${item.id}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -145,7 +145,7 @@
                                                         <div class="modal-footer">
                                                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                                                             <c:if test="${ item.status.id==1 &&item.mentorId==0}"><a href="#" class="btn btn-primary" data-toggle="modal" data-target="#mentorModal${item.id}">mentor suggestion</a></c:if>
-                                                            <c:if test="${item.mentorId!=0}"><a href="#" class="btn btn-primary" data-toggle="modal" data-target="#feedbackModal${item.id}">Comment and Rate star</a></c:if>
+                                                            <c:if test="${item.status.id==4&&item.mentorId!=0}"><a href="#" class="btn btn-primary" data-toggle="modal" data-target="#feedbackModal${item.id}">Comment and Rate star</a></c:if>
                                                             <c:if test="${ item.status.id==1 &&item.mentorId==0}"><button type="submit" class="btn btn-primary">Update</button></c:if>
                                                             </div>
                                                         </form>
@@ -262,7 +262,6 @@
                                             <td>${mentor.totalRating}</td>
                                             <td>${mentor.averageRating}</td>
                                             <td>${mentor.currentRequests}</td>
-                                            <td>${mentor.score}</td>
                                             <td><button type="submit" class="btn btn-primary" >Invite</button></td>
                                             </tr>
                                         </c:forEach>
