@@ -20,6 +20,7 @@ import model.UserDetails;
  * @author ADMIN
  */
 public class UserDAO extends BaseDAO<User> {
+
     public ArrayList<User> getUsers() {
         ArrayList<User> users = new ArrayList<>();
         try {
@@ -132,6 +133,7 @@ public class UserDAO extends BaseDAO<User> {
         }
         return null;
     }
+
     public String getUserStatus(int userID) {
         try {
             String sql = "SELECT * FROM UserStatus s\n"
@@ -207,6 +209,7 @@ public class UserDAO extends BaseDAO<User> {
         }
         return null;
     }
+
     public UserDetails getUserDetailsByUserId(int userId) {
         try {
             String sql = "SELECT * FROM UserDetail,Users \n"
@@ -250,7 +253,7 @@ public class UserDAO extends BaseDAO<User> {
         }
     }
 
-    public void insertUserStatus(int userId,String status) {
+    public void insertUserStatus(int userId, String status) {
         try {
             String sql = "insert into UserStatus(userId,userStatus) values(?,?)\n;";
             PreparedStatement statement = connection.prepareStatement(sql);
@@ -340,6 +343,7 @@ public class UserDAO extends BaseDAO<User> {
             return false;
         }
     }
+
     public boolean updateMenteeRoleToMentor(int userId) {
         String sql = "update UserDetail set roleId = ? where userId = ?";
         try {
@@ -464,8 +468,8 @@ public class UserDAO extends BaseDAO<User> {
     }
 
     public int getNumberOfRequests(int userId) {
-        String sql = "SELECT COUNT(r.requestId) AS 'Number requests of Mentee' FROM RequestDetail rd JOIN Requests r ON rd.requestId = r.requestId \n" +
-                     "JOIN Users u ON u.userId = r.userId AND u.userId = ? where rd.statusId = 1 OR rd.statusId = 2";
+        String sql = "SELECT COUNT(r.requestId) AS 'Number requests of Mentee' FROM RequestDetail rd JOIN Requests r ON rd.requestId = r.requestId \n"
+                + "JOIN Users u ON u.userId = r.userId AND u.userId = ? where rd.statusId = 1 OR rd.statusId = 2";
         try {
             PreparedStatement stm = connection.prepareStatement(sql);
             stm.setInt(1, userId);
@@ -481,14 +485,16 @@ public class UserDAO extends BaseDAO<User> {
         }
         return 0;
     }
-    
+
     public boolean updateUserStatus(int userId, String status) {
         String sql = "UPDATE UserStatus set userStatus = ? where userId = ?";
         try {
             PreparedStatement stm = connection.prepareStatement(sql);
-            if(status.equalsIgnoreCase("Active"))
-            stm.setString(1, "inactive");
-            else stm.setString(1, "active");
+            if (status.equalsIgnoreCase("Active")) {
+                stm.setString(1, "inactive");
+            } else {
+                stm.setString(1, "active");
+            }
             stm.setInt(2, userId);
             stm.executeUpdate();
             return true;
@@ -497,10 +503,10 @@ public class UserDAO extends BaseDAO<User> {
         }
         return false;
     }
-    
-    public int getTotalUsersWithSearch(String search,String filterRole) {
+
+    public int getTotalUsersWithSearch(String search, String filterRole) {
         try {
-            String sql = "SELECT COUNT(*) as total FROM Users, UserDetail, UserStatus, Roles where Users.userId = UserDetail.userId  AND Users.userId= UserStatus.userId AND (UserDetail.roleId = 2 OR UserDetail.roleId = 3) AND UserDetail.roleId = Roles.roleId AND UserDetail.fullname like'%"+search+"%'and UserStatus.userStatus like'"+filterRole+"%'";
+            String sql = "SELECT COUNT(*) as total FROM Users, UserDetail, UserStatus, Roles where Users.userId = UserDetail.userId  AND Users.userId= UserStatus.userId AND (UserDetail.roleId = 2 OR UserDetail.roleId = 3) AND UserDetail.roleId = Roles.roleId AND UserDetail.fullname like'%" + search + "%'and UserStatus.userStatus like'" + filterRole + "%'";
             PreparedStatement statement = connection.prepareStatement(sql);
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
@@ -511,14 +517,14 @@ public class UserDAO extends BaseDAO<User> {
         }
         return 0;
     }
-    
-    public ArrayList<UserDetails> getUsersWithPagination(int start, int total,String search,String filterRole) {
+
+    public ArrayList<UserDetails> getUsersWithPagination(int start, int total, String search, String filterRole) {
         ArrayList<UserDetails> us = new ArrayList<>();
         try {
-            String sql = "SELECT * FROM Users, UserDetail, UserStatus, Roles where Users.userId = UserDetail.userId  AND Users.userId= UserStatus.userId AND (UserDetail.roleId = 2 OR UserDetail.roleId = 3) AND UserDetail.roleId = Roles.roleId AND UserDetail.fullname like'%"+search+"%'and UserStatus.userStatus like'"+filterRole+"%'"
-                    +"order by Users.userId\n"
-                    +"OFFSET "+start+" ROWS \n"
-                    +"FETCH NEXT "+ total + " ROWS ONLY \n";
+            String sql = "SELECT * FROM Users, UserDetail, UserStatus, Roles where Users.userId = UserDetail.userId  AND Users.userId= UserStatus.userId AND (UserDetail.roleId = 2 OR UserDetail.roleId = 3) AND UserDetail.roleId = Roles.roleId AND UserDetail.fullname like'%" + search + "%'and UserStatus.userStatus like'" + filterRole + "%'"
+                    + "order by Users.userId\n"
+                    + "OFFSET " + start + " ROWS \n"
+                    + "FETCH NEXT " + total + " ROWS ONLY \n";
             PreparedStatement statement = connection.prepareStatement(sql);
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
@@ -535,10 +541,10 @@ public class UserDAO extends BaseDAO<User> {
         }
         return us;
     }
-    
+
     public int getTotalUsersWithSearch(String search) {
         try {
-            String sql = "SELECT COUNT(*) as total FROM Users, UserDetail, UserStatus, Roles where Users.userId = UserDetail.userId  AND Users.userId= UserStatus.userId AND UserDetail.roleId = 3 AND UserDetail.roleId = Roles.roleId AND UserDetail.fullname like'%"+search+"%'";
+            String sql = "SELECT COUNT(*) as total FROM Users, UserDetail, UserStatus, Roles where Users.userId = UserDetail.userId  AND Users.userId= UserStatus.userId AND UserDetail.roleId = 3 AND UserDetail.roleId = Roles.roleId AND UserDetail.fullname like'%" + search + "%'";
             PreparedStatement statement = connection.prepareStatement(sql);
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
@@ -549,14 +555,14 @@ public class UserDAO extends BaseDAO<User> {
         }
         return 0;
     }
-    
-    public ArrayList<UserDetails> getUsersWithPagination(int start, int total,String search) {
+
+    public ArrayList<UserDetails> getUsersWithPagination(int start, int total, String search) {
         ArrayList<UserDetails> usd = new ArrayList<>();
         try {
-            String sql = "SELECT * FROM Users, UserDetail, UserStatus, Roles where Users.userId = UserDetail.userId  AND Users.userId= UserStatus.userId AND UserDetail.roleId = 3 AND UserDetail.roleId = Roles.roleId AND UserDetail.fullname like'%"+search+"%'"
-                    +"order by Users.userId\n"
-                    +"OFFSET "+start+" ROWS \n"
-                    +"FETCH NEXT "+ total + " ROWS ONLY \n";
+            String sql = "SELECT * FROM Users, UserDetail, UserStatus, Roles where Users.userId = UserDetail.userId  AND Users.userId= UserStatus.userId AND UserDetail.roleId = 3 AND UserDetail.roleId = Roles.roleId AND UserDetail.fullname like'%" + search + "%'"
+                    + "order by Users.userId\n"
+                    + "OFFSET " + start + " ROWS \n"
+                    + "FETCH NEXT " + total + " ROWS ONLY \n";
             PreparedStatement statement = connection.prepareStatement(sql);
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
@@ -573,10 +579,10 @@ public class UserDAO extends BaseDAO<User> {
         }
         return usd;
     }
-    
+
     public int getAllNumberOfRequests(int userId) {
-        String sql = "SELECT COUNT(r.requestId) AS 'Number requests of Mentee' FROM RequestDetail rd JOIN Requests r ON rd.requestId = r.requestId \n" +
-                     "JOIN Users u ON u.userId = r.userId AND u.userId = ? ";
+        String sql = "SELECT COUNT(r.requestId) AS 'Number requests of Mentee' FROM RequestDetail rd JOIN Requests r ON rd.requestId = r.requestId \n"
+                + "JOIN Users u ON u.userId = r.userId AND u.userId = ? ";
         try {
             PreparedStatement stm = connection.prepareStatement(sql);
             stm.setInt(1, userId);
@@ -592,16 +598,16 @@ public class UserDAO extends BaseDAO<User> {
         }
         return 0;
     }
-    
+
     public int getAllNumberOfSkillOfRequests(int userId) {
-        String sql = "SELECT COUNT(DISTINCT rs.skillId) AS total_skills\n" 
-                        +"FROM Users u\n" 
-                        +"LEFT JOIN UserDetail ud ON u.userId = ud.userId\n" 
-                        +"LEFT JOIN Requests r ON u.userId = r.userId  \n" 
-                        +"LEFT JOIN requestSkillsChoices rs ON r.requestId = rs.requestId\n" 
-                        +"WHERE ud.roleId = (SELECT roleId FROM Roles WHERE roleName = 'Mentee') AND u.userId = ?\n" 
-                        +"GROUP BY u.userId, ud.fullName  \n" 
-                        +"ORDER BY ud.fullName";
+        String sql = "SELECT COUNT(DISTINCT rs.skillId) AS total_skills\n"
+                + "FROM Users u\n"
+                + "LEFT JOIN UserDetail ud ON u.userId = ud.userId\n"
+                + "LEFT JOIN Requests r ON u.userId = r.userId  \n"
+                + "LEFT JOIN requestSkillsChoices rs ON r.requestId = rs.requestId\n"
+                + "WHERE ud.roleId = (SELECT roleId FROM Roles WHERE roleName = 'Mentee') AND u.userId = ?\n"
+                + "GROUP BY u.userId, ud.fullName  \n"
+                + "ORDER BY ud.fullName";
         try {
             PreparedStatement stm = connection.prepareStatement(sql);
             stm.setInt(1, userId);
@@ -616,5 +622,55 @@ public class UserDAO extends BaseDAO<User> {
             System.out.println(e);
         }
         return 0;
+    }
+    public long getAccountBalanceByUserId(int userId) {
+        try {
+            String sql = "select *from UserAccountBalance where userId=?";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setInt(1, userId);
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                return rs.getLong("balance");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return 0;
+    }
+    public boolean insertAcountBalance(int userId, long price) {
+        try {
+            String sql = "insert into UserAccountBalance(userId,balance) values (?,?)";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setInt(1, userId);
+            statement.setLong(2, price);
+            statement.executeUpdate();
+            return true;
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
+    }
+
+    public boolean updateAcountBalance(int userId, long price) {
+        try {
+            String sql1 = "select *from UserAccountBalance where userId=?";
+            PreparedStatement statement1 = connection.prepareStatement(sql1);
+            statement1.setInt(1, userId);
+            ResultSet rs = statement1.executeQuery();
+            long balance = 0;
+            while (rs.next()) {
+                balance = rs.getLong("balance");
+            }
+            balance += price;
+            String sql2 = "update UserAccountBalance set balance=? where userId=?";
+            PreparedStatement statement2 = connection.prepareStatement(sql2);
+            statement2.setLong(1, balance);
+            statement2.setInt(2, userId);
+            statement2.executeUpdate();
+            return true;
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
     }
 }
