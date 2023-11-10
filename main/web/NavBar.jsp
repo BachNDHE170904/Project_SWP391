@@ -61,6 +61,7 @@
                     <li><a class="dropdown-item" href="ViewUserProfile.jsp">View my Profile</a></li>
                     <li><a class="dropdown-item" href="ChangePassword.jsp">Change Password</a></li>
                         <c:if test="${sessionScope.userDetail.getRoleId() == 3}">
+                        <li><a class="dropdown-item" href="vnpay/vnpay_index.jsp">Payment</a></li>
                         <li><a class="dropdown-item" href="createRequest">Create Request</a></li>
                         <li><a class="dropdown-item" href="myRequest">List Request</a></li>
                         <li><a class="dropdown-item" href="statisticRequest">Stataistic request by me</a></li>

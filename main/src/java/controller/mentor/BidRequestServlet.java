@@ -82,12 +82,16 @@ public class BidRequestServlet extends HttpServlet {
         int id = Integer.parseInt(request.getParameter("id"));
         int price = Integer.parseInt(request.getParameter("price"));
         RequestDAO rd = new RequestDAO();
-        if (rd.insertOfferToRequest(id, price, mentor.getMentorId())) {
-            session.setAttribute("successMsg", "Your offer is sent to mentee successfully!");
-            response.sendRedirect("ListRequestSuggestionServlet");
+        if (rd.getProposalPriceForRequest(id, mentor.getMentorId())>0) {
+            if (rd.updateProposalForRequest(id, price, mentor.getMentorId())) {
+                session.setAttribute("successMsg", "Your offer is updated successfully!");
+                response.sendRedirect("ListRequestSuggestionServlet");
+            }
         } else {
-            session.setAttribute("errorMsg", "You have already bid for this request before!");
-            response.sendRedirect("ListRequestSuggestionServlet");
+            if (rd.insertProposalToRequest(id, price, mentor.getMentorId())) {
+                session.setAttribute("successMsg", "Your offer is sent to mentee successfully!");
+                response.sendRedirect("ListRequestSuggestionServlet");
+            }
         }
     }
 }
