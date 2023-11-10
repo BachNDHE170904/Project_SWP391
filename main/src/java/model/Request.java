@@ -26,6 +26,7 @@ public class Request extends Comment{
     private String mentorUserName;
     private String mentorEmail;
     private int userID;
+    private float mentorPrice;
 
     public Request() {
     }
@@ -112,15 +113,6 @@ public class Request extends Comment{
     public void setUserName(String userName) {
         this.userName = userName;
     }
-
-    public int getMentorId() {
-        return mentorId;
-    }
-
-    public void setMentorId(int mentorId) {
-        this.mentorId = mentorId;
-    }
-
     public String getMentorUserName() {
         return mentorUserName;
     }
@@ -143,6 +135,14 @@ public class Request extends Comment{
 
     public void setUserID(int userID) {
         this.userID = userID;
+    }
+
+    public float getMentorPrice() {
+        return mentorPrice;
+    }
+
+    public void setMentorPrice(float mentorPrice) {
+        this.mentorPrice = mentorPrice;
     }
 
     @Override

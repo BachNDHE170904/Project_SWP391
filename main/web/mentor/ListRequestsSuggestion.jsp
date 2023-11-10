@@ -198,7 +198,7 @@
                                                             <input type="hidden" name="id" value="${item.id}">
                                                             <div class="form-group">
                                                                 <label for="rating" class="col-form-label">price</label>
-                                                                <input type="number" name="price" class="form-control" id="rating" min="1" required>
+                                                                <input type="number" name="price" class="form-control" id="rating" min="1" value="${item.mentorPrice}" required>
                                                             </div>
                                                             <div class="modal-footer">
                                                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

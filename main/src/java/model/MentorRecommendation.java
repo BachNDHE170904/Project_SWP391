@@ -61,6 +61,7 @@ public class MentorRecommendation {
                 requestSkillIds.add(s.getSkillId());
             }
             if (request.getStatus().getId() == 1 && request.getMentorId() == 0&&mentor.getSkillsId().containsAll(requestSkillIds)&&mentor.getLanguageId().contains(request.getPro().getLanguageId())) {
+                request.setMentorPrice(requestDAO.getProposalPriceForRequest(request.getId(), mentor.getMentorId()));
                 suggestedRequests.add(request);
             }
         }
