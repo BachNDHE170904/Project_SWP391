@@ -1,3 +1,5 @@
+<%@page import="model.User"%>
+<%@page import="dal.UserDAO"%>
 <%@page import="java.sql.Date"%>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.net.URLEncoder"%>
@@ -58,6 +60,9 @@
 
             // Convert java.util.Date to java.sql.Date
             Date sqlDate = new Date(utilDate.getTime());
+
+            String amountString = request.getParameter("vnp_Amount");
+            long amount = Integer.parseInt(amountString) / 100;
         %>
         <!--Begin display -->
         <div class="container">
@@ -71,7 +76,7 @@
                 </div>    
                 <div class="form-group">
                     <label >Số tiền:</label>
-                    <label><%=request.getParameter("vnp_Amount")%></label>
+                    <label><%=amount%>VND</label>
                 </div>  
                 <div class="form-group">
                     <label >Mô tả giao dịch:</label>
@@ -99,6 +104,15 @@
                         <%
                             if (signValue.equals(vnp_SecureHash)) {
                                 if ("00".equals(request.getParameter("vnp_TransactionStatus"))) {
+                                    UserDAO userDAO = new UserDAO();
+                                    User acc = null;
+                                    //check if the user is logged in or not
+                                    if (session.getAttribute("user") != null) {
+                                        acc = (User) session.getAttribute("user");
+                                    }
+                                    if (!userDAO.insertAcountBalance(acc.getUserId(), amount)) {
+                                        userDAO.updateAcountBalance(acc.getUserId(), amount);
+                                    }
                                     out.print("Thành công");
                                 } else {
                                     out.print("Không thành công");

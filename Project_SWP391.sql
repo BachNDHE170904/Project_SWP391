@@ -26,10 +26,11 @@ CREATE TABLE Users (
 );
 CREATE TABLE UserAccountBalance (
    userId   INT    NOT NULL,
-   balance float default 0,
+   balance BIGINT default 0,
    PRIMARY KEY (userId),
    FOREIGN KEY (userId) REFERENCES Users(userId),
 );
+
 CREATE TABLE UserStatus (
    userId   INT  NOT NULL,
    userStatus NVARCHAR(50) NOT NULL,
