@@ -117,7 +117,6 @@
                                 } else {
                                     out.print("Không thành công");
                                 }
-
                             } else {
                                 out.print("invalid signature");
                             }
