@@ -44,7 +44,7 @@
         <div class="collapse navbar-collapse " id="navbarSupportedContent">
             <%
                 if (acc != null) {
-                        acc.setBalance(db.getAccountBalanceByUserId(acc.getUserId()));
+                    acc.setBalance(db.getAccountBalanceByUserId(acc.getUserId()));
             %>
             <div class="nav-item dropdown ms-auto">
                 <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -59,7 +59,9 @@
                     <%= acc.getUsername()%>
                 </a>
                 <ul class="dropdown-menu dropdown-menu-end">
-                    <li><p class="dropdown-item" >Account Balance: <%=acc.getBalance()%> VND</p></li>
+                    <c:if test="${sessionScope.userDetail.getRoleId() == 3||sessionScope.userDetail.getRoleId() == 4}">
+                        <li><p class="dropdown-item" >Account Balance: <%=acc.getBalance()%> VND</p></li>
+                        </c:if>
                     <li><a class="dropdown-item" href="ViewUserProfile.jsp">View my Profile</a></li>
                     <li><a class="dropdown-item" href="ChangePassword.jsp">Change Password</a></li>
                         <c:if test="${sessionScope.userDetail.getRoleId() == 3}">
