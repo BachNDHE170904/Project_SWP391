@@ -30,9 +30,7 @@ CREATE TABLE UserAccountBalance (
    PRIMARY KEY (userId),
    FOREIGN KEY (userId) REFERENCES Users(userId),
 );
-<<<<<<< Updated upstream
 
-=======
 CREATE TABLE TransactionHistory (
    transactionId NVARCHAR (50)  NOT NULL,
    userId   INT    NOT NULL,
@@ -42,7 +40,7 @@ CREATE TABLE TransactionHistory (
    PRIMARY KEY (transactionId),
    FOREIGN KEY (userId) REFERENCES Users(userId),
 );
->>>>>>> Stashed changes
+
 CREATE TABLE UserStatus (
    userId   INT  NOT NULL,
    userStatus NVARCHAR(50) NOT NULL,
