@@ -260,7 +260,7 @@
                                                 <td>${mentor.totalRating}</td>
                                                 <td>${mentor.averageRating}</td>
                                                 <td>${mentor.currentRequests}</td>
-                                                <td>${mentor.mentorPrice}</td>
+                                                <td>${mentor.mentorPrice} VND</td>
                                                 <td><a href="InviteMentorServlet?requestId=${item.id}&&mentorId=${mentor.mentorId}" class="btn btn-primary" >Invite</a></td>
                                             </tr>
                                         </c:forEach>
