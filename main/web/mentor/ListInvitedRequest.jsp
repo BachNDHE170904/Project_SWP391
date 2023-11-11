@@ -163,8 +163,24 @@
                                                         </fieldset>
                                                         <div class="modal-footer">
                                                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                            <a href="ListInvitedRequestServlet?id=${item.id}&&action=accept"class="btn btn-primary" onclick="return confirm('Are you sure?')">Accept</a>
-                                                            <a href="ListInvitedRequestServlet?id=${item.id}&&action=reject"class="btn btn-danger" onclick="return confirm('Are you sure?')">Reject</a>
+                                                            <a href="ListInvitedRequestServlet?id=${item.id}&&action=accept"class="btn btn-primary" onclick="sendEmailAccept();">Accept</a>
+                                                            <script>
+                                                                function sendEmailAccept() {
+                                                                    let xhr = new XMLHttpRequest();
+                                                                    xhr.open("POST", "/main/SendEmailMentorServlet");
+                                                                    xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                                                                    xhr.send("action=accept&&menteeName=${item.userName}");
+                                                                }
+                                                            </script>
+                                                            <a href="ListInvitedRequestServlet?id=${item.id}&&action=reject"class="btn btn-danger" onclick="sendEmailReject();">Reject</a>
+                                                            <script>
+                                                                function sendEmailReject() {
+                                                                    let xhr = new XMLHttpRequest();
+                                                                    xhr.open("POST", "/main/SendEmailMentorServlet");
+                                                                    xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                                                                    xhr.send("action=reject&&menteeName=${item.userName}");
+                                                                }
+                                                            </script>
                                                         </div>
                                                     </div>
                                                 </div>

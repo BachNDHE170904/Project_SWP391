@@ -2,22 +2,22 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package controller.common.register;
+package controller.mentor;
 
+import controller.Common;
+import dal.RequestDAO;
+import dal.UserDAO;
 import java.io.IOException;
+import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
+import model.Request;
 import model.SendEmail;
+import model.User;
 
-/**
- *
- * @author ADMIN
- */
-public class RegisterConfirmAccountServlet extends HttpServlet {
+public class SendEmailMentorServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -31,14 +31,24 @@ public class RegisterConfirmAccountServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        HttpSession session = request.getSession();
-        SendEmail sm = new SendEmail();
-        int otp = sm.getOtp();
-        String emailContent = "Your otp code to confirm your account is: " + otp;
-        String toEmail = request.getParameter("email");
-        String subject="User email verification";
-        if (sm.sendEmail(toEmail, emailContent,subject)) {
-            session.setAttribute("otpCode", otp);
+        String action = request.getParameter("action");
+        String menteeName = request.getParameter("menteeName");
+        UserDAO dbUser = new UserDAO();
+        User user = (User) request.getSession().getAttribute("user");
+        User mentee = dbUser.getUserByUserName(menteeName);
+        String toEmail = mentee.getEmail();
+        String subject="New request status";
+        if (action.equalsIgnoreCase("accept")) {
+            SendEmail sm = new SendEmail();
+            String emailContent = user.getUsername() + " - " + user.getEmail() + " accepted your request. Please check your information in \n"
+                    + "detail page";
+            sm.sendEmail(toEmail, emailContent,subject);
+        }
+        if (action.equalsIgnoreCase("reject")) {
+            SendEmail sm = new SendEmail();
+            String emailContent = user.getUsername() + " - " + user.getEmail() + " rejected your request. Please check your information in \n"
+                    + "detail page";
+            sm.sendEmail(toEmail, emailContent,subject);
         }
     }
 
