@@ -124,6 +124,10 @@
         <servlet-name>CloseRequestServlet</servlet-name>
         <servlet-class>controller.mentee.CloseRequestServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>SendEmailMentorServlet</servlet-name>
+        <servlet-class>controller.mentor.SendEmailMentorServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
         <url-pattern>/LoginServlet</url-pattern>
@@ -247,6 +251,10 @@
     <servlet-mapping>
         <servlet-name>CloseRequestServlet</servlet-name>
         <url-pattern>/CloseRequest</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SendEmailMentorServlet</servlet-name>
+        <url-pattern>/SendEmailMentorServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
