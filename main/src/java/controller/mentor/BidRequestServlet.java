@@ -2,25 +2,26 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package controller.mentee;
+package controller.mentor;
 
+import dal.CommentDAO;
+import dal.MentorDAO;
 import dal.RequestDAO;
-import dal.TransactionDAO;
+import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.sql.Date;
-import java.time.LocalDate;
+import model.Mentor;
 import model.User;
 
 /**
  *
- * @author ddtd2
+ * @author ADMIN
  */
-public class updateRequestServlet extends HttpServlet {
+public class BidRequestServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -39,10 +40,10 @@ public class updateRequestServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet updateRequestServlet</title>");
+            out.println("<title>Servlet BidRequestServlet</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet updateRequestServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet BidRequestServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -74,40 +75,23 @@ public class updateRequestServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String id = request.getParameter("id");
-        String title = request.getParameter("title");
-        Date createdDate = Date.valueOf(LocalDate.now());
-        Date deadline = Date.valueOf(request.getParameter("deadline"));
-        String status = "1";
-        long price = Integer.parseInt(request.getParameter("price"));
-        String pro = request.getParameter("pro");
-        String[] skills = request.getParameterValues("selectedSkills");
-        String content = request.getParameter("content");
+        HttpSession session = request.getSession();
         User user = (User) request.getSession().getAttribute("user");
-
-        TransactionDAO transactionDAO = new TransactionDAO();
-        long balance = transactionDAO.getAccountBalanceByUserId(user.getUserId());
-        RequestDAO requestDAO = new RequestDAO();
-        int requestId = Integer.parseInt(id);
-        long currentPrice = requestDAO.getPriceofRequest(requestId);
-        if ((balance+currentPrice - price)>=0) {
-            requestDAO.updateRequest(user.getUserId(), id, title, createdDate, deadline, status, pro, skills, content, price);
-            transactionDAO.updateAcountBalance(user.getUserId(), (currentPrice - price));
-            request.getSession().setAttribute("successMsg", "Your request is updated successfully!");
+        MentorDAO mentorDAO = new MentorDAO();
+        Mentor mentor = mentorDAO.getMentorByUserID(user.getUserId());
+        int id = Integer.parseInt(request.getParameter("id"));
+        long price = Integer.parseInt(request.getParameter("price"));
+        RequestDAO rd = new RequestDAO();
+        if (rd.getProposalPriceForRequest(id, mentor.getMentorId())>0) {
+            if (rd.updateProposalForRequest(id, price, mentor.getMentorId())) {
+                session.setAttribute("successMsg", "Your offer is updated successfully!");
+                response.sendRedirect("ListRequestSuggestionServlet");
+            }
         } else {
-            request.getSession().setAttribute("errorMsg", "You don't have enough money in your account!");
+            if (rd.insertProposalToRequest(id, price, mentor.getMentorId())) {
+                session.setAttribute("successMsg", "Your offer is sent to mentee successfully!");
+                response.sendRedirect("ListRequestSuggestionServlet");
+            }
         }
-        response.sendRedirect("myRequest");
     }
-
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
-    @Override
-    public String getServletInfo() {
-        return "Short description";
-    }// </editor-fold>
-
 }

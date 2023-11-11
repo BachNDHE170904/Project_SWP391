@@ -61,12 +61,13 @@ public class UpdateRequestController extends HttpServlet {
         Date createdDate = Date.valueOf(LocalDate.now());
         Date deadline = Date.valueOf(request.getParameter("deadline"));
         String status = request.getParameter("status");
+        long price = Integer.parseInt(request.getParameter("price"));
         String pro = request.getParameter("pro");
         String[] skills = request.getParameterValues("selectedSkills");
         String content = request.getParameter("content");
         User user = (User) request.getSession().getAttribute("user");
         RequestDAO requestDAO = new RequestDAO();
-        requestDAO.updateRequest(user.getUserId(), id, title, createdDate, deadline, status, pro, skills, content);
+        requestDAO.updateRequest(user.getUserId(), id, title, createdDate, deadline, status, pro, skills, content,price);
 
         request.getSession().setAttribute("successMsg", "Your request is updated successfully!");
         response.sendRedirect("ListRequestController");

@@ -21,15 +21,8 @@ public class MentorRecommendation {
         List<Mentor> suggestedMentors = new ArrayList<>();
         List<Mentor> ListOkMentors = new ArrayList<>();
         MentorDAO mentorDAO = new MentorDAO();
-        List<Mentor> mentors = mentorDAO.getAllActiveMentors();
-        RequestDAO requestDAO = new RequestDAO();
-        Request request = requestDAO.getRequestByRequestID(requestId);
-        ArrayList<Integer> requestSkillIds = new ArrayList<>();
-        for (Skill s : request.getSkills()) {
-            requestSkillIds.add(s.getSkillId());
-        }
+        List<Mentor> mentors = mentorDAO.getMentorsSuggestionByRequest(requestId);
         for (Mentor mentor : mentors) {
-            if ((mentor.getSkillsId().containsAll(requestSkillIds)) && mentor.getLanguageId().contains(request.getPro().getLanguageId())) {
                 int totalRatingScore = 0;
                 if (mentor.getTotalRating() < 10) {
                     totalRatingScore = 1;
@@ -41,7 +34,6 @@ public class MentorRecommendation {
                 double averageRatingScore = mentor.getAverageRating() * 2 * 0.7;
                 mentor.setScore(totalRatingScore + averageRatingScore);
                 ListOkMentors.add(mentor);
-            }
         }
         Collections.sort(ListOkMentors, new Comparator<Mentor>() {
             @Override
@@ -55,5 +47,28 @@ public class MentorRecommendation {
             i++;
         }
         return suggestedMentors;
+    }
+
+    public List<Request> RequestSuggestion(int userId) {
+        MentorDAO mentorDAO = new MentorDAO();
+        RequestDAO requestDAO = new RequestDAO();
+        Mentor mentor = mentorDAO.getMentorByUserID(userId);
+        List<Request> allRequests = requestDAO.getRequests();
+        List<Request> suggestedRequests = new ArrayList<>();
+        for (Request request : allRequests) {
+            ArrayList<Integer> requestSkillIds = new ArrayList<>();
+            for (Skill s : request.getSkills()) {
+                requestSkillIds.add(s.getSkillId());
+            }
+            if (request.getStatus().getId() == 1 && request.getMentorId() == 0&&mentor.getSkillsId().containsAll(requestSkillIds)&&mentor.getLanguageId().contains(request.getPro().getLanguageId())) {
+                request.setMentorPrice(requestDAO.getProposalPriceForRequest(request.getId(), mentor.getMentorId()));
+                suggestedRequests.add(request);
+            }
+        }
+        return suggestedRequests;
+    }
+    public static void main(String[] args) {
+        MentorRecommendation rec=new MentorRecommendation();
+        System.out.println(rec.RequestSuggestion(6).size());
     }
 }

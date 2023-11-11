@@ -106,7 +106,7 @@ public class ListRequest extends HttpServlet {
                 List<Mentor> suggestedlist = recommend.mentorSuggestionForMentee(r.getId());
                 suggestedMentors.put(r.getId(), suggestedlist);
             }
-            if (r.getMentorId() != 0) {
+            if (r.getMentorId()!= 0) {
                 r.setMentorUserName(mentorDAO.getMentorByMentorID(r.getMentorId()).getUsername());
                 r.setMentorEmail(mentorDAO.getMentorByMentorID(r.getMentorId()).getEmail());
             }

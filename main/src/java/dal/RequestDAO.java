@@ -20,7 +20,7 @@ import model.Status;
 
 public class RequestDAO extends BaseDAO<Skill> {
 
-    public void insertRequest(int userID, String title, String content, Date deadline, int statusID, String[] skills, int languageID) {
+    public void insertRequest(int userID, String title, String content, Date deadline, int statusID, String[] skills, int languageID, long price) {
         try {
             String sql = "INSERT INTO [dbo].[Requests]\n"
                     + "           ([userId])\n"
@@ -37,9 +37,10 @@ public class RequestDAO extends BaseDAO<Skill> {
                     + "           ,[createdDate]\n"
                     + "           ,[deadline]\n"
                     + "           ,[statusId]"
-                    + "           ,[mentorId] )\n"
+                    + "           ,[mentorId]"
+                    + "           ,[price])\n"
                     + "     VALUES\n"
-                    + "           (?,?,?,GETDATE(),?,?,?)";
+                    + "           (?,?,?,GETDATE(),?,?,?,?)";
             PreparedStatement xtm = connection.prepareStatement(xSQL);
             xtm.setInt(1, requestID);
             xtm.setString(2, title);
@@ -47,6 +48,7 @@ public class RequestDAO extends BaseDAO<Skill> {
             xtm.setDate(4, deadline);
             xtm.setInt(5, statusID);
             xtm.setNull(6, java.sql.Types.INTEGER);
+            xtm.setLong(7, price);
             xtm.executeUpdate();
             for (String i : skills) {
                 String qSQL = "INSERT INTO [dbo].[requestSkillsChoices]\n"
@@ -101,6 +103,12 @@ public class RequestDAO extends BaseDAO<Skill> {
                     request.setMentorId(0);
                 } else {
                     request.setMentorId(mentorId);
+                }
+                long price = rs.getLong("price");
+                if (rs.wasNull()) {
+                    request.setMenteePrice(0);
+                } else {
+                    request.setMenteePrice(price);
                 }
                 Status status = new Status();
                 String xSQL = "Select * from Statuses where statusId = ?";
@@ -161,6 +169,12 @@ public class RequestDAO extends BaseDAO<Skill> {
                 } else {
                     request.setMentorId(mentorId);
                 }
+                long price = rs.getLong("price");
+                if (rs.wasNull()) {
+                    request.setMenteePrice(0);
+                } else {
+                    request.setMenteePrice(price);
+                }
                 Status status = new Status();
                 String xSQL = "Select * from Statuses where statusId = ?";
                 PreparedStatement qtm = connection.prepareStatement(xSQL);
@@ -199,7 +213,7 @@ public class RequestDAO extends BaseDAO<Skill> {
         return null;
     }
 
-    public void updateRequest(int userID, String id, String title, Date createdDate, Date deadline, String status, String pro, String[] skills, String content) {
+    public boolean updateRequest(int userID, String id, String title, Date createdDate, Date deadline, String status, String pro, String[] skills, String content, long price) {
         try {
             String xSQL = "UPDATE [dbo].[RequestDetail]\n"
                     + "   SET [title] = ?\n"
@@ -207,14 +221,16 @@ public class RequestDAO extends BaseDAO<Skill> {
                     + "      ,[createdDate] = ?\n"
                     + "      ,[deadline] = ?\n"
                     + "      ,[statusId] = ?\n"
+                    + "      ,[price] = ?\n"
                     + " WHERE requestId = ?";
             PreparedStatement xtm = connection.prepareStatement(xSQL);
-            xtm.setInt(6, Integer.parseInt(id));
+            xtm.setInt(7, Integer.parseInt(id));
             xtm.setString(1, title);
             xtm.setString(2, content.trim());
             xtm.setDate(3, createdDate);
             xtm.setDate(4, deadline);
             xtm.setInt(5, Integer.parseInt(status));
+            xtm.setLong(6, price);
             xtm.executeUpdate();
             String tSQL = "DELETE FROM [dbo].[requestSkillsChoices]\n"
                     + "      WHERE requestId = ?";
@@ -234,9 +250,11 @@ public class RequestDAO extends BaseDAO<Skill> {
                 qtm.setInt(3, Integer.parseInt(pro));
                 qtm.executeUpdate();
             }
+            return true;
         } catch (SQLException ex) {
             Logger.getLogger(RequestDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
+        return false;
     }
 
     public List<Request> getRequests() {
@@ -258,6 +276,12 @@ public class RequestDAO extends BaseDAO<Skill> {
                     request.setMentorId(0);
                 } else {
                     request.setMentorId(mentorId);
+                }
+                long price = rs.getLong("price");
+                if (rs.wasNull()) {
+                    request.setMenteePrice(0);
+                } else {
+                    request.setMenteePrice(price);
                 }
                 Status status = new Status();
                 String xSQL = "Select * from Statuses where statusId = ?";
@@ -346,10 +370,24 @@ public class RequestDAO extends BaseDAO<Skill> {
         return false;
     }
 
+    public boolean setPriceForRequest(int requestId, long price) {
+        try {
+            String sql = "update RequestDetail set price = ? where requestId = ?";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setLong(1, price);
+            statement.setInt(2, requestId);
+            statement.executeUpdate();
+            return true;
+        } catch (SQLException ex) {
+            Logger.getLogger(RequestDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
+    }
+
     public ArrayList<Request> getRequestByMentorID(int mentorId, int stt, int[] page) {
         try {
             ArrayList<Request> list = new ArrayList<>();
-            String sql = "Select r.requestId, title, requestContent, deadline, statusId, m.userId as mentorId, username, u.userId as menteeId "
+            String sql = "Select r.requestId, title, requestContent, deadline, statusId, m.userId as mentorId, username, u.userId as menteeId,r.price "
                     + "from RequestDetail r join Requests re on r.requestId = re.requestId "
                     + "join Users u on u.userId = re.userId "
                     + "join Mentor m on m.mentorId = r.mentorId "
@@ -371,6 +409,12 @@ public class RequestDAO extends BaseDAO<Skill> {
                 request.setMentorId(rs.getInt(6));
                 request.setUserName(rs.getString(7));
                 request.setUserID(rs.getInt(8));
+                long price = rs.getLong("price");
+                if (rs.wasNull()) {
+                    request.setMenteePrice(0);
+                } else {
+                    request.setMenteePrice(price);
+                }
                 Status status = new Status();
                 String xSQL = "Select * from Statuses where statusId = ?";
                 PreparedStatement qtm = connection.prepareStatement(xSQL);
@@ -413,7 +457,7 @@ public class RequestDAO extends BaseDAO<Skill> {
     public ArrayList<Request> getRequestHistoryByMentorID(int mentorId, int page, int total) {
         try {
             ArrayList<Request> list = new ArrayList<>();
-            String sql = "Select r.requestId, title, requestContent, deadline, statusId, m.userId as mentorId, username, u.userId as menteeId "
+            String sql = "Select r.requestId, title, requestContent, deadline, statusId, m.userId as mentorId, username, u.userId as menteeId,r.price "
                     + "from RequestDetail r join Requests re on r.requestId = re.requestId "
                     + "join Users u on u.userId = re.userId "
                     + "join Mentor m on m.mentorId = r.mentorId "
@@ -433,6 +477,12 @@ public class RequestDAO extends BaseDAO<Skill> {
                 request.setMentorId(rs.getInt(6));
                 request.setUserName(rs.getString(7));
                 request.setUserID(rs.getInt(8));
+                long price = rs.getLong("price");
+                if (rs.wasNull()) {
+                    request.setMenteePrice(0);
+                } else {
+                    request.setMenteePrice(price);
+                }
                 Status status = new Status();
                 String xSQL = "Select * from Statuses where statusId = ?";
                 PreparedStatement qtm = connection.prepareStatement(xSQL);
@@ -577,6 +627,12 @@ public class RequestDAO extends BaseDAO<Skill> {
                 } else {
                     request.setMentorId(mentorId);
                 }
+                long price = rs.getLong("price");
+                if (rs.wasNull()) {
+                    request.setMenteePrice(0);
+                } else {
+                    request.setMenteePrice(price);
+                }
                 Status status = new Status();
                 String xSQL = "Select * from Statuses where statusId = ?";
                 PreparedStatement qtm = connection.prepareStatement(xSQL);
@@ -683,6 +739,12 @@ public class RequestDAO extends BaseDAO<Skill> {
                 } else {
                     request.setMentorId(mentorId);
                 }
+                long price = rs.getLong("price");
+                if (rs.wasNull()) {
+                    request.setMenteePrice(0);
+                } else {
+                    request.setMenteePrice(price);
+                }
                 Status status = new Status();
                 String xSQL = "Select * from Statuses where statusId = ?";
                 PreparedStatement qtm = connection.prepareStatement(xSQL);
@@ -745,6 +807,12 @@ public class RequestDAO extends BaseDAO<Skill> {
                 } else {
                     request.setMentorId(mentorId);
                 }
+                long price = rs.getLong("price");
+                if (rs.wasNull()) {
+                    request.setMenteePrice(0);
+                } else {
+                    request.setMenteePrice(price);
+                }
                 Status status = new Status();
                 String xSQL = "Select * from Statuses where statusId = ?";
                 PreparedStatement qtm = connection.prepareStatement(xSQL);
@@ -796,6 +864,80 @@ public class RequestDAO extends BaseDAO<Skill> {
             }
         } catch (SQLException ex) {
             Logger.getLogger(RequestDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return 0;
+    }
+
+    public boolean insertProposalToRequest(int id, long price, int mentorId) {
+        try {
+            String insertComment = "insert into MentorSuggestions(requestId,price,mentorId) values(?,?,?)";
+            PreparedStatement stm = connection.prepareStatement(insertComment);
+            stm.setInt(1, id);
+            stm.setLong(2, price);
+            stm.setInt(3, mentorId);
+            stm.executeUpdate();
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public boolean updateProposalForRequest(int id, long price, int mentorId) {
+        try {
+            String insertComment = "update MentorSuggestions set price=? where requestId=? and mentorId=?";
+            PreparedStatement stm = connection.prepareStatement(insertComment);
+            stm.setLong(1, price);
+            stm.setInt(2, id);
+            stm.setInt(3, mentorId);
+            stm.executeUpdate();
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public boolean removeProposalsForRequest(int id) {
+        try {
+            String insertComment = "Delete from MentorSuggestions where requestId=?";
+            PreparedStatement stm = connection.prepareStatement(insertComment);
+            stm.setInt(1, id);
+            stm.executeUpdate();
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public long getProposalPriceForRequest(int id, int mentorId) {
+        try {
+            String insertComment = "select * from MentorSuggestions where requestId=? and mentorId=?";
+            PreparedStatement stm = connection.prepareStatement(insertComment);
+            stm.setInt(1, id);
+            stm.setInt(2, mentorId);
+            ResultSet rs = stm.executeQuery();
+            while (rs.next()) {
+                return rs.getLong("price");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    public long getPriceofRequest(int requestId) {
+        try {
+            String insertComment = "select * from RequestDetail where requestId=?";
+            PreparedStatement stm = connection.prepareStatement(insertComment);
+            stm.setInt(1, requestId);
+            ResultSet rs = stm.executeQuery();
+            while (rs.next()) {
+                return rs.getLong("price");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         return 0;
     }

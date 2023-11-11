@@ -100,6 +100,26 @@
         <servlet-name>ListInvitedRequestServlet</servlet-name>
         <servlet-class>controller.mentor.ListInvitedRequestServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ListRequestSuggestionServlet</servlet-name>
+        <servlet-class>controller.mentor.ListRequestSuggestionServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>BidRequestServlet</servlet-name>
+        <servlet-class>controller.mentor.BidRequestServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ajaxServlet</servlet-name>
+        <servlet-class>com.vnpay.common.ajaxServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>vnpayQuery</servlet-name>
+        <servlet-class>com.vnpay.common.vnpayQuery</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>vnpayRefund</servlet-name>
+        <servlet-class>com.vnpay.common.vnpayRefund</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
         <url-pattern>/LoginServlet</url-pattern>
@@ -199,6 +219,26 @@
     <servlet-mapping>
         <servlet-name>ListInvitedRequestServlet</servlet-name>
         <url-pattern>/ListInvitedRequestServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ListRequestSuggestionServlet</servlet-name>
+        <url-pattern>/ListRequestSuggestionServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>BidRequestServlet</servlet-name>
+        <url-pattern>/BidRequestServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ajaxServlet</servlet-name>
+        <url-pattern>/vnpay/vnpayajax</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>vnpayQuery</servlet-name>
+        <url-pattern>/vnpay/vnpayquery</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>vnpayRefund</servlet-name>
+        <url-pattern>/vnpay/vnpayrefund</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

@@ -26,6 +26,8 @@ public class Request extends Comment{
     private String mentorUserName;
     private String mentorEmail;
     private int userID;
+    private long mentorPrice;
+    private long menteePrice;
 
     public Request() {
     }
@@ -112,15 +114,6 @@ public class Request extends Comment{
     public void setUserName(String userName) {
         this.userName = userName;
     }
-
-    public int getMentorId() {
-        return mentorId;
-    }
-
-    public void setMentorId(int mentorId) {
-        this.mentorId = mentorId;
-    }
-
     public String getMentorUserName() {
         return mentorUserName;
     }
@@ -144,6 +137,32 @@ public class Request extends Comment{
     public void setUserID(int userID) {
         this.userID = userID;
     }
+
+    public int getMentorId() {
+        return mentorId;
+    }
+
+    public void setMentorId(int mentorId) {
+        this.mentorId = mentorId;
+    }
+
+    public long getMentorPrice() {
+        return mentorPrice;
+    }
+
+    public void setMentorPrice(long mentorPrice) {
+        this.mentorPrice = mentorPrice;
+    }
+
+    public long getMenteePrice() {
+        return menteePrice;
+    }
+
+    public void setMenteePrice(long menteePrice) {
+        this.menteePrice = menteePrice;
+    }
+
+
 
     @Override
     public String toString() {

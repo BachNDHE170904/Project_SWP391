@@ -2,29 +2,32 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package controller.mentee;
+package controller.common.transaction;
 
-import dal.ProgramingLanguageDAO;
-import dal.RequestDAO;
-import dal.SkillDAO;
 import dal.TransactionDAO;
+import dal.UserDAO;
+import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.sql.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import model.ProgramingLanguage;
-import model.Skill;
+import model.Transaction;
 import model.User;
 
-public class CreateRequestServlet extends HttpServlet {
+/**
+ *
+ * @author ADMIN
+ */
+@WebServlet(name = "TransactionServlet", urlPatterns = {"/transaction"})
+public class TransactionServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -39,13 +42,16 @@ public class CreateRequestServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try ( PrintWriter out = response.getWriter()) {
-            SkillDAO skillDAO = new SkillDAO();
-            ArrayList<Skill> skills = skillDAO.getActiveSkills();
-            ProgramingLanguageDAO programingLanguageDAO = new ProgramingLanguageDAO();
-            ArrayList<ProgramingLanguage> lists = programingLanguageDAO.getActiveProgramingLanguage();
-            request.setAttribute("skills", skills);
-            request.setAttribute("lists", lists);
-            request.getRequestDispatcher("CreateRequest.jsp").forward(request, response);
+            /* TODO output your page here. You may use following sample code. */
+            out.println("<!DOCTYPE html>");
+            out.println("<html>");
+            out.println("<head>");
+            out.println("<title>Servlet TransactionServlet</title>");
+            out.println("</head>");
+            out.println("<body>");
+            out.println("<h1>Servlet TransactionServlet at " + request.getContextPath() + "</h1>");
+            out.println("</body>");
+            out.println("</html>");
         }
     }
 
@@ -75,29 +81,19 @@ public class CreateRequestServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try {
-            String title = request.getParameter("title");
-            Date deadline = Date.valueOf(request.getParameter("deadline"));
-            int languageId = Integer.parseInt(request.getParameter("language"));
-            String[] skill = request.getParameterValues("selectedSkills");
-            String content = request.getParameter("content");
-            long price = Integer.parseInt(request.getParameter("price"));
-            User user = (User) request.getSession().getAttribute("user");
-
-            TransactionDAO transactionDAO = new TransactionDAO();
-            long balance = transactionDAO.getAccountBalanceByUserId(user.getUserId());
-            if ((balance-price)<0) {
-                request.getSession().setAttribute("errorMsg", "You don't have enough money in your account!");
-            } else {
-                RequestDAO requestDAO = new RequestDAO();
-                requestDAO.insertRequest(user.getUserId(), title, content, deadline, 1, skill, languageId, price);
-                transactionDAO.updateAcountBalance(user.getUserId(), (price*-1));
-                request.getSession().setAttribute("successMsg", "Your request is created successfully!");
+        HttpSession session = request.getSession();
+        if (session.getAttribute("transaction") != null) {
+            TransactionDAO td = new TransactionDAO();
+            User acc = (User) session.getAttribute("user");
+            Transaction tran = (Transaction) session.getAttribute("transaction");
+            tran.setUserId(acc.getUserId());
+            if (td.insertTransaction(tran)) {
+                if (!td.insertAcountBalance(acc.getUserId(), tran.getAmount())) {
+                    td.updateAcountBalance(acc.getUserId(), tran.getAmount());
+                }
             }
-            response.sendRedirect("myRequest");
-        } catch (Exception ex) {
-            Logger.getLogger(CreateRequestServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
+        response.sendRedirect("WelcomePage.jsp");
     }
 
     /**
@@ -109,4 +105,5 @@ public class CreateRequestServlet extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
+
 }

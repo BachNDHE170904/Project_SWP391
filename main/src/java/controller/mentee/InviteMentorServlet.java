@@ -5,6 +5,7 @@
 package controller.mentee;
 
 import dal.RequestDAO;
+import dal.TransactionDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -12,6 +13,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import model.User;
 
 /**
  *
@@ -19,41 +21,6 @@ import jakarta.servlet.http.HttpSession;
  */
 public class InviteMentorServlet extends HttpServlet {
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try ( PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet InviteMentorServlet</title>");
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet InviteMentorServlet at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }
-    }
-
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
-     * Handles the HTTP <code>GET</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -61,31 +28,31 @@ public class InviteMentorServlet extends HttpServlet {
         RequestDAO requestDAO = new RequestDAO();
         int requestId = Integer.parseInt(request.getParameter("requestId"));
         int mentorId = Integer.parseInt(request.getParameter("mentorId"));
-        if (requestDAO.setMentorIdForRequest(requestId, mentorId)) {
-            session.setAttribute("successMsg", "Your request is sent to mentor successfully!");
-            response.sendRedirect("myRequest");
+        long mentorPrice = Integer.parseInt(request.getParameter("mentorPrice"));
+        User user = (User) request.getSession().getAttribute("user");
+
+        TransactionDAO transactionDAO = new TransactionDAO();
+        long balance = transactionDAO.getAccountBalanceByUserId(user.getUserId());
+        long currentPrice = requestDAO.getPriceofRequest(requestId);
+        if ((balance+currentPrice - mentorPrice)>=0) {
+            if (requestDAO.setMentorIdForRequest(requestId, mentorId)) {
+                requestDAO.setPriceForRequest(requestId, mentorPrice);
+                transactionDAO.updateAcountBalance(user.getUserId(), (currentPrice - mentorPrice));
+                requestDAO.removeProposalsForRequest(requestId);
+                session.setAttribute("successMsg", "Your request is sent to mentor successfully!");
+            }
+        } else {
+            request.getSession().setAttribute("errorMsg", "You don't have enough money in your account!");
         }
+        response.sendRedirect("myRequest");
     }
 
-    /**
-     * Handles the HTTP <code>POST</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+
     }
 
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
     @Override
     public String getServletInfo() {
         return "Short description";

@@ -4,6 +4,7 @@
     Author     : ADMIN
 --%>
 
+<%@page import="dal.TransactionDAO"%>
 <%@page import="model.Mentor"%>
 <%@page import="dal.MentorDAO"%>
 <%@page import="dal.UserDAO"%>
@@ -44,6 +45,8 @@
         <div class="collapse navbar-collapse " id="navbarSupportedContent">
             <%
                 if (acc != null) {
+                    TransactionDAO transactionDAO=new TransactionDAO();
+                    acc.setBalance(transactionDAO.getAccountBalanceByUserId(acc.getUserId()));
             %>
             <div class="nav-item dropdown ms-auto">
                 <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -58,14 +61,19 @@
                     <%= acc.getUsername()%>
                 </a>
                 <ul class="dropdown-menu dropdown-menu-end">
+                    <c:if test="${sessionScope.userDetail.getRoleId() == 3||sessionScope.userDetail.getRoleId() == 4}">
+                        <li><p class="dropdown-item" >Account Balance: <%=acc.getBalance()%> VND</p></li>
+                        </c:if>
                     <li><a class="dropdown-item" href="ViewUserProfile.jsp">View my Profile</a></li>
                     <li><a class="dropdown-item" href="ChangePassword.jsp">Change Password</a></li>
                         <c:if test="${sessionScope.userDetail.getRoleId() == 3}">
+                        <li><a class="dropdown-item" href="vnpay/vnpay_index.jsp">Payment</a></li>
                         <li><a class="dropdown-item" href="createRequest">Create Request</a></li>
                         <li><a class="dropdown-item" href="myRequest">List Request</a></li>
-                        <li><a class="dropdown-item" href="statisticRequest">Stataistic request by me</a></li>
+                        <li><a class="dropdown-item" href="statisticRequest">Statistic of requests by me</a></li>
                         </c:if>
                         <c:if test="${sessionScope.userDetail.getRoleId() == 4}">
+                        <li><a class="dropdown-item" href="ListRequestSuggestionServlet">List Requests suggestion</a></li>
                         <li><a class="dropdown-item" href="ListInvitedRequestServlet">List Invited Requests</a></li>
                         <li><a class="dropdown-item" href="MentorRequestServlet">List Following Requests</a></li>
                         <li><a class="dropdown-item" href="ListRequestsHistoryServlet?page=1">List Requests History</a></li>

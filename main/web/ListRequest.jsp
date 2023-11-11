@@ -110,6 +110,10 @@
                                                                 <input type="text" name="title" value="${item.title}" class="form-control" id="recipient-name" required="">
                                                             </div>
                                                             <div class="form-group">
+                                                                <label for="recipient-name" class="col-form-label">Price</label>
+                                                                <input type="number" name="price" value="${item.menteePrice}" class="form-control"min="0" id="recipient-name" required="">
+                                                            </div>
+                                                            <div class="form-group">
                                                                 <label for="recipient-name" class="col-form-label">DeadLine</label>
                                                                 <input type="date" name="deadline" value="${item.deadline}" class="form-control" id="recipient-name" required="">
                                                             </div>
@@ -239,36 +243,34 @@
                             </button>
                         </div>
                         <div class="modal-body">
-                            <form action="InviteMentorServlet" method="GET">
-                                <input type="hidden" name="requestId" value="${item.id}">
-                                <div>
-                                    <table class="table table-bordered" border="1" style="text-align: center">
-                                        <thead class="thead-dark">
+                            <div>
+                                <table class="table table-bordered" border="1" style="text-align: center">
+                                    <thead class="thead-dark">
+                                        <tr>
+                                            <th>Full Name</th>
+                                            <th>User Name</th>
+                                            <th>Total ratings</th>
+                                            <th>Average Ratings</th>
+                                            <th>Current requests</th>
+                                            <th>Price</th>
+                                            <th colspan="1">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <c:forEach items="${requestScope.suggestedMentorList[item.id]}" var="mentor">
                                             <tr>
-                                                <th>Full Name</th>
-                                                <th>User Name</th>
-                                                <th>Total ratings</th>
-                                                <th>Average Ratings</th>
-                                                <th>Current requests</th>
-                                                <th colspan="1">Action</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <c:forEach items="${requestScope.suggestedMentorList[item.id]}" var="mentor">
-                                                <tr>
-                                            <input type="hidden" name="mentorId" value="${mentor.mentorId}">
-                                            <td>${mentor.fullname}</td>
-                                            <td>${mentor.username}</td>
-                                            <td>${mentor.totalRating}</td>
-                                            <td>${mentor.averageRating}</td>
-                                            <td>${mentor.currentRequests}</td>
-                                            <td><button type="submit" class="btn btn-primary" >Invite</button></td>
+                                                <td>${mentor.fullname}</td>
+                                                <td>${mentor.username}</td>
+                                                <td>${mentor.totalRating}</td>
+                                                <td>${mentor.averageRating}</td>
+                                                <td>${mentor.currentRequests}</td>
+                                                <td>${mentor.mentorPrice} VND</td>
+                                                <td><a href="InviteMentorServlet?requestId=${item.id}&&mentorId=${mentor.mentorId}&&mentorPrice=${mentor.mentorPrice}" class="btn btn-primary" >Invite</a></td>
                                             </tr>
                                         </c:forEach>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </form>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>

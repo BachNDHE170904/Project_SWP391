@@ -75,12 +75,17 @@
         <%
             String msg = (String) session.getAttribute("successMsg");
             if (msg != null) {%>
-
         <script>
             swal("Congrats", "<%= msg%>", "success");
         </script>
-
         <% session.removeAttribute("successMsg");
+            }
+            String emsg = (String) session.getAttribute("errorMsg");
+            if (emsg != null) {%>
+        <script>
+            swal("Oops", "<%= emsg%>", "error");
+        </script>
+        <% session.removeAttribute("errorMsg");
             }%>
         <c:choose>
             <c:when test="${sessionScope.user == null || sessionScope.userDetail.getRoleId() != 4}">
@@ -97,18 +102,7 @@
                                 <div class="col-md-3 pt-0">
                                     <div class="list-group list-group-flush account-settings-links">
                                         <a class="list-group-item list-group-item-action active" data-toggle="list"
-                                           href="#account-general">List of requests history</a>
-                                        <div class="sideBar col-md-9" style="margin-top: 20px; margin-left: 13px">
-                                            <h5>Filter by Status</h5>
-                                            <form id="status-filter-form">
-                                                <input type="radio" name="status" value="Cancel" id="filter-cancel"> <label for="filter-cancel">Cancel</label><br>
-                                                <input type="radio" name="status" value="Closed" id="filter-close"> <label for="filter-close">Closed</label><br>
-                                                <input type="radio" checked name="status" value="All" id="filter-all"> <label for="filter-all">All</label><br>
-                                            </form>
-                                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#statisticModal">
-                                                View statistic
-                                            </button>
-                                        </div>
+                                           href="#account-general">Request Suggestion</a>
                                     </div>
                                 </div>
                                 <div class="col-md-9">
@@ -116,7 +110,7 @@
                                         <table class="table table-bordered" border="1" style="text-align: center">
                                             <thead class="thead-dark">
                                                 <tr>
-                                                    <th>STT</th>
+                                                    <th>#</th>
                                                     <th>Title</th>
                                                     <th>Deadline</th>
                                                     <th>Status</th>
@@ -181,45 +175,40 @@
                                                                         </c:forEach>
                                                                         <br>
                                                                         <label>
-                                                                            <input type="checkbox" class="form-check-input" name="selectedSkills" data-item-id="${item.id}" value="${i.skillId}" ${temp == 1 ? 'checked' : ''} onchange="limitSkills(this)">
-                                                                            ${i.skillName}
+                                                                            <input type="checkbox" class="form-check-input" name="selectedSkills" data-item-id="${item.id}" value="${i.skillId}" ${temp == 1 ? 'checked' : ''} onchange="limitSkills(this)">${i.skillName}
                                                                         </label>
                                                                     </c:forEach>
                                                                 </div>
                                                             </fieldset>
                                                             <div class="modal-footer">
                                                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                                <c:if test="${item.status.id==4}"><a href="#" class="btn btn-primary" data-toggle="modal" data-target="#feedbackModal${item.id}">See rating</a></c:if>
-                                                                </div>
+                                                                <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#feedbackModal${item.id}">Bid</a>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="modal fade" id="feedbackModal${item.id}" tabindex="-1" role="dialog" aria-labelledby="feedbackModalLabel" aria-hidden="true">
+                                            </div>
+                                            <div class="modal fade" id="feedbackModal${item.id}" tabindex="-1" role="dialog" aria-labelledby="feedbackModalLabel" aria-hidden="true">
                                                 <div class="modal-dialog" role="document">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
-                                                            <h5 class="modal-title" id="feedbackModalLabel">Comment and Rate star</h5>
+                                                            <h5 class="modal-title" id="feedbackModalLabel">Bid for the request</h5>
                                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                                 <span aria-hidden="true">&times;</span>
                                                             </button>
                                                         </div>
                                                         <div class="modal-body">
-                                                            <fieldset disabled="disabled">
+                                                            <form action="BidRequestServlet" method="post">
+                                                                <input type="hidden" name="id" value="${item.id}">
                                                                 <div class="form-group">
-                                                                    <label for="comment" class="col-form-label">Feedback</label>
-                                                                    <textarea name="comment" class="form-control" id="comment" required>${item.commentDetail}</textarea>
+                                                                    <label for="rating" class="col-form-label">price</label>
+                                                                    <input type="number" name="price" class="form-control" id="rating" min="1" value="${item.mentorPrice}" required>
                                                                 </div>
-                                                                <div class="form-group">
-                                                                    <label for="rating" class="col-form-label">Rating</label>
-                                                                    <c:forEach var="i" begin="1" end="${item.rating}">
-                                                                        <span class="fa fa-star checked"></span>
-                                                                    </c:forEach>
+                                                                <div class="modal-footer">
+                                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                                    <button type="submit" class="btn btn-primary">Bid</button>
                                                                 </div>
-                                                            </fieldset>
-                                                            <div class="modal-footer">
-                                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                            </div>
+                                                            </form>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -227,91 +216,13 @@
                                         </c:forEach>
                                         </tbody>
                                     </table>
-                                    <div class="pagination">
-                                        <a href="ListRequestsHistoryServlet?page=1">&laquo;</a>
-                                        <c:forEach var="i" begin="1" end="${pageNum}">
-                                            <c:choose>
-                                                <c:when test="${i==currPage}">
-                                                    <a class="active" href="ListRequestsHistoryServlet?page=${i}">${i}</a>
-                                                </c:when>
-                                                <c:otherwise>
-                                                    <a href="ListRequestsHistoryServlet?page=${i}">${i}</a>
-                                                </c:otherwise>
-                                            </c:choose>
-                                        </c:forEach>
-                                        <a href="ListRequestsHistoryServlet?page=${pageNum}">&raquo;</a>
-                                    </div>
                                 </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal fade" id="statisticModal" tabindex="-1" aria-labelledby="statisticModalLabel" aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h1 class="modal-title fs-5" id="statisticModalLabel">Mentor Statistic</h1>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                <div class="form-group">
-                                    <span>Accepted request: </span>
-                                    <span>${accepted}</span>
-                                </div>
-                                <div class="form-group">
-                                    <span>Invited request: </span>
-                                    <span>${invited}</span>
-                                </div>
-                                <div class="form-group">
-                                    <span>Canceled request: </span>
-                                    <span>${canceled}</span>
-                                </div>
-                                <div class="form-group">
-                                    <span>Completed request: </span>
-                                    <span>${completed}</span>
-                                </div>
-                                <div class="form-group">
-                                    <span>Rating: </span>
-                                    <span>${rating}</span>
-                                </div>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                             </div>
                         </div>
                     </div>
                 </div>
             </c:otherwise>
         </c:choose>
-        <script>
-            document.getElementById("status-filter-form").addEventListener("change", function (e) {
-                const selectedStatus = document.querySelector('input[name="status"]:checked').value;
-                if (selectedStatus === "All") {
-                    showAllRows();
-                } else {
-                    filterTableByStatus(selectedStatus);
-                }
-            });
-
-            function filterTableByStatus(status) {
-                const rows = document.querySelectorAll("table tbody tr");
-                rows.forEach(row => {
-                    const statusCell = row.querySelector("td:nth-child(4)"); // Số 5 ứng với cột Status
-                    if (statusCell.textContent === status) {
-                        row.style.display = "table-row";
-                    } else {
-                        row.style.display = "none";
-                    }
-                });
-            }
-
-            function showAllRows() {
-                const rows = document.querySelectorAll("table tbody tr");
-                rows.forEach(row => {
-                    row.style.display = "table-row";
-                });
-            }
-        </script>
         <script>
             document.getElementById("date").min = new Date().toISOString().split("T")[0];
         </script>

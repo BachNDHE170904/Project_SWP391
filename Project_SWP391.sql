@@ -24,6 +24,23 @@ CREATE TABLE Users (
    userAuthorization bit  NOT NULL,
    PRIMARY KEY (userId),
 );
+CREATE TABLE UserAccountBalance (
+   userId   INT    NOT NULL,
+   balance BIGINT default 0,
+   PRIMARY KEY (userId),
+   FOREIGN KEY (userId) REFERENCES Users(userId),
+);
+
+CREATE TABLE TransactionHistory (
+   transactionId NVARCHAR (50)  NOT NULL,
+   userId   INT    NOT NULL,
+   amount BIGINT NOT NULL,
+   createdDate DATE NOT NULL,
+   content NVARCHAR (50)     NOT NULL,
+   PRIMARY KEY (transactionId),
+   FOREIGN KEY (userId) REFERENCES Users(userId),
+);
+
 CREATE TABLE UserStatus (
    userId   INT  NOT NULL,
    userStatus NVARCHAR(50) NOT NULL,
@@ -150,6 +167,7 @@ CREATE TABLE RequestDetail(
    title NVARCHAR (50)     NOT NULL,
    requestContent NVARCHAR (50)     NOT NULL,
    createdDate date NOT NULL,
+   price BIGINT default 0,
    deadline date NOT NULL,
    statusId int   default 1  NOT NULL,
    mentorId   INT default 0,
@@ -159,6 +177,15 @@ CREATE TABLE RequestDetail(
    FOREIGN KEY (mentorId) REFERENCES Mentor(mentorId),
 );
 
+CREATE TABLE MentorSuggestions(
+   id int NOT NULL identity(1,1),
+   requestId int    NOT NULL,
+   mentorId   INT NOT NULL,
+   price BIGINT NOT NULL,
+   PRIMARY KEY (id),
+   FOREIGN KEY (requestId) REFERENCES Requests(requestId),
+   FOREIGN KEY (mentorId) REFERENCES Mentor(mentorId),
+);
 
 CREATE TABLE requestSkillsChoices (
    id INT NOT NULL identity(1,1),

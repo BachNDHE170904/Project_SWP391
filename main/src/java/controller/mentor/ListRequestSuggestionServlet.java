@@ -2,29 +2,31 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package controller.mentee;
+package controller.mentor;
 
 import dal.ProgramingLanguageDAO;
-import dal.RequestDAO;
 import dal.SkillDAO;
-import dal.TransactionDAO;
+import dal.StatusDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.sql.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import model.MentorRecommendation;
 import model.ProgramingLanguage;
+import model.Request;
 import model.Skill;
+import model.Status;
 import model.User;
 
-public class CreateRequestServlet extends HttpServlet {
+/**
+ *
+ * @author ADMIN
+ */
+public class ListRequestSuggestionServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -39,13 +41,16 @@ public class CreateRequestServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try ( PrintWriter out = response.getWriter()) {
-            SkillDAO skillDAO = new SkillDAO();
-            ArrayList<Skill> skills = skillDAO.getActiveSkills();
-            ProgramingLanguageDAO programingLanguageDAO = new ProgramingLanguageDAO();
-            ArrayList<ProgramingLanguage> lists = programingLanguageDAO.getActiveProgramingLanguage();
-            request.setAttribute("skills", skills);
-            request.setAttribute("lists", lists);
-            request.getRequestDispatcher("CreateRequest.jsp").forward(request, response);
+            /* TODO output your page here. You may use following sample code. */
+            out.println("<!DOCTYPE html>");
+            out.println("<html>");
+            out.println("<head>");
+            out.println("<title>Servlet ListRequestSuggestionServlet</title>");            
+            out.println("</head>");
+            out.println("<body>");
+            out.println("<h1>Servlet ListRequestSuggestionServlet at " + request.getContextPath() + "</h1>");
+            out.println("</body>");
+            out.println("</html>");
         }
     }
 
@@ -61,7 +66,21 @@ public class CreateRequestServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        User user = (User) request.getSession().getAttribute("user");
+        MentorRecommendation recommend = new MentorRecommendation();
+        List<Request> list = recommend.RequestSuggestion(user.getUserId());
+        
+        StatusDAO statusDAO = new StatusDAO();
+        ArrayList<Status> statuses = statusDAO.getAll();
+        ProgramingLanguageDAO programingLanguageDAO = new ProgramingLanguageDAO();
+        ArrayList<ProgramingLanguage> listPro = programingLanguageDAO.getActiveProgramingLanguage();
+        SkillDAO skillDAO = new SkillDAO();
+        ArrayList<Skill> skills = skillDAO.getActiveSkills();
+        request.setAttribute("list", list);
+        request.setAttribute("statuses", statuses);
+        request.setAttribute("pros", listPro);
+        request.setAttribute("skills", skills);
+        request.getRequestDispatcher("mentor/ListRequestsSuggestion.jsp").forward(request, response);
     }
 
     /**
@@ -75,29 +94,7 @@ public class CreateRequestServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try {
-            String title = request.getParameter("title");
-            Date deadline = Date.valueOf(request.getParameter("deadline"));
-            int languageId = Integer.parseInt(request.getParameter("language"));
-            String[] skill = request.getParameterValues("selectedSkills");
-            String content = request.getParameter("content");
-            long price = Integer.parseInt(request.getParameter("price"));
-            User user = (User) request.getSession().getAttribute("user");
-
-            TransactionDAO transactionDAO = new TransactionDAO();
-            long balance = transactionDAO.getAccountBalanceByUserId(user.getUserId());
-            if ((balance-price)<0) {
-                request.getSession().setAttribute("errorMsg", "You don't have enough money in your account!");
-            } else {
-                RequestDAO requestDAO = new RequestDAO();
-                requestDAO.insertRequest(user.getUserId(), title, content, deadline, 1, skill, languageId, price);
-                transactionDAO.updateAcountBalance(user.getUserId(), (price*-1));
-                request.getSession().setAttribute("successMsg", "Your request is created successfully!");
-            }
-            response.sendRedirect("myRequest");
-        } catch (Exception ex) {
-            Logger.getLogger(CreateRequestServlet.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        processRequest(request, response);
     }
 
     /**
@@ -109,4 +106,5 @@ public class CreateRequestServlet extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
+
 }
