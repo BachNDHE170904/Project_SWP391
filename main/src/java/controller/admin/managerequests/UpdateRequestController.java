@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package controller.mentee;
+package controller.admin.managerequests;
 
 import dal.ProgramingLanguageDAO;
 import dal.RequestDAO;
@@ -57,20 +57,12 @@ public class UpdateRequestController extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String id = request.getParameter("id");
-        String title = request.getParameter("title");
-        Date createdDate = Date.valueOf(LocalDate.now());
-        Date deadline = Date.valueOf(request.getParameter("deadline"));
-        String status = request.getParameter("status");
-        long price = Integer.parseInt(request.getParameter("price"));
-        String pro = request.getParameter("pro");
-        String[] skills = request.getParameterValues("selectedSkills");
-        String content = request.getParameter("content");
-        User user = (User) request.getSession().getAttribute("user");
+        String status = request.getParameter("statusId");
         RequestDAO requestDAO = new RequestDAO();
-        requestDAO.updateRequest(user.getUserId(), id, title, createdDate, deadline, status, pro, skills, content,price);
-
-        request.getSession().setAttribute("successMsg", "Your request is updated successfully!");
-        response.sendRedirect("ListRequestController");
+        if (requestDAO.updateRequestStatus(Integer.parseInt(id), Integer.parseInt(status))) {
+            request.getSession().setAttribute("successMsg", "Your request is updated successfully!");
+            response.sendRedirect("ListRequestController");
+        }
     }
 
     @Override
