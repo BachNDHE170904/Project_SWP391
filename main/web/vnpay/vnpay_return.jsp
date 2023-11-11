@@ -1,3 +1,4 @@
+<%@page import="dal.TransactionDAO"%>
 <%@page import="model.User"%>
 <%@page import="dal.UserDAO"%>
 <%@page import="java.sql.Date"%>
@@ -35,6 +36,10 @@
     <body>
         <form action="../transaction"method="post">
             <%
+                TransactionDAO transactionDAO = new TransactionDAO();
+                if (transactionDAO.getTransactionById(request.getParameter("vnp_TxnRef")) != null) {
+                    response.sendRedirect("../WelcomePage.jsp");
+                }
                 //Begin process return from VNPAY
                 Map fields = new HashMap();
                 for (Enumeration params = request.getParameterNames(); params.hasMoreElements();) {

@@ -85,4 +85,25 @@ public class TransactionDAO extends BaseDAO<Transaction> {
         }
         return false;
     }
+
+    public Transaction getTransactionById(String transactionId) {
+        try {
+            String sql = "select *from TransactionHistory where transactionId=?";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setString(1, transactionId);
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                Transaction tran = new Transaction();
+                tran.setTransactionId(rs.getString(1));
+                tran.setUserId(rs.getInt(2));
+                tran.setAmount(rs.getLong(3));
+                tran.setCreatedDate(rs.getDate(4));
+                tran.setContent(rs.getString(5));
+                return tran;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
 }
