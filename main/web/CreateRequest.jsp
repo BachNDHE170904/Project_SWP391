@@ -35,6 +35,10 @@
                                             <input class="form-control mb-1" type="text" name="title" placeholder="Input title here...." required="">
                                         </div>
                                         <div class="form-group">
+                                            <label class="form-label">Price</label>
+                                            <input class="form-control mb-1" type="number" name="price" placeholder="Input price here...." min="1" required="">
+                                        </div>
+                                        <div class="form-group">
                                             <label class="form-label">Deadline</label>
                                             <input class="form-control mb-1" id="date" type="date" name="deadline" placeholder="Input title here...." required="">
                                         </div>

@@ -15,49 +15,49 @@
         <link rel="stylesheet" href="alert/dist/sweetalert.css">
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
         <style>
-    .pagination {
-        display: inline-block;
-    }
-    .pagination a {
-        color: black;
-        float: left;
-        padding: 8px 16px;
-        text-decoration: none;
-    }
-    .pagination a.active {
-        background-color: #4CAF50;
-        color: white;
-    }
-    .pagination a:hover:not(.active) {
-        background-color: #ddd;
-    }
-    .popup {
-        width: 100%;
-        height: 100%;
-        position: absolute;
-        top: 0;
-        display: none;
-        z-index: 1000;
-    }
-    .overlay {
-        width: 100%;
-        height: 100%;
-        position: absolute;
-        z-index: 12;
-        background-color: rgba(22, 22, 22, 0.5);
-    }
-    .reveal-modal {
-        background: #e1e1e1;
-        margin: 0 auto;
-        width: max-content;
-        position: relative;
-        z-index: 1000;
-        top: 25%;
-        padding: 14px;
-        -webkit-box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
-        -moz-box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
-    }
+            .pagination {
+                display: inline-block;
+            }
+            .pagination a {
+                color: black;
+                float: left;
+                padding: 8px 16px;
+                text-decoration: none;
+            }
+            .pagination a.active {
+                background-color: #4CAF50;
+                color: white;
+            }
+            .pagination a:hover:not(.active) {
+                background-color: #ddd;
+            }
+            .popup {
+                width: 100%;
+                height: 100%;
+                position: absolute;
+                top: 0;
+                display: none;
+                z-index: 1000;
+            }
+            .overlay {
+                width: 100%;
+                height: 100%;
+                position: absolute;
+                z-index: 12;
+                background-color: rgba(22, 22, 22, 0.5);
+            }
+            .reveal-modal {
+                background: #e1e1e1;
+                margin: 0 auto;
+                width: max-content;
+                position: relative;
+                z-index: 1000;
+                top: 25%;
+                padding: 14px;
+                -webkit-box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
+                -moz-box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
+            }
         </style>
     </head>
 
@@ -91,7 +91,7 @@
                                                 <td>${item.deadline}</td>
                                                 <td>${item.userName}</td>
                                                 <td><a href="#" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal${item.id}">Details</a></td>
-                                                <td><a href="MentorRequestServlet?id=${item.id}"class="btn btn-danger" onclick="return confirm('Are you sure?')">Cancel</a></td>
+                                                <td><a href="MentorRequestServlet?id=${item.id}&&mentee=${item.userName}"class="btn btn-danger" onclick="return confirm('Are you sure?')">Cancel</a></td>
                                             </tr>
                                         <div class="modal fade" id="exampleModal${item.id}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                             <div class="modal-dialog" role="document">
@@ -108,6 +108,10 @@
                                                             <div class="form-group">
                                                                 <label for="recipient-name" class="col-form-label">Title</label>
                                                                 <input type="text" name="title" value="${item.title}" class="form-control" id="recipient-name" required="">
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="recipient-name" class="col-form-label">Price</label>
+                                                                <input type="number" name="price" value="${item.menteePrice}" class="form-control"min="0" id="recipient-name" required="">
                                                             </div>
                                                             <div class="form-group">
                                                                 <label for="recipient-name" class="col-form-label">DeadLine</label>

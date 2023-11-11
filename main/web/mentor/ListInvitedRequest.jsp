@@ -63,8 +63,8 @@
 
     <body>
         <%
-                    String msg = (String) session.getAttribute("successMsg");
-                    if (msg != null) {%>
+            String msg = (String) session.getAttribute("successMsg");
+            if (msg != null) {%>
         <script>
             swal("Congrats", "<%= msg%>", "success");
         </script>
@@ -123,6 +123,10 @@
                                                             <div class="form-group">
                                                                 <label for="recipient-name" class="col-form-label">Title</label>
                                                                 <input type="text" name="title" value="${item.title}" class="form-control" id="recipient-name" required="">
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="recipient-name" class="col-form-label">Price</label>
+                                                                <input type="number" name="price" value="${item.menteePrice}" class="form-control"min="0" id="recipient-name" required="">
                                                             </div>
                                                             <div class="form-group">
                                                                 <label for="recipient-name" class="col-form-label">DeadLine</label>

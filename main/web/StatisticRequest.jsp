@@ -109,6 +109,10 @@
                                                                 <input type="text" name="title" value="${item.title}" class="form-control" id="recipient-name" required="">
                                                             </div>
                                                             <div class="form-group">
+                                                                <label for="recipient-name" class="col-form-label">Price</label>
+                                                                <input type="number" name="price" value="${item.menteePrice}" class="form-control"min="0" id="recipient-name" required="">
+                                                            </div>
+                                                            <div class="form-group">
                                                                 <label for="recipient-name" class="col-form-label">DeadLine</label>
                                                                 <input type="date" name="deadline" value="${item.deadline}" class="form-control" id="recipient-name" required="">
                                                             </div>
@@ -143,12 +147,12 @@
                                                         </fieldset>
                                                         <div class="modal-footer">
                                                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                            </div>
-                                                        </form>
-                                                    </div>
+                                                        </div>
+                                                    </form>
                                                 </div>
                                             </div>
                                         </div>
+                                    </div>
                                 </c:forEach>
                                 </tbody>
                             </table>

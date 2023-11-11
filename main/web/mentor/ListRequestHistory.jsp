@@ -151,6 +151,10 @@
                                                                     <input type="text" name="title" value="${item.title}" class="form-control" id="recipient-name" required="">
                                                                 </div>
                                                                 <div class="form-group">
+                                                                    <label for="recipient-name" class="col-form-label">Price</label>
+                                                                    <input type="number" name="price" value="${item.menteePrice}" class="form-control"min="0" id="recipient-name" required="">
+                                                                </div>
+                                                                <div class="form-group">
                                                                     <label for="recipient-name" class="col-form-label">DeadLine</label>
                                                                     <input type="date" name="deadline" value="${item.deadline}" class="form-control" id="recipient-name" required="">
                                                                 </div>
@@ -273,7 +277,6 @@
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                <button type="button" class="btn btn-primary">Save changes</button>
                             </div>
                         </div>
                     </div>
