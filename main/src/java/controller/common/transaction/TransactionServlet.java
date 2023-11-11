@@ -81,38 +81,15 @@ public class TransactionServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        if ("00".equals(request.getParameter("status"))) {
-            HttpSession session = request.getSession();
+        HttpSession session = request.getSession();
+        if (session.getAttribute("transaction") != null) {
             TransactionDAO td = new TransactionDAO();
-            User acc = null;
-            //check if the user is logged in or not
-            if (session.getAttribute("user") != null) {
-                acc = (User) session.getAttribute("user");
-            }
-            long amount = Integer.parseInt(request.getParameter("amount"));
-            String dateString = request.getParameter("createdDate");
-            // Define the date format of the retrieved string
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
-            // Parse the string into a java.util.Date object
-            java.util.Date utilDate = null;
-            try {
-                utilDate = dateFormat.parse(dateString);
-            } catch (ParseException ex) {
-                Logger.getLogger(TransactionServlet.class.getName()).log(Level.SEVERE, null, ex);
-            }
-
-            // Convert java.util.Date to java.sql.Date
-            Date sqlDate = new Date(utilDate.getTime());
-
-            Transaction tran = new Transaction();
-            tran.setTransactionId(request.getParameter("transactionId"));
-            tran.setAmount(amount);
-            tran.setContent(request.getParameter("content"));
-            tran.setCreatedDate(sqlDate);
+            User acc = (User) session.getAttribute("user");
+            Transaction tran = (Transaction) session.getAttribute("transaction");
             tran.setUserId(acc.getUserId());
             if (td.insertTransaction(tran)) {
-                if (!td.insertAcountBalance(acc.getUserId(), amount)) {
-                    td.updateAcountBalance(acc.getUserId(), amount);
+                if (!td.insertAcountBalance(acc.getUserId(), tran.getAmount())) {
+                    td.updateAcountBalance(acc.getUserId(), tran.getAmount());
                 }
             }
         }

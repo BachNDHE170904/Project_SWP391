@@ -1,3 +1,4 @@
+<%@page import="model.Transaction"%>
 <%@page import="dal.TransactionDAO"%>
 <%@page import="model.User"%>
 <%@page import="dal.UserDAO"%>
@@ -46,7 +47,7 @@
                         fields.put(fieldName, fieldValue);
                     }
                 }
-
+                
                 String vnp_SecureHash = request.getParameter("vnp_SecureHash");
                 if (fields.containsKey("vnp_SecureHashType")) {
                     fields.remove("vnp_SecureHashType");
@@ -103,6 +104,16 @@
                                 if (signValue.equals(vnp_SecureHash)) {
                                     if ("00".equals(request.getParameter("vnp_TransactionStatus"))) {
                                         out.print("Thành công");
+                                        Transaction tran = new Transaction();
+                                        tran.setAmount(amount);
+                                        tran.setTransactionId(request.getParameter("vnp_TxnRef"));
+                                        tran.setContent(request.getParameter("vnp_OrderInfo"));
+                                        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
+                                        java.util.Date utilDate = null;
+                                        utilDate = dateFormat.parse(dateString);
+                                        Date sqlDate = new Date(utilDate.getTime());
+                                        tran.setCreatedDate(sqlDate);
+                                        session.setAttribute("transaction", tran);
                                     } else {
                                         out.print("Không thành công");
                                     }
@@ -111,11 +122,6 @@
                                 }
                             %></label>
                     </div>
-                    <input type="hidden" name="amount" value="<%=amount%>">
-                    <input type="hidden" name="transactionId" value="<%=request.getParameter("vnp_TxnRef")%>">
-                    <input type="hidden" name="content" value="<%=request.getParameter("vnp_OrderInfo")%>">
-                    <input type="hidden" name="createdDate" value="<%=dateString%>">
-                    <input type="hidden" name="status" value="<%=request.getParameter("vnp_TransactionStatus")%>">
                     <button type="submit" class="btn btn-primary">Go back to home page</button>
                 </div>
                 <p>
