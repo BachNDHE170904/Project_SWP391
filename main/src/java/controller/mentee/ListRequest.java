@@ -79,14 +79,12 @@ public class ListRequest extends HttpServlet {
         User user = (User) request.getSession().getAttribute("user");
         MentorRecommendation recommend = new MentorRecommendation();
         HashMap<Integer, List<Mentor>> suggestedMentors = new HashMap<>();
-        int pagenum = request.getParameter("pagenum") != null ? Integer.parseInt(request.getParameter("pagenum")) : 1;
         RequestDAO requestDAO = new RequestDAO();
         List<Request> list = requestDAO.getRequestByID(user.getUserId());
         int page = 1;
         if (request.getParameter("page") != null) {
             page = Integer.valueOf(request.getParameter("page"));
         }
-        System.out.println(user.getUserId());
         int allRequests = requestDAO.countRequestByUserId(user.getUserId());
         int totalPage = allRequests / 10;
         if (allRequests % 10 != 0) {

@@ -160,7 +160,7 @@
                                                         <div class="modal-footer">
                                                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                                                             <a href="ListInvitedRequestServlet?id=${item.id}&&action=accept"class="btn btn-primary" onclick="return confirm('Are you sure?')">Accept</a>
-                                                            <a href="ListInvitedRequestServlet?id=${item.id}&&action=reject"class="btn btn-primary" onclick="return confirm('Are you sure?')">Reject</a>
+                                                            <a href="ListInvitedRequestServlet?id=${item.id}&&action=reject"class="btn btn-danger" onclick="return confirm('Are you sure?')">Reject</a>
                                                         </div>
                                                     </div>
                                                 </div>
