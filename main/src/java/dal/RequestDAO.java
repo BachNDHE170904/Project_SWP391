@@ -369,7 +369,8 @@ public class RequestDAO extends BaseDAO<Skill> {
         }
         return false;
     }
-        public boolean setPriceForRequest(int requestId, long price) {
+
+    public boolean setPriceForRequest(int requestId, long price) {
         try {
             String sql = "update RequestDetail set price = ? where requestId = ?";
             PreparedStatement statement = connection.prepareStatement(sql);
@@ -897,6 +898,19 @@ public class RequestDAO extends BaseDAO<Skill> {
         return false;
     }
 
+    public boolean removeProposalsForRequest(int id) {
+        try {
+            String insertComment = "Delete from MentorSuggestions where requestId=?";
+            PreparedStatement stm = connection.prepareStatement(insertComment);
+            stm.setInt(1, id);
+            stm.executeUpdate();
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
     public long getProposalPriceForRequest(int id, int mentorId) {
         try {
             String insertComment = "select * from MentorSuggestions where requestId=? and mentorId=?";
@@ -912,6 +926,7 @@ public class RequestDAO extends BaseDAO<Skill> {
         }
         return 0;
     }
+
     public long getPriceofRequest(int requestId) {
         try {
             String insertComment = "select * from RequestDetail where requestId=?";

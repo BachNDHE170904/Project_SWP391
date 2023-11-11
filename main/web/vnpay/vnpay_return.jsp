@@ -37,9 +37,6 @@
         <form action="../transaction"method="post">
             <%
                 TransactionDAO transactionDAO = new TransactionDAO();
-                if (transactionDAO.getTransactionById(request.getParameter("vnp_TxnRef")) != null) {
-                    response.sendRedirect("../WelcomePage.jsp");
-                }
                 //Begin process return from VNPAY
                 Map fields = new HashMap();
                 for (Enumeration params = request.getParameterNames(); params.hasMoreElements();) {
@@ -60,6 +57,9 @@
                 String signValue = Config.hashAllFields(fields);
                 String dateString = request.getParameter("vnp_PayDate");
                 String amountString = request.getParameter("vnp_Amount");
+                if (!signValue.equals(vnp_SecureHash)) {
+                    response.sendRedirect("../WelcomePage.jsp");
+                }
                 long amount = Integer.parseInt(amountString) / 100;
             %>
             <!--Begin display -->
