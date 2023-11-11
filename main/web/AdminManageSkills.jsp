@@ -111,6 +111,7 @@
                                     <table class="table">
                                         <thead>
                                             <tr>
+                                                <th scope="col">#</th>
                                                 <th scope="col">ID</th>
                                                 <th scope="col">Skill Name</th>
                                                 <th scope="col">Status</th>
@@ -124,10 +125,8 @@
                                                     Skill skill = skills.get(i);
                                             %>
                                             <tr 
-                                                <% if (skill.getSkillStatus().equals("inactive")) { %>
-                                                class="deleted-row"
-                                                <%}%>
-                                                >
+                                                <% if (skill.getSkillStatus().equals("inactive")) {%>class="deleted-row"<%}%>>
+                                                <td><%=i+1%></td>
                                                 <td><%=skill.getSkillId()%></td>
                                                 <td><%=skill.getSkillName()%></td>
                                                 <td><a href="UpdateSkillStatusServlet?skillId=<%=skill.getSkillId()%>&&page=<%= pageNum%>"><%=skill.getSkillStatus()%></a></td>

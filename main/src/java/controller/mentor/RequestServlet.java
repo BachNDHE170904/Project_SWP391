@@ -9,6 +9,8 @@ import dal.MentorDAO;
 import dal.ProgramingLanguageDAO;
 import dal.RequestDAO;
 import dal.SkillDAO;
+import dal.TransactionDAO;
+import dal.UserDAO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -41,14 +43,22 @@ public class RequestServlet extends HttpServlet {
             String id = Common.handleString(request.getParameter("id"));
             int currPage = Common.handleInt(request.getParameter("page"));
             User user = (User) request.getSession().getAttribute("user");
-            MentorDAO mentorDAO = new MentorDAO();
             RequestDAO requestDAO = new RequestDAO();
             if (!id.isEmpty()) {
+                String menteeName=request.getParameter("mentee");
+                UserDAO userDAO=new UserDAO();
+                User mentee = userDAO.getUserByUserName(menteeName);
+
+                RequestDAO dbRequest = new RequestDAO();
+                TransactionDAO transactionDAO = new TransactionDAO();
+                long currentPrice = dbRequest.getPriceofRequest(Integer.parseInt(id));
+
+                transactionDAO.updateAcountBalance(mentee.getUserId(), currentPrice);
                 requestDAO.updateRequestStatus(Common.handleInt(id), 3);
             }
             ArrayList<Request> list = requestDAO.getRequestByMentorID(user.getUserId(), 2, Common.handlePaging(currPage));
             int pageNum = Common.handleNum(requestDAO.countRequestByMentorID(user.getUserId(), 2));
-            
+
             ProgramingLanguageDAO programingLanguageDAO = new ProgramingLanguageDAO();
             ArrayList<ProgramingLanguage> listPro = programingLanguageDAO.getActiveProgramingLanguage();
             SkillDAO skillDAO = new SkillDAO();

@@ -488,7 +488,7 @@ public class MentorDAO extends BaseDAO<Skill> {
                 mentor.setMentorId(rs.getInt("mentorId"));
                 mentor.setFullname(rs.getString("Fullname"));
                 mentor.setUsername(rs.getString("AccountName"));
-                mentor.setMentorPrice(rs.getFloat("price"));
+                mentor.setMentorPrice(rs.getLong("price"));
 
                 // Lấy thông tin về profession từ ResultSet và thiết lập cho mentor
                 mentor.setProfession(rs.getString("Profession"));

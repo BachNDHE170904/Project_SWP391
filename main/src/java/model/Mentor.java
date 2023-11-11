@@ -22,7 +22,7 @@ public class Mentor extends UserDetails {
     private double averageRating;
     private int currentRequests;
     private double score;
-    private float mentorPrice;
+    private long mentorPrice;
 
     public Mentor() {
     }
@@ -150,13 +150,14 @@ public class Mentor extends UserDetails {
         this.score = score;
     }
 
-    public float getMentorPrice() {
+    public long getMentorPrice() {
         return mentorPrice;
     }
 
-    public void setMentorPrice(float mentorPrice) {
+    public void setMentorPrice(long mentorPrice) {
         this.mentorPrice = mentorPrice;
     }
+
 
     @Override
     public String toString() {

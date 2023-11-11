@@ -5,32 +5,43 @@
 package controller.mentee;
 
 import dal.RequestDAO;
+import dal.TransactionDAO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.PrintWriter;
+import model.User;
 
 @WebServlet(name = "CancelRequestController", urlPatterns = {"/cancelRequest"})
 public class CancelRequestController extends HttpServlet {
 
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
         String raw_id = request.getParameter("id");
-        RequestDAO dbRequest = new RequestDAO();
         int id = Integer.parseInt(raw_id);
+        User user = (User) request.getSession().getAttribute("user");
+
+        RequestDAO dbRequest = new RequestDAO();
+        TransactionDAO transactionDAO = new TransactionDAO();
+        long currentPrice = dbRequest.getPriceofRequest(id);
+
+        transactionDAO.updateAcountBalance(user.getUserId(), currentPrice);
         dbRequest.updateRequestStatus(id, 3);
+        request.getSession().setAttribute("successMsg", "Your request is cancelled successfully!");
         response.sendRedirect("myRequest");
     }
 
     @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        processRequest(request, response);
+    }
+
+    @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String raw_id = request.getParameter("id");
-        RequestDAO dbRequest = new RequestDAO();
-        int id = Integer.parseInt(raw_id);
-        dbRequest.updateRequestStatus(id, 3);
-        response.sendRedirect("myRequest");
+        processRequest(request, response);
     }
 
 }
