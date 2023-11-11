@@ -2,22 +2,20 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package controller.common.register;
+package controller.mentee;
 
+import dal.RequestDAO;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
-import model.SendEmail;
 
 /**
  *
  * @author ADMIN
  */
-public class RegisterConfirmAccountServlet extends HttpServlet {
+public class CloseRequestServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -31,15 +29,14 @@ public class RegisterConfirmAccountServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        HttpSession session = request.getSession();
-        SendEmail sm = new SendEmail();
-        int otp = sm.getOtp();
-        String emailContent = "Your otp code to confirm your account is: " + otp;
-        String toEmail = request.getParameter("email");
-        String subject="User email verification";
-        if (sm.sendEmail(toEmail, emailContent,subject)) {
-            session.setAttribute("otpCode", otp);
-        }
+        String raw_id = request.getParameter("id");
+        int id = Integer.parseInt(raw_id);
+
+        RequestDAO dbRequest = new RequestDAO();
+        dbRequest.updateRequestStatus(id, 4);
+        dbRequest.removeProposalsForRequest(id);
+        request.getSession().setAttribute("successMsg", "Your request is closed successfully!");
+        response.sendRedirect("myRequest");
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

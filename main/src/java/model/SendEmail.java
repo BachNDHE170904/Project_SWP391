@@ -23,7 +23,7 @@ public class SendEmail {
         Random rand=new Random();
         return rand.nextInt(9999);
     }
-    public boolean sendEmail(String email,String text){
+    public boolean sendEmail(String email,String text,String subject){
         boolean test=false;
         
         String toEmail=email;
@@ -52,7 +52,7 @@ public class SendEmail {
             mess.setFrom(new InternetAddress(fromEmail));
             mess.setRecipient(Message.RecipientType.TO,new InternetAddress(toEmail));
             
-            mess.setSubject("User Email Verification");
+            mess.setSubject(subject);
             
             mess.setText(text);
             
