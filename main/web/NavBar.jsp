@@ -4,6 +4,7 @@
     Author     : ADMIN
 --%>
 
+<%@page import="dal.TransactionDAO"%>
 <%@page import="model.Mentor"%>
 <%@page import="dal.MentorDAO"%>
 <%@page import="dal.UserDAO"%>
@@ -44,7 +45,8 @@
         <div class="collapse navbar-collapse " id="navbarSupportedContent">
             <%
                 if (acc != null) {
-                    acc.setBalance(db.getAccountBalanceByUserId(acc.getUserId()));
+                    TransactionDAO transactionDAO=new TransactionDAO();
+                    acc.setBalance(transactionDAO.getAccountBalanceByUserId(acc.getUserId()));
             %>
             <div class="nav-item dropdown ms-auto">
                 <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
