@@ -30,6 +30,7 @@ public class CancelRequestController extends HttpServlet {
 
         transactionDAO.updateAcountBalance(user.getUserId(), currentPrice);
         dbRequest.updateRequestStatus(id, 3);
+        dbRequest.removeProposalsForRequest(id);
         request.getSession().setAttribute("successMsg", "Your request is cancelled successfully!");
         response.sendRedirect("myRequest");
     }

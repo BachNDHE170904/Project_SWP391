@@ -52,7 +52,7 @@ public class RequestServlet extends HttpServlet {
                 RequestDAO dbRequest = new RequestDAO();
                 TransactionDAO transactionDAO = new TransactionDAO();
                 long currentPrice = dbRequest.getPriceofRequest(Integer.parseInt(id));
-
+                requestDAO.removeProposalsForRequest(Integer.parseInt(id));
                 transactionDAO.updateAcountBalance(mentee.getUserId(), currentPrice);
                 requestDAO.updateRequestStatus(Common.handleInt(id), 3);
             }
