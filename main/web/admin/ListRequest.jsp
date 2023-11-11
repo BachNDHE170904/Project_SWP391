@@ -96,13 +96,24 @@
                                                     <tbody>
                                                     <c:forEach items="${requestScope.listRequests}" var="item" varStatus="loop">
                                                         <tr>
-                                                            <td>${loop.index + 1}</td>
-                                                            <td><a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal${item.id}">${item.id}</a></td>
-                                                            <td>${item.userName}</td>
-                                                            <td>${item.title}</td>
-                                                            <td>${item.status.name}</td>
-                                                            <td><a href="updateAdminRequest?id=${item.id}" class="btn btn-success">Update</a></td>
-                                                        </tr>
+                                                    <form action="updateAdminRequest" method="post">
+                                                        <input type="hidden" name="id" value="${item.id}">
+                                                        <td>${loop.index + 1}</td>
+                                                        <td><a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal${item.id}">${item.id}</a></td>
+                                                        <td>${item.userName}</td>
+                                                        <td>${item.title}</td>
+                                                        <td>
+                                                            <select  name="statusId" required="">
+                                                                <c:forEach items="${requestScope.statuses}" var="statusItem">
+                                                                    <option value="${statusItem.id}"
+                                                                            <c:if test="${item.status.id eq statusItem.id}">selected=""</c:if>
+                                                                            >${statusItem.name}</option>
+                                                                </c:forEach>
+                                                            </select>
+                                                        </td>
+                                                        <td><button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Save</button></td>
+                                                    </form>
+                                                    </tr>
                                                     <div class="modal fade" id="exampleModal${item.id}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                                         <div class="modal-dialog" role="document">
                                                             <div class="modal-content">
@@ -113,58 +124,54 @@
                                                                     </button>
                                                                 </div>
                                                                 <div class="modal-body">
-                                                                    <form action="updateRequest" method="post">
-                                                                        <input type="hidden" name="id" value="${item.id}">
-                                                                        <div class="form-group">
-                                                                            <label for="recipient-name" class="col-form-label">Title</label>
-                                                                            <input type="text" readonly name="title" value="${item.title}" class="form-control" id="recipient-name" required="">
+                                                                    <div class="form-group">
+                                                                        <label for="recipient-name" class="col-form-label">Title</label>
+                                                                        <input type="text" readonly name="title" value="${item.title}" class="form-control" id="recipient-name" required="">
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <label for="recipient-name" class="col-form-label">Price</label>
+                                                                        <input type="number" readonly name="price" value="${item.menteePrice}" class="form-control"min="0" id="recipient-name" required="">
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <label for="recipient-name" class="col-form-label">DeadLine</label>
+                                                                        <input type="date" readonly name="deadline" value="${item.deadline}" class="form-control" id="recipient-name" required="">
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <label for="recipient-name" class="col-form-label">Mentor id</label>
+                                                                        <input type="text" readonly name="title" <c:if test="${ item.mentorId!=0 }">value="${item.mentorId}"</c:if><c:if test="${ item.mentorId==0 }">value="No mentor assigned" </c:if> class="form-control" id="recipient-name" required="">
                                                                         </div>
                                                                         <div class="form-group">
-                                                                            <label for="recipient-name" class="col-form-label">Price</label>
-                                                                            <input type="number" name="price" value="${item.menteePrice}" class="form-control"min="0" id="recipient-name" required="">
-                                                                        </div>
-                                                                        <div class="form-group">
-                                                                            <label for="recipient-name" class="col-form-label">DeadLine</label>
-                                                                            <input type="date" readonly name="deadline" value="${item.deadline}" class="form-control" id="recipient-name" required="">
-                                                                        </div>
-                                                                        <div class="form-group">
-                                                                            <label for="recipient-name" class="col-form-label">Mentor</label>
-                                                                            <input type="text" readonly name="title" <c:if test="${ item.mentorId!=0 }">value="${item.mentorId}"</c:if><c:if test="${ item.mentorId==0 }">value="No mentor assigned" </c:if> class="form-control" id="recipient-name" required="">
-                                                                            </div>
-                                                                            <div class="form-group">
-                                                                                <label for="content" class="col-form-label">Content</label>
-                                                                                    <textarea name="content" readonly class="form-control" id="content" required="">${item.content}</textarea>
-                                                                        </div>
-                                                                        <div class="form-group">
-                                                                            <label for="message-text" class="col-form-label">Programing Language</label>
-                                                                            <select class="form-control" disabled name="pro">
-                                                                                <c:forEach items="${requestScope.pros}" var="i">
-                                                                                    <option value="${i.getLanguageId()}" ${i.getLanguageId() == item.pro.getLanguageId() ? 'selected' : ''}>${i.getLanguageName()}</option>
-                                                                                </c:forEach>
-                                                                            </select>
-                                                                        </div>
-                                                                        <div class="form-group">
-                                                                            <label for="message-text" class="col-form-label">Skills</label>
-                                                                            <c:forEach items="${requestScope.skills}" var="i">
-                                                                                <c:set var="temp" value="0"/>
-                                                                                <c:forEach items="${item.skills}" var="a">
-                                                                                    <c:if test="${a.skillId == i.skillId}">
-                                                                                        <c:set var="temp" value="1"/>
-                                                                                    </c:if>
-                                                                                </c:forEach>
-                                                                                <br>
-                                                                                <label>
-                                                                                    <input type="checkbox" onclick="return false;" class="form-check-input" name="selectedSkills" value="${i.skillId}" ${temp == 1 ? 'checked' : ''}>
-                                                                                    ${i.skillName}
-                                                                                </label>
+                                                                            <label for="content" class="col-form-label">Content</label>
+                                                                                <textarea name="content" readonly class="form-control" id="content" required="">${item.content}</textarea>
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <label for="message-text" class="col-form-label">Programing Language</label>
+                                                                        <select class="form-control" disabled name="pro">
+                                                                            <c:forEach items="${requestScope.pros}" var="i">
+                                                                                <option value="${i.getLanguageId()}" ${i.getLanguageId() == item.pro.getLanguageId() ? 'selected' : ''}>${i.getLanguageName()}</option>
                                                                             </c:forEach>
-                                                                        </div>
-                                                                        <div class="modal-footer">
-                                                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                                                        </div>
-                                                                    </form>
+                                                                        </select>
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <label for="message-text" class="col-form-label">Skills</label>
+                                                                        <c:forEach items="${requestScope.skills}" var="i">
+                                                                            <c:set var="temp" value="0"/>
+                                                                            <c:forEach items="${item.skills}" var="a">
+                                                                                <c:if test="${a.skillId == i.skillId}">
+                                                                                    <c:set var="temp" value="1"/>
+                                                                                </c:if>
+                                                                            </c:forEach>
+                                                                            <br>
+                                                                            <label>
+                                                                                <input type="checkbox" onclick="return false;" class="form-check-input" name="selectedSkills" value="${i.skillId}" ${temp == 1 ? 'checked' : ''}>
+                                                                                ${i.skillName}
+                                                                            </label>
+                                                                        </c:forEach>
+                                                                    </div>
+                                                                    <div class="modal-footer">
+                                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                                    </div>
                                                                 </div>
-
                                                             </div>
                                                         </div>
                                                     </div>

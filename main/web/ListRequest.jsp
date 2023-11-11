@@ -89,7 +89,8 @@
                                             <c:if test="${item.mentorId!=0}"><td><a href="ViewMentorCV.jsp?mentorId=${item.mentorId}">${item.mentorEmail}</a></td></c:if>
                                                 <td>
                                                     <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal${item.id}">Details</a>
-                                                <a href="cancelRequest?id=${item.id}" class="btn btn-danger <c:if test="${item.status.id == 3||item.status.id == 4}">disabled</c:if>" >Cancel</a>
+                                                <c:if test="${item.status.id == 1}"><a href="cancelRequest?id=${item.id}" class="btn btn-danger">Cancel</a></c:if>
+                                                <c:if test="${item.status.id == 2}"><a href="CloseRequest?id=${item.id}&&mentorId=${item.mentorId}" class="btn btn-success">Close</a></c:if> 
                                                 </td>
                                             </tr>
                                         <div class="modal fade" id="exampleModal${item.id}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
