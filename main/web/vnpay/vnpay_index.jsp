@@ -1,3 +1,5 @@
+<%@page import="model.UserDetails"%>
+<%@page import="model.User"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
@@ -17,20 +19,29 @@
     </head>
 
     <body>
-         <div class="container">
-           <div class="header clearfix">
+        <%
+            User acc = null;
+            //check if the user is logged in or not
+            if (session.getAttribute("user") != null) {
+                acc = (User) session.getAttribute("user");
+            }
+            UserDetails details = (UserDetails) session.getAttribute("userDetail");
+            if(acc==null||details.getRoleId()!=3)response.sendRedirect("../WelcomePage.jsp");
+        %>
+        <div class="container">
+            <div class="header clearfix">
 
                 <h3 class="text-muted">VNPAY </h3>
             </div>
-                <div class="form-group">
-                    <button onclick="pay()">Giao dịch thanh toán</button><br>
-                </div>
-<!--                <div class="form-group">
-                    <button onclick="querydr()">API truy vấn kết quả thanh toán</button><br>
-                </div>
-                <div class="form-group">
-                    <button onclick="refund()">API hoàn tiền giao dịch</button><br>
-                </div>-->
+            <div class="form-group">
+                <button onclick="pay()">Giao dịch thanh toán</button><br>
+            </div>
+            <!--                <div class="form-group">
+                                <button onclick="querydr()">API truy vấn kết quả thanh toán</button><br>
+                            </div>
+                            <div class="form-group">
+                                <button onclick="refund()">API hoàn tiền giao dịch</button><br>
+                            </div>-->
             <p>
                 &nbsp;
             </p>
@@ -39,8 +50,8 @@
             </footer>
         </div> 
         <script>
-             function pay() {
-              window.location.href = "../vnpay/vnpay_pay.jsp";
+            function pay() {
+                window.location.href = "../vnpay/vnpay_pay.jsp";
             }
 //            function querydr() {
 //              window.location.href = "../vnpay/vnpay_querydr.jsp";
