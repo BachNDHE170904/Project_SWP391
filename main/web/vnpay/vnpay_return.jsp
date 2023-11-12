@@ -1,3 +1,4 @@
+<%@page import="model.UserDetails"%>
 <%@page import="model.Transaction"%>
 <%@page import="dal.TransactionDAO"%>
 <%@page import="model.User"%>
@@ -37,6 +38,15 @@
     <body>
         <form action="../transaction"method="post">
             <%
+                User acc = null;
+                //check if the user is logged in or not
+                if (session.getAttribute("user") != null) {
+                    acc = (User) session.getAttribute("user");
+                }
+                UserDetails details = (UserDetails) session.getAttribute("userDetail");
+                if (acc == null || details.getRoleId() != 3) {
+                    response.sendRedirect("../WelcomePage.jsp");
+                }
                 TransactionDAO transactionDAO = new TransactionDAO();
                 //Begin process return from VNPAY
                 Map fields = new HashMap();
@@ -47,7 +57,7 @@
                         fields.put(fieldName, fieldValue);
                     }
                 }
-                
+
                 String vnp_SecureHash = request.getParameter("vnp_SecureHash");
                 if (fields.containsKey("vnp_SecureHashType")) {
                     fields.remove("vnp_SecureHashType");

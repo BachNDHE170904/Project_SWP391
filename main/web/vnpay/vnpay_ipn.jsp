@@ -1,4 +1,6 @@
- <%@page import="java.net.URLEncoder"%>
+<%@page import="model.UserDetails"%>
+<%@page import="model.User"%>
+<%@page import="java.net.URLEncoder"%>
 <%@page import="java.nio.charset.StandardCharsets"%>
 <%@page import="com.vnpay.common.Config"%>
 <%@page contentType="application/json; charset=UTF-8"%>
@@ -12,7 +14,7 @@
 
 <%
     //Begin process return from VNPAY
-     /* Payment Notify
+    /* Payment Notify
      * IPN URL: Ghi nhận kết quả thanh toán từ VNPAY
      * Các bước thực hiện:
      * Kiểm tra checksum 
@@ -22,15 +24,24 @@
      * Cập nhật kết quả vào Database
      * Trả kết quả ghi nhận lại cho VNPAY
      */
-    
+    User acc = null;
+    //check if the user is logged in or not
+    if (session.getAttribute("user") != null) {
+        acc = (User) session.getAttribute("user");
+    }
+    UserDetails details = (UserDetails) session.getAttribute("userDetail");
+    if (acc == null || details.getRoleId() != 3) {
+        response.sendRedirect("../WelcomePage.jsp");
+    }
+
     Map fields = new HashMap();
-             for (Enumeration params = request.getParameterNames(); params.hasMoreElements();) {
-                String fieldName = URLEncoder.encode((String) params.nextElement(), StandardCharsets.US_ASCII.toString());
-                String fieldValue = URLEncoder.encode(request.getParameter(fieldName), StandardCharsets.US_ASCII.toString());
-                if ((fieldValue != null) && (fieldValue.length() > 0)) {
-                    fields.put(fieldName, fieldValue);
-                }
-            }
+    for (Enumeration params = request.getParameterNames(); params.hasMoreElements();) {
+        String fieldName = URLEncoder.encode((String) params.nextElement(), StandardCharsets.US_ASCII.toString());
+        String fieldValue = URLEncoder.encode(request.getParameter(fieldName), StandardCharsets.US_ASCII.toString());
+        if ((fieldValue != null) && (fieldValue.length() > 0)) {
+            fields.put(fieldName, fieldValue);
+        }
+    }
     String vnp_SecureHash = request.getParameter("vnp_SecureHash");
     if (fields.containsKey("vnp_SecureHashType")) {
         fields.remove("vnp_SecureHashType");
