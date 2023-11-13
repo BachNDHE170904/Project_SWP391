@@ -4,6 +4,7 @@
  */
 package event;
 
+import dal.MentorDAO;
 import dal.RequestDAO;
 import dal.TransactionDAO;
 import dal.UserDAO;
@@ -29,7 +30,11 @@ public class AddMoneyTask extends TimerTask {
             if (r.getStatus().getId() == 2 && deadline.before(currentDate)) {
                 dbRequest.updateRequestStatusToClosed(r.getId());
                 r.setStatus(new Status(4, "Closed"));
-                dbTransaction.updateAcountBalance(r.getMentorId(), r.getMenteePrice());
+                MentorDAO mentorDb = new MentorDAO();
+                Mentor m = mentorDb.getMentorByMentorID(r.getMentorId());
+                if (!dbTransaction.insertAcountBalance(m.getUserid(), r.getMenteePrice())) {
+                    dbTransaction.updateAcountBalance(m.getUserid(), r.getMenteePrice());
+                }
             }
         }
     }

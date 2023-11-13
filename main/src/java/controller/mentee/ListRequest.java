@@ -9,6 +9,7 @@ import dal.ProgramingLanguageDAO;
 import dal.RequestDAO;
 import dal.SkillDAO;
 import dal.StatusDAO;
+import dal.TransactionDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -76,6 +77,7 @@ public class ListRequest extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         MentorDAO mentorDAO = new MentorDAO();
+        TransactionDAO dbTransaction = new TransactionDAO();
         User user = (User) request.getSession().getAttribute("user");
         MentorRecommendation recommend = new MentorRecommendation();
         HashMap<Integer, List<Mentor>> suggestedMentors = new HashMap<>();
@@ -95,18 +97,22 @@ public class ListRequest extends HttpServlet {
         request.setAttribute("ep", totalPage);
         list = requestDAO.getPagingRequestByID(user.getUserId(), page);
 
-
         Date currentDate = new Date();
         for (Request r : list) {
             Date deadline = r.getDeadline();
             if (r.getStatus().getId() == 2 && deadline.before(currentDate)) {
-//                requestDAO.updateRequestStatusToClosed(r.getId());
-//                r.setStatus(new Status(4, "Closed"));
+                requestDAO.updateRequestStatusToClosed(r.getId());
+                r.setStatus(new Status(4, "Closed"));
+                MentorDAO mentorDb = new MentorDAO();
+                Mentor m = mentorDb.getMentorByMentorID(r.getMentorId());
+                if (!dbTransaction.insertAcountBalance(m.getUserid(), r.getMenteePrice())) {
+                    dbTransaction.updateAcountBalance(m.getUserid(), r.getMenteePrice());
+                }
             } else if (r.getStatus().getId() == 1 && r.getMentorId() == 0) {
                 List<Mentor> suggestedlist = recommend.mentorSuggestionForMentee(r.getId());
                 suggestedMentors.put(r.getId(), suggestedlist);
             }
-            if (r.getMentorId()!= 0) {
+            if (r.getMentorId() != 0) {
                 r.setMentorUserName(mentorDAO.getMentorByMentorID(r.getMentorId()).getUsername());
                 r.setMentorEmail(mentorDAO.getMentorByMentorID(r.getMentorId()).getEmail());
             }
