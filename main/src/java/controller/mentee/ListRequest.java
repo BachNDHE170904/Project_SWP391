@@ -100,8 +100,8 @@ public class ListRequest extends HttpServlet {
         for (Request r : list) {
             Date deadline = r.getDeadline();
             if (r.getStatus().getId() == 2 && deadline.before(currentDate)) {
-                requestDAO.updateRequestStatusToClosed(r.getId());
-                r.setStatus(new Status(4, "Closed"));
+//                requestDAO.updateRequestStatusToClosed(r.getId());
+//                r.setStatus(new Status(4, "Closed"));
             } else if (r.getStatus().getId() == 1 && r.getMentorId() == 0) {
                 List<Mentor> suggestedlist = recommend.mentorSuggestionForMentee(r.getId());
                 suggestedMentors.put(r.getId(), suggestedlist);
