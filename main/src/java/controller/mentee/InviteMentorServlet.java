@@ -4,6 +4,7 @@
  */
 package controller.mentee;
 
+import dal.MentorDAO;
 import dal.RequestDAO;
 import dal.TransactionDAO;
 import java.io.IOException;
@@ -13,6 +14,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import model.SendEmail;
 import model.User;
 
 /**
@@ -30,16 +32,24 @@ public class InviteMentorServlet extends HttpServlet {
         int mentorId = Integer.parseInt(request.getParameter("mentorId"));
         long mentorPrice = Integer.parseInt(request.getParameter("mentorPrice"));
         User user = (User) request.getSession().getAttribute("user");
-
+        String username = user.getUsername();
+        MentorDAO mentorDAO = new MentorDAO();
         TransactionDAO transactionDAO = new TransactionDAO();
         long balance = transactionDAO.getAccountBalanceByUserId(user.getUserId());
         long currentPrice = requestDAO.getPriceofRequest(requestId);
+        
         if ((balance+currentPrice - mentorPrice)>=0) {
             if (requestDAO.setMentorIdForRequest(requestId, mentorId)) {
                 requestDAO.setPriceForRequest(requestId, mentorPrice);
                 transactionDAO.updateAcountBalance(user.getUserId(), (currentPrice - mentorPrice));
                 requestDAO.removeProposalsForRequest(requestId);
                 session.setAttribute("successMsg", "Your request is sent to mentor successfully!");
+                
+        SendEmail sm = new SendEmail();
+        String emailContent = "You received a new invitation from account "+ username + ". Please log in to Happy Programming to see detailed information" ;
+        String toEmail = mentorDAO.getEmailByMentorId(mentorId);
+        String subject = "New invitation";
+        sm.sendEmail(toEmail, emailContent, subject);
             }
         } else {
             request.getSession().setAttribute("errorMsg", "You don't have enough money in your account!");

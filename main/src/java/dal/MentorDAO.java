@@ -673,7 +673,9 @@ public class MentorDAO extends BaseDAO<Skill> {
                 + ") t2 ON t1.mentorId = t2.mentorId where t1.mentorId = ?";
         try {
             PreparedStatement stm = connection.prepareStatement(sql);
+            
             stm.setInt(1, mentorId);
+            
             ResultSet rs = stm.executeQuery();
             while (rs.next()) {
                 return rs.getFloat("completion_rate");
@@ -682,5 +684,20 @@ public class MentorDAO extends BaseDAO<Skill> {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return 0;
+    }
+
+    public String getEmailByMentorId(int mentorId) {
+        String sql = "SELECT email as email_mentor FROM Mentor m INNER JOIN Users u ON m.userId = u.userId AND m.mentorId = ?";
+        try {
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setInt(1, mentorId);
+            ResultSet rs = stm.executeQuery();
+            while(rs.next()) {
+                return rs.getString("email_mentor");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return "";
     }
 }

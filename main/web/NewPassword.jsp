@@ -3,7 +3,7 @@
     <head>
         <meta charset='utf-8'>
         <meta name='viewport' content='width=device-width, initial-scale=1'>
-        <title>Snippet - BBBootstrap</title>
+        <title>Reset Password</title>
         <link
             href='https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css'
             rel='stylesheet'>
@@ -27,7 +27,7 @@
             }
         </style>
     </head>
-    <body oncontextmenu='return false' class='snippet-body bg-info'>
+    <body oncontextmenu='return false' class='snippet-body bg-info' >
         <%
             
             String msg = (String) session.getAttribute("status");
@@ -43,7 +43,7 @@
               href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-social/5.1.1/bootstrap-social.css">
         <div>
             <!-- Container containing all contents -->
-            <div class="container">
+            <div class="container" >
                 <div class="row justify-content-center">
                     <div class="col-12 col-md-9 col-lg-7 col-xl-6 mt-5">
                         <!-- White Container -->
@@ -84,7 +84,6 @@
                                     %>
                                     </div>
                                     </div>
-
                                     <!-- Log in Button -->
                                     <div class="form-group row justify-content-center">
                                         <div class="col-3 px-3 mt-3">
@@ -98,9 +97,7 @@
                             <div class="mx-0 px-0 bg-light">
 
                                 <!-- Horizontal Line -->
-                                <div class="px-4 pt-5">
-                                    <hr>
-                                </div>
+                                
                                 <!-- Register Now -->
                                 <div class="pt-2">
                                     <div class="row justify-content-center">
