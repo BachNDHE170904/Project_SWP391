@@ -81,6 +81,7 @@ public class UpdateProfileServlet extends HttpServlet {
             avatar = userDAO.getUserAvatar(user.getUserId());
         }
         userDAO.updateUserDetail(user.getUserId(),username,fullname,phone,address,sex.equals("1"),dob,avatar);
+        userDAO.updateUser(user.getUserId(), username);
         request.getSession().setAttribute("user", userDAO.getUserByID(user.getUserId()));
         request.getSession().setAttribute("userDetail", userDAO.getUserDetails(user.getEmail()));
         response.sendRedirect("ViewUserProfile.jsp");
