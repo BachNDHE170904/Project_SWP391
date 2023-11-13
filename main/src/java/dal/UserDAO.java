@@ -101,6 +101,7 @@ public class UserDAO extends BaseDAO<User> {
                 s.setPass(rs.getString("password"));
                 s.setUserId(rs.getInt("userId"));
                 s.setEmail(rs.getString("email"));
+                s.setIsAuthorized(rs.getBoolean("userAuthorization"));
                 s.setStatus(rs.getString("userStatus"));
                 return s;
             }
@@ -425,6 +426,22 @@ public class UserDAO extends BaseDAO<User> {
             qtm.setString(1, avatar);
             qtm.setInt(2, userID);
             qtm.executeUpdate();
+        } catch (SQLException e) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, e);
+
+        }
+    }
+
+    public void updateUser(int userID, String username) {
+        String sql = "UPDATE [dbo].[Users]\n"
+                + "   SET \n"
+                + "       [username] = ?\n"
+                + " WHERE [userId] = ?";
+        try {
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setString(1, username);
+            stm.setInt(2, userID);
+            stm.executeUpdate();
         } catch (SQLException e) {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, e);
 
