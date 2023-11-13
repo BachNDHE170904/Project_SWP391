@@ -4,6 +4,7 @@
  */
 package controller.mentor;
 
+import controller.Common;
 import dal.ProgramingLanguageDAO;
 import dal.SkillDAO;
 import dal.StatusDAO;
@@ -45,7 +46,7 @@ public class ListRequestSuggestionServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet ListRequestSuggestionServlet</title>");            
+            out.println("<title>Servlet ListRequestSuggestionServlet</title>");
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet ListRequestSuggestionServlet at " + request.getContextPath() + "</h1>");
@@ -68,18 +69,27 @@ public class ListRequestSuggestionServlet extends HttpServlet {
             throws ServletException, IOException {
         User user = (User) request.getSession().getAttribute("user");
         MentorRecommendation recommend = new MentorRecommendation();
+        int currPage = Common.handleInt(request.getParameter("page"));
+        if(currPage<=0)currPage=1;
         List<Request> list = recommend.RequestSuggestion(user.getUserId());
-        
+        int pageNum = Common.handleNum(list.size());
+        List<Request>pagedList=new ArrayList<Request>();
+        for(int i=(currPage-1)*10;i<list.size();i++){
+            pagedList.add(list.get(i));
+        }
+
         StatusDAO statusDAO = new StatusDAO();
         ArrayList<Status> statuses = statusDAO.getAll();
         ProgramingLanguageDAO programingLanguageDAO = new ProgramingLanguageDAO();
         ArrayList<ProgramingLanguage> listPro = programingLanguageDAO.getActiveProgramingLanguage();
         SkillDAO skillDAO = new SkillDAO();
         ArrayList<Skill> skills = skillDAO.getActiveSkills();
-        request.setAttribute("list", list);
+        request.setAttribute("list", pagedList);
         request.setAttribute("statuses", statuses);
         request.setAttribute("pros", listPro);
         request.setAttribute("skills", skills);
+        request.setAttribute("currPage", (currPage < 1 ? 1 : currPage));
+        request.setAttribute("pageNum", pageNum);
         request.getRequestDispatcher("mentor/ListRequestsSuggestion.jsp").forward(request, response);
     }
 

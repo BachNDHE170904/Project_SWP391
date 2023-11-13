@@ -216,6 +216,20 @@
                                         </c:forEach>
                                         </tbody>
                                     </table>
+                                    <div class="pagination">
+                                        <a href="ListRequestSuggestionServlet?page=1">&laquo;</a>
+                                        <c:forEach var="i" begin="1" end="${pageNum}">
+                                            <c:choose>
+                                                <c:when test="${i==currPage}">
+                                                    <a class="active" href="ListRequestSuggestionServlet?page=${i}">${i}</a>
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <a href="ListRequestSuggestionServlet?page=${i}">${i}</a>
+                                                </c:otherwise>
+                                            </c:choose>
+                                        </c:forEach>
+                                        <a href="ListRequestSuggestionServlet?page=${pageNum}">&raquo;</a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
