@@ -33,8 +33,8 @@ public class InviteMentorServlet extends HttpServlet {
         long mentorPrice = Integer.parseInt(request.getParameter("mentorPrice"));
         User user = (User) request.getSession().getAttribute("user");
         String username = user.getUsername();
-        MentorDAO mentorDAO = new MentorDAO();
         TransactionDAO transactionDAO = new TransactionDAO();
+        MentorDAO mentorDAO = new MentorDAO();
         long balance = transactionDAO.getAccountBalanceByUserId(user.getUserId());
         long currentPrice = requestDAO.getPriceofRequest(requestId);
         
@@ -44,8 +44,7 @@ public class InviteMentorServlet extends HttpServlet {
                 transactionDAO.updateAcountBalance(user.getUserId(), (currentPrice - mentorPrice));
                 requestDAO.removeProposalsForRequest(requestId);
                 session.setAttribute("successMsg", "Your request is sent to mentor successfully!");
-                
-        SendEmail sm = new SendEmail();
+               SendEmail sm = new SendEmail();
         String emailContent = "You received a new invitation from account "+ username + ". Please log in to Happy Programming to see detailed information" ;
         String toEmail = mentorDAO.getEmailByMentorId(mentorId);
         String subject = "New invitation";

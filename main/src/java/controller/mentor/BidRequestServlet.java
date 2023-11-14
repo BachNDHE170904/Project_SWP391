@@ -7,6 +7,7 @@ package controller.mentor;
 import dal.CommentDAO;
 import dal.MentorDAO;
 import dal.RequestDAO;
+import dal.UserDAO;
 import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -15,6 +16,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import model.Mentor;
+import model.SendEmail;
 import model.User;
 
 /**
@@ -77,8 +79,11 @@ public class BidRequestServlet extends HttpServlet {
             throws ServletException, IOException {
         HttpSession session = request.getSession();
         User user = (User) request.getSession().getAttribute("user");
+        UserDAO ud = new UserDAO();
         MentorDAO mentorDAO = new MentorDAO();
         Mentor mentor = mentorDAO.getMentorByUserID(user.getUserId());
+        String menteeName = request.getParameter("menteeName");
+        System.out.println(menteeName);
         int id = Integer.parseInt(request.getParameter("id"));
         long price = Integer.parseInt(request.getParameter("price"));
         RequestDAO rd = new RequestDAO();
@@ -86,11 +91,24 @@ public class BidRequestServlet extends HttpServlet {
             if (rd.updateProposalForRequest(id, price, mentor.getMentorId())) {
                 session.setAttribute("successMsg", "Your offer is updated successfully!");
                 response.sendRedirect("ListRequestSuggestionServlet");
+                SendEmail sm = new SendEmail();
+        
+        String email = mentorDAO.getEmailByMentorId(mentor.getMentorId());
+        String emailContent = "You just received a new offer from account "+ email + ". Please log in to Happy Programming to see detailed information" ;
+        String toEmail = ud.getEmailByMenteeName(menteeName);
+        String subject = "New offer";
+        sm.sendEmail(toEmail, emailContent, subject);
             }
         } else {
             if (rd.insertProposalToRequest(id, price, mentor.getMentorId())) {
                 session.setAttribute("successMsg", "Your offer is sent to mentee successfully!");
                 response.sendRedirect("ListRequestSuggestionServlet");
+                SendEmail sm = new SendEmail();
+        String email = mentorDAO.getEmailByMentorId(mentor.getMentorId());
+        String emailContent = "You just received a new offer from account "+ email + ". Please log in to Happy Programming to see detailed information" ;
+        String toEmail = ud.getEmailByMenteeName(menteeName);
+        String subject = "New offer";
+        sm.sendEmail(toEmail, emailContent, subject);
             }
         }
     }

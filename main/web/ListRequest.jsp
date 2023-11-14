@@ -149,7 +149,7 @@
                                                         </fieldset>
                                                         <div class="modal-footer">
                                                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                            <c:if test="${ item.status.id==1 &&item.mentorId==0}"><a href="#" class="btn btn-primary" data-toggle="modal" data-target="#mentorModal${item.id}">mentor suggestion</a></c:if>
+                                                            <c:if test="${ item.status.id==1 &&item.mentorId==0}"><a href="#" class="btn btn-primary" data-toggle="modal" data-target="#mentorModal${item.id}">Mentor suggestion</a></c:if>
                                                             <c:if test="${item.status.id==4&&item.mentorId!=0}"><a href="#" class="btn btn-primary" data-toggle="modal" data-target="#feedbackModal${item.id}">Comment and Rate star</a></c:if>
                                                             <c:if test="${ item.status.id==1 &&item.mentorId==0}"><button type="submit" class="btn btn-primary">Update</button></c:if>
                                                             </div>
@@ -266,7 +266,7 @@
                                                 <td>${mentor.averageRating}</td>
                                                 <td>${mentor.currentRequests}</td>
                                                 <td>${mentor.mentorPrice} VND</td>
-                                                <td><a href="InviteMentorServlet?requestId=${item.id}&&mentorId=${mentor.mentorId}&&mentorPrice=${mentor.mentorPrice}" class="btn btn-primary" >Invite</a></td>
+                                                <td><a href="InviteMentorServlet?requestId=${item.id}&&mentorId=${mentor.mentorId}&&mentorPrice=${mentor.mentorPrice}" class="btn btn-primary" onclick="sendEmailToMentor()" >Invite</a></td>
                                             </tr>
                                         </c:forEach>
                                     </tbody>
@@ -277,6 +277,15 @@
                 </div>
             </div>
         </c:forEach>
+        <script>
+            function sendEmailToMentor() {
+//                let mentorId = ${mentor.mentorId};
+                let xhr = new XMLHttpRequest();
+                xhr.open("POST", "/main/InviteMentorServlet");
+                xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                xhr.send("send to mentorId ");
+            }
+        </script>
         <script>
             document.getElementById("status-filter-form").addEventListener("change", function (e) {
                 const selectedStatus = document.querySelector('input[name="status"]:checked').value;
