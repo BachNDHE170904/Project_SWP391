@@ -640,4 +640,19 @@ public class UserDAO extends BaseDAO<User> {
         }
         return 0;
     }
+    
+    public String getEmailByMenteeName(String username) {
+        String sql = "select email as email_mentee from Users where username = ?";
+        try {
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setString(1, username);
+            ResultSet rs = stm.executeQuery();
+            while(rs.next()) {
+                return rs.getString("email_mentee");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return "";
+    }
 }
