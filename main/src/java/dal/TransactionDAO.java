@@ -7,6 +7,7 @@ package dal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.Transaction;
@@ -105,5 +106,26 @@ public class TransactionDAO extends BaseDAO<Transaction> {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
+    }
+    
+    public ArrayList<Transaction> getAllTransaction(int userId) {
+        ArrayList<Transaction> trans = new ArrayList<>();
+        try {
+            String sql = "SELECT * FROM TransactionHistory where userId = ?";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setInt(1, userId);
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                Transaction ts = new Transaction();
+                ts.setTransactionId(rs.getString("transactionId"));
+                ts.setCreatedDate(rs.getDate("createdDate"));
+                ts.setAmount(rs.getLong("amount"));
+                ts.setContent(rs.getString("content"));
+                trans.add(ts);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return trans;
     }
 }
