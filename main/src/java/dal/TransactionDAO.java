@@ -128,4 +128,21 @@ public class TransactionDAO extends BaseDAO<Transaction> {
         }
         return trans;
     }
+
+    public int countTransactionByUserId(int userId) {
+        String sql = "SELECT COUNT(*) FROM TransactionHistory WHERE userId = ?";
+        try {
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setInt(1, userId);
+            ResultSet rs = stm.executeQuery();
+            while(rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return 0;
+    }
+
+    
 }
