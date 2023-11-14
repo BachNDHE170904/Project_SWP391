@@ -13,6 +13,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.util.List;
 import model.Transaction;
 import model.User;
 
@@ -60,10 +61,22 @@ public class DepositHistoryServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        MentorDAO mentorDAO = new MentorDAO();
         TransactionDAO dbTransaction = new TransactionDAO();
         User user = (User) request.getSession().getAttribute("user");
         ArrayList<Transaction> trans = dbTransaction.getAllTransaction(user.getUserId());
+        int page = 1;
+        if (request.getParameter("page") != null) {
+            page = Integer.valueOf(request.getParameter("page"));
+        }
+        int allTrans = dbTransaction.countTransactionByUserId(user.getUserId());
+        int totalPage = allTrans / 10;
+        if (allTrans % 10 != 0) {
+            totalPage = totalPage + 1;
+        }
+        request.setAttribute("page", page);
+        request.setAttribute("total", totalPage);
+        request.setAttribute("ep", totalPage);
+        trans = dbTransaction.getPagingTransactionByUserID(user.getUserId(), page);
         request.setAttribute("transactions", trans);
         request.getRequestDispatcher("DepositHistory.jsp").forward(request, response);
     }
