@@ -37,17 +37,15 @@ public class SendEmailMentorServlet extends HttpServlet {
         User user = (User) request.getSession().getAttribute("user");
         User mentee = dbUser.getUserByUserName(menteeName);
         String toEmail = mentee.getEmail();
-        String subject="New request status";
+        String subject="You just received a response";
         if (action.equalsIgnoreCase("accept")) {
             SendEmail sm = new SendEmail();
-            String emailContent = user.getUsername() + " - " + user.getEmail() + " accepted your request. Please check your information in \n"
-                    + "detail page";
+            String emailContent = user.getUsername() + " - " + user.getEmail() + " accepted your request. Please log in to Happy Programming to see detailed information";
             sm.sendEmail(toEmail, emailContent,subject);
         }
         if (action.equalsIgnoreCase("reject")) {
             SendEmail sm = new SendEmail();
-            String emailContent = user.getUsername() + " - " + user.getEmail() + " rejected your request. Please check your information in \n"
-                    + "detail page";
+            String emailContent = user.getUsername() + " - " + user.getEmail() + " rejected your request. Please log in to Happy Programming to see detailed information";
             sm.sendEmail(toEmail, emailContent,subject);
         }
     }
