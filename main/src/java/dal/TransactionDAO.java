@@ -144,5 +144,27 @@ public class TransactionDAO extends BaseDAO<Transaction> {
         return 0;
     }
 
-    
+    public ArrayList<Transaction> getPagingTransactionByUserID(int userId, int index) {
+        try {
+            ArrayList<Transaction> trans = new ArrayList<>();
+            String sql = "Select * from TransactionHistory t where userId = ? order by t.createdDate offset ? rows fetch next 10 rows only";
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setInt(1, userId);
+            int n = (index - 1) * 10;
+            stm.setInt(2, n);
+            ResultSet rs = stm.executeQuery();
+            while(rs.next()) {
+                Transaction transaction = new Transaction();
+                transaction.setTransactionId(rs.getString("transactionId"));
+                transaction.setCreatedDate(rs.getDate("createdDate"));
+                transaction.setAmount(rs.getLong("amount"));
+                transaction.setContent(rs.getString("content"));
+                trans.add(transaction);
+            }
+            return trans;
+        } catch(SQLException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
 }
