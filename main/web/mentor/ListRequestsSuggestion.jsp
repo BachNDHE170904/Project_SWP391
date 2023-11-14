@@ -128,6 +128,7 @@
                                                     <td>${item.userName}</td>
                                                     <td><a href="#" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal${item.id}">Details</a></td>
                                                 </tr>
+                                            
                                             <div class="modal fade" id="exampleModal${item.id}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                                 <div class="modal-dialog" role="document">
                                                     <div class="modal-content">
@@ -200,13 +201,14 @@
                                                         <div class="modal-body">
                                                             <form action="BidRequestServlet" method="post">
                                                                 <input type="hidden" name="id" value="${item.id}">
+                                                                <input type="hidden" name="menteeName" value="${item.userName}">
                                                                 <div class="form-group">
                                                                     <label for="rating" class="col-form-label">price</label>
                                                                     <input type="number" name="price" class="form-control" id="rating" min="1" value="${item.mentorPrice}" required>
                                                                 </div>
                                                                 <div class="modal-footer">
                                                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                                    <button type="submit" class="btn btn-primary">Bid</button>
+                                                                    <button type="submit" class="btn btn-primary" onclick="sendEmail()">Bid</button>
                                                                 </div>
                                                             </form>
                                                         </div>
@@ -239,6 +241,14 @@
         </c:choose>
         <script>
             document.getElementById("date").min = new Date().toISOString().split("T")[0];
+        </script>
+        <script>
+            function sendEmailToMentor() {
+                let xhr = new XMLHttpRequest();
+                xhr.open("POST", "/main/BidRequestServlet");
+                xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                xhr.send("send to mentorId ");
+            }
         </script>
         <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.bundle.min.js"></script>
