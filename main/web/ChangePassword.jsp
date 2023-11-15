@@ -12,6 +12,12 @@
         <title>Change Password</title>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
         <link rel="stylesheet" href="css/LoginStyleindex.css">
+        <style>
+            .error {
+                color: red;
+                font-size: 14px;
+            }
+        </style>
     </head>
     <body>
         <jsp:include page="NavBar.jsp"></jsp:include>
