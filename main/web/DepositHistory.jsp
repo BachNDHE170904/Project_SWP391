@@ -51,6 +51,11 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    <c:if test="${empty transactions}">
+                                        <tr>
+                                            <td colspan="4" style="text-align: center; color: red">Deposit history list is empty</td>
+                                        </tr>
+                                    </c:if>
 
                                     <c:forEach var="t" items="${transactions}">
 
