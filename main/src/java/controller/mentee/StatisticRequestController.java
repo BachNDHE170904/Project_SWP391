@@ -72,6 +72,7 @@ public class StatisticRequestController extends HttpServlet {
             totalDays += daysBetween;
         }
         request.setAttribute("totalDays", totalDays);
+        request.setAttribute("totalHoursFix", totalDays*24);
 
         Date currentDate = new Date();
         for (Request r : list) {
