@@ -77,6 +77,7 @@
                                         </div>
                                         <div class="form-group">
                                             <button class="btn btn-primary" type="submit">Ok</button>
+                                            <a href="ViewUserProfile.jsp" class="btn btn-secondary" style="background-color: red">Back</a>
                                         </div>
                                     </div>
                                 </form>
