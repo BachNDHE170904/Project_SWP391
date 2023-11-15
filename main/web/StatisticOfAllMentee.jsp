@@ -59,6 +59,7 @@
                 }
                 UserDAO ud = new UserDAO();
                 int total = ud.getTotalUsersWithSearch(searchname);
+                int totalPage = (int) Math.ceil((double) (total) / 10);
                 ArrayList<UserDetails> usd = ud.getUsersWithPagination((pageNum - 1) * 10, 10, searchname);
         %>
         <div class="container-fluid position-relative bg-white d-flex p-0">
@@ -133,11 +134,19 @@
                     </div>
                 </div>
                 <nav aria-label="...">
-                    <ul class="pagination pagination-sm">
-                        <%for (int i = 1; i <= (int) Math.ceil((double) (total) / 10); i++) {%>
-                        <li class="page-item"><a class="page-link" href="StatisticOfAllMentee.jsp?searchname=<%=searchname%>&page=<%=i%>"><%= i%></a></li>
-                            <%}%>
-                    </ul>
+                    <ul class="pagination">
+                                            <li class="page-item">
+                                                <a class="page-link" href="StatisticOfAllMentee.jsp?searchname=<%=searchname%>&page=1">&laquo;</a>
+                                            </li>
+                                            <%for (int i = 1; i <= totalPage; i++) {%>
+                                            <li class="page-item">
+                                                <a class="page-link <%if (i == pageNum) {%> active <%}%>" href="StatisticOfAllMentee.jsp?searchname=<%=searchname%>&page=<%=i%>"><%= i%></a>
+                                            </li>
+                                            <%}%>
+                                            <li class="page-item">
+                                                <a class="page-link" href="StatisticOfAllMentee.jsp?searchname=<%=searchname%>&page=<%=totalPage%>">&raquo;</a>
+                                            </li>
+                                        </ul>
                 </nav>
                 <!-- Table End -->
             </div>
