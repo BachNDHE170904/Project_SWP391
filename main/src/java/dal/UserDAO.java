@@ -182,6 +182,33 @@ public class UserDAO extends BaseDAO<User> {
         return null;
     }
 
+    public boolean insertUserAvatar(int userId, String avatarLink) {
+        try {
+            String sql = "insert into UserAvatar(userId,avatarLink) values (?,?)\n";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setInt(1, userId);
+            statement.setString(2, avatarLink);
+            statement.executeUpdate();
+            return true;
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
+    }
+    public boolean updateUserAvatar(int userId, String avatarLink) {
+        try {
+            String sql = "update UserAvatar set avatarLink=? where userId=?\n";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setInt(2, userId);
+            statement.setString(1, avatarLink);
+            statement.executeUpdate();
+            return true;
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
+    }
+
     public UserDetails getUserDetails(String email) {
         try {
             String sql = "SELECT * FROM UserDetail,Users \n"
@@ -640,14 +667,14 @@ public class UserDAO extends BaseDAO<User> {
         }
         return 0;
     }
-    
+
     public String getEmailByMenteeName(String username) {
         String sql = "select email as email_mentee from Users where username = ?";
         try {
             PreparedStatement stm = connection.prepareStatement(sql);
             stm.setString(1, username);
             ResultSet rs = stm.executeQuery();
-            while(rs.next()) {
+            while (rs.next()) {
                 return rs.getString("email_mentee");
             }
         } catch (SQLException ex) {
