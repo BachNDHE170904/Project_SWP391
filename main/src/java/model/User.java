@@ -15,6 +15,7 @@ public class User {
     private boolean isAuthorized;
     private String status;
     private long balance;
+    private String avatar;
     public User() {
     }
 
@@ -109,6 +110,14 @@ public class User {
 
     public void setBalance(long balance) {
         this.balance = balance;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
     }
 
     @Override

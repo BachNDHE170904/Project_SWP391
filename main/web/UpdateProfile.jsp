@@ -32,11 +32,11 @@
                                         <div class="container text-center">
                                             <div class="row">
                                                 <div class="col-md-3">
-                                                <c:if test="${avatar == null}">
+                                                <c:if test="${sessionScope.user.avatar==''||sessionScope.user.avatar==null}">
                                                     <img class="img-thumbnail" alt="" src="img/default_avatar.jpg" />
                                                 </c:if>
-                                                <c:if test="${avatar != null}">
-                                                    <img class="img-thumbnail" alt="" src="img/${avatar}" />
+                                                <c:if test="${sessionScope.user.avatar!=''}">
+                                                    <img class="img-thumbnail" alt="" src="${sessionScope.user.avatar}" />
                                                 </c:if>
                                                 <input type="file" name="file">
                                             </div>

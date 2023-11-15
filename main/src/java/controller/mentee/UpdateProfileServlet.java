@@ -85,7 +85,20 @@ public class UpdateProfileServlet extends HttpServlet {
         }
         userDAO.updateUserDetail(user.getUserId(), username, fullname, phone, address, sex.equals("1"), dob, avatar);
         userDAO.updateUser(user.getUserId(), username);
-        request.getSession().setAttribute("user", userDAO.getUserByID(user.getUserId()));
+        String avatarLink="";
+        if (avatar!=null) {
+            if(avatar.contains("img/")){
+                avatarLink=avatar;
+            }else{
+                avatarLink = "img/" + avatar;
+            }
+            if (!userDAO.insertUserAvatar(user.getUserId(), avatarLink)) {
+                userDAO.updateUserAvatar(user.getUserId(), avatarLink);
+            }
+        }
+        user=userDAO.getUserByID(user.getUserId());
+        user.setAvatar(avatarLink);
+        request.getSession().setAttribute("user", user);
         request.getSession().setAttribute("userDetail", userDAO.getUserDetails(user.getEmail()));
         request.getSession().setAttribute("successMsg", "Your profile is updated successfully!");
         response.sendRedirect("ViewUserProfile.jsp");
