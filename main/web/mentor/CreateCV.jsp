@@ -146,6 +146,7 @@
                                     </div>
                                 </div>
                                 <input type="submit" value="OK" class="btn btn-primary" id="create-cv">
+                                <a href="ViewUserProfile.jsp" class="btn btn-secondary" style="background-color: red">Back</a>
                                 <label id="validate" style="color: red"></label>
                             </div>
                         </form>
