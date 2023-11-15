@@ -56,23 +56,8 @@ public class StatisticRequestController extends HttpServlet {
         request.setAttribute("total", totalPage);
         request.setAttribute("ep", totalPage);
         list = requestDAO.getPagingRequestByIDWhichIsClosed(user.getUserId(), page);
-        long totalDays = 0;
-        for (Request re : list) {
-            java.sql.Date createDate = re.getCreateDate();
-            java.sql.Date deadline = re.getDeadline();
-
-            // Convert java.sql.Date to Instant
-            Instant createInstant = new Date(createDate.getTime()).toInstant();
-            Instant deadlineInstant = new Date(deadline.getTime()).toInstant();
-
-            LocalDate localCreateDate = createInstant.atZone(ZoneId.systemDefault()).toLocalDate();
-            LocalDate localDeadline = deadlineInstant.atZone(ZoneId.systemDefault()).toLocalDate();
-
-            long daysBetween = ChronoUnit.DAYS.between(localCreateDate, localDeadline);
-            totalDays += daysBetween;
-        }
+        long totalDays = requestDAO.getTotalDaysOfAllClosedRequestsByUserId(user.getUserId());
         request.setAttribute("totalDays", totalDays);
-        request.setAttribute("totalHoursFix", totalDays*24);
 
         Date currentDate = new Date();
         for (Request r : list) {

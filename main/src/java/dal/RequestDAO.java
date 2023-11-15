@@ -941,4 +941,21 @@ public class RequestDAO extends BaseDAO<Skill> {
         }
         return 0;
     }
+
+    public long getTotalDaysOfAllClosedRequestsByUserId(int userId) {
+        try {
+            String sql = "select SUM(DATEDIFF(DAY,createdDate,deadline)) from RequestDetail rd \n"
+                    + "INNER JOIN Requests r on rd.requestId=r.requestId\n"
+                    + "where r.userId=? and rd.statusId=4";
+            PreparedStatement ptm = connection.prepareStatement(sql);
+            ptm.setInt(1, userId);
+            ResultSet rs = ptm.executeQuery();
+            while (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(RequestDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return 0;
+    }
 }

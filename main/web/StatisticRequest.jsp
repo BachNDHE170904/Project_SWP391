@@ -157,7 +157,7 @@
                                 </tbody>
                             </table>
                             <h5>Total requests: ${allRequests} request(s)</h5>
-                            <h5>Total hours of all Request: ${totalHoursFix} day(s)</h5>
+                            <h5>Total days of all Request: ${totalDays} day(s)</h5>
                             <div class="col-12">
                                 <ul class="pagination justify-content-center">
                                     <c:if test="${page eq 1}">
