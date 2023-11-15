@@ -61,7 +61,7 @@
 
                                 <thead class="thead-dark">
                                     <tr>
-                                        <th>STT</th>
+                                        <th>#</th>
                                         <th>Title</th>
                                         <th>Last Updated Date</th>
                                         <th>Deadline</th>
@@ -157,7 +157,7 @@
                                 </tbody>
                             </table>
                             <h5>Total requests: ${allRequests} request(s)</h5>
-                            <h5>Total hours of all Request: <c:out value="${totalHours}" /> day(s)</h5>
+                            <h5>Total days of all Request: ${totalDays} day(s)</h5>
                             <div class="col-12">
                                 <ul class="pagination justify-content-center">
                                     <c:if test="${page eq 1}">

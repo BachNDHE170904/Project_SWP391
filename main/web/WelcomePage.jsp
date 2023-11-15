@@ -1,4 +1,5 @@
 
+<%@page import="dal.UserDAO"%>
 <%@page import="java.util.List"%>
 <%@page import="model.Mentor"%>
 <%@page import="dal.MentorDAO"%>
@@ -163,14 +164,16 @@
                     <div class="row g-4">
                     <%
                         MentorDAO mentorDAO = new MentorDAO();
+                        UserDAO userDAO=new UserDAO();
                         List<Mentor> listMentor = mentorDAO.getTop4ActiveMentors();
                         for (int i=0;i<listMentor.size();i++) {
                         Mentor m=listMentor.get(i);
+                        String avatar=userDAO.getUserAvatar(m.getUserid());
                     %>
                     <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
                         <div class="team-item bg-light">
                             <div class="overflow-hidden">
-                                <img class="img-fluid" src="img/team-<%=i+1%>.jpg" alt="">
+                                <img class="img-fluid" src="<%=avatar%>" alt="">
                             </div>
                             <div class="text-center p-4">
                                 <h5 class="mb-0"><%= m.getFullname() %></h5>

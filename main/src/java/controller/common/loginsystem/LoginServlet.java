@@ -45,8 +45,11 @@ public class LoginServlet extends HttpServlet {
             String myChecksum = DatatypeConverter.printHexBinary(digest).toUpperCase();
             UserDAO db = new UserDAO();
             User user = db.getUser(email, myChecksum);
-            String userStatus="inactive" ;
-            if(user!=null)userStatus=db.getUserStatus(user.getUserId());
+            String userStatus = "inactive";
+            if (user != null) {
+                userStatus = db.getUserStatus(user.getUserId());
+                user.setAvatar(db.getUserAvatar(user.getUserId()));
+            }
             UserDetails details = db.getUserDetails(email);
             HttpSession session = request.getSession();
             if (rememberPass != null && rememberPass.equals("true") && user != null)//remember pass
