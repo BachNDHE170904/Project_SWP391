@@ -61,7 +61,7 @@
 
                                 <thead class="thead-dark">
                                     <tr>
-                                        <th>STT</th>
+                                        <th>#</th>
                                         <th>Title</th>
                                         <th>Last Updated Date</th>
                                         <th>Deadline</th>

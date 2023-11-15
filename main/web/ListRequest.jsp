@@ -68,7 +68,7 @@
                             <table class="table table-bordered" border="1" style="text-align: center">
                                 <thead class="thead-dark">
                                     <tr>
-                                        <th>STT</th>
+                                        <th>#</th>
                                         <th>Title</th>
                                         <th>Last Updated Date</th>
                                         <th>Deadline</th>

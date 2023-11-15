@@ -608,7 +608,7 @@ public class RequestDAO extends BaseDAO<Skill> {
         try {
             List<Request> list = new ArrayList<>();
             String sql = "Select * from RequestDetail r join Requests re on r.requestId = re.requestId\n"
-                    + "where userId = ? order by r.requestId offset ? rows fetch next 10 rows only";
+                    + "where userId = ? order by r.createdDate desc offset ? rows fetch next 10 rows only";
             PreparedStatement ptm = connection.prepareStatement(sql);
             ptm.setInt(1, userId);
             int n = (index - 1) * 10;

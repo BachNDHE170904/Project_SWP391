@@ -111,7 +111,7 @@ public class TransactionDAO extends BaseDAO<Transaction> {
     public ArrayList<Transaction> getAllTransaction(int userId) {
         ArrayList<Transaction> trans = new ArrayList<>();
         try {
-            String sql = "SELECT * FROM TransactionHistory where userId = ?";
+            String sql = "SELECT * FROM TransactionHistory where userId = ? order by createdDate desc";
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setInt(1, userId);
             ResultSet rs = statement.executeQuery();
@@ -147,7 +147,7 @@ public class TransactionDAO extends BaseDAO<Transaction> {
     public ArrayList<Transaction> getPagingTransactionByUserID(int userId, int index) {
         try {
             ArrayList<Transaction> trans = new ArrayList<>();
-            String sql = "Select * from TransactionHistory t where userId = ? order by t.createdDate offset ? rows fetch next 10 rows only";
+            String sql = "Select * from TransactionHistory t where userId = ? order by t.createdDate desc offset ? rows fetch next 10 rows only";
             PreparedStatement stm = connection.prepareStatement(sql);
             stm.setInt(1, userId);
             int n = (index - 1) * 10;
