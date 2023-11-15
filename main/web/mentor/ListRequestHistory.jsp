@@ -125,6 +125,11 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
+                                                <c:if test="${empty requestScope.list}">
+                                                <tr>
+                                                    <td colspan="6" style="text-align: center; color: red">List request history is empty</td>
+                                                </tr>
+                                            </c:if>
                                             <c:forEach items="${requestScope.list}" var="item" varStatus="loop">
                                                 <tr>
                                                     <td>${loop.index + 1}</td>

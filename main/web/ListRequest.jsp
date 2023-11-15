@@ -50,7 +50,7 @@
                     <div class="col-md-3 pt-0">
                         <div class="list-group list-group-flush account-settings-links">
                             <a class="list-group-item list-group-item-action active" data-toggle="list"
-                               href="#account-general">List Request By Me</a>
+                               href="#account-general">List Created Request</a>
                             <div class="sideBar col-md-9" style="margin-top: 20px; margin-left: 13px">
                                 <h5>Filter by Status</h5>
                                 <form id="status-filter-form">
@@ -78,6 +78,11 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    <c:if test="${empty requestScope.list}">
+                                        <tr>
+                                            <td colspan="8" style="text-align: center; color: red">List request is empty</td>
+                                        </tr>
+                                    </c:if>
                                     <c:forEach items="${requestScope.list}" var="item" varStatus="loop">
                                         <tr>
                                             <td>${loop.index + 1}</td>
