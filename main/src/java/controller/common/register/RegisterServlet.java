@@ -52,7 +52,7 @@ public class RegisterServlet extends HttpServlet {
             UserDAO db = new UserDAO();
             User user = db.getUserByEmailOnly(email);
             User userByName = db.getUserByUserName(username);
-            UserDetails ud=new UserDetails();
+            UserDetails ud = new UserDetails();
             ud.setPhone(phone);
             ud.setFullname(fullname);
             ud.setAddress(address);
@@ -64,7 +64,13 @@ public class RegisterServlet extends HttpServlet {
             ud.setEmail(email);
             ud.setIsAuthorized(false);
             HttpSession session = request.getSession();
-            if (user == null && userByName == null) // No account found
+            if (username.trim().isEmpty() || fullname.trim().isEmpty() || address.trim().isEmpty()) {
+                ms = "Fields must not be left empty";
+                request.setAttribute("ms", ms);
+                request.setAttribute("details", ud);
+                request.getRequestDispatcher("Register.jsp").forward(request, response);
+            }
+            else if (user == null && userByName == null) // No account found
             {
                 User u = new User(username, myHash, email, false);
                 db.insertUser(u);
@@ -72,7 +78,7 @@ public class RegisterServlet extends HttpServlet {
                 int userId = u.getUserId();
                 ud.setUserId(userId);
                 db.insertUserDetails(ud);
-                db.insertUserStatus(userId,"active");
+                db.insertUserStatus(userId, "active");
                 session.setAttribute("status", "Registered successfully !");
                 request.getRequestDispatcher("Login.jsp").forward(request, response);
             } else if (userByName != null) {

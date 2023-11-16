@@ -37,11 +37,26 @@
 
         <!-- Template Stylesheet -->
         <link href="css/AdminDashBoardStyleIndex.css" rel="stylesheet">
-
+        <link rel="stylesheet" href="ViewProfileStyleIndex.css">
+        <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     </head>
 
     <body>
         <%
+            String msg = (String) session.getAttribute("successMsg");
+            if (msg != null) {%>
+        <script>
+            swal("Congrats", "<%= msg%>", "success");
+        </script>
+        <% session.removeAttribute("successMsg");
+            }
+            String emsg = (String) session.getAttribute("errorMsg");
+            if (emsg != null) {%>
+        <script>
+            swal("Oops", "<%= emsg%>", "error");
+        </script>
+        <% session.removeAttribute("errorMsg");
+            }
             //check if the user is logged in or not
             User acc = (User) session.getAttribute("user");
             UserDetails details = (UserDetails) session.getAttribute("userDetail");;
@@ -126,7 +141,7 @@
                                             %>
                                             <tr 
                                                 <% if (skill.getSkillStatus().equals("inactive")) {%>class="deleted-row"<%}%>>
-                                                <td><%=i+1%></td>
+                                                <td><%=i + 1%></td>
                                                 <td><%=skill.getSkillId()%></td>
                                                 <td><%=skill.getSkillName()%></td>
                                                 <td><a href="UpdateSkillStatusServlet?skillId=<%=skill.getSkillId()%>&&page=<%= pageNum%>"><%=skill.getSkillStatus()%></a></td>

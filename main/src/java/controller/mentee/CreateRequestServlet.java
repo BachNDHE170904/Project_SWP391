@@ -86,12 +86,16 @@ public class CreateRequestServlet extends HttpServlet {
 
             TransactionDAO transactionDAO = new TransactionDAO();
             long balance = transactionDAO.getAccountBalanceByUserId(user.getUserId());
-            if ((balance-price)<0) {
+            if (title.trim().isEmpty() || content.trim().isEmpty()) {
+                request.getSession().setAttribute("errorMsg", "Fields must not be left empty!");
+                response.sendRedirect("myRequest");
+            }
+            else if ((balance - price) < 0) {
                 request.getSession().setAttribute("errorMsg", "You don't have enough money in your account!");
             } else {
                 RequestDAO requestDAO = new RequestDAO();
                 requestDAO.insertRequest(user.getUserId(), title, content, deadline, 1, skill, languageId, price);
-                transactionDAO.updateAcountBalance(user.getUserId(), (price*-1));
+                transactionDAO.updateAcountBalance(user.getUserId(), (price * -1));
                 request.getSession().setAttribute("successMsg", "Your request is created successfully!");
             }
             response.sendRedirect("myRequest");

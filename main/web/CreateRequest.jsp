@@ -8,9 +8,26 @@
         <title>Profile</title>
         <link rel="stylesheet" href="ViewProfileStyleIndex.css">
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+        <link rel="stylesheet" href="ViewProfileStyleIndex.css">
+        <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     </head>
 
     <body>
+        <%
+                   String msg = (String) session.getAttribute("successMsg");
+                   if (msg != null) {%>
+        <script>
+            swal("Congrats", "<%= msg%>", "success");
+        </script>
+        <% session.removeAttribute("successMsg");
+            }
+            String emsg = (String) session.getAttribute("errorMsg");
+            if (emsg != null) {%>
+        <script>
+            swal("Oops", "<%= emsg%>", "error");
+        </script>
+        <% session.removeAttribute("errorMsg");
+            }%>
         <jsp:include page="NavBar.jsp"></jsp:include>
             <div class="container light-style flex-grow-1 container-p-y">
                 <h4 class="font-weight-bold py-3 mb-4">

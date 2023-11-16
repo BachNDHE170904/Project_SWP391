@@ -11,6 +11,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import model.Skill;
 
 /**
@@ -30,28 +31,35 @@ public class AddNewSkillServlet extends HttpServlet {
         newSkill.setSkillId(skillId);
         newSkill.setSkillName(skillName);
         newSkill.setSkillStatus(status);
-        int page=Integer.parseInt(request.getParameter("page"));
-        if (db.updateSkill(newSkill)) {
-            request.getRequestDispatcher("AdminManageSkills.jsp?page="+page).forward(request, response);
+        int page = Integer.parseInt(request.getParameter("page"));
+        if (!skillName.trim().isEmpty()) {
+            db.updateSkill(newSkill);
         }
+        request.getRequestDispatcher("AdminManageSkills.jsp?page=" + page).forward(request, response);
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        HttpSession session = request.getSession();
         SkillDAO db = new SkillDAO();
         String skillName = request.getParameter("skillName");
         String status = request.getParameter("status");
         Skill newSkill = new Skill();
         newSkill.setSkillName(skillName);
         newSkill.setSkillStatus(status);
-        int total=db.getTotalSkills();
-        int page=(int) Math.ceil((double) (total) / 10);
-        if (db.insertSkill(newSkill)) {
-            request.getSession().removeAttribute("searchValue");
-            request.getSession().removeAttribute("filterValue");
-            request.getRequestDispatcher("AdminManageSkills.jsp?page="+page).forward(request, response);
+        int total = db.getTotalSkills();
+        int page = (int) Math.ceil((double) (total) / 10);
+        if (!skillName.trim().isEmpty()) {
+            db.insertSkill(newSkill);
+            session.setAttribute("successMsg", "Skill added successfully!");
+        } else {
+            session.setAttribute("errorMsg", "Skill added failed!");
         }
+        request.getSession().removeAttribute("searchValue");
+        request.getSession().removeAttribute("filterValue");
+        request.getRequestDispatcher("AdminManageSkills.jsp?page=" + page).forward(request, response);
+
     }
 
     @Override

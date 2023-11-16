@@ -10,7 +10,7 @@
         <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
         <meta name="description" content="">
         <meta name="author" content="">
-        <title>Cổng thanh toán VNPAY DEMO</title>
+        <title>Cổng thanh toán VNPAY</title>
         <!-- Bootstrap core CSS -->
         <link href="../assets/bootstrap.min.css" rel="stylesheet"/>
         <!-- Custom styles for this template -->

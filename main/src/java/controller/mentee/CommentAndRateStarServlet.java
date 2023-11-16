@@ -75,7 +75,11 @@ public class CommentAndRateStarServlet extends HttpServlet {
         int id = Integer.parseInt(request.getParameter("id"));
         String comment = request.getParameter("comment");
         int rating = Integer.parseInt(request.getParameter("rating"));
-        if (rating >= 1 && rating <= 5) {
+        if (comment.trim().isEmpty()) {
+            session.setAttribute("errorMsg", "Comment must not be left empty!");
+            response.sendRedirect("myRequest");
+        }
+        else if (rating >= 1 && rating <= 5) {
             CommentDAO cm = new CommentDAO();
             if (cm.insertCommentAndRateStar(id, comment, rating)) {
                 session.setAttribute("successMsg", "Your feedback is sent to mentor successfully!");
