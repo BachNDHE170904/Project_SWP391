@@ -140,7 +140,7 @@
                                                 <%}%>
                                                 >
                                                 <th scope="row"><%=i + 1%></th>
-                                                <td><%=mentor.getUserid()%></td>
+                                                <td><a href="ViewMentorCV.jsp?mentorId=<%=mentor.getMentorId()%>"><%=mentor.getMentorId()%></a></td>
                                                 <td><%=mentor.getFullname()%></td>
                                                 <td><%=mentor.getUsername()%></td>
                                                 <td><%=mentor.getProfession()%></td>
