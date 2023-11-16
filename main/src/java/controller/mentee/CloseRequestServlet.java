@@ -5,11 +5,13 @@
 package controller.mentee;
 
 import dal.RequestDAO;
+import dal.TransactionDAO;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import model.Request;
 
 /**
  *
@@ -31,10 +33,13 @@ public class CloseRequestServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         String raw_id = request.getParameter("id");
         int id = Integer.parseInt(raw_id);
-
+        
+        TransactionDAO dbTransaction=new TransactionDAO();
         RequestDAO dbRequest = new RequestDAO();
         dbRequest.updateRequestStatus(id, 4);
         dbRequest.removeProposalsForRequest(id);
+        Request r=dbRequest.getRequestByRequestID(id);
+        dbTransaction.updateAcountBalance(r.getMentorId(), r.getMenteePrice());
         request.getSession().setAttribute("successMsg", "Your request is closed successfully!");
         response.sendRedirect("myRequest");
     }
