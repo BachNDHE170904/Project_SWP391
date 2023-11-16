@@ -83,7 +83,6 @@ public class BidRequestServlet extends HttpServlet {
         MentorDAO mentorDAO = new MentorDAO();
         Mentor mentor = mentorDAO.getMentorByUserID(user.getUserId());
         String menteeName = request.getParameter("menteeName");
-        System.out.println(menteeName);
         int id = Integer.parseInt(request.getParameter("id"));
         long price = Integer.parseInt(request.getParameter("price"));
         RequestDAO rd = new RequestDAO();
