@@ -72,7 +72,7 @@
                     <!-- Navbar Start -->
                 <jsp:include page="NavBar.jsp"></jsp:include>
                     <!-- Navbar End -->
-
+                    
                     <!-- Table Start -->
 
                     <div class="container-fluid pt-4 px-4">
