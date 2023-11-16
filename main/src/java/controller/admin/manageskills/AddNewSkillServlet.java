@@ -25,7 +25,7 @@ public class AddNewSkillServlet extends HttpServlet {
             throws ServletException, IOException {
         SkillDAO db = new SkillDAO();
         int skillId = Integer.parseInt(request.getParameter("skillId"));
-        String skillName = request.getParameter("skillName");
+        String skillName = request.getParameter("skillName").trim();
         String status = request.getParameter("status");
         Skill newSkill = new Skill();
         newSkill.setSkillId(skillId);
@@ -43,7 +43,7 @@ public class AddNewSkillServlet extends HttpServlet {
             throws ServletException, IOException {
         HttpSession session = request.getSession();
         SkillDAO db = new SkillDAO();
-        String skillName = request.getParameter("skillName");
+        String skillName = request.getParameter("skillName").trim();
         String status = request.getParameter("status");
         Skill newSkill = new Skill();
         newSkill.setSkillName(skillName);

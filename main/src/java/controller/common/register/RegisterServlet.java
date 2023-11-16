@@ -34,14 +34,14 @@ public class RegisterServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
-            String username = request.getParameter("username");
-            String password = request.getParameter("password");
-            String email = request.getParameter("email");
-            String phone = request.getParameter("phone");
+            String username = request.getParameter("username").trim();
+            String password = request.getParameter("password").trim();
+            String email = request.getParameter("email").trim();
+            String phone = request.getParameter("phone").trim();
             Date dob = Date.valueOf(request.getParameter("dob"));
-            String fullname = request.getParameter("fullname");
-            String genderStr = request.getParameter("gender");
-            String address = request.getParameter("address");
+            String fullname = request.getParameter("fullname").trim();
+            String genderStr = request.getParameter("gender").trim();
+            String address = request.getParameter("address").trim();
             boolean gender;
             String ms;
             MessageDigest md = MessageDigest.getInstance("MD5");
