@@ -110,10 +110,10 @@ public class CreateCVServlet extends HttpServlet {
                     if (mentorDB.getMentorId() == 0) {
                         int mentorId = mentorDAO.insertMentor(mentor);
                         if (mentorId == 0) {
-                            request.setAttribute("error", "Insert failed!->" + mentorId);
+                            request.setAttribute("error", "Register failed failed -->" + mentorId);
                         } else {
                             userDAO.updateMenteeRoleToMentor(user.getUserId());
-                            request.setAttribute("msg", "Insert success!->" + mentorId);
+                            request.setAttribute("msg", "Register success -->" + mentorId);
                         }
                     }
                 }
