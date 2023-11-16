@@ -10,6 +10,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -89,12 +90,19 @@ public class ProgramLanguageServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
+            HttpSession session = request.getSession();
             String action = Common.handleString(request.getParameter("action"));
-            String name = request.getParameter("name");
+            String name = request.getParameter("name").trim();
             String status = request.getParameter("status");
             ProgramingLanguageDAO languageDAO = new ProgramingLanguageDAO();
-
-            if ("add".equalsIgnoreCase(action)) {
+            if (!name.trim().isEmpty()) {
+                session.setAttribute("successMsg", "Language added successfully!");
+                response.sendRedirect((request.getContextPath() + "/ProgramLanguageServlet"));
+            } else {
+                session.setAttribute("errorMsg", "Language added failed!");
+                response.sendRedirect((request.getContextPath() + "/ProgramLanguageServlet"));
+            }
+            if ("add".equalsIgnoreCase(action)&& !name.trim().isEmpty()) {
                 ProgramingLanguage language = new ProgramingLanguage();
                 language.setLanguageName(name);
                 language.setLanguageStatus(status);
@@ -102,7 +110,7 @@ public class ProgramLanguageServlet extends HttpServlet {
                     response.sendRedirect(request.getContextPath() + "/ProgramLanguageServlet");
                 }
             }
-            if ("update".equalsIgnoreCase(action)) {
+            if ("update".equalsIgnoreCase(action)&& !name.trim().isEmpty()) {
                 int id = Common.handleInt(request.getParameter("id"));
                 ProgramingLanguage language = new ProgramingLanguage();
                 language.setLanguageId(id);
