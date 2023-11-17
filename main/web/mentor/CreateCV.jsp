@@ -17,6 +17,9 @@
             .form-group{
                 margin-bottom: 0.5rem;
             } 
+            .error{
+                outline: 1px solid red;
+            }    
         </style>
         <body>
             <jsp:include page="../NavBar.jsp"></jsp:include>
@@ -35,7 +38,7 @@
                     <div class="row no-gutters row-bordered row-border-light">
                         <label id="error" style="color: red;margin-left: 25px;">${error}</label>
                         <label id="msg" style="color: green;margin-left: 25px;">${msg}</label>
-                        <form action="CreateCV" method="POST" >
+                        <form action="CreateCV" method="POST" id="create_cv">
                             <input type="hidden" value="${action}" name="action">
                             <hr class="border-light m-0">
                             <div class="card-body" style="margin: 0 30px;">
@@ -161,10 +164,22 @@
                 $(document).ready(function () {
                     $('#create-cv').click(function () {
                         if (!$("input[name=skills]:checked").length) {
-                            $('#validate').text("You must check at least one skills.");
+                            $('#validate').text("You must check at least one skills!");
                             return false;
                         } else if (!$("input[name=programingLanguages]:checked").length) {
-                            $('#validate').text("You must check at least one programing languages.");
+                            $('#validate').text("You must check at least one programing languages!");
+                            return false;
+                        }
+
+                        $("#create_cv input[type=text], #create_cv textarea").each(function(){
+                            if (!$(this).val() || $.trim($(this).val()).length === 0){
+                                $('#validate').text("All field must be input not empty or blank!");
+                                $(this).addClass("error");
+                            } else{
+                                $(this).removeClass("error");
+                            }
+                        });
+                        if ($("#create_cv input[type=text], #create_cv textarea").hasClass('error')) {
                             return false;
                         }
                     });
